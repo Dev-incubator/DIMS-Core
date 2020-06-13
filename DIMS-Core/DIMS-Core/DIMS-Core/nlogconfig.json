@@ -1,0 +1,58 @@
+// https://nlog-project.org/config/?tab=layout-renderers&search=package:nlog.web.aspnetcore - config description
+// https://nlog-project.org/config/?tab=layout-renderers - layout variables
+{
+    "NLog": {
+        "ThrowConfigExceptions": true,
+        "IncludeScopes": false,
+        "Targets": {
+            "LogFile": {
+                "Type": "File",
+                "FileName": "${aspnet-appbasepath}/logs/${shortdate}.log",
+                "Layout": "${longdate} ${level:uppercase=true} ${logger} ${message}\r\n\t${exception:format=tostring}"
+            },
+            "LogConsole": {
+                "Type": "ColoredConsole",
+                "Layout": "${level:uppercase=true} ${logger} ${message}\r\n\t${exception:format=tostring}",
+                "useDefaultRowHighlightingRules": false,
+                "RowHighlightingRules": [
+                    {
+                        "Condition": "level == LogLevel.Trace",
+                        "ForegroundColor": "Gray"
+                    },
+                    {
+                        "Condition": "level == LogLevel.Debug",
+                        "ForegroundColor": "White"
+                    },
+                    {
+                        "Condition": "level == LogLevel.Info",
+                        "ForegroundColor": "Green"
+                    },
+                    {
+                        "Condition": "level == LogLevel.Warn",
+                        "ForegroundColor": "Yellow"
+                    },
+                    {
+                        "Condition": "level == LogLevel.Error",
+                        "ForegroundColor": "Red"
+                    },
+                    {
+                        "Condition": "level == LogLevel.Fatal",
+                        "ForegroundColor": "DarkRed"
+                    }
+                ]
+            }
+        },
+        "Rules": [
+            {
+                "Logger": "*",
+                "MinLevel": "Info",
+                "WriteTo": "LogFile"
+            },
+            {
+                "Logger": "*",
+                "MinLevel": "Debug",
+                "WriteTo": "LogConsole"
+            }
+        ]
+    }
+}

@@ -20,6 +20,13 @@ namespace DIMS_Core.Controllers
 
         public IActionResult Index()
         {
+            _logger.LogTrace("Trace log message.");
+            _logger.LogDebug("Debug log message.");
+            _logger.LogInformation("Info log message.");
+            _logger.LogWarning("Warn log message.");
+            _logger.LogError("Error log message.");
+            _logger.LogCritical("Fatal log message.");
+
             return View();
         }
 
