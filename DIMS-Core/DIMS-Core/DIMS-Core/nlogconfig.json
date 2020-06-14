@@ -13,7 +13,7 @@
             "LogConsole": {
                 "Type": "ColoredConsole",
                 "Layout": "${level:uppercase=true} ${logger} ${message}\r\n\t${exception:format=tostring}",
-                "useDefaultRowHighlightingRules": false,
+                "UseDefaultRowHighlightingRules": false,
                 "RowHighlightingRules": [
                     {
                         "Condition": "level == LogLevel.Trace",

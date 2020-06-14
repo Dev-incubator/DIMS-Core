@@ -12,13 +12,16 @@ namespace DIMS_Core.Logger.Extensions
         {
             logging.ClearProviders(); //clear default asp.net provider
 
-            if (!File.Exists(Path.Combine(Directory.GetCurrentDirectory(), configFileName)))
+            var baseAppPath = Directory.GetCurrentDirectory();
+            var conFilePath = Path.Combine(baseAppPath, configFileName);
+
+            if (!File.Exists(conFilePath))
             {
                 throw new Exception("Config file wasn't found.");
             }
 
             var configBuilder = new ConfigurationBuilder()
-                .SetBasePath(Directory.GetCurrentDirectory())
+                .SetBasePath(baseAppPath)
                 .AddJsonFile(configFileName)
                 .Build();
 

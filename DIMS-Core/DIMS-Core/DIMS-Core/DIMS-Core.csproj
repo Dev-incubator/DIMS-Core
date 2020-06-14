@@ -25,6 +25,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\DIMS-Core.BusinessLayer\DIMS-Core.BusinessLayer.csproj" />
     <ProjectReference Include="..\DIMS-Core.Logger\DIMS-Core.Logger.csproj" />
   </ItemGroup>
 
