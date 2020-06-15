@@ -1,11 +1,12 @@
 ﻿using DIMS_Core.DataAccessLayer.Interfaces;
 using Microsoft.EntityFrameworkCore;
+using System;
 using System.Linq;
 using System.Threading.Tasks;
 
 namespace DIMS_Core.DataAccessLayer.Repositories
 {
-    public class Repository<TEntity> : IRepository<TEntity> where TEntity : class
+    public class Repository<TEntity> : IDisposable, IRepository<TEntity> where TEntity : class
     {
         protected readonly DbContext databaseContext;
         protected readonly DbSet<TEntity> currentSet;
@@ -64,5 +65,35 @@ namespace DIMS_Core.DataAccessLayer.Repositories
         {
             databaseContext.Entry(entity).State = EntityState.Modified;
         }
+
+        #region Disposable
+
+        private bool disposedValue;
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (!disposedValue)
+            {
+                if (disposing)
+                {
+                    databaseContext.Dispose();
+                }
+
+                disposedValue = true;
+            }
+        }
+
+        ~Repository()
+        {
+            Dispose(disposing: false);
+        }
+
+        public void Dispose()
+        {
+            Dispose(disposing: true);
+            GC.SuppressFinalize(this);
+        }
+
+        #endregion Disposable
     }
 }
