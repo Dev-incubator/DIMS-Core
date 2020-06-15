@@ -7,10 +7,16 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="logs\**" />
+    <Content Remove="logs\**" />
+    <EmbeddedResource Remove="logs\**" />
+    <None Remove="logs\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Remove="bundleconfig.json" />
     <Content Remove="wwwroot\lib\bootstrap\dist\js\bootstrap.bundle.js" />
     <Content Remove="wwwroot\lib\bootstrap\dist\js\bootstrap.bundle.js.map" />
-    <Content Remove="wwwroot\lib\bootstrap\dist\js\bootstrap.bundle.min.js" />
-    <Content Remove="wwwroot\lib\bootstrap\dist\js\bootstrap.bundle.min.js.map" />
     <Content Remove="wwwroot\lib\bootstrap\dist\js\bootstrap.js" />
     <Content Remove="wwwroot\lib\bootstrap\dist\js\bootstrap.js.map" />
     <Content Remove="wwwroot\lib\bootstrap\dist\js\bootstrap.min.js.map" />
@@ -21,12 +27,21 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Include="bundleconfig.json" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation" Version="3.1.4" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\DIMS-Core.BusinessLayer\DIMS-Core.BusinessLayer.csproj" />
     <ProjectReference Include="..\DIMS-Core.Logger\DIMS-Core.Logger.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="wwwroot\bundle\js\" />
+    <Folder Include="wwwroot\bundle\css\" />
   </ItemGroup>
 
 </Project>
