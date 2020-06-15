@@ -5,6 +5,7 @@
         "ThrowConfigExceptions": true,
         "IncludeScopes": false,
         "Targets": {
+            "Async": true,
             "LogFile": {
                 "Type": "File",
                 "FileName": "${aspnet-appbasepath}/logs/${shortdate}.log",
@@ -12,32 +13,44 @@
             },
             "LogConsole": {
                 "Type": "ColoredConsole",
-                "Layout": "${level:uppercase=true} ${logger} ${message}\r\n\t${exception:format=tostring}",
+                "Layout": "${date} ${level:uppercase=true} ${logger} ${message}\r\n\t${exception:format=tostring}",
                 "UseDefaultRowHighlightingRules": false,
-                "RowHighlightingRules": [
+                "WordHighlightingRules": [
                     {
-                        "Condition": "level == LogLevel.Trace",
-                        "ForegroundColor": "Gray"
+                        "ForegroundColor": "Gray",
+                        "Text": "TRACE",
+                        "IgnoreCase": false,
+                        "WholeWords": true
                     },
                     {
-                        "Condition": "level == LogLevel.Debug",
-                        "ForegroundColor": "White"
+                        "ForegroundColor": "White",
+                        "Text": "DEBUG",
+                        "WholeWords": true,
+                        "IgnoreCase": false
                     },
                     {
-                        "Condition": "level == LogLevel.Info",
-                        "ForegroundColor": "Green"
+                        "ForegroundColor": "Green",
+                        "Text": "INFO",
+                        "WholeWords": true,
+                        "IgnoreCase": false
                     },
                     {
-                        "Condition": "level == LogLevel.Warn",
-                        "ForegroundColor": "Yellow"
+                        "ForegroundColor": "Yellow",
+                        "Text": "WARN",
+                        "WholeWords": true,
+                        "IgnoreCase": false
                     },
                     {
-                        "Condition": "level == LogLevel.Error",
-                        "ForegroundColor": "Red"
+                        "ForegroundColor": "Red",
+                        "Text": "ERROR",
+                        "WholeWords": true,
+                        "IgnoreCase": false
                     },
                     {
-                        "Condition": "level == LogLevel.Fatal",
-                        "ForegroundColor": "DarkRed"
+                        "ForegroundColor": "DarkRed",
+                        "Text": "FATAL",
+                        "WholeWords": true,
+                        "IgnoreCase": false
                     }
                 ]
             }
