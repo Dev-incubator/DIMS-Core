@@ -6,7 +6,11 @@ using System.Threading.Tasks;
 
 namespace DIMS_Core.DataAccessLayer.Repositories
 {
-    public class Repository<TEntity> : IDisposable, IRepository<TEntity> where TEntity : class
+    /// <summary>
+    /// General Repository
+    /// </summary>
+    /// <typeparam name="TEntity"></typeparam>
+    internal class Repository<TEntity> : IDisposable, IRepository<TEntity> where TEntity : class
     {
         protected readonly DbContext databaseContext;
         protected readonly DbSet<TEntity> currentSet;

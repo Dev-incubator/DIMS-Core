@@ -32,10 +32,15 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation" Version="3.1.4" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="3.1.5">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\DIMS-Core.BusinessLayer\DIMS-Core.BusinessLayer.csproj" />
+    <ProjectReference Include="..\DIMS-Core.DataAccessLayer\DIMS-Core.DataAccessLayer.csproj" />
     <ProjectReference Include="..\DIMS-Core.Logger\DIMS-Core.Logger.csproj" />
   </ItemGroup>
 
