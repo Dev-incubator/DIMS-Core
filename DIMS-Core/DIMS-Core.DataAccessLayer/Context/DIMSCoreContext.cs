@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 
-namespace DIMS_Core.DataAccessLayer.Models
+namespace DIMS_Core.DataAccessLayer.Context
 {
     public partial class DIMSCoreContext : DbContext
     {
@@ -13,11 +13,11 @@ namespace DIMS_Core.DataAccessLayer.Models
         {
         }
 
-        public virtual DbSet<Samples> Samples { get; set; }
+        public virtual DbSet<Sample> Samples { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<Samples>(entity =>
+            modelBuilder.Entity<Sample>(entity =>
             {
                 entity.HasKey(e => e.SampleId);
 

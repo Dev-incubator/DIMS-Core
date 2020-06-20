@@ -1,6 +1,6 @@
-﻿namespace DIMS_Core.DataAccessLayer.Models
+﻿namespace DIMS_Core.DataAccessLayer.Context
 {
-    public partial class Samples
+    public partial class Sample
     {
         public int SampleId { get; set; }
         public string Name { get; set; }
