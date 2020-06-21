@@ -1,4 +1,5 @@
 using DIMS_Core.BusinessLayer.Extensions;
+using DIMS_Core.DataAccessLayer.Extensions;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -19,7 +20,10 @@ namespace DIMS_Core
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllersWithViews();
-            services.AddDependenceInjections();
+
+            services.AddDependenceInjections()
+                .AddDatabaseConnection(Configuration)
+                .AddAutomapperProfiles();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -39,12 +43,7 @@ namespace DIMS_Core
 
             app.UseAuthorization();
 
-            app.UseEndpoints(endpoints =>
-            {
-                endpoints.MapControllerRoute(
-                    name: "default",
-                    pattern: "{controller=Home}/{action=Index}/{id?}");
-            });
+            app.UseCustomEndpoints();
         }
     }
 }
