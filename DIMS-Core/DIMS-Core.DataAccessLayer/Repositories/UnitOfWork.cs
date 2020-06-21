@@ -9,9 +9,9 @@ namespace DIMS_Core.DataAccessLayer.Repositories
     public class UnitOfWork : IUnitOfWork
     {
         private readonly DbContext _context;
-        private IRepository<Sample> _sampleRepository;
+        private ISampleRepository _sampleRepository;
 
-        public IRepository<Sample> SampleRepository => _sampleRepository ??= new SampleRepository(_context);
+        public ISampleRepository SampleRepository => _sampleRepository ??= new SampleRepository(_context);
 
         public UnitOfWork(DbContext context)
         {

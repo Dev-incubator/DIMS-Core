@@ -10,7 +10,7 @@ namespace DIMS_Core.DataAccessLayer.Repositories
     /// Generic Repository
     /// </summary>
     /// <typeparam name="TEntity"></typeparam>
-    public class Repository<TEntity> : IDisposable, IRepository<TEntity> where TEntity : class
+    public abstract class Repository<TEntity> : IDisposable, IRepository<TEntity> where TEntity : class
     {
         protected readonly DbContext databaseContext;
         protected readonly DbSet<TEntity> currentSet;

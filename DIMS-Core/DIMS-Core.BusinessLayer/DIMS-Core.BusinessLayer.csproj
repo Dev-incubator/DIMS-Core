@@ -9,4 +9,12 @@
 		<FrameworkReference Include="Microsoft.AspNetCore.App" />
 	</ItemGroup>
 
+	<ItemGroup>
+	  <PackageReference Include="AutoMapper" Version="9.0.0" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <ProjectReference Include="..\DIMS-Core.DataAccessLayer\DIMS-Core.DataAccessLayer.csproj" />
+	</ItemGroup>
+
 </Project>
