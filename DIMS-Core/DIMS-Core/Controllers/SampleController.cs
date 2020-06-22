@@ -1,10 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using DIMS_Core.BusinessLayer.Interfaces;
-using DIMS_Core.DataAccessLayer.Filters;
+﻿using DIMS_Core.BusinessLayer.Interfaces;
+using DIMS_Core.BusinessLayer.Models.Samples;
 using Microsoft.AspNetCore.Mvc;
+using System.Threading.Tasks;
 
 namespace DIMS_Core.Controllers
 {
@@ -19,22 +16,104 @@ namespace DIMS_Core.Controllers
         }
 
         [HttpGet("")]
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            return View();
+            var result = await sampleService.SearchAsync(null);
+            return View(result);
         }
 
-        [HttpPost("search")]
-        public async Task<IActionResult> GetSamples(SampleFilter filter)
+        [HttpGet("details/{id}")]
+        public async Task<IActionResult> Details(int id)
         {
-            if (filter is null)
+            if (id <= 0)
             {
                 return BadRequest();
             }
 
-            var result = await sampleService.SearchAsync(filter);
+            var model = await sampleService.GetSampleAsync(id);
 
-            return Ok(result);
+            return View(model);
+        }
+
+        [HttpGet("create")]
+        public IActionResult Create()
+        {
+            return View();
+        }
+
+        [HttpPost("create")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Create([FromForm] SampleModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View();
+            }
+
+            await sampleService.CreateAsync(model);
+
+            return RedirectToAction("Index");
+        }
+
+        [HttpGet("edit/{id}")]
+        public async Task<IActionResult> Edit(int id)
+        {
+            if (id <= 0)
+            {
+                return BadRequest();
+            }
+
+            var model = await sampleService.GetSampleAsync(id);
+
+            return View(model);
+        }
+
+        [HttpPost("edit")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Edit([FromForm] SampleModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View();
+            }
+
+            if (model.SampleId <= 0)
+            {
+                ModelState.AddModelError("", "Incorrect identifier.");
+
+                return View();
+            }
+
+            await sampleService.UpdateAsync(model);
+
+            return RedirectToAction("Index");
+        }
+
+        [HttpGet("delete/{id}")]
+        public async Task<IActionResult> Delete(int id)
+        {
+            if (id <= 0)
+            {
+                return BadRequest();
+            }
+
+            var model = await sampleService.GetSampleAsync(id);
+
+            return View(model);
+        }
+
+        [HttpPost("delete/{id}")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeletePost(int id)
+        {
+            if (id <= 0)
+            {
+                return BadRequest();
+            }
+
+            await sampleService.DeleteAsync(id);
+
+            return RedirectToAction("Index");
         }
     }
 }

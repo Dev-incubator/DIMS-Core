@@ -1,34 +1,54 @@
-﻿@{ 
+﻿@model IEnumerable<SampleModel>
+@{
     ViewData["Title"] = "Sample";
 }
 
-<script>
-    $(document).ready(() => {
-        let dataTable = $('#samples-table').DataTable({
-            ajax: {
-                url: '@Url.Action("search", "samples")',
-                contentType: 'application/json',
-                dataSrc: '',
-                method: 'POST'
-            },
-            columns: [
-                {
-                    visible: false,
-                    name: 'Id'
-                },
-                {
-                    title: 'Name',
-                    name: 'Name'
-                },
-                {
-                    title: 'Description',
-                    name: 'Description'
-                }
-            ]
-        });
-    });
-</script>
+<h1>Samles</h1>
 
-<div>
-    <table class="table" id="samples-table"></table>
-</div>
+<p class="float-lg-right">
+    <a class="btn btn-primary" asp-action="create" asp-controller="samples">Create</a>
+</p>
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Description)
+            </th>
+            <th width="300px">Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (Model is null || !Model.Any())
+        {
+            <tr>
+                <td colspan="4" class="text-center">
+                    <strong>There aren't items.</strong>
+                </td>
+            </tr>
+        }
+        else
+        {
+            foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Name)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Description)
+                    </td>
+                    <td align="center">
+                        <div class="btn-group">
+                            @Html.ActionLink("Details", "Details", new { id = item.SampleId }, new { @class = "btn btn-info" })
+                            @Html.ActionLink("Edit", "Edit", new { id = item.SampleId }, new { @class = "btn btn-warning" })
+                            @Html.ActionLink("Delete", "Delete", new { id = item.SampleId }, new { @class = "btn btn-danger" })
+                        </div>
+                    </td>
+                </tr>
+            }
+        }
+    </tbody>
+</table>

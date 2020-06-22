@@ -3,8 +3,7 @@
         "outputFileName": "wwwroot/bundle/css/main.bundle.min.css",
         "inputFiles": [
             "wwwroot/lib/bootstrap/dist/css/bootstrap.min.css",
-            "wwwroot/css/site.css",
-            "wwwroot/lib/datatables/css/*"
+            "wwwroot/css/site.css"
         ]
     },
     {
@@ -15,8 +14,7 @@
             "wwwroot/lib/jquery-validation/dist/additional-methods.min.js.js",
             "wwwroot/lib/jquery-validation-unobtrusive/dist/jquery.validate.unobtrusive.min.js",
             "wwwroot/lib/bootstrap/dist/js/bootstrap.bundle.min.js",
-            "wwwroot/lib/datatables/js/jquery.dataTables.min.js",
-            "wwwroot/lib/datatables/js/dataTables.bootstrap4.min.js"
+            "wwwroot/js/site.js"
         ]
     }
 ]

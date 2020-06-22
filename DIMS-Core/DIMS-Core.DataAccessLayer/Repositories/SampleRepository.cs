@@ -16,12 +16,12 @@ namespace DIMS_Core.DataAccessLayer.Repositories
 
         public IQueryable<Sample> Search(SampleFilter filter)
         {
+            var query = GetAll();
+
             if (filter is null)
             {
-                return Enumerable.Empty<Sample>().AsQueryable();
+                return query;
             }
-
-            var query = GetAll();
 
             if (filter.Id.HasValue && filter.Id.Value > 0)
             {
