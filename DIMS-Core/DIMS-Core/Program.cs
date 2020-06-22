@@ -1,6 +1,7 @@
+using DIMS_Core.Logger.Extensions;
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
-using DIMS_Core.Logger.Extensions;
+using Microsoft.Extensions.Configuration;
 
 namespace DIMS_Core
 {
@@ -15,6 +16,10 @@ namespace DIMS_Core
         {
             return WebHost.CreateDefaultBuilder(args)
                 .UseStartup<Startup>()
+                .ConfigureAppConfiguration(config =>
+                {
+                    config.AddJsonFile("database.json");
+                })
                 .UseCustomNLog();
         }
     }
