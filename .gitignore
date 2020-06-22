@@ -261,7 +261,7 @@ __pycache__/
 *.pyc
 
 # Connection strings
-database.config
+database.json
 
 # Logs folder
 logs/
