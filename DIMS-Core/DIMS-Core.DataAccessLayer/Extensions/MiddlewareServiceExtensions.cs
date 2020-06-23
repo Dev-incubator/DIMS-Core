@@ -18,7 +18,7 @@ namespace DIMS_Core.DataAccessLayer.Extensions
             return services;
         }
 
-        public static IServiceCollection AddDatabaseConnection(this IServiceCollection services, IConfiguration configuration)
+        public static IServiceCollection AddDatabaseContext(this IServiceCollection services, IConfiguration configuration)
         {
             services.AddDbContext<DIMSCoreContext>(options =>
             {

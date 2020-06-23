@@ -24,7 +24,7 @@ namespace DIMS_Core
             services.AddControllersWithViews();
 
             services.AddDependencyInjections()
-                .AddDatabaseConnection(Configuration)
+                .AddDatabaseContext(Configuration)
                 .AddAutomapperProfiles()
                 .AddMailer()
                 .AddIdentityContext();
