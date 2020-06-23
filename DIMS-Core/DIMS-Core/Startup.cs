@@ -1,5 +1,6 @@
 using DIMS_Core.BusinessLayer.Extensions;
 using DIMS_Core.DataAccessLayer.Extensions;
+using DIMS_Core.Mailer.Extensions;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -23,7 +24,8 @@ namespace DIMS_Core
 
             services.AddDependenceInjections()
                 .AddDatabaseConnection(Configuration)
-                .AddAutomapperProfiles();
+                .AddAutomapperProfiles()
+                .AddMailer();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
