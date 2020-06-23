@@ -25,4 +25,8 @@
     <PackageReference Include="RestSharp" Version="106.11.4" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\DIMS-Core.Common\DIMS-Core.Common.csproj" />
+  </ItemGroup>
+
 </Project>

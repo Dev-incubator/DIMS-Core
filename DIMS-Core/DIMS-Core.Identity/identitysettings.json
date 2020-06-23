@@ -1,0 +1,3 @@
+{
+    "ConnectionString": "Server=(localdb)\\MSSQLLocalDB;Database=DIMSCoreIdentity;Trusted_Connection=True;"
+}

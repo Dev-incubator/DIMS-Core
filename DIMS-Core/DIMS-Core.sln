@@ -13,7 +13,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DIMS-Core.DataAccessLayer",
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DIMS-Core.Common", "DIMS-Core.Common\DIMS-Core.Common.csproj", "{2AA53145-527B-420D-9A61-CFF76696E357}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DIMS-Core.Mailer", "DIMS-Core.Mailer\DIMS-Core.Mailer.csproj", "{6D5E13EC-99BB-4821-A5CE-9656EDF2887A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DIMS-Core.Mailer", "DIMS-Core.Mailer\DIMS-Core.Mailer.csproj", "{6D5E13EC-99BB-4821-A5CE-9656EDF2887A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DIMS-Core.Identity", "DIMS-Core.Identity\DIMS-Core.Identity.csproj", "{F6238AA0-D631-4A05-95F6-A4F739A9C8F9}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -45,6 +47,10 @@ Global
 		{6D5E13EC-99BB-4821-A5CE-9656EDF2887A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6D5E13EC-99BB-4821-A5CE-9656EDF2887A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6D5E13EC-99BB-4821-A5CE-9656EDF2887A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F6238AA0-D631-4A05-95F6-A4F739A9C8F9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F6238AA0-D631-4A05-95F6-A4F739A9C8F9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F6238AA0-D631-4A05-95F6-A4F739A9C8F9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F6238AA0-D631-4A05-95F6-A4F739A9C8F9}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -1,26 +1,25 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿using DIMS_Core.Common.Services;
+using Microsoft.Extensions.Configuration;
 using System;
 
 namespace DIMS_Core.Mailer.Services
 {
-    internal class AppCofiguration
+    internal class AppCofiguration : BaseCustomConfiguration
     {
         private const string fileName = "appsettings.json";
-
-        private readonly IConfiguration configuration;
 
         public string Domain => GetSection("Domain");
         public string AuthenticationToken => GetSection("AuthenticationToken");
         public string ApiUrl => GetSection("ApiUrl");
         public string FromAddress => GetSection("FromAddress");
 
-        public AppCofiguration()
+        protected override IConfiguration BuildConfiguration()
         {
-            configuration = new ConfigurationBuilder()
+            var builder = new ConfigurationBuilder();
+
+            return builder
                 .AddJsonFile(fileName)
                 .Build();
         }
-
-        private string GetSection(string name) => configuration.GetSection(name)?.Value ?? throw new Exception($"Section {name} cannot be empty.");
     }
 }
