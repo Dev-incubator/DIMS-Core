@@ -1,4 +1,5 @@
-﻿using DIMS_Core.Mailer.Interfaces;
+﻿using DIMS_Core.Mailer.Configs;
+using DIMS_Core.Mailer.Interfaces;
 using Microsoft.Extensions.Logging;
 using RestSharp;
 using RestSharp.Authenticators;
@@ -15,12 +16,12 @@ namespace DIMS_Core.Mailer.Services
             "<div><img src=\"https://i.ibb.co/9tSLsd6/logo-name.png\" style=\"margin-top:26px; width:250px !important; height:100px !important;\"/>" +
             "</div>";
 
-        private readonly AppCofiguration cofiguration;
+        private readonly MailerCofiguration cofiguration;
         private readonly ILogger logger;
 
         public Sender(ILogger logger)
         {
-            cofiguration = new AppCofiguration();
+            cofiguration = new MailerCofiguration();
             this.logger = logger;
         }
 

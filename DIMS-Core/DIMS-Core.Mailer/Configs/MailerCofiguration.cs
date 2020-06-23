@@ -1,12 +1,11 @@
 ﻿using DIMS_Core.Common.Services;
 using Microsoft.Extensions.Configuration;
-using System;
 
-namespace DIMS_Core.Mailer.Services
+namespace DIMS_Core.Mailer.Configs
 {
-    internal class AppCofiguration : BaseCustomConfiguration
+    internal class MailerCofiguration : BaseCustomConfiguration
     {
-        private const string fileName = "appsettings.json";
+        private const string fileName = "mailersettings.json";
 
         public string Domain => GetSection("Domain");
         public string AuthenticationToken => GetSection("AuthenticationToken");
