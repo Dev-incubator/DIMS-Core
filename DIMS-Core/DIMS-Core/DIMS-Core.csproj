@@ -41,6 +41,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\DIMS-Core.BusinessLayer\DIMS-Core.BusinessLayer.csproj" />
+    <ProjectReference Include="..\DIMS-Core.Identity\DIMS-Core.Identity.csproj" />
     <ProjectReference Include="..\DIMS-Core.Logger\DIMS-Core.Logger.csproj" />
     <ProjectReference Include="..\DIMS-Core.Mailer\DIMS-Core.Mailer.csproj" />
   </ItemGroup>
