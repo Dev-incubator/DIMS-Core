@@ -4,7 +4,7 @@ using System;
 
 namespace DIMS_Core.Identity.Services
 {
-    public class IdentityUnitOfWork : IIdentityUnitOfWork
+    internal class IdentityUnitOfWork : IIdentityUnitOfWork
     {
         public UserManager<User> UserManager { get; }
         public SignInManager<User> SignInManager { get; }

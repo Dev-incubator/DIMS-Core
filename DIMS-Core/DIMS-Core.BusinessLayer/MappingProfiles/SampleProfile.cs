@@ -4,7 +4,7 @@ using DIMS_Core.DataAccessLayer.Context;
 
 namespace DIMS_Core.BusinessLayer.MappingProfiles
 {
-    public class SampleProfile : Profile
+    internal class SampleProfile : Profile
     {
         public SampleProfile()
         {

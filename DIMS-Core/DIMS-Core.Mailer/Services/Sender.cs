@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace DIMS_Core.Mailer.Services
 {
-    public class Sender : ISender
+    internal class Sender : ISender
     {
         private const string _layoutHtml =
             "<div style=\"margin-top: 20px;\">Best regards, Dev Incubator Inc.</div>" +

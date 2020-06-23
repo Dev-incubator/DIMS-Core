@@ -13,7 +13,6 @@ namespace DIMS_Core.DataAccessLayer.Extensions
         {
             services.AddTransient<ISampleRepository, SampleRepository>();
             services.AddTransient<IUnitOfWork, UnitOfWork>();
-            services.AddTransient<DbContext, DIMSCoreContext>();
 
             return services;
         }

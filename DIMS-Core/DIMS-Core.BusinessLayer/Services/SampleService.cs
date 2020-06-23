@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace DIMS_Core.BusinessLayer.Services
 {
-    public class SampleService : ISampleService
+    internal class SampleService : ISampleService
     {
         private readonly IUnitOfWork unitOfWork;
         private readonly IMapper mapper;

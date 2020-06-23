@@ -1,19 +1,18 @@
 ﻿using DIMS_Core.DataAccessLayer.Context;
 using DIMS_Core.DataAccessLayer.Interfaces;
-using Microsoft.EntityFrameworkCore;
 using System;
 using System.Threading.Tasks;
 
 namespace DIMS_Core.DataAccessLayer.Repositories
 {
-    public class UnitOfWork : IUnitOfWork
+    internal class UnitOfWork : IUnitOfWork
     {
-        private readonly DbContext _context;
+        private readonly DIMSCoreContext _context;
         private ISampleRepository _sampleRepository;
 
         public ISampleRepository SampleRepository => _sampleRepository ??= new SampleRepository(_context);
 
-        public UnitOfWork(DbContext context)
+        public UnitOfWork(DIMSCoreContext context)
         {
             _context = context;
         }

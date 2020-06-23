@@ -6,7 +6,7 @@ namespace DIMS_Core.Mailer.Extensions
 {
     public static class MiddlewareServiceExtensions
     {
-        public static IServiceCollection AddMailer(this IServiceCollection services)
+        public static IServiceCollection AddMailerDependencies(this IServiceCollection services)
         {
             services.AddTransient<ISender, Sender>();
 
