@@ -2,7 +2,6 @@
 using Microsoft.Extensions.Logging;
 using NLog.Extensions.Logging;
 using System;
-using System.IO;
 
 namespace DIMS_Core.Logger.Extensions
 {
@@ -12,16 +11,7 @@ namespace DIMS_Core.Logger.Extensions
         {
             logging.ClearProviders(); //clear default asp.net provider
 
-            var baseAppPath = Directory.GetCurrentDirectory();
-            var conFilePath = Path.Combine(baseAppPath, configFileName);
-
-            if (!File.Exists(conFilePath))
-            {
-                throw new Exception("Config file wasn't found.");
-            }
-
             var configBuilder = new ConfigurationBuilder()
-                .SetBasePath(baseAppPath)
                 .AddJsonFile(configFileName)
                 .Build();
 

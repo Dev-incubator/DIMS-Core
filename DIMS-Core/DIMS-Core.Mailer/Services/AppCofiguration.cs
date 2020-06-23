@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.Configuration;
+using System;
 
 namespace DIMS_Core.Mailer.Services
 {
@@ -20,6 +21,6 @@ namespace DIMS_Core.Mailer.Services
                 .Build();
         }
 
-        private string GetSection(string name) => configuration.GetSection(name).Value;
+        private string GetSection(string name) => configuration.GetSection(name)?.Value ?? throw new Exception($"Section {name} cannot be empty.");
     }
 }
