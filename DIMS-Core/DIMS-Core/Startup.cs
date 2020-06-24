@@ -38,6 +38,7 @@ namespace DIMS_Core
 
             app.UseRouting();
 
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseCustomEndpoints();

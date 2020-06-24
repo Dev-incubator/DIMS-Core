@@ -16,6 +16,16 @@ namespace DIMS_Core.Controllers
 
         public IActionResult Index()
         {
+            return View();
+        }
+
+        public IActionResult Privacy()
+        {
+            return View();
+        }
+
+        public IActionResult CheckLogger()
+        {
             _logger.LogTrace("Trace log message.");
             _logger.LogDebug("Debug log message.");
             _logger.LogInformation("Info log message.");
@@ -23,12 +33,7 @@ namespace DIMS_Core.Controllers
             _logger.LogError("Error log message.");
             _logger.LogCritical("Fatal log message.");
 
-            return View();
-        }
-
-        public IActionResult Privacy()
-        {
-            return View();
+            return RedirectToAction("Index");
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

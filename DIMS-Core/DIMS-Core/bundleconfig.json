@@ -10,11 +10,15 @@
         "outputFileName": "wwwroot/bundle/js/main.bundle.min.js",
         "inputFiles": [
             "wwwroot/lib/jquery/dist/jquery.min.js",
-            "wwwroot/lib/jquery-validation/dist/jquery.validate.min.js",
-            "wwwroot/lib/jquery-validation/dist/additional-methods.min.js.js",
-            "wwwroot/lib/jquery-validation-unobtrusive/dist/jquery.validate.unobtrusive.min.js",
             "wwwroot/lib/bootstrap/dist/js/bootstrap.bundle.min.js",
             "wwwroot/js/site.js"
+        ]
+    },
+    {
+        "outputFileName": "wwwroot/bundle/js/validation.bundle.min.js",
+        "inputFiles": [
+            "wwwroot/lib/jquery-validation/dist/jquery.validate.min.js",
+            "wwwroot/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"
         ]
     }
 ]
