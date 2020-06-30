@@ -1,6 +1,9 @@
 {
-    "Domain": "sandboxc4df07193b994302b7fc0816a4b6f4a9.mailgun.org",
-    "ApiUrl": "https://api.mailgun.net/v3",
-    "AuthenticationToken": "ac2b658fb0738c0a54cf0de9263db7b2-aa4b0867-a38833e8",
-    "FromAddress": "Mailgun Sandbox <postmaster@sandboxc4df07193b994302b7fc0816a4b6f4a9.mailgun.org>"
+    "SmtpSettings": {
+        "Server": "smtp.gmail.com",
+        "UserName": "kborovik.smtp@gmail.com",
+        "Password": "7408KB:ptms28",
+        "Port": 465,
+        "EnableSsl": true
+    }
 }

@@ -1,71 +1,77 @@
-﻿using DIMS_Core.Mailer.Configs;
+﻿using DIMS_Core.Common.Extensions;
+using DIMS_Core.Mailer.Configs;
 using DIMS_Core.Mailer.Interfaces;
+using MailKit.Net.Smtp;
 using Microsoft.Extensions.Logging;
-using RestSharp;
-using RestSharp.Authenticators;
-using System;
-using System.Collections.Generic;
+using MimeKit;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace DIMS_Core.Mailer.Services
 {
-    internal class Sender : ISender
+    public class Sender : ISender
     {
         private const string _layoutHtml =
             "<div style=\"margin-top: 20px;\">Best regards, Dev Incubator Inc.</div>" +
             "<div><img src=\"https://i.ibb.co/9tSLsd6/logo-name.png\" style=\"margin-top:26px; width:250px !important; height:100px !important;\"/>" +
             "</div>";
 
-        private readonly MailerCofiguration cofiguration;
+        private readonly SmtpSettings smtpSettings;
         private readonly ILogger logger;
 
         public Sender(ILogger logger)
         {
-            cofiguration = new MailerCofiguration();
+            var config = new MailerCofiguration();
+
+            smtpSettings = config.SmtpSettings;
             this.logger = logger;
         }
 
-        public async Task<bool> SendMessageAsync(string email, string subject, string body)
+        public async Task<bool> SendMessageAsync(string subject,
+            string body,
+            params string[] emails)
         {
-            RestClient client = new RestClient
+            using var smtpClient = new SmtpClient();
+            var isValid = false;
+
+            smtpClient.MessageSent += (sender, e) =>
             {
-                BaseUrl = new Uri(cofiguration.ApiUrl),
-                Authenticator = new HttpBasicAuthenticator("api", cofiguration.ApiUrl)
+                logger?.LogInformation("Message was sent to {$email}. Response: {$response}.", emails.ToSeparatedString("; "), e.Response);
+
+                isValid = true;
             };
 
-            var request = GetPostRequest(email, subject, body);
-            var response = await client.ExecuteAsync(request);
+            await smtpClient.ConnectAsync(smtpSettings.Server, smtpSettings.Port, smtpSettings.EnableSsl);
 
-            logger?.LogInformation("Message was sent to {$email}. Status code: {$status}, error message: {$error}.",
-                email,
-                response.StatusCode,
-                response.ErrorMessage);
+            await smtpClient.AuthenticateAsync(smtpSettings.UserName, smtpSettings.Password);
 
-            return response.IsSuccessful;
+            var mailMessage = GenerateMessage(subject, body, emails);
+            await smtpClient.SendAsync(mailMessage);
+
+            await smtpClient.DisconnectAsync(true);
+
+            return isValid;
         }
 
-        public async Task SendMessageAsync(IEnumerable<string> emails, string subject, string body)
+        private MimeMessage GenerateMessage(string subject,
+            string body,
+            params string[] to)
         {
-            foreach (var email in emails)
+            var bodyBuilder = new BodyBuilder
             {
-                await SendMessageAsync(email, subject, body);
-            }
-        }
+                HtmlBody = body + _layoutHtml
+            };
 
-        private RestRequest GetPostRequest(string email, string subject, string body)
-        {
-            var htmlContent = "<div>" + body + _layoutHtml + "</div>";
+            var message = new MimeMessage
+            {
+                Body = bodyBuilder.ToMessageBody(),
+                Subject = subject
+            };
 
-            RestRequest request = new RestRequest();
-            request.AddParameter("subject", subject);
-            request.AddParameter("domain", cofiguration.Domain, ParameterType.UrlSegment);
-            request.Resource = "{domain}/messages";
-            request.AddParameter("from", cofiguration.FromAddress);
-            request.AddParameter("to", email);
-            request.AddParameter("html", htmlContent);
-            request.Method = Method.POST;
+            message.From.Add(new MailboxAddress(smtpSettings.UserName, smtpSettings.UserName));
+            message.To.AddRange(to.Select(q => new MailboxAddress(q, q)));
 
-            return request;
+            return message;
         }
     }
 }

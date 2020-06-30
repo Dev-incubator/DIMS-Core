@@ -7,10 +7,10 @@ namespace DIMS_Core.Mailer.Configs
     {
         private const string fileName = "mailersettings.json";
 
-        public string Domain => GetSection("Domain");
-        public string AuthenticationToken => GetSection("AuthenticationToken");
-        public string ApiUrl => GetSection("ApiUrl");
-        public string FromAddress => GetSection("FromAddress");
+        private SmtpSettings _smtpSettings;
+
+        public SmtpSettings SmtpSettings => _smtpSettings ??= Configuration.GetSection(SmtpSettings.ConfigKey)
+                                                                           .Get<SmtpSettings>();
 
         protected override IConfiguration BuildConfiguration()
         {
