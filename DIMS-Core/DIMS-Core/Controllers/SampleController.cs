@@ -1,6 +1,9 @@
-﻿using DIMS_Core.BusinessLayer.Interfaces;
+﻿using AutoMapper;
+using DIMS_Core.BusinessLayer.Interfaces;
 using DIMS_Core.BusinessLayer.Models.Samples;
+using DIMS_Core.Models.Sample;
 using Microsoft.AspNetCore.Mvc;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace DIMS_Core.Controllers
@@ -9,17 +12,21 @@ namespace DIMS_Core.Controllers
     public class SampleController : Controller
     {
         private readonly ISampleService sampleService;
+        private readonly IMapper mapper;
 
-        public SampleController(ISampleService sampleService)
+        public SampleController(ISampleService sampleService, IMapper mapper)
         {
             this.sampleService = sampleService;
+            this.mapper = mapper;
         }
 
         [HttpGet("")]
         public async Task<IActionResult> Index()
         {
-            var result = await sampleService.SearchAsync(null);
-            return View(result);
+            var searchResult = await sampleService.SearchAsync(null);
+            var model = mapper.Map<IEnumerable<SampleViewModel>>(searchResult);
+
+            return View(model);
         }
 
         [HttpGet("details/{id}")]
@@ -30,7 +37,8 @@ namespace DIMS_Core.Controllers
                 return BadRequest();
             }
 
-            var model = await sampleService.GetSampleAsync(id);
+            var dto = await sampleService.GetSampleAsync(id);
+            var model = mapper.Map<SampleViewModel>(dto);
 
             return View(model);
         }
@@ -43,14 +51,16 @@ namespace DIMS_Core.Controllers
 
         [HttpPost("create")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([FromForm] SampleModel model)
+        public async Task<IActionResult> Create([FromForm] SampleViewModel model)
         {
             if (!ModelState.IsValid)
             {
-                return View();
+                return View(model);
             }
 
-            await sampleService.CreateAsync(model);
+            var dto = mapper.Map<SampleModel>(model);
+
+            await sampleService.CreateAsync(dto);
 
             return RedirectToAction("Index");
         }
@@ -63,28 +73,31 @@ namespace DIMS_Core.Controllers
                 return BadRequest();
             }
 
-            var model = await sampleService.GetSampleAsync(id);
+            var dto = await sampleService.GetSampleAsync(id);
+            var model = mapper.Map<SampleViewModel>(dto);
 
             return View(model);
         }
 
         [HttpPost("edit")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit([FromForm] SampleModel model)
+        public async Task<IActionResult> Edit([FromForm] SampleViewModel model)
         {
             if (!ModelState.IsValid)
             {
-                return View();
+                return View(model);
             }
 
             if (model.SampleId <= 0)
             {
                 ModelState.AddModelError("", "Incorrect identifier.");
 
-                return View();
+                return View(model);
             }
 
-            await sampleService.UpdateAsync(model);
+            var dto = mapper.Map<SampleModel>(model);
+
+            await sampleService.UpdateAsync(dto);
 
             return RedirectToAction("Index");
         }
@@ -97,7 +110,8 @@ namespace DIMS_Core.Controllers
                 return BadRequest();
             }
 
-            var model = await sampleService.GetSampleAsync(id);
+            var dto = await sampleService.GetSampleAsync(id);
+            var model = mapper.Map<SampleViewModel>(dto);
 
             return View(model);
         }

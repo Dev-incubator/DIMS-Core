@@ -1,4 +1,4 @@
-﻿@model SampleModel
+﻿@model SampleViewModel
 
 @{
     ViewData["Title"] = "Delete";
@@ -30,4 +30,4 @@
     </form>
 </div>
 
-@await Html.PartialAsync("_BackToList", new BackToListModel { Controller = "samples" })
+@await Html.PartialAsync("_BackToList", new BackToListViewModel { Controller = "samples" })

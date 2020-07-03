@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using System.Reflection;
 
 namespace DIMS_Core
 {
@@ -20,7 +21,7 @@ namespace DIMS_Core
         {
             services.AddControllersWithViews();
 
-            services.AddCustomSolutionConfigs(Configuration);
+            services.AddCustomSolutionConfigs(Configuration, Assembly.GetExecutingAssembly());
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

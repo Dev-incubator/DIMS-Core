@@ -1,6 +1,6 @@
 ﻿namespace DIMS_Core.Models
 {
-    public class BackToListModel
+    public class BackToListViewModel
     {
         public string Action { get; set; }
         public string Controller { get; set; }

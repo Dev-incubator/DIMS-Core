@@ -1,4 +1,4 @@
-﻿@model DIMS_Core.BusinessLayer.Models.Samples.SampleModel
+﻿@model SampleViewModel
 
 @{
     ViewData["Title"] = "View";
@@ -29,4 +29,4 @@
     </div>
 </div>
 
-@await Html.PartialAsync("_BackToList", new BackToListModel { Controller = "samples" })
+@await Html.PartialAsync("_BackToList", new BackToListViewModel { Controller = "samples" })
