@@ -58,5 +58,26 @@
   <Import Condition="'$(SQLDBExtensionsRefPath)' == ''" Project="$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v$(VisualStudioVersion)\SSDT\Microsoft.Data.Tools.Schema.SqlTasks.targets" />
   <ItemGroup>
     <Folder Include="Properties" />
+    <Folder Include="StoredProcedures" />
+    <Folder Include="SeedData" />
+    <Folder Include="Tables" />
+    <Folder Include="Views" />
+  </ItemGroup>
+  <ItemGroup>
+    <Build Include="StoredProcedures\DeleteUserById.sql" />
+    <Build Include="Views\vTask.sql" />
+    <Build Include="Views\vUserProfile.sql" />
+    <Build Include="Views\vUserProgress.sql" />
+    <Build Include="Views\vUserTask.sql" />
+    <Build Include="Views\vUserTrack.sql" />
+    <Build Include="Tables\Direction.sql" />
+    <Build Include="Tables\Task.sql" />
+    <Build Include="Tables\TaskState.sql" />
+    <Build Include="Tables\TaskTrack.sql" />
+    <Build Include="Tables\UserProfile.sql" />
+    <Build Include="Tables\UserTask.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <PostDeploy Include="SeedData\SeedData.sql" />
   </ItemGroup>
 </Project>
