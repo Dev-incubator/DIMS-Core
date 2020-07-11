@@ -22,3 +22,9 @@ INSERT INTO UserProfile (DirectionId, [Name], [LastName], BirthDate, Email) VALU
 (2,'Vanya', 'Kryvoi', CAST('1999-03-20' as datetime), 'Vanya@gmail.com'),
 (3,'Petya', 'Dlinny', CAST('2001-03-20' as datetime), 'Petya@yandex.ru'),
 (4,'Lesha', 'Medlenny', CAST('1996-03-20' as datetime), 'Lesha@mail.ru')
+GO
+
+INSERT TaskState VALUES
+('Active'),
+('Success'),
+('Fail')

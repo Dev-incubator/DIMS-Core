@@ -1,10 +1,10 @@
 ﻿CREATE TABLE [dbo].[UserProfile]
 (
-	[UserId] INT IDENTITY, 
+	[UserId] INT IDENTITY NOT NULL, 
     [DirectionId] INT NULL, 
-    [Name] NVARCHAR(50) NULL, 
-    [Email] NVARCHAR(50) NULL, 
-    [LastName] NVARCHAR(50) NULL, 
+    [Name] NVARCHAR(50) NOT NULL, 
+    [Email] NVARCHAR(50) NOT NULL, 
+    [LastName] NVARCHAR(50) NOT NULL, 
     [Sex] NCHAR(25) NULL, 
     [Education] NVARCHAR(50) CONSTRAINT DF_UserProfile_Education  DEFAULT 'Not indicated', 
     [BirthDate] DATE NULL, 

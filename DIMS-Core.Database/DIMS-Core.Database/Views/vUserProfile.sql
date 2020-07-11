@@ -1,13 +1,13 @@
 ﻿CREATE VIEW [dbo].[vUserProfile] AS
 SELECT 
-UserProfile.UserId as UserId,
+UserProfile.UserId,
 (UserProfile.[Name] + ' ' + UserProfile.LastName) as FullName,
-UserProfile.Email as Email,
+UserProfile.Email,
 Direction.[Name] as Direction,
-UserProfile.Sex as Sex,
-UserProfile.Education as Education,
+UserProfile.Sex,
+UserProfile.Education,
 (DATEDIFF(YEAR, UserProfile.BirthDate, GETDATE())) as Age,
-UserProfile.UniversityAverageScore as UniversityAverageScore,
+UserProfile.UniversityAverageScore,
 UserProfile.MathScore,
 UserProfile.[Address],
 UserProfile.MobilePhone,
