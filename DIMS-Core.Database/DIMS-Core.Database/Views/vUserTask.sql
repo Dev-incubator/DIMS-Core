@@ -8,5 +8,5 @@ Task.StartDate,
 Task.DeadlineDate,
 TaskState.StateName as 'State'
 FROM UserTask
-JOIN TASK ON UserTask.TaskId = Task.TaskId
+JOIN Task ON UserTask.TaskId = Task.TaskId
 JOIN TaskState on UserTask.StateId = TaskState.StateId

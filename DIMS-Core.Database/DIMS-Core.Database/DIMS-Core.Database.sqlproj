@@ -64,7 +64,7 @@
     <Folder Include="Views" />
   </ItemGroup>
   <ItemGroup>
-    <Build Include="StoredProcedures\DeleteUserById.sql" />
+    <Build Include="StoredProcedures\DeleteUser.sql" />
     <Build Include="Views\vTask.sql" />
     <Build Include="Views\vUserProfile.sql" />
     <Build Include="Views\vUserProgress.sql" />
@@ -76,6 +76,9 @@
     <Build Include="Tables\TaskTrack.sql" />
     <Build Include="Tables\UserProfile.sql" />
     <Build Include="Tables\UserTask.sql" />
+    <Build Include="StoredProcedures\DeleteTask.sql" />
+    <Build Include="StoredProcedures\SetUserTaskAsSuccess.sql" />
+    <Build Include="StoredProcedures\SetUserTaskAsFail.sql" />
   </ItemGroup>
   <ItemGroup>
     <PostDeploy Include="SeedData\SeedData.sql" />
