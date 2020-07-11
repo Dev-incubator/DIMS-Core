@@ -149,11 +149,7 @@ namespace DIMS_Core.DataAccessLayer.Context
 
             modelBuilder.Entity<UserTask>(entity =>
             {
-                entity.HasOne(d => d.State)
-                    .WithMany(p => p.UserTask)
-                    .HasForeignKey(d => d.StateId)
-                    .OnDelete(DeleteBehavior.SetNull)
-                    .HasConstraintName("FK_UserTask_To_TaskState");
+                entity.Property(e => e.StateId).HasDefaultValueSql("((1))");
 
                 entity.HasOne(d => d.Task)
                     .WithMany(p => p.UserTask)
