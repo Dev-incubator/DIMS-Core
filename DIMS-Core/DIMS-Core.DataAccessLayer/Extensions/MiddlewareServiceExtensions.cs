@@ -12,6 +12,17 @@ namespace DIMS_Core.DataAccessLayer.Extensions
         public static IServiceCollection AddDatabaseDependencies(this IServiceCollection services)
         {
             services.AddTransient<ISampleRepository, SampleRepository>();
+            services.AddTransient<IDirectionRepository, DirectionRepository>();
+            services.AddTransient<ITaskRepository, TaskRepository>();
+            services.AddTransient<ITaskStateRepository, TaskStateRepository>();
+            services.AddTransient<ITaskTrackRepository, TaskTrackRepository>();
+            services.AddTransient<IUserProfileRepository, UserProfileRepository>();
+            services.AddTransient<IUserTaskRepository, UserTaskRepository>();
+            services.AddTransient<IVTaskRepository, VTaskRepository>();
+            services.AddTransient<IVUserProfileRepository, VUserProfileRepository>();
+            services.AddTransient<IVUserProgressRepository, VUserProgressRepository>();
+            services.AddTransient<IVUserTaskRepository, VUserTaskRepository>();
+            services.AddTransient<IVUserTrackRepository, VUserTrackRepository>();
             services.AddTransient<IUnitOfWork, UnitOfWork>();
 
             return services;
@@ -19,7 +30,7 @@ namespace DIMS_Core.DataAccessLayer.Extensions
 
         public static IServiceCollection AddDatabaseContext(this IServiceCollection services, IConfiguration configuration)
         {
-            services.AddDbContext<DIMSCoreContext>(options =>
+            services.AddDbContext<DIMSCoreDatabaseContext>(options =>
             {
                 options.UseSqlServer(configuration.GetConnectionString("DIMSDatabase"));
             });
