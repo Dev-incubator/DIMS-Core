@@ -2,7 +2,7 @@
 (
 	[UserId] INT IDENTITY NOT NULL, 
     [DirectionId] INT NULL, 
-    [Name] NVARCHAR(50) NOT NULL, 
+    [FirstName] NVARCHAR(50) NOT NULL, 
     [Email] NVARCHAR(50) NOT NULL, 
     [LastName] NVARCHAR(50) NOT NULL, 
     [Sex] NCHAR(25) NULL, 
