@@ -9,50 +9,74 @@ using Moq;
 using System.Threading.Tasks;
 using System.Linq;
 using DIMS_Core.DataAccessLayer.Entities;
+using Microsoft.EntityFrameworkCore;
+using DIMS_Core.Tests.DAL.Mocks;
 
 namespace DIMS_Core.Tests.DAL
 {
     public class DirectoryRepositoryTest
     {
-        private readonly IDirectionRepository repo;
-        public DirectoryRepositoryTest()
-        {
-            repo = new DirectionRepository(new DIMSCoreDatabaseContext());
-        }
-
         [Test]
         public void GetAllFromRepository()
         {
-            var result = repo.GetAll();
-            Assert.NotNull(result);
-            Assert.IsAssignableFrom(typeof(IEnumerable<Direction>), result);
+            var repo = new Mock<IDirectionRepository>();
+            var result = repo.Object.GetAll();
+            Assert.IsNotNull(result);
         }
 
         [Test]
         [TestCase(-1)]
         [TestCase(1)]
         [TestCase(int.MaxValue)]
-        public async System.Threading.Tasks.Task Delete(int id)
+        public void DeleteExistingElement(int id)
         {
-            try
-            {
-                await repo.DeleteAsync(id);
-            }
-            catch (Exception ex)
-            {
-                Assert.Fail(ex.Message);
-            }
+            var repo = new Mock<IDirectionRepository>();
+            var task = repo.Object.DeleteAsync(id);
+            Assert.IsTrue(task.IsCompleted);
         }
 
         [Test]
         [TestCase(-1)]
         [TestCase(1)]
         [TestCase(int.MaxValue)]
-        public async System.Threading.Tasks.Task GetByIdAsync(int id)
+        public void GetByIdAsync(int id)
         {
+            var repo = new Mock<IDirectionRepository>();
+            var task = repo.Object.GetByIdAsync(id);
+            Assert.IsTrue(task.IsCompletedSuccessfully);
+        }
+
+        [Test]
+        [TestCase(-300)]
+        public void GetByIdNotExisting(int id)
+        {
+            var repo = new Mock<IDirectionRepository>();
+            var task = repo.Object.GetByIdAsync(id);
+            task.Wait();
+            var res = task.Result;
+            Assert.IsNull(res);
+        }
+
+        [Test]
+        [TestCase(1)]
+        public async System.Threading.Tasks.Task GetByIdExisting(int id)
+        {
+            var list = new List<Direction>() 
+            {
+                new Direction { DirectionId = 1, Name = ".net", Description = "none" },
+                new Direction { DirectionId = 2, Name = "java", Description = "none" },
+                new Direction { DirectionId = 3, Name = "front-end", Description = "none" },
+                new Direction { DirectionId = 4, Name = "salesforce", Description = "none" }
+            };
+            var DbSetDirectionMock = MockHelper.CreateDbSetMock<Direction>(list);
+            var DbMock = new Mock<DIMSCoreDatabaseContext>();
+            //DbMock.Setup(db=>db.)
+            DbMock.Setup(db => db.Set<Direction>()).Returns(DbSetDirectionMock.Object);
+            //DbMock.Setup(db => db.Direction).Returns(DbSetDirectionMock.Object);
+
+            var repo = new DirectionRepository(DbMock.Object);
             var res = await repo.GetByIdAsync(id);
-            //Assert.IsNotNull(res);
-            Assert.IsAssignableFrom(typeof(Direction), res);
+            Assert.AreEqual(list.ElementAt(id - 1), res);
         }
     }
 }
