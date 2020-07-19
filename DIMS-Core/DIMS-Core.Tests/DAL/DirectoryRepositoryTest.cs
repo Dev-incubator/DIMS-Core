@@ -27,7 +27,6 @@ namespace DIMS_Core.Tests.DAL
         [Test]
         [TestCase(-1)]
         [TestCase(1)]
-        [TestCase(int.MaxValue)]
         public void DeleteExistingElement(int id)
         {
             var repo = new Mock<IDirectionRepository>();
@@ -69,7 +68,7 @@ namespace DIMS_Core.Tests.DAL
                 new Direction { DirectionId = 4, Name = "salesforce", Description = "none" }
             };
             var DbSetDirectionMock = MockHelper.CreateDbSetMock<Direction>(list);
-            var DbMock = new Mock<DIMSCoreDatabaseContext>();
+            var DbMock = new Mock<DIMSCoreDataBaseContext>();
             //DbMock.Setup(db=>db.)
             DbMock.Setup(db => db.Set<Direction>()).Returns(DbSetDirectionMock.Object);
             //DbMock.Setup(db => db.Direction).Returns(DbSetDirectionMock.Object);

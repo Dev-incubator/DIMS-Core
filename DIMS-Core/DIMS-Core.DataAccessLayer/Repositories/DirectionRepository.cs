@@ -9,6 +9,6 @@ namespace DIMS_Core.DataAccessLayer.Repositories
 {
     public class DirectionRepository : Repository<Direction>, IDirectionRepository
     {
-        public DirectionRepository(DIMSCoreDatabaseContext dbContext) : base(dbContext) { }
+        public DirectionRepository(DIMSCoreDataBaseContext dbContext) : base(dbContext) { }
     }
 }

@@ -14,7 +14,7 @@ namespace DIMS_Core.Tests.DAL
         private readonly ITaskRepository repo;
         public TaskRepositoryTest()
         {
-            repo = new TaskRepository(new DIMSCoreDatabaseContext());
+            repo = new TaskRepository(new DIMSCoreDataBaseContext());
         }
 
         [Test]
