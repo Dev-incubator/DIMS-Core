@@ -9,6 +9,6 @@ namespace DIMS_Core.DataAccessLayer.Repositories
 {
     public class TaskTrackRepository:Repository<TaskTrack>, ITaskTrackRepository
     {
-        public TaskTrackRepository(DIMSCoreDatabaseContext dbContext) : base(dbContext) { }
+        public TaskTrackRepository(DIMSCoreDataBaseContext dbContext) : base(dbContext) { }
     }
 }

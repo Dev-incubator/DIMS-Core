@@ -1,12 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 
 namespace DIMS_Core.DataAccessLayer.Entities
 {
     public partial class VUserProgress
     {
-        [Key]
         public int UserId { get; set; }
         public int TaskId { get; set; }
         public int TaskTrackId { get; set; }

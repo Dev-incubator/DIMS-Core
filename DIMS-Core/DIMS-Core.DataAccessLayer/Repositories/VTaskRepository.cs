@@ -9,6 +9,6 @@ namespace DIMS_Core.DataAccessLayer.Repositories
 {
     public class VTaskRepository:Repository<VTask>, IVTaskRepository
     {
-        public VTaskRepository(DIMSCoreDatabaseContext dbContext) : base(dbContext) { }
+        public VTaskRepository(DIMSCoreDataBaseContext dbContext) : base(dbContext) { }
     }
 }
