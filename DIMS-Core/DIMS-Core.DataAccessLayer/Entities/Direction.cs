@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 
 namespace DIMS_Core.DataAccessLayer.Entities
 {
@@ -11,7 +10,6 @@ namespace DIMS_Core.DataAccessLayer.Entities
             UserProfile = new HashSet<UserProfile>();
         }
 
-        [Key]
         public int DirectionId { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
