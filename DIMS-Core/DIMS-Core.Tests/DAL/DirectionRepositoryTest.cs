@@ -1,6 +1,5 @@
 ﻿using DIMS_Core.DataAccessLayer.Context;
 using DIMS_Core.DataAccessLayer.Entities;
-using DIMS_Core.DataAccessLayer.Interfaces;
 using DIMS_Core.DataAccessLayer.Repositories;
 using DIMS_Core.Tests.DAL.Mocks;
 using Microsoft.EntityFrameworkCore;
@@ -14,9 +13,9 @@ namespace DIMS_Core.Tests.DAL
 {
     public class DirectionRepositoryTest
     {
-        List<Direction> list;
-        Mock<DIMSCoreDataBaseContext> DbMock;
-        Mock<DbSet<Direction>> DbSetDirectionMock;
+        private Mock<DIMSCoreDataBaseContext> DbMock;
+        private Mock<DbSet<Direction>> DbSetDirectionMock;
+        private List<Direction> list;
 
         public DirectionRepositoryTest()
         {
@@ -34,14 +33,6 @@ namespace DIMS_Core.Tests.DAL
         }
 
         [Test]
-        public void GetAllFromRepository()
-        {
-            var repo = new DirectionRepository(DbMock.Object);
-            var res = repo.GetAll();
-            Assert.IsTrue(res.Count() == 4);
-        }
-
-        [Test]
         public async System.Threading.Tasks.Task CreateNewEntity()
         {
             Direction direction = new Direction { Name = "C++", Description = "none" };
@@ -49,7 +40,6 @@ namespace DIMS_Core.Tests.DAL
             await repo.CreateAsync(direction);
             DbSetDirectionMock.Verify(db => db.AddAsync(It.IsAny<Direction>(), It.IsAny<CancellationToken>()), Times.Once);
         }
-
 
         [Test]
         [TestCase(1)]
@@ -62,13 +52,11 @@ namespace DIMS_Core.Tests.DAL
         }
 
         [Test]
-        [TestCase(-300)]
-        public async System.Threading.Tasks.Task GetByIdNotExisting(int id)
+        public void GetAllFromRepository()
         {
-            DbSetDirectionMock.Setup(m => m.FindAsync(It.IsAny<int>())).ReturnsAsync(() => { return list.SingleOrDefault(d => d.DirectionId == id); });
             var repo = new DirectionRepository(DbMock.Object);
-            var res = await repo.GetByIdAsync(id);
-            Assert.IsNull(res);
+            var res = repo.GetAll();
+            Assert.IsTrue(res.Count() == 4);
         }
 
         [Test]
@@ -79,6 +67,16 @@ namespace DIMS_Core.Tests.DAL
             var repo = new DirectionRepository(DbMock.Object);
             var res = await repo.GetByIdAsync(id);
             Assert.AreEqual(list.ElementAt(id - 1), res);
+        }
+
+        [Test]
+        [TestCase(-300)]
+        public async System.Threading.Tasks.Task GetByIdNotExisting(int id)
+        {
+            DbSetDirectionMock.Setup(m => m.FindAsync(It.IsAny<int>())).ReturnsAsync(() => { return list.SingleOrDefault(d => d.DirectionId == id); });
+            var repo = new DirectionRepository(DbMock.Object);
+            var res = await repo.GetByIdAsync(id);
+            Assert.IsNull(res);
         }
     }
 }
