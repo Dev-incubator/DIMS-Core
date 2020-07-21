@@ -13,7 +13,7 @@ namespace DIMS_Core.Tests.DAL
 {
     public class DirectionRepositoryTest
     {
-        private readonly Mock<DIMSCoreDataBaseContext> _DbMock;
+        private readonly Mock<DIMSCoreDatabaseContext> _DbMock;
         private readonly Mock<DbSet<Direction>> _DbSetDirectionMock;
         private readonly List<Direction> _DbSetList;
 
@@ -28,7 +28,7 @@ namespace DIMS_Core.Tests.DAL
             };
 
             _DbSetDirectionMock = MockHelper.CreateDbSetMock<Direction>(_DbSetList);
-            _DbMock = new Mock<DIMSCoreDataBaseContext>();
+            _DbMock = new Mock<DIMSCoreDatabaseContext>();
             _DbMock.Setup(db => db.Set<Direction>()).Returns(_DbSetDirectionMock.Object);
             _DbMock.Setup(db => db.Direction).Returns(_DbSetDirectionMock.Object);
         }

@@ -15,7 +15,7 @@ namespace DIMS_Core.Tests.DAL
     public class TaskRepositoryTest
     {
         private readonly List<Task> _DbSetList;
-        private readonly Mock<DIMSCoreDataBaseContext> _DbMock;
+        private readonly Mock<DIMSCoreDatabaseContext> _DbMock;
         private readonly Mock<DbSet<Task>> _DbSetTaskMock;
 
         public TaskRepositoryTest()
@@ -28,7 +28,7 @@ namespace DIMS_Core.Tests.DAL
             };
 
             _DbSetTaskMock = MockHelper.CreateDbSetMock<Task>(_DbSetList);
-            _DbMock = new Mock<DIMSCoreDataBaseContext>();
+            _DbMock = new Mock<DIMSCoreDatabaseContext>();
             _DbMock.Setup(db => db.Set<Task>()).Returns(_DbSetTaskMock.Object);
             _DbMock.Setup(db => db.Task).Returns(_DbSetTaskMock.Object);
         }

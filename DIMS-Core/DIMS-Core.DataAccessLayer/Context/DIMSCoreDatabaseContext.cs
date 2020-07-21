@@ -5,13 +5,13 @@ using DIMS_Core.DataAccessLayer.Entities;
 
 namespace DIMS_Core.DataAccessLayer.Context
 {
-    public partial class DIMSCoreDataBaseContext : DbContext
+    public partial class DIMSCoreDatabaseContext : DbContext
     {
-        public DIMSCoreDataBaseContext()
+        public DIMSCoreDatabaseContext()
         {
         }
 
-        public DIMSCoreDataBaseContext(DbContextOptions<DIMSCoreDataBaseContext> options)
+        public DIMSCoreDatabaseContext(DbContextOptions<DIMSCoreDatabaseContext> options)
             : base(options)
         {
         }

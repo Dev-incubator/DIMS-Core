@@ -7,7 +7,7 @@ namespace DIMS_Core.DataAccessLayer.Repositories
 {
     internal class UnitOfWork : IUnitOfWork
     {
-        private readonly DIMSCoreDataBaseContext _context;
+        private readonly DIMSCoreDatabaseContext _context;
         private ISampleRepository _sampleRepository;
         private IDirectionRepository _directionRepository;
         private ITaskRepository _taskRepository;
@@ -44,7 +44,7 @@ namespace DIMS_Core.DataAccessLayer.Repositories
 
         public IVUserTrackRepository VUserTrackRepository => _vUserTrackRepository ??= new VUserTrackRepository(_context);
 
-        public UnitOfWork(DIMSCoreDataBaseContext context)
+        public UnitOfWork(DIMSCoreDatabaseContext context)
         {
             _context = context;
         }

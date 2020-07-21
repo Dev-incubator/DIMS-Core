@@ -9,6 +9,6 @@ namespace DIMS_Core.DataAccessLayer.Repositories
 {
     public class UserTaskRepository:Repository<UserTask>, IUserTaskRepository
     {
-        public UserTaskRepository(DIMSCoreDataBaseContext dbContext) : base(dbContext) { }
+        public UserTaskRepository(DIMSCoreDatabaseContext dbContext) : base(dbContext) { }
     }
 }

@@ -9,6 +9,6 @@ namespace DIMS_Core.DataAccessLayer.Repositories
 {
     public class UserProfileRepository:Repository<UserProfile>, IUserProfileRepository
     {
-        public UserProfileRepository(DIMSCoreDataBaseContext dbContext) : base(dbContext) { }
+        public UserProfileRepository(DIMSCoreDatabaseContext dbContext) : base(dbContext) { }
     }
 }

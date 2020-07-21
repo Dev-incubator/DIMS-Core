@@ -9,6 +9,6 @@ namespace DIMS_Core.DataAccessLayer.Repositories
 {
     public class TaskStateRepository:Repository<TaskState>, ITaskStateRepository
     {
-        public TaskStateRepository(DIMSCoreDataBaseContext dbContext) : base(dbContext) { }
+        public TaskStateRepository(DIMSCoreDatabaseContext dbContext) : base(dbContext) { }
     }
 }

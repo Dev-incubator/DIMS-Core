@@ -9,6 +9,6 @@ namespace DIMS_Core.DataAccessLayer.Repositories
 {
     public class VUserTrackRepository:Repository<VUserTrack>, IVUserTrackRepository
     {
-        public VUserTrackRepository(DIMSCoreDataBaseContext dbContext) : base(dbContext) { }
+        public VUserTrackRepository(DIMSCoreDatabaseContext dbContext) : base(dbContext) { }
     }
 }
