@@ -9,6 +9,6 @@ namespace DIMS_Core.DataAccessLayer.Repositories
 {
     public class VUserProgressRepository:Repository<VUserProgress>, IVUserProgressRepository
     {
-        public VUserProgressRepository(DIMSCoreDataBaseContext dbContext) : base(dbContext) { }
+        public VUserProgressRepository(DIMSCoreDatabaseContext dbContext) : base(dbContext) { }
     }
 }

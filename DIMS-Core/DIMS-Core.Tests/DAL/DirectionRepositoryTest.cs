@@ -13,30 +13,19 @@ namespace DIMS_Core.Tests.DAL
 {
     public class DirectionRepositoryTest
     {
-        private readonly Mock<DIMSCoreDataBaseContext> _DbMock;
-        private readonly Mock<DbSet<Direction>> _DbSetDirectionMock;
-        private readonly List<Direction> _DbSetList;
-
-        public DirectionRepositoryTest()
-        {
-            _DbSetList = new List<Direction>()
-            {
-                new Direction { DirectionId = 1, Name = ".net", Description = "none" },
-                new Direction { DirectionId = 2, Name = "java", Description = "none" },
-                new Direction { DirectionId = 3, Name = "front-end", Description = "none" },
-                new Direction { DirectionId = 4, Name = "salesforce", Description = "none" }
-            };
-
-            _DbSetDirectionMock = MockHelper.CreateDbSetMock<Direction>(_DbSetList);
-            _DbMock = new Mock<DIMSCoreDataBaseContext>();
-            _DbMock.Setup(db => db.Set<Direction>()).Returns(_DbSetDirectionMock.Object);
-            _DbMock.Setup(db => db.Direction).Returns(_DbSetDirectionMock.Object);
-        }
+        private Mock<DIMSCoreDatabaseContext> _DbMock;
+        private Mock<DbSet<Direction>> _DbSetDirectionMock;
+        private List<Direction> _DbSetList;
 
         [Test]
         public async System.Threading.Tasks.Task CreateNewEntity()
         {
-            Direction direction = new Direction { Name = "C++", Description = "none" };
+            InitializeDbWithFourObjects();
+            Direction direction = new Direction
+            {
+                Name = "C++",
+                Description = "none"
+            };
             var repo = new DirectionRepository(_DbMock.Object);
             await repo.CreateAsync(direction);
             _DbSetDirectionMock.Verify(db => db.AddAsync(It.IsAny<Direction>(), It.IsAny<CancellationToken>()), Times.Once);
@@ -46,7 +35,8 @@ namespace DIMS_Core.Tests.DAL
         [TestCase(1)]
         public async System.Threading.Tasks.Task DeleteExistingElement(int id)
         {
-            _DbSetDirectionMock.Setup(m => m.FindAsync(It.IsAny<int>())).ReturnsAsync(() => { return _DbSetList.SingleOrDefault(d => d.DirectionId == id); });
+            InitializeDbWithFourObjects();
+            _DbSetDirectionMock.Setup(m => m.FindAsync(It.IsAny<int>())).ReturnsAsync(() => _DbSetList.SingleOrDefault(d => d.DirectionId == id));
             var repo = new DirectionRepository(_DbMock.Object);
             await repo.DeleteAsync(id);
             _DbSetDirectionMock.Verify(m => m.Remove(It.IsAny<Direction>()), Times.Once);
@@ -55,16 +45,18 @@ namespace DIMS_Core.Tests.DAL
         [Test]
         public void GetAllFromRepository()
         {
+            InitializeDbWithFourObjects();
             var repo = new DirectionRepository(_DbMock.Object);
             var res = repo.GetAll();
-            Assert.IsTrue(res.Count() == 4);
+            Assert.IsTrue(res.Count() == 4, res.Count().ToString());
         }
 
         [Test]
         [TestCase(1)]
         public async System.Threading.Tasks.Task GetByIdExisting(int id)
         {
-            _DbSetDirectionMock.Setup(m => m.FindAsync(It.IsAny<int>())).ReturnsAsync(() => { return _DbSetList.SingleOrDefault(d => d.DirectionId == id); });
+            InitializeDbWithFourObjects();
+            _DbSetDirectionMock.Setup(m => m.FindAsync(It.IsAny<int>())).ReturnsAsync(() => _DbSetList.SingleOrDefault(d => d.DirectionId == id));
             var repo = new DirectionRepository(_DbMock.Object);
             var res = await repo.GetByIdAsync(id);
             Assert.AreEqual(_DbSetList.ElementAt(id - 1), res);
@@ -75,10 +67,46 @@ namespace DIMS_Core.Tests.DAL
         [TestCase(100)]
         public async System.Threading.Tasks.Task GetByIdNotExisting(int id)
         {
-            _DbSetDirectionMock.Setup(m => m.FindAsync(It.IsAny<int>())).ReturnsAsync(() => { return _DbSetList.SingleOrDefault(d => d.DirectionId == id); });
+            InitializeDbWithFourObjects();
+            _DbSetDirectionMock.Setup(m => m.FindAsync(It.IsAny<int>())).ReturnsAsync(() => _DbSetList.SingleOrDefault(d => d.DirectionId == id));
             var repo = new DirectionRepository(_DbMock.Object);
             var res = await repo.GetByIdAsync(id);
             Assert.IsNull(res);
+        }
+
+        private void InitializeDbWithFourObjects()
+        {
+            _DbSetList = new List<Direction>()
+            {
+                new Direction
+                {
+                    DirectionId = 1,
+                    Name = ".net",
+                    Description = "none"
+                },
+                new Direction
+                {
+                    DirectionId = 2,
+                    Name = "java",
+                    Description = "none"
+                },
+                new Direction
+                {
+                    DirectionId = 3,
+                    Name = "front-end",
+                    Description = "none"
+                },
+                new Direction
+                {
+                    DirectionId = 4,
+                    Name = "salesforce",
+                    Description = "none"
+                }
+            };
+            _DbSetDirectionMock = MockHelper.CreateDbSetMock<Direction>(_DbSetList);
+            _DbMock = new Mock<DIMSCoreDatabaseContext>();
+            _DbMock.Setup(db => db.Set<Direction>()).Returns(_DbSetDirectionMock.Object);
+            _DbMock.Setup(db => db.Direction).Returns(_DbSetDirectionMock.Object);
         }
     }
 }

@@ -14,28 +14,14 @@ namespace DIMS_Core.Tests.DAL
 {
     public class TaskRepositoryTest
     {
-        private readonly List<Task> _DbSetList;
-        private readonly Mock<DIMSCoreDataBaseContext> _DbMock;
-        private readonly Mock<DbSet<Task>> _DbSetTaskMock;
-
-        public TaskRepositoryTest()
-        {
-            _DbSetList = new List<Task>()
-            {
-                new Task { TaskId=1, Name="Create Unit tests", Description="none", StartDate=DateTime.Parse("20.07.2020"), DeadlineDate=DateTime.Parse("22.07.2020")},
-                new Task { TaskId=2, Name="Implement DAL", Description="none", StartDate=DateTime.Parse("19.07.2020"), DeadlineDate=DateTime.Parse("27.07.2020")},
-                new Task { TaskId=3, Name="Implement BLL", Description="none", StartDate=DateTime.Parse("23.07.2020"), DeadlineDate=DateTime.Parse("30.07.2020")},
-            };
-
-            _DbSetTaskMock = MockHelper.CreateDbSetMock<Task>(_DbSetList);
-            _DbMock = new Mock<DIMSCoreDataBaseContext>();
-            _DbMock.Setup(db => db.Set<Task>()).Returns(_DbSetTaskMock.Object);
-            _DbMock.Setup(db => db.Task).Returns(_DbSetTaskMock.Object);
-        }
+        private List<Task> _DbSetList;
+        private Mock<DIMSCoreDatabaseContext> _DbMock;
+        private Mock<DbSet<Task>> _DbSetTaskMock;
 
         [Test]
         public void GetAllFromRepository()
         {
+            InitializeDbWithThreeObjects();
             var repository = new TaskRepository(_DbMock.Object);
             var res = repository.GetAll();
             Assert.IsTrue(res.Count() == 3);
@@ -44,7 +30,14 @@ namespace DIMS_Core.Tests.DAL
         [Test]
         public async System.Threading.Tasks.Task CreateNewEntity()
         {
-            Task Task = new Task { Name = "Write report", Description = "none", StartDate = DateTime.Parse("23.07.2020"), DeadlineDate = DateTime.Parse("24.07.2020") };
+            InitializeDbWithThreeObjects();
+            Task Task = new Task
+            {
+                Name = "Write report",
+                Description = "none",
+                StartDate = DateTime.Parse("23.07.2020"),
+                DeadlineDate = DateTime.Parse("24.07.2020")
+            };
             var repository = new TaskRepository(_DbMock.Object);
             await repository.CreateAsync(Task);
             _DbSetTaskMock.Verify(db => db.AddAsync(It.IsAny<Task>(), It.IsAny<CancellationToken>()), Times.Once);
@@ -54,7 +47,8 @@ namespace DIMS_Core.Tests.DAL
         [TestCase(1)]
         public async System.Threading.Tasks.Task DeleteExistingElement(int id)
         {
-            _DbSetTaskMock.Setup(m => m.FindAsync(It.IsAny<int>())).ReturnsAsync(() => { return _DbSetList.SingleOrDefault(d => d.TaskId == id); });
+            InitializeDbWithThreeObjects();
+            _DbSetTaskMock.Setup(m => m.FindAsync(It.IsAny<int>())).ReturnsAsync(() => _DbSetList.SingleOrDefault(d => d.TaskId == id));
             var repository = new TaskRepository(_DbMock.Object);
             await repository.DeleteAsync(id);
             _DbSetTaskMock.Verify(m => m.Remove(It.IsAny<Task>()), Times.Once);
@@ -64,7 +58,8 @@ namespace DIMS_Core.Tests.DAL
         [TestCase(-300)]
         public async System.Threading.Tasks.Task GetByIdNotExisting(int id)
         {
-            _DbSetTaskMock.Setup(m => m.FindAsync(It.IsAny<int>())).ReturnsAsync(() => { return _DbSetList.SingleOrDefault(d => d.TaskId == id); });
+            InitializeDbWithThreeObjects();
+            _DbSetTaskMock.Setup(m => m.FindAsync(It.IsAny<int>())).ReturnsAsync(() => _DbSetList.SingleOrDefault(d => d.TaskId == id));
             var repository = new TaskRepository(_DbMock.Object);
             var res = await repository.GetByIdAsync(id);
             Assert.IsNull(res);
@@ -74,10 +69,46 @@ namespace DIMS_Core.Tests.DAL
         [TestCase(1)]
         public async System.Threading.Tasks.Task GetByIdExisting(int id)
         {
-            _DbSetTaskMock.Setup(m => m.FindAsync(It.IsAny<int>())).ReturnsAsync(() => { return _DbSetList.SingleOrDefault(d => d.TaskId == id); });
+            InitializeDbWithThreeObjects();
+            _DbSetTaskMock.Setup(m => m.FindAsync(It.IsAny<int>())).ReturnsAsync(() => _DbSetList.SingleOrDefault(d => d.TaskId == id));
             var repository = new TaskRepository(_DbMock.Object);
             var res = await repository.GetByIdAsync(id);
             Assert.AreEqual(_DbSetList.ElementAt(id - 1), res);
+        }
+
+        private void InitializeDbWithThreeObjects()
+        {
+            _DbSetList = new List<Task>()
+            {
+                new Task
+                {
+                    TaskId=1,
+                    Name="Create Unit tests",
+                    Description="none",
+                    StartDate=DateTime.Parse("20.07.2020"),
+                    DeadlineDate=DateTime.Parse("22.07.2020")
+                },
+                new Task
+                {
+                    TaskId=2,
+                    Name="Implement DAL",
+                    Description="none",
+                    StartDate=DateTime.Parse("19.07.2020"),
+                    DeadlineDate=DateTime.Parse("27.07.2020")
+                },
+                new Task
+                {
+                    TaskId=3,
+                    Name="Implement BLL",
+                    Description="none",
+                    StartDate=DateTime.Parse("23.07.2020"),
+                    DeadlineDate=DateTime.Parse("30.07.2020")
+                }
+            };
+            _DbSetTaskMock = MockHelper.CreateDbSetMock<Task>(_DbSetList);
+            _DbMock = new Mock<DIMSCoreDatabaseContext>();
+            _DbMock.Setup(db => db.Set<Task>()).Returns(_DbSetTaskMock.Object);
+            _DbMock.Setup(db => db.Task).Returns(_DbSetTaskMock.Object);
         }
     }
 }
