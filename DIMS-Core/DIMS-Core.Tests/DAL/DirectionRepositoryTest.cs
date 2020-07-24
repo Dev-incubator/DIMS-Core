@@ -8,6 +8,7 @@ using NUnit.Framework;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
+using Task = System.Threading.Tasks.Task;
 
 namespace DIMS_Core.Tests.DAL
 {
@@ -18,7 +19,7 @@ namespace DIMS_Core.Tests.DAL
         private List<Direction> _DbSetList;
 
         [Test]
-        public async System.Threading.Tasks.Task CreateNewEntity()
+        public async Task CreateNewEntity()
         {
             InitializeDbWithFourObjects();
             Direction direction = new Direction
@@ -33,7 +34,7 @@ namespace DIMS_Core.Tests.DAL
 
         [Test]
         [TestCase(1)]
-        public async System.Threading.Tasks.Task DeleteExistingElement(int id)
+        public async Task DeleteExistingElement(int id)
         {
             InitializeDbWithFourObjects();
             _DbSetDirectionMock.Setup(m => m.FindAsync(It.IsAny<int>())).ReturnsAsync(() => _DbSetList.SingleOrDefault(d => d.DirectionId == id));
@@ -53,7 +54,7 @@ namespace DIMS_Core.Tests.DAL
 
         [Test]
         [TestCase(1)]
-        public async System.Threading.Tasks.Task GetByIdExisting(int id)
+        public async Task GetByIdExisting(int id)
         {
             InitializeDbWithFourObjects();
             _DbSetDirectionMock.Setup(m => m.FindAsync(It.IsAny<int>())).ReturnsAsync(() => _DbSetList.SingleOrDefault(d => d.DirectionId == id));
@@ -65,7 +66,7 @@ namespace DIMS_Core.Tests.DAL
         [Test]
         [TestCase(-300)]
         [TestCase(100)]
-        public async System.Threading.Tasks.Task GetByIdNotExisting(int id)
+        public async Task GetByIdNotExisting(int id)
         {
             InitializeDbWithFourObjects();
             _DbSetDirectionMock.Setup(m => m.FindAsync(It.IsAny<int>())).ReturnsAsync(() => _DbSetList.SingleOrDefault(d => d.DirectionId == id));
