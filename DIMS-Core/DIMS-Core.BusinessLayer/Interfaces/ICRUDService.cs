@@ -7,9 +7,9 @@ namespace DIMS_Core.BusinessLayer.Interfaces
 {
     public interface IGenericCRUDService
     {
-        Task<TModel> GetEntityModel<TModel>(int id);
-        Task Create<TModel>(TModel model);
-        Task Delete<TModel>(int id);
-        Task Update<TModel>(TModel model);
+        Task<DTOModel> GetEntityModel<DTOModel>(int id);
+        Task Create<DTOModel>(DTOModel model);
+        Task Delete<DTOModel>(int id);
+        Task Update<DTOModel>(DTOModel model);
     }
 }
