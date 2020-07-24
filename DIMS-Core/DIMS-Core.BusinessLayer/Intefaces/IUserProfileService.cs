@@ -3,8 +3,9 @@ using System.Threading.Tasks;
 
 namespace DIMS_Core.BusinessLayer.Interfaces
 {
-    public interface IUserProfileManageService
+    public interface IUserProfileService
     {
+        Task GetUserProfile(int userId);
         Task DeleteUserProfile(int userProfileId);
 
         Task UpdateUserProfile(UserProfileModel userModel);

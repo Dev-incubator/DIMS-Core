@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace DIMS_Core.BusinessLayer.Services
 {
-    public class VUserProfileService : IUserProfileViewService
+    public class VUserProfileService : IVUserProfileService
     {
         private readonly IUnitOfWork unitOfWork;
         private readonly IMapper mapper;
