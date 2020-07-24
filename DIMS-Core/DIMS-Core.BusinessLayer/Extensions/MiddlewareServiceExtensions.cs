@@ -16,7 +16,7 @@ namespace DIMS_Core.BusinessLayer.Extensions
         public static IServiceCollection AddDependencyInjections(this IServiceCollection services)
         {
             services.AddTransient<ISampleService, SampleService>();
-            services.AddTransient<IUserService, UserService>();
+            services.AddTransient<IUserIdentityService, UserIdentityService>();
 
             services.AddDatabaseDependencies()
                 .AddIndentityDependencies()

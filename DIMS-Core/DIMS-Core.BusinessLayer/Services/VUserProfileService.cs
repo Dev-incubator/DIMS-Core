@@ -1,13 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using AutoMapper;
-using DIMS_Core.BusinessLayer.Interfaces.Admin;
-using DIMS_Core.BusinessLayer.Models.Admin;
+﻿using AutoMapper;
+using DIMS_Core.BusinessLayer.Interfaces;
+using DIMS_Core.BusinessLayer.Models.User;
 using DIMS_Core.DataAccessLayer.Interfaces;
 using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace DIMS_Core.BusinessLayer.Services
 {
@@ -15,6 +12,7 @@ namespace DIMS_Core.BusinessLayer.Services
     {
         private readonly IUnitOfWork unitOfWork;
         private readonly IMapper mapper;
+
         public VUserProfileService(IUnitOfWork unitOfWork, IMapper mapper)
         {
             this.unitOfWork = unitOfWork;
@@ -28,6 +26,7 @@ namespace DIMS_Core.BusinessLayer.Services
 
             return await mappedResult.ToListAsync();
         }
+
         public async Task<VUserProfileModel> GetUserProfileViewById(int userId)
         {
             var entity = await unitOfWork.VUserProfileRepository.GetByIdAsync(userId);
@@ -41,7 +40,6 @@ namespace DIMS_Core.BusinessLayer.Services
             var vUserModel = mapper.Map<VUserProfileModel>(entity);
             return vUserModel;
         }
-
 
         public async Task<IEnumerable<VUserProfileModel>> GetUserProfileViewsByDirection(string direction)
         {

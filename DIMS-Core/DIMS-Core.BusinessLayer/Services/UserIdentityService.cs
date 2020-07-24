@@ -8,12 +8,12 @@ using System.Threading.Tasks;
 
 namespace DIMS_Core.BusinessLayer.Services
 {
-    internal class UserService : IUserService
+    internal class UserIdentityService : IUserIdentityService
     {
         private readonly IIdentityUnitOfWork unitOfWork;
         private readonly IMapper mapper;
 
-        public UserService(IIdentityUnitOfWork identityUnitOfWork, IMapper mapper)
+        public UserIdentityService(IIdentityUnitOfWork identityUnitOfWork, IMapper mapper)
         {
             unitOfWork = identityUnitOfWork;
             this.mapper = mapper;
@@ -57,7 +57,7 @@ namespace DIMS_Core.BusinessLayer.Services
             }
         }
 
-        ~UserService()
+        ~UserIdentityService()
         {
             Dispose(disposing: false);
         }
