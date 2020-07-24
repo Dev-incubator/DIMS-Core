@@ -1,5 +1,6 @@
 ﻿using DIMS_Core.DataAccessLayer.Context;
 using DIMS_Core.DataAccessLayer.Entities;
+using DIMS_Core.DataAccessLayer.Interfaces;
 using DIMS_Core.DataAccessLayer.Repositories;
 using DIMS_Core.Tests.DAL.Mocks;
 using Microsoft.EntityFrameworkCore;
@@ -8,6 +9,7 @@ using NUnit.Framework;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
+using Task = System.Threading.Tasks.Task;
 
 namespace DIMS_Core.Tests.DAL
 {
@@ -16,65 +18,63 @@ namespace DIMS_Core.Tests.DAL
         private Mock<DIMSCoreDatabaseContext> _DbMock;
         private Mock<DbSet<Direction>> _DbSetDirectionMock;
         private List<Direction> _DbSetList;
+        private IDirectionRepository directionRepository;
+
+        public DirectionRepositoryTest()
+        {
+            InitializeDbMock();
+            directionRepository = new DirectionRepository(_DbMock.Object);
+        }
 
         [Test]
-        public async System.Threading.Tasks.Task CreateNewEntity()
+        public async Task CreateNewEntity()
         {
-            InitializeDbWithFourObjects();
             Direction direction = new Direction
             {
                 Name = "C++",
                 Description = "none"
             };
-            var repo = new DirectionRepository(_DbMock.Object);
-            await repo.CreateAsync(direction);
+
+            await directionRepository.CreateAsync(direction);
             _DbSetDirectionMock.Verify(db => db.AddAsync(It.IsAny<Direction>(), It.IsAny<CancellationToken>()), Times.Once);
         }
 
         [Test]
         [TestCase(1)]
-        public async System.Threading.Tasks.Task DeleteExistingElement(int id)
+        public async Task DeleteExistingElement(int id)
         {
-            InitializeDbWithFourObjects();
             _DbSetDirectionMock.Setup(m => m.FindAsync(It.IsAny<int>())).ReturnsAsync(() => _DbSetList.SingleOrDefault(d => d.DirectionId == id));
-            var repo = new DirectionRepository(_DbMock.Object);
-            await repo.DeleteAsync(id);
+            await directionRepository.DeleteAsync(id);
             _DbSetDirectionMock.Verify(m => m.Remove(It.IsAny<Direction>()), Times.Once);
         }
 
         [Test]
         public void GetAllFromRepository()
         {
-            InitializeDbWithFourObjects();
-            var repo = new DirectionRepository(_DbMock.Object);
-            var res = repo.GetAll();
-            Assert.IsTrue(res.Count() == 4, res.Count().ToString());
+            var res = directionRepository.GetAll();
+            Assert.IsTrue(res.Count() == _DbSetList.Count);
         }
 
         [Test]
         [TestCase(1)]
-        public async System.Threading.Tasks.Task GetByIdExisting(int id)
+        public async Task GetByIdExisting(int id)
         {
-            InitializeDbWithFourObjects();
             _DbSetDirectionMock.Setup(m => m.FindAsync(It.IsAny<int>())).ReturnsAsync(() => _DbSetList.SingleOrDefault(d => d.DirectionId == id));
-            var repo = new DirectionRepository(_DbMock.Object);
-            var res = await repo.GetByIdAsync(id);
-            Assert.AreEqual(_DbSetList.ElementAt(id - 1), res);
+            var res = await directionRepository.GetByIdAsync(id);
+            Assert.IsTrue(res.DirectionId == id);
         }
 
         [Test]
         [TestCase(-300)]
         [TestCase(100)]
-        public async System.Threading.Tasks.Task GetByIdNotExisting(int id)
+        public async Task GetByIdNotExisting(int id)
         {
-            InitializeDbWithFourObjects();
             _DbSetDirectionMock.Setup(m => m.FindAsync(It.IsAny<int>())).ReturnsAsync(() => _DbSetList.SingleOrDefault(d => d.DirectionId == id));
-            var repo = new DirectionRepository(_DbMock.Object);
-            var res = await repo.GetByIdAsync(id);
+            var res = await directionRepository.GetByIdAsync(id);
             Assert.IsNull(res);
         }
 
-        private void InitializeDbWithFourObjects()
+        private void InitializeDbMock()
         {
             _DbSetList = new List<Direction>()
             {
