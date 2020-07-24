@@ -45,6 +45,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Models\User\" />
     <Folder Include="wwwroot\bundle\js\" />
     <Folder Include="wwwroot\bundle\css\" />
   </ItemGroup>
