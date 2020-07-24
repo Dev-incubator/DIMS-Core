@@ -10,15 +10,12 @@ using System.Threading.Tasks;
 
 namespace DIMS_Core.BusinessLayer.Services
 {
-    public class VUserProfileService : IVUserProfileService
+    public class VUserProfileService : GenericCRUDService<VUserProfile>,IVUserProfileService
     {
-        private readonly IUnitOfWork unitOfWork;
-        private readonly IMapper mapper;
 
-        public VUserProfileService(IUnitOfWork unitOfWork, IMapper mapper)
+        public VUserProfileService(IUnitOfWork unitOfWork, IMapper mapper):base(unitOfWork, mapper)
         {
-            this.unitOfWork = unitOfWork;
-            this.mapper = mapper;
+
         }
 
         public async Task<IEnumerable<VUserProfileModel>> GetAllUserProfileViews()

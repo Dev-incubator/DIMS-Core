@@ -190,7 +190,7 @@ namespace DIMS_Core.DataAccessLayer.Context
 
             modelBuilder.Entity<VUserProfile>(entity =>
             {
-                entity.HasNoKey();
+                entity.HasKey(e => e.UserId);
 
                 entity.ToView("vUserProfile");
 

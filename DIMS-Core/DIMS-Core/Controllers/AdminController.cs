@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using DIMS_Core.BusinessLayer.Interfaces;
 using AutoMapper;
 using DIMS_Core.Models.Admin;
+using DIMS_Core.BusinessLayer.Models.User;
 
 namespace DIMS_Core.Controllers
 {
@@ -22,7 +23,8 @@ namespace DIMS_Core.Controllers
         }
         public async Task<IActionResult> IndexAsync()
         {
-            var model =  (await userProfileViewService.GetAllUserProfileViews()).First();
+            var m = (await userProfileViewService.GetAllUserProfileViews()).First();
+            var model =  await userProfileViewService.GetEntityModel<VUserProfileModel>(2);
             var mappedModel = mapper.Map<VUserProfileViewModel>(model);
             return View("Index", mappedModel);
         }

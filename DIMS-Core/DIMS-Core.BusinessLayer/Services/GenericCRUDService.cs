@@ -1,14 +1,17 @@
 ﻿using AutoMapper;
 using DIMS_Core.DataAccessLayer.Interfaces;
+using DIMS_Core.BusinessLayer.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Linq;
 using System.Threading.Tasks;
+using DIMS_Core.DataAccessLayer.Context;
+using a = DIMS_Core.DataAccessLayer.Entities.VUserProfile;
 
 namespace DIMS_Core.BusinessLayer.Services
 {
-    abstract class GenericCRUDService<TEntity> where TEntity:class
+    public abstract class GenericCRUDService<TEntity>:IGenericCRUDService where TEntity:class
     {
         //string propName = nameof(unitOfWork.VUserProfileRepository);
         //var res = (IRepository<VUserProfile>)(unitOfWork.GetType().GetProperty(propName).GetValue(unitOfWork));
@@ -21,7 +24,18 @@ namespace DIMS_Core.BusinessLayer.Services
         {
             this.unitOfWork = unitOfWork;
             this.mapper = mapper;
-            repository = (IRepository<TEntity>)unitOfWork.GetType().GetProperties().FirstOrDefault(p=>p.GetType()==typeof(IRepository<TEntity>)).GetValue(this.unitOfWork);
+            var res = unitOfWork.GetType().GetProperties().FirstOrDefault(p=>typeof(IRepository<TEntity>).IsAssignableFrom(p.PropertyType));
+            repository = (IRepository<TEntity>)res.GetValue(unitOfWork);
+        }
+
+        public Task Create<TModel>(TModel model)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task Delete<TModel>(int id)
+        {
+            throw new NotImplementedException();
         }
 
         public async Task<TModel> GetEntityModel<TModel>(int id)
@@ -35,6 +49,11 @@ namespace DIMS_Core.BusinessLayer.Services
             var model = mapper.Map<TModel>(entity);
 
             return model;
+        }
+
+        public Task Update<TModel>(TModel model)
+        {
+            throw new NotImplementedException();
         }
     }
 }
