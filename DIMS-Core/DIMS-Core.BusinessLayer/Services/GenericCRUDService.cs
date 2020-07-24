@@ -13,9 +13,6 @@ namespace DIMS_Core.BusinessLayer.Services
 {
     public abstract class GenericCRUDService<TEntity>:IGenericCRUDService where TEntity:class
     {
-        //string propName = nameof(unitOfWork.VUserProfileRepository);
-        //var res = (IRepository<VUserProfile>)(unitOfWork.GetType().GetProperty(propName).GetValue(unitOfWork));
-        //var r = res.GetAll().ToList();
         protected readonly IUnitOfWork unitOfWork;
         protected readonly IMapper mapper;
 
