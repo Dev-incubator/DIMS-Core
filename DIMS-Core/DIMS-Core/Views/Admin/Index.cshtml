@@ -1,0 +1,14 @@
+﻿@model DIMS_Core.Models.Admin.VUserProfileViewModel;
+@{
+    ViewData["Title"] = "Index";
+}
+
+@if (!(Model is null))
+{
+    <p>@Model.UserId</p>
+    <p>@Model.FullName</p>
+    <p>@Model.Direction</p>
+    <p>@Model.Education</p>
+    <p>@Model.StartDate.ToString()</p>
+}
+<h1>Index</h1>

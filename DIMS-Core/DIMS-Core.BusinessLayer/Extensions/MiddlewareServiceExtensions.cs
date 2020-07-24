@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using DIMS_Core.BusinessLayer.Interfaces;
+using DIMS_Core.BusinessLayer.Interfaces.Admin;
 using DIMS_Core.BusinessLayer.Services;
 using DIMS_Core.DataAccessLayer.Extensions;
 using DIMS_Core.Identity.Extensions;
@@ -17,6 +18,7 @@ namespace DIMS_Core.BusinessLayer.Extensions
         {
             services.AddTransient<ISampleService, SampleService>();
             services.AddTransient<IUserService, UserService>();
+            services.AddTransient<IUserProfileViewService, UserProfileViewService>();
 
             services.AddDatabaseDependencies()
                 .AddIndentityDependencies()
