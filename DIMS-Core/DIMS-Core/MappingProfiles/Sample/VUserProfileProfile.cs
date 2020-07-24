@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using DIMS_Core.BusinessLayer.Models.Admin;
+using DIMS_Core.BusinessLayer.Models.User;
 using DIMS_Core.Models.Admin;
 
 namespace DIMS_Core.MappingProfiles.Sample

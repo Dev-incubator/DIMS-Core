@@ -17,6 +17,7 @@ namespace DIMS_Core.BusinessLayer.Extensions
         {
             services.AddTransient<ISampleService, SampleService>();
             services.AddTransient<IUserIdentityService, UserIdentityService>();
+            services.AddTransient<IVUserProfileService, VUserProfileService>();
 
             services.AddDatabaseDependencies()
                 .AddIndentityDependencies()

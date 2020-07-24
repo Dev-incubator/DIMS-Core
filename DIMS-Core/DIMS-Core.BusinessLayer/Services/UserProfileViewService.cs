@@ -4,14 +4,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using AutoMapper;
-using DIMS_Core.BusinessLayer.Interfaces.Admin;
-using DIMS_Core.BusinessLayer.Models.Admin;
+using DIMS_Core.BusinessLayer.Interfaces;
+using DIMS_Core.BusinessLayer.Models.User;
 using DIMS_Core.DataAccessLayer.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
 namespace DIMS_Core.BusinessLayer.Services
 {
-    public class UserProfileViewService : IUserProfileViewService
+    public class UserProfileViewService : IVUserProfileService
     {
         private readonly IUnitOfWork unitOfWork;
         private readonly IMapper mapper;
