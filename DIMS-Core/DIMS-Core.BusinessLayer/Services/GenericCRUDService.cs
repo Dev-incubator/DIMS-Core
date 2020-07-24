@@ -18,14 +18,15 @@ namespace DIMS_Core.BusinessLayer.Services
         //var r = res.GetAll().ToList();
         protected readonly IUnitOfWork unitOfWork;
         protected readonly IMapper mapper;
-        private readonly IRepository<TEntity> repository;
+
+        private readonly IRepository<TEntity> baseRepository;
 
         public GenericCRUDService(IUnitOfWork unitOfWork, IMapper mapper)
         {
             this.unitOfWork = unitOfWork;
             this.mapper = mapper;
-            var res = unitOfWork.GetType().GetProperties().FirstOrDefault(p=>typeof(IRepository<TEntity>).IsAssignableFrom(p.PropertyType));
-            repository = (IRepository<TEntity>)res.GetValue(unitOfWork);
+            var property = unitOfWork.GetType().GetProperties().FirstOrDefault(p=>typeof(IRepository<TEntity>).IsAssignableFrom(p.PropertyType));
+            baseRepository = (IRepository<TEntity>)property.GetValue(unitOfWork);
         }
 
         public Task Create<TModel>(TModel model)
@@ -45,7 +46,7 @@ namespace DIMS_Core.BusinessLayer.Services
                 return default;
             }
 
-            var entity = await repository.GetByIdAsync(id);
+            var entity = await baseRepository.GetByIdAsync(id);
             var model = mapper.Map<TModel>(entity);
 
             return model;
