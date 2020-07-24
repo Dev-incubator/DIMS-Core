@@ -1,12 +1,12 @@
-﻿using DIMS_Core.BusinessLayer.Models.Admin;
+﻿using DIMS_Core.BusinessLayer.Models.User;
 using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DIMS_Core.BusinessLayer.Interfaces.Admin
+namespace DIMS_Core.BusinessLayer.Interfaces
 {
-    public interface IUserProfileViewService
+    public interface IVUserProfileService
     {
         Task<IEnumerable<VUserProfileModel>> GetAllUserProfileViews();
         Task<VUserProfileModel> GetUserProfileViewById(int userId);

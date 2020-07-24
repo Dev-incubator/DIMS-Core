@@ -8,9 +8,9 @@ namespace DIMS_Core.Controllers
     [Route("account")]
     public class AccountController : Controller
     {
-        private readonly IUserService userService;
+        private readonly IUserIdentityService userService;
 
-        public AccountController(IUserService userService)
+        public AccountController(IUserIdentityService userService)
         {
             this.userService = userService;
         }

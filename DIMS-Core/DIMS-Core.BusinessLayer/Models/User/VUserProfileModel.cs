@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace DIMS_Core.BusinessLayer.Models.Admin
+namespace DIMS_Core.BusinessLayer.Models.User
 {
     public class VUserProfileModel
     {
