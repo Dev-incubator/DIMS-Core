@@ -1,5 +1,6 @@
 ﻿using DIMS_Core.DataAccessLayer.Context;
 using DIMS_Core.DataAccessLayer.Entities;
+using DIMS_Core.DataAccessLayer.Interfaces;
 using DIMS_Core.DataAccessLayer.Repositories;
 using DIMS_Core.Tests.DAL.Mocks;
 using Microsoft.EntityFrameworkCore;
@@ -17,26 +18,30 @@ namespace DIMS_Core.Tests.DAL
         private List<TaskState> _DbSetList;
         private Mock<DIMSCoreDatabaseContext> _DbMock;
         private Mock<DbSet<TaskState>> _DbSetTaskStateMock;
+        private ITaskStateRepository taskStateRepository;
+
+        public TaskStateRepositoryTest()
+        {
+            InitializeDbMock();
+            taskStateRepository = new TaskStateRepository(_DbMock.Object);
+        }
 
         [Test]
         public void GetAllFromRepository()
         {
-            InitializeDbWithThreeObjects();
-            var repository = new TaskStateRepository(_DbMock.Object);
-            var res = repository.GetAll();
-            Assert.IsTrue(res.Count() == 3);
+            var res = taskStateRepository.GetAll();
+            Assert.IsTrue(res.Count() == _DbSetList.Count);
         }
 
         [Test]
         public async Task CreateNewEntity()
         {
-            InitializeDbWithThreeObjects();
             TaskState TaskState = new TaskState
             {
                 StateName = "Other state"
             };
-            var repository = new TaskStateRepository(_DbMock.Object);
-            await repository.CreateAsync(TaskState);
+
+            await taskStateRepository.CreateAsync(TaskState);
             _DbSetTaskStateMock.Verify(db => db.AddAsync(It.IsAny<TaskState>(), It.IsAny<CancellationToken>()), Times.Once);
         }
 
@@ -44,10 +49,8 @@ namespace DIMS_Core.Tests.DAL
         [TestCase(1)]
         public async Task DeleteExistingElement(int id)
         {
-            InitializeDbWithThreeObjects();
             _DbSetTaskStateMock.Setup(m => m.FindAsync(It.IsAny<int>())).ReturnsAsync(() => _DbSetList.SingleOrDefault(d => d.StateId == id));
-            var repository = new TaskStateRepository(_DbMock.Object);
-            await repository.DeleteAsync(id);
+            await taskStateRepository.DeleteAsync(id);
             _DbSetTaskStateMock.Verify(m => m.Remove(It.IsAny<TaskState>()), Times.Once);
         }
 
@@ -55,10 +58,8 @@ namespace DIMS_Core.Tests.DAL
         [TestCase(-300)]
         public async Task GetByIdNotExisting(int id)
         {
-            InitializeDbWithThreeObjects();
             _DbSetTaskStateMock.Setup(m => m.FindAsync(It.IsAny<int>())).ReturnsAsync(() => _DbSetList.SingleOrDefault(d => d.StateId == id));
-            var repository = new TaskStateRepository(_DbMock.Object);
-            var res = await repository.GetByIdAsync(id);
+            var res = await taskStateRepository.GetByIdAsync(id);
             Assert.IsNull(res);
         }
 
@@ -66,14 +67,12 @@ namespace DIMS_Core.Tests.DAL
         [TestCase(1)]
         public async Task GetByIdExisting(int id)
         {
-            InitializeDbWithThreeObjects();
             _DbSetTaskStateMock.Setup(m => m.FindAsync(It.IsAny<int>())).ReturnsAsync(() => _DbSetList.SingleOrDefault(d => d.StateId == id));
-            var repository = new TaskStateRepository(_DbMock.Object);
-            var res = await repository.GetByIdAsync(id);
-            Assert.AreEqual(_DbSetList.ElementAt(id - 1), res);
+            var res = await taskStateRepository.GetByIdAsync(id);
+            Assert.IsTrue(res.StateId == id);
         }
 
-        private void InitializeDbWithThreeObjects()
+        private void InitializeDbMock()
         {
             _DbSetList = new List<TaskState>()
             {
