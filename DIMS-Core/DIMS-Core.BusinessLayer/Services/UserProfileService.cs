@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using DIMS_Core.BusinessLayer.Interfaces;
-using DIMS_Core.BusinessLayer.Models.User;
+using DIMS_Core.BusinessLayer.Models.BaseModels;
 using DIMS_Core.DataAccessLayer.Interfaces;
 using System;
 using System.Collections.Generic;

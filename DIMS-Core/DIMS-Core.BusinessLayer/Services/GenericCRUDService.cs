@@ -1,17 +1,12 @@
 ﻿using AutoMapper;
-using DIMS_Core.DataAccessLayer.Interfaces;
 using DIMS_Core.BusinessLayer.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Linq;
+using DIMS_Core.BusinessLayer.Models.BaseModels;
+using DIMS_Core.DataAccessLayer.Interfaces;
 using System.Threading.Tasks;
-using DIMS_Core.DataAccessLayer.Context;
-using DIMS_Core.BusinessLayer.Models;
 
 namespace DIMS_Core.BusinessLayer.Services
 {
-    public abstract class GenericCRUDService<TEntity, DefaultDTOModel>:IGenericCRUDService<DefaultDTOModel> where TEntity:class where DefaultDTOModel:BaseDTOModel
+    public abstract class GenericCRUDService<TEntity, DefaultDTOModel> : IGenericCRUDService<DefaultDTOModel> where TEntity : class where DefaultDTOModel : BaseDTOModel
     {
         protected readonly IUnitOfWork unitOfWork;
         protected readonly IMapper mapper;
@@ -61,13 +56,12 @@ namespace DIMS_Core.BusinessLayer.Services
             await unitOfWork.SaveAsync();
         }
 
-
         public async Task Update(DefaultDTOModel model)
         {
             await Update<DefaultDTOModel>(model);
         }
 
-        public async Task Update<DTOModel>(DTOModel model) where DTOModel:BaseDTOModel
+        public async Task Update<DTOModel>(DTOModel model) where DTOModel : BaseDTOModel
         {
             if (model is null)
             {

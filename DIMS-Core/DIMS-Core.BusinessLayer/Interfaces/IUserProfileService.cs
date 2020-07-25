@@ -1,4 +1,4 @@
-﻿using DIMS_Core.BusinessLayer.Models.User;
+﻿using DIMS_Core.BusinessLayer.Models.BaseModels;
 using System.Threading.Tasks;
 
 namespace DIMS_Core.BusinessLayer.Interfaces

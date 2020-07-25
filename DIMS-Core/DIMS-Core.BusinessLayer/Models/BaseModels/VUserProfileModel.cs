@@ -1,17 +1,16 @@
 ﻿using System;
 
-namespace DIMS_Core.BusinessLayer.Models.User
+namespace DIMS_Core.BusinessLayer.Models.BaseModels
 {
-    public class UserProfileModel : BaseDTOModel
+    public class VUserProfileModel : BaseDTOModel
     {
         public int UserId { get; set; }
-        public int? DirectionId { get; set; }
-        public string Name { get; set; }
+        public string FullName { get; set; }
         public string Email { get; set; }
-        public string LastName { get; set; }
+        public string Direction { get; set; }
         public string Sex { get; set; }
         public string Education { get; set; }
-        public DateTime? BirthDate { get; set; }
+        public int? Age { get; set; }
         public double? UniversityAverageScore { get; set; }
         public double? MathScore { get; set; }
         public string Address { get; set; }
