@@ -12,6 +12,6 @@ namespace DIMS_Core.BusinessLayer.Services
         {
         }
 
-        protected override IRepository<VUserTask> BaseRepository => unitOfWork.VUserTaskRepository;
+        private protected override IRepository<VUserTask> BaseRepository => unitOfWork.VUserTaskRepository;
     }
 }
