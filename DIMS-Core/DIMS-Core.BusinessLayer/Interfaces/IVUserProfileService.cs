@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace DIMS_Core.BusinessLayer.Interfaces
 {
-    public interface IVUserProfileService:IGenericCRUDService
+    public interface IVUserProfileService : IGenericCRUDService<VUserProfileModel>
     {
         Task<IEnumerable<VUserProfileModel>> GetAllUserProfileViews();
         Task<VUserProfileModel> GetUserProfileViewById(int userId);

@@ -7,33 +7,26 @@ using System.Text;
 using System.Linq;
 using System.Threading.Tasks;
 using DIMS_Core.DataAccessLayer.Context;
-using a = DIMS_Core.DataAccessLayer.Entities.VUserProfile;
+using DIMS_Core.BusinessLayer.Models;
 
 namespace DIMS_Core.BusinessLayer.Services
 {
-    public abstract class GenericCRUDService<TEntity>:IGenericCRUDService where TEntity:class
+    public abstract class GenericCRUDService<TEntity, DefaultDTOModel>:IGenericCRUDService<DefaultDTOModel> where TEntity:class where DefaultDTOModel:BaseDTOModel
     {
         protected readonly IUnitOfWork unitOfWork;
         protected readonly IMapper mapper;
 
-        private readonly IRepository<TEntity> baseRepository;
+        private protected abstract IRepository<TEntity> BaseRepository { get; }
 
         public GenericCRUDService(IUnitOfWork unitOfWork, IMapper mapper)
         {
             this.unitOfWork = unitOfWork;
             this.mapper = mapper;
-            var property = unitOfWork.GetType().GetProperties().FirstOrDefault(p=>typeof(IRepository<TEntity>).IsAssignableFrom(p.PropertyType));
-            baseRepository = (IRepository<TEntity>)property.GetValue(unitOfWork);
         }
 
-        public Task Create<TModel>(TModel model)
+        public async Task<DefaultDTOModel> GetEntityModel(int id)
         {
-            throw new NotImplementedException();
-        }
-
-        public Task Delete<TModel>(int id)
-        {
-            throw new NotImplementedException();
+            return await GetEntityModel<DefaultDTOModel>(id);
         }
 
         public async Task<TModel> GetEntityModel<TModel>(int id)
@@ -43,15 +36,68 @@ namespace DIMS_Core.BusinessLayer.Services
                 return default;
             }
 
-            var entity = await baseRepository.GetByIdAsync(id);
+            var entity = await BaseRepository.GetByIdAsync(id);
             var model = mapper.Map<TModel>(entity);
 
             return model;
         }
 
-        public Task Update<TModel>(TModel model)
+        public async Task Create(DefaultDTOModel model)
         {
-            throw new NotImplementedException();
+            await Create<DefaultDTOModel>(model);
+        }
+
+        public async Task Create<TModel>(TModel model)
+        {
+            if (model is null)
+            {
+                return;
+            }
+
+            var entity = mapper.Map<TEntity>(model);
+
+            await BaseRepository.CreateAsync(entity);
+
+            await unitOfWork.SaveAsync();
+        }
+
+
+        public async Task Update(DefaultDTOModel model)
+        {
+            await Update<DefaultDTOModel>(model);
+        }
+
+        public async Task Update<DTOModel>(DTOModel model) where DTOModel:BaseDTOModel
+        {
+            if (model is null)
+            {
+                return;
+            }
+
+            var entity = await BaseRepository.GetByIdAsync(model.PKId);
+
+            if (entity is null)
+            {
+                return;
+            }
+
+            var mappedEntity = mapper.Map(model, entity);
+
+            BaseRepository.Update(mappedEntity);
+
+            await unitOfWork.SaveAsync();
+        }
+
+        public async Task Delete(int id)
+        {
+            if (id <= 0)
+            {
+                return;
+            }
+
+            await BaseRepository.DeleteAsync(id);
+
+            await unitOfWork.SaveAsync();
         }
     }
 }
