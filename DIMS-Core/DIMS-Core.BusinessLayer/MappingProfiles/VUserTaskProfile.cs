@@ -4,11 +4,11 @@ using DIMS_Core.DataAccessLayer.Entities;
 
 namespace DIMS_Core.BusinessLayer.MappingProfiles
 {
-    public class VUserProfileProfile : Profile
+    public class VUserTaskProfile : Profile
     {
-        public VUserProfileProfile()
+        public VUserTaskProfile()
         {
-            CreateMap<VUserProfile, VUserProfileModel>().ReverseMap();
+            CreateMap<VUserTask, VUserTaskModel>().ReverseMap();
         }
     }
 }

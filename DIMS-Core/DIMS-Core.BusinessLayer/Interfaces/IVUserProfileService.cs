@@ -1,4 +1,4 @@
-﻿using DIMS_Core.BusinessLayer.Models.User;
+﻿using DIMS_Core.BusinessLayer.Models.BaseModels;
 using System;
 using System.Collections.Generic;
 using System.Text;

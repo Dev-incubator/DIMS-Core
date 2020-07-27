@@ -2,7 +2,7 @@
 
 namespace DIMS_Core.BusinessLayer.Interfaces
 {
-    public interface IUserProfileService : IGenericCRUDService<UserProfileModel>
+    public interface ITaskTrackService : IGenericCRUDService<TaskTrackModel>
     {
     }
 }
