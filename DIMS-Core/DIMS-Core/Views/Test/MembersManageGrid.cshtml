@@ -1,4 +1,4 @@
-﻿
+﻿@model DIMS_Core.Models.MembersGridViewModel;
 @{
     ViewData["Title"] = "MembersManageGrid";
 }
@@ -18,28 +18,37 @@
             </tr>
         </thread>
         <tbody>
-            <tr>
-                <th scope="row">1</th>
-                <td>Vasya Pip</td>
-                <td>JAVA</td>
-                <td>None</td>
-                <td>21.21.2010</td>
-                <td>30</td>
-                <td>
-                    <button class="btn-info">
-                        Progress
-                    </button>
-                    <button class="btn-info">
-                        Tasks
-                    </button>
-                    <button class="btn-warning">
-                        Edit
-                    </button>
-                    <button class="btn-danger">
-                        Delete
-                    </button>
-                </td>
-            </tr>
+            @if (Model?.vUserProfileViewModels != null)
+            {
+                foreach (var vUser in Model.vUserProfileViewModels)
+                {
+                    <tr>
+                        <th scope="row">1</th>
+                        <td>@vUser.FullName</td>
+                        <td>@vUser.Direction</td>
+                        <td>@vUser.Education</td>
+                        <td>@vUser.StartDate.ToShortDateString()</td>
+                        <td>@vUser.Age</td>
+                        <td>
+                            <button class="btn-info">
+                                Progress
+                            </button>
+                            <button class="btn-info">
+                                Tasks
+                            </button>
+                            @if (User.IsInRole("Admin"))
+                            {
+                                <button class="btn-warning">
+                                    Edit
+                                </button>
+                                <button class="btn-danger">
+                                    Delete
+                                </button>
+                            }
+                        </td>
+                    </tr>
+                }
+            }
         </tbody>
     </table>
 </div>

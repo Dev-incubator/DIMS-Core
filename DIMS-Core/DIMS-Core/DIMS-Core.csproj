@@ -8,9 +8,13 @@
 
   <ItemGroup>
     <Compile Remove="logs\**" />
+    <Compile Remove="Models\User\**" />
     <Content Remove="logs\**" />
+    <Content Remove="Models\User\**" />
     <EmbeddedResource Remove="logs\**" />
+    <EmbeddedResource Remove="Models\User\**" />
     <None Remove="logs\**" />
+    <None Remove="Models\User\**" />
   </ItemGroup>
 
   <ItemGroup>
@@ -45,7 +49,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Models\User\" />
     <Folder Include="wwwroot\bundle\js\" />
     <Folder Include="wwwroot\bundle\css\" />
   </ItemGroup>
