@@ -2,18 +2,15 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using DIMS_Core.BusinessLayer.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DIMS_Core.Controllers
 {
     public class TestController : Controller
     {
-        //<a asp-action="Index">Action list</a>
-        //<a asp-action= "Members" > Members manage grid</a>
-        //<a asp-action= "MemberProgress" > MemberProgress manage grid</a>
-        //<a asp-action= "MembersTasks" > Memeber's Tasks manage grid</a>
-        //<a asp-action= "Tasks" > Tasks manage grid</a>
-        //<a asp-action= "TaskTracks" > TaskTracks manage grid</a>
+        private readonly IUserProfileService userProfileService;
+        private readonly IVUserProfileService vUserProfileService;
         public IActionResult Index()
         {
             return View();
