@@ -30,15 +30,6 @@ namespace DIMS_Core.Controllers
             return View();
         }
 
-        //[Authorize(Roles ="Admin, Mentor")]
-        //public async Task<IActionResult> MembersManageGrid()
-        //{
-        //    MembersGridViewModel model = new MembersGridViewModel();
-        //    var vUserProfiles = await vUserProfileService.GetAllUserProfileViews();
-        //    model.vUserProfileViewModels = mapper.Map<IEnumerable<vUserProfileViewModel>>(vUserProfiles);
-        //    return View(model);
-        //}
-
         public IActionResult MemberProgressGrid()
         {
             return View();

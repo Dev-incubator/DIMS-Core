@@ -33,5 +33,10 @@ namespace DIMS_Core.Controllers
             model.vUserProfileViewModels = mapper.Map<IEnumerable<vUserProfileViewModel>>(vUserProfiles);
             return View(model);
         }
+
+        public async Task<IActionResult> EditMember(int UserId)
+        {
+            return Content($"{UserId}");
+        }
     }
 }

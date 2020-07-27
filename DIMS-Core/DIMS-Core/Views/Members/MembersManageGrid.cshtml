@@ -26,7 +26,7 @@
                     i++;
                     <tr>
                         <th scope="row">@i</th>
-                        <td>@vUser.FullName</td>
+                        <td>@Html.ActionLink(vUser.FullName, "EditMember", "Members", new { UserId = vUser.UserId })</td>
                         <td>@vUser.Direction</td>
                         <td>@vUser.Education</td>
                         <td>@vUser.StartDate.ToShortDateString()</td>
@@ -40,10 +40,10 @@
                             </button>
                             @if (User.IsInRole("Admin"))
                             {
-                                <button class="btn-warning">
+                                <button data-id="@vUser.UserId" name="edit" class="btn-warning">
                                     Edit
                                 </button>
-                                <button class="btn-danger">
+                                <button data-id="@vUser.UserId" name="delete" class="btn-danger">
                                     Delete
                                 </button>
                             }
@@ -54,3 +54,29 @@
         </tbody>
     </table>
 </div>
+<div id="modal" class="modal fade">
+<div id="dialogContent" class="modal-dialog"></div>
+</div>
+
+@section Scripts{
+    <script type="text/javascript">
+
+        $(function () {
+            $.ajaxSetup({ cache: false });
+            $('table a').click(function (e) {
+                e.preventDefault();
+                $.get(this.href, function (data) {
+                    $('#dialogContent').html(data);
+                    $('#modal').modal('show');
+                });
+            });
+
+            $('[name = edit]').click(function (e) {
+                $.get('/Members/EditMember/', { UserId: this.getAttribute('data-id') }).done( function (data) {
+                    $('#dialogContent').html(data);
+                    $('#modal').modal('show');
+                });
+            });
+        })
+    </script>
+ }
