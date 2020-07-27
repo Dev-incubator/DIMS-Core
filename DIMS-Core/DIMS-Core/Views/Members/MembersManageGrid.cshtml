@@ -20,10 +20,12 @@
         <tbody>
             @if (Model?.vUserProfileViewModels != null)
             {
+                int i = 0;
                 foreach (var vUser in Model.vUserProfileViewModels)
                 {
+                    i++;
                     <tr>
-                        <th scope="row">1</th>
+                        <th scope="row">@i</th>
                         <td>@vUser.FullName</td>
                         <td>@vUser.Direction</td>
                         <td>@vUser.Education</td>

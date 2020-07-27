@@ -1,17 +1,14 @@
 ﻿using AutoMapper;
 using DIMS_Core.BusinessLayer.Models.BaseModels;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using DIMS_Core.Models;
 
 namespace DIMS_Core.MappingProfiles
 {
-    public class vUserProfileViewModelProfile:Profile
+    public class vUserProfileViewModelProfile : Profile
     {
         public vUserProfileViewModelProfile()
         {
-            CreateMap<VUserProfileModel, vUserProfileViewModelProfile>();
+            CreateMap<VUserProfileModel, vUserProfileViewModel>();
         }
     }
 }
