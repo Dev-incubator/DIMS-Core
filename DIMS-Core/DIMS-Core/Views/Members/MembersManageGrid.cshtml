@@ -33,7 +33,7 @@
                         <td>@vUser.Age</td>
                         <td>
                             <button class="btn-info">
-                                @Html.ActionLink("Progress", "MemberProgressGrid", "Progress", new { UserId = vUser.UserId }, new { name="progress" })
+                                @Html.ActionLink("Progress", "MemberProgressGrid", "TaskManager", new { UserId = vUser.UserId }, new { name="progress" })
                             </button>
                             <button class="btn-info">
                                 Tasks
@@ -43,7 +43,7 @@
                                 <button data-id="@vUser.UserId" name="edit" class="btn-warning">
                                     Edit
                                 </button>
-                                <button class="btn-danger"> @*Need modal window*@
+                                <button class="btn-danger">
                                     @Html.ActionLink("Delete", "Delete", "Members", new { UserId = vUser.UserId })
                                 </button>
                             }
@@ -63,7 +63,7 @@
 
         $(function () {
             $.ajaxSetup({ cache: false });
-            $('table a:not[name = progress]').click(function (e) {
+            $("table a").click(function (e) {
                 e.preventDefault();
                 $.get(this.href, function (data) {
                     $('#dialogContent').html(data);
@@ -71,13 +71,15 @@
                 });
             });
 
-            $('[name = edit]').click(function (e) {
+            $("[name = edit]").click(function (e) {
+                e.preventDefault();
+                alert("!");
                 $.get('/Members/EditMember/', { UserId: this.getAttribute('data-id') }).done(function (data) {
                     $('#dialogContent').html(data);
                     $('#modal').modal('show');
                 });
             });
 
-        })
+        });
     </script>
 }

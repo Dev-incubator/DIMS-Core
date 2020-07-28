@@ -31,7 +31,7 @@ else
                     {
                         i++;
                         <th scope="row">@i</th>
-                        <td>@Html.ActionLink(up.TaskName, "EditTask", "Progress", new { TaskId = up.TaskId })</td>
+                        <td>@Html.ActionLink(up.TaskName, "EditTask", "TaskManager", new { TaskId = up.TaskId })</td>
                         <td>@up.TrackNote</td>
                         <td>@up.TrackDate</td>
                     }
@@ -47,7 +47,6 @@ else
 
 @section Scripts{
     <script type="text/javascript">
-
         $(function () {
             $.ajaxSetup({ cache: false });
             $('table a').click(function (e) {
