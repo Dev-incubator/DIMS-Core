@@ -43,8 +43,8 @@
                                 <button data-id="@vUser.UserId" name="edit" class="btn-warning">
                                     Edit
                                 </button>
-                                <button data-id="@vUser.UserId" name="delete" class="btn-danger">
-                                    Delete
+                                <button class="btn-danger">
+                                    @Html.ActionLink("Delete", "Delete", "Members", new { UserId = vUser.UserId })
                                 </button>
                             }
                         </td>
@@ -55,7 +55,7 @@
     </table>
 </div>
 <div id="modal" class="modal fade">
-<div id="dialogContent" class="modal-dialog"></div>
+    <div id="dialogContent" class="modal-dialog"></div>
 </div>
 
 @section Scripts{
@@ -72,11 +72,12 @@
             });
 
             $('[name = edit]').click(function (e) {
-                $.get('/Members/EditMember/', { UserId: this.getAttribute('data-id') }).done( function (data) {
+                $.get('/Members/EditMember/', { UserId: this.getAttribute('data-id') }).done(function (data) {
                     $('#dialogContent').html(data);
                     $('#modal').modal('show');
                 });
             });
+
         })
     </script>
- }
+}

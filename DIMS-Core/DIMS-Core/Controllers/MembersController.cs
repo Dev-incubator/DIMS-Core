@@ -39,6 +39,7 @@ namespace DIMS_Core.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> EditMember(int UserId)
         {
             var userProfile = await userProfileService.GetEntityModel(UserId);
@@ -49,6 +50,7 @@ namespace DIMS_Core.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> SaveChanges(UserProfileEditViewModel model)
         {
             var existingModel = await userProfileService.GetEntityModel(model.UserId);
@@ -61,10 +63,23 @@ namespace DIMS_Core.Controllers
             return RedirectToAction("MembersManageGrid");
         }
 
+        [HttpPost]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> RegistUser()
         {
             return RedirectToAction("MembersManageGrid");
+        }
 
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> Delete(int UserId)
+        {
+            await userProfileService.Delete(UserId);
+            return RedirectToAction("MembersManageGrid");
+        }
+
+        public IActionResult Progress(int UserId)
+        {
+            return null;
         }
     }
 }
