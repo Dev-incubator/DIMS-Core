@@ -1,0 +1,62 @@
+﻿@model IEnumerable<DIMS_Core.BusinessLayer.Models.BaseModels.VUserProgressModel>
+
+@{
+    ViewData["Title"] = "MemberProgressGrid";
+}
+
+@if (Model?.Count() > 0)
+{
+    <h1>@Model.First().UserName's progress</h1>
+}
+else
+{
+    <h1>User not exists</h1>
+}
+<div>
+    <table class="table table-bordered">
+        <thread class="thead-dark">
+            <tr>
+                <th>#</th>
+                <th>Task</th>
+                <th>Note</th>
+                <th>Date</th>
+            </tr>
+        </thread>
+        <tbody>
+            <tr>
+                @if (Model != null &&Model.Count()>0)
+                {
+                    int i = 0;
+                    foreach (var up in Model)
+                    {
+                        i++;
+                        <th scope="row">@i</th>
+                        <td>@Html.ActionLink(up.TaskName, "EditTask", "Progress", new { TaskId = up.TaskId })</td>
+                        <td>@up.TrackNote</td>
+                        <td>@up.TrackDate</td>
+                    }
+                }
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+<div id="modal" class="modal fade">
+    <div id="dialogContent" class="modal-dialog"></div>
+</div>
+
+@section Scripts{
+    <script type="text/javascript">
+
+        $(function () {
+            $.ajaxSetup({ cache: false });
+            $('table a').click(function (e) {
+                e.preventDefault();
+                $.get(this.href, function (data) {
+                    $('#dialogContent').html(data);
+                    $('#modal').modal('show');
+                });
+            });
+        })
+    </script>
+}

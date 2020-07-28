@@ -79,7 +79,7 @@ namespace DIMS_Core.Controllers
 
         public IActionResult Progress(int UserId)
         {
-            return null;
+            return RedirectToAction("MemberProgressGrid", "Progress", UserId);
         }
     }
 }

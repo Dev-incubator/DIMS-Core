@@ -33,7 +33,7 @@
                         <td>@vUser.Age</td>
                         <td>
                             <button class="btn-info">
-                                Progress
+                                @Html.ActionLink("Progress", "MemberProgressGrid", "Progress", new { UserId = vUser.UserId }, new { name="progress" })
                             </button>
                             <button class="btn-info">
                                 Tasks
@@ -43,7 +43,7 @@
                                 <button data-id="@vUser.UserId" name="edit" class="btn-warning">
                                     Edit
                                 </button>
-                                <button class="btn-danger">
+                                <button class="btn-danger"> @*Need modal window*@
                                     @Html.ActionLink("Delete", "Delete", "Members", new { UserId = vUser.UserId })
                                 </button>
                             }
@@ -63,7 +63,7 @@
 
         $(function () {
             $.ajaxSetup({ cache: false });
-            $('table a').click(function (e) {
+            $('table a:not[name = progress]').click(function (e) {
                 e.preventDefault();
                 $.get(this.href, function (data) {
                     $('#dialogContent').html(data);
