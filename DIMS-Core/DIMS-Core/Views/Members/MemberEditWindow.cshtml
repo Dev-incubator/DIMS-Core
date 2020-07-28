@@ -1,0 +1,33 @@
+﻿@model DIMS_Core.Models.UserProfileEditViewModel;
+<form asp-action="SaveChanges" asp-controller="Members" method="post" >
+    <div>
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">@Model.FullName</h5>
+            </div>
+            <div class="modal-body">
+                <div>
+                    <input type="hidden" asp-for="UserId" />
+                    <label>Name</label>
+                    <input type="text" value="@Model.FirstName" asp-for="FirstName" />
+                </div>
+                <div>
+                    <label>Last Name</label>
+                    <input type="text" value="@Model.LastName" asp-for="LastName" />
+                </div>
+                <div>
+                    <label>Direction</label>
+                    @Html.DropDownListFor(Model => Model.DirectionId, ViewBag.directions as SelectList)
+                </div>
+                <div>
+                    <label>MobilePhone</label>
+                    <input type="tel" value="@Model.MobilePhone" asp-for="MobilePhone" />
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="submit" class="btn btn-primary">Save</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Back to grid</button>
+            </div>
+        </div>
+    </div>
+</form>
