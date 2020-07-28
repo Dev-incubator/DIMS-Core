@@ -47,10 +47,9 @@
 
 @section Scripts{
     <script type="text/javascript">
-
         $(function () {
             $.ajaxSetup({ cache: false });
-            $('table a:not[name = delete]').click(function (e) {
+            $('table a:not([name = delete]')).click(function (e) {
                 e.preventDefault();
                 $.get(this.href, function (data) {
                     $('#dialogContent').html(data);

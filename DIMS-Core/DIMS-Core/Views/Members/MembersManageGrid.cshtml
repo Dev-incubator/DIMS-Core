@@ -33,7 +33,7 @@
                         <td>@vUser.Age</td>
                         <td>
                             <button class="btn-info">
-                                @Html.ActionLink("Progress", "MemberProgressGrid", "TaskManager", new { UserId = vUser.UserId }, new { name="progress" })
+                                @Html.ActionLink("Progress", "MemberProgressGrid", "TaskManager", new { UserId = vUser.UserId }, new { @name="progress" })
                             </button>
                             <button class="btn-info">
                                 Tasks
@@ -63,7 +63,7 @@
 
         $(function () {
             $.ajaxSetup({ cache: false });
-            $("table a").click(function (e) {
+            $('table a:not([name=progress])').click(function (e) {
                 e.preventDefault();
                 $.get(this.href, function (data) {
                     $('#dialogContent').html(data);
@@ -73,7 +73,6 @@
 
             $("[name = edit]").click(function (e) {
                 e.preventDefault();
-                alert("!");
                 $.get('/Members/EditMember/', { UserId: this.getAttribute('data-id') }).done(function (data) {
                     $('#dialogContent').html(data);
                     $('#modal').modal('show');
