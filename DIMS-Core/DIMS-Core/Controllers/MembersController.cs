@@ -71,10 +71,18 @@ namespace DIMS_Core.Controllers
         }
 
         [Authorize(Roles = "Admin")]
-        public async Task<IActionResult> Delete(int UserId)
+        [HttpGet]
+        public async Task<IActionResult> Delete(int UserId, string FullName)
         {
-            await userProfileService.Delete(UserId);
+            DeleteUserViewModel model = new DeleteUserViewModel(UserId, FullName);
+            return PartialView("DeleteWindow", model);
+        }
+
+        [HttpPost]
+        private async Task<IActionResult> DeleteConfirm(DeleteUserViewModel model)
+        {
             return RedirectToAction("MembersManageGrid");
+            await userProfileService.Delete(model.UserId);
         }
 
         public IActionResult Progress(int UserId)
