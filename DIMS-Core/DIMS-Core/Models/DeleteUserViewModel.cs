@@ -5,6 +5,10 @@
         public int UserId { get; set; }
         public string FullName { get; set; }
 
+        public DeleteUserViewModel()
+        {
+        }
+
         public DeleteUserViewModel(int UserId, string FullName)
         {
             this.UserId = UserId;

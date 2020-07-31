@@ -1,14 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using AutoMapper;
+﻿using AutoMapper;
 using DIMS_Core.BusinessLayer.Interfaces;
 using DIMS_Core.BusinessLayer.Models.BaseModels;
 using DIMS_Core.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace DIMS_Core.Controllers
 {
@@ -19,6 +17,7 @@ namespace DIMS_Core.Controllers
         private readonly IVUserProfileService vUserProfileService;
         private readonly IVUserProgressService vUserProgressService;
         private readonly IDirectionService directionService;
+
         public MembersController(IUserProfileService userProfileService, IVUserProfileService vUserProfileService, IVUserProgressService vUserProgressService,
             IDirectionService directionService, IMapper mapper)
         {
@@ -40,12 +39,18 @@ namespace DIMS_Core.Controllers
 
         [HttpGet]
         [Authorize(Roles = "Admin")]
-        public async Task<IActionResult> EditMember(int UserId)
+        public async Task<IActionResult> EditMember(int? UserId)
         {
-            var userProfile = await userProfileService.GetEntityModel(UserId);
-            var mappedProfile = mapper.Map<UserProfileEditViewModel>(userProfile);
             var directions = await directionService.GetAll();
-            ViewBag.directions = new SelectList(directions , "DirectionId", "Name");
+            ViewBag.directions = new SelectList(directions, "DirectionId", "Name");
+
+            if (UserId is null)
+            {
+                return PartialView("MemberEditWindow", new UserProfileEditViewModel());
+            }
+
+            var userProfile = await userProfileService.GetEntityModel(UserId.Value);
+            var mappedProfile = mapper.Map<UserProfileEditViewModel>(userProfile);
             return PartialView("MemberEditWindow", mappedProfile);
         }
 
@@ -53,36 +58,41 @@ namespace DIMS_Core.Controllers
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> SaveChanges(UserProfileEditViewModel model)
         {
-            var existingModel = await userProfileService.GetEntityModel(model.UserId);
-            var userProfileModel = mapper.Map<UserProfileModel>(model);
-            existingModel.Name = userProfileModel.Name;
-            existingModel.LastName = userProfileModel.LastName;
-            existingModel.DirectionId = userProfileModel.DirectionId;
-            existingModel.MobilePhone = userProfileModel.MobilePhone;
-            await userProfileService.Update(existingModel);
+            if (model.UserId is null)
+            {
+                await RegistUser(model);
+            }
+            else
+            {
+                var existingModel = await userProfileService.GetEntityModel(model.UserId.Value);
+                mapper.Map(model, existingModel);
+                await userProfileService.Update(existingModel);
+            }
+
             return RedirectToAction("MembersManageGrid");
         }
 
-        [HttpPost]
         [Authorize(Roles = "Admin")]
-        public async Task<IActionResult> RegistUser()
+        private async Task RegistUser(UserProfileEditViewModel model)
         {
-            return RedirectToAction("MembersManageGrid");
+            var userProfileModel = mapper.Map<UserProfileModel>(model);
+            await userProfileService.Create(userProfileModel);
         }
 
-        [Authorize(Roles = "Admin")]
         [HttpGet]
-        public async Task<IActionResult> Delete(int UserId, string FullName)
+        [Authorize(Roles = "Admin")]
+        public IActionResult Delete(int UserId, string FullName)
         {
             DeleteUserViewModel model = new DeleteUserViewModel(UserId, FullName);
             return PartialView("DeleteWindow", model);
         }
 
         [HttpPost]
-        private async Task<IActionResult> DeleteConfirm(DeleteUserViewModel model)
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> DeleteConfirm(DeleteUserViewModel model)
         {
-            return RedirectToAction("MembersManageGrid");
             await userProfileService.Delete(model.UserId);
+            return RedirectToAction("MembersManageGrid");
         }
 
         public IActionResult Progress(int UserId)
