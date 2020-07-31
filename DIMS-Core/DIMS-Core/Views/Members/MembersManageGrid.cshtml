@@ -63,7 +63,7 @@
 
         $(function () {
             $.ajaxSetup({ cache: false });
-            $('table a:not([name=progress])').click(function (e) {
+            $('main a:not([name=progress])').click(function (e) {
                 e.preventDefault();
                 $.get(this.href, function (data) {
                     $('#dialogContent').html(data);
