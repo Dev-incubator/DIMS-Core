@@ -3,6 +3,8 @@ using Moq;
 using System.Collections.Generic;
 using System.Data.Entity.Infrastructure;
 using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace DIMS_Core.Tests.DAL.Mocks
 {
@@ -17,6 +19,9 @@ namespace DIMS_Core.Tests.DAL.Mocks
             dbSetMock.As<IQueryable<T>>().Setup(m => m.Expression).Returns(elementsAsQueryable.Expression);
             dbSetMock.As<IQueryable<T>>().Setup(m => m.ElementType).Returns(elementsAsQueryable.ElementType);
             dbSetMock.As<IQueryable<T>>().Setup(m => m.GetEnumerator()).Returns(elementsAsQueryable.GetEnumerator());
+            dbSetMock.Setup(m => m.Add(It.IsAny<T>())).Callback((T elem) => elements.ToList().Add(elem));
+            dbSetMock.Setup(m => m.AddAsync(It.IsAny<T>(), It.IsAny<CancellationToken>()))
+                .Callback((T elem, CancellationToken token) => elementsAsQueryable.ToList().Add(elem));
 
             return dbSetMock;
         }
