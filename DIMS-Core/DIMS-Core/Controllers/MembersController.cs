@@ -33,7 +33,7 @@ namespace DIMS_Core.Controllers
         public async Task<IActionResult> MembersManageGrid()
         {
             MembersGridViewModel model = new MembersGridViewModel();
-            var vUserProfiles = await vUserProfileService.GetAllUserProfileViews();
+            var vUserProfiles = await vUserProfileService.GetAll();
             model.vUserProfileViewModels = mapper.Map<IEnumerable<vUserProfileViewModel>>(vUserProfiles);
             return View(model);
         }

@@ -12,14 +12,16 @@ namespace DIMS_Core.Controllers
     public class TaskManagerController : Controller
     {
         ITaskService taskService;
+        IVTaskService vTaskService;
         IVUserProgressService vUserProgressService;
         IMapper mapper;
 
-        public TaskManagerController( IMapper mapper, IVUserProgressService vUserProgressService, ITaskService taskService)
+        public TaskManagerController( IMapper mapper, IVUserProgressService vUserProgressService, ITaskService taskService, IVTaskService vTaskService)
         {
             this.mapper = mapper;
             this.vUserProgressService = vUserProgressService;
             this.taskService = taskService;
+            this.vTaskService = vTaskService;
         }
 
         [HttpGet]
@@ -36,7 +38,8 @@ namespace DIMS_Core.Controllers
 
         public async Task<IActionResult> TasksManageGrid()
         {
-            return View(new List<VTaskModel> { });
+            IEnumerable<VTaskModel> taskModels = await vTaskService.GetAll();
+            return View(taskModels);
         }
 
         public async Task<IActionResult> EditTask(int? TaskId)
@@ -47,7 +50,7 @@ namespace DIMS_Core.Controllers
                 return PartialView("TaskEditWindow", model);
             }
 
-            return PartialView("TaskEditWindow");
+            return PartialView("TaskEditWindow", new TaskModel());
         }
 
         public async Task<IActionResult> DeleteTask(int TaskId)
