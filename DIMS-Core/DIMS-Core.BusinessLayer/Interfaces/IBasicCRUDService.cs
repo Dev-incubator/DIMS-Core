@@ -1,10 +1,14 @@
 ﻿using DIMS_Core.BusinessLayer.Models.BaseModels;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace DIMS_Core.BusinessLayer.Interfaces
 {
-    public interface IGenericCRUDService<DefaultDTOModel> where DefaultDTOModel : BaseDTOModel
+    public interface IBasicCRUDService<DefaultDTOModel> where DefaultDTOModel : BaseDTOModel
     {
+        Task<IEnumerable<DefaultDTOModel>> GetAll();
+        Task<IEnumerable<T>> GetAll<T>();
+
         Task<DefaultDTOModel> GetEntityModel(int id);
 
         Task<DTOModel> GetEntityModel<DTOModel>(int id);

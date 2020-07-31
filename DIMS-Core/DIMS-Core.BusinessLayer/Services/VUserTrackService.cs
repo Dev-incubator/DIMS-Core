@@ -6,7 +6,7 @@ using DIMS_Core.DataAccessLayer.Interfaces;
 
 namespace DIMS_Core.BusinessLayer.Services
 {
-    public class VUserTrackService : GenericCRUDService<VUserTrack, VUserTrackModel>, IVUserTrackService
+    public class VUserTrackService : BasicCRUDService<VUserTrack, VUserTrackModel>, IVUserTrackService
     {
         public VUserTrackService(IUnitOfWork unitOfWork, IMapper mapper) : base(unitOfWork, mapper)
         {

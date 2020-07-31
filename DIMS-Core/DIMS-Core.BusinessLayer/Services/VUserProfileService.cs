@@ -9,20 +9,12 @@ using System.Threading.Tasks;
 
 namespace DIMS_Core.BusinessLayer.Services
 {
-    public class VUserProfileService : GenericCRUDService<VUserProfile, VUserProfileModel>, IVUserProfileService
+    public class VUserProfileService : BasicCRUDService<VUserProfile, VUserProfileModel>, IVUserProfileService
     {
         private protected override IRepository<VUserProfile> BaseRepository => unitOfWork.VUserProfileRepository;
 
         public VUserProfileService(IUnitOfWork unitOfWork, IMapper mapper) : base(unitOfWork, mapper)
         {
-        }
-
-        public async Task<IEnumerable<VUserProfileModel>> GetAllUserProfileViews()
-        {
-            var result = unitOfWork.VUserProfileRepository.GetAll();
-            var mappedResult = mapper.ProjectTo<VUserProfileModel>(result);
-
-            return await mappedResult.ToListAsync();
         }
 
         public async Task<VUserProfileModel> GetUserProfileViewById(int userId)

@@ -2,7 +2,7 @@
 
 namespace DIMS_Core.BusinessLayer.Interfaces
 {
-    public interface IVUserProgressService : IGenericCRUDService<VUserProgressModel>
+    public interface IVUserProgressService : IBasicCRUDService<VUserProgressModel>
     {
     }
 }

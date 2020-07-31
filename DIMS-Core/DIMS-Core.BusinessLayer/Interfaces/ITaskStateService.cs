@@ -2,7 +2,7 @@
 
 namespace DIMS_Core.BusinessLayer.Interfaces
 {
-    public interface ITaskStateService : IGenericCRUDService<TaskStateModel>
+    public interface ITaskStateService : IBasicCRUDService<TaskStateModel>
     {
     }
 }

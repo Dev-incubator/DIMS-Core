@@ -2,7 +2,7 @@
 
 namespace DIMS_Core.BusinessLayer.Interfaces
 {
-    public interface IVUserTrackService : IGenericCRUDService<VUserTrackModel>
+    public interface IVUserTrackService : IBasicCRUDService<VUserTrackModel>
     {
     }
 }

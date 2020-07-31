@@ -6,7 +6,7 @@ using DIMS_Core.DataAccessLayer.Interfaces;
 
 namespace DIMS_Core.BusinessLayer.Services
 {
-    public class TaskStateService : GenericCRUDService<TaskState, TaskStateModel>, ITaskStateService
+    public class TaskStateService : BasicCRUDService<TaskState, TaskStateModel>, ITaskStateService
     {
         public TaskStateService(IUnitOfWork unitOfWork, IMapper mapper) : base(unitOfWork, mapper)
         {

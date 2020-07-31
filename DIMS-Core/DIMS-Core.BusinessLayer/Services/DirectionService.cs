@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace DIMS_Core.BusinessLayer.Services
 {
-    public class DirectionService : GenericCRUDService<Direction, DirectionModel>, IDirectionService
+    public class DirectionService : BasicCRUDService<Direction, DirectionModel>, IDirectionService
     {
         public DirectionService(IUnitOfWork unitOfWork, IMapper mapper) : base(unitOfWork, mapper)
         {

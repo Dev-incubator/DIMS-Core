@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 
 namespace DIMS_Core.BusinessLayer.Interfaces
 {
-    public interface IDirectionService : IGenericCRUDService<DirectionModel>
+    public interface IDirectionService : IBasicCRUDService<DirectionModel>
     {
         Task<IEnumerable<DirectionModel>> GetAll();
     }

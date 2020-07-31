@@ -2,7 +2,7 @@
 
 namespace DIMS_Core.BusinessLayer.Interfaces
 {
-    public interface IUserTaskService : IGenericCRUDService<UserTaskModel>
+    public interface IUserTaskService : IBasicCRUDService<UserTaskModel>
     {
     }
 }

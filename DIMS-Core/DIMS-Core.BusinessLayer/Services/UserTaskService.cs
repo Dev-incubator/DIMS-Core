@@ -6,7 +6,7 @@ using DIMS_Core.DataAccessLayer.Interfaces;
 
 namespace DIMS_Core.BusinessLayer.Services
 {
-    public class UserTaskService : GenericCRUDService<UserTask, UserTaskModel>, IUserTaskService
+    public class UserTaskService : BasicCRUDService<UserTask, UserTaskModel>, IUserTaskService
     {
         public UserTaskService(IUnitOfWork unitOfWork, IMapper mapper) : base(unitOfWork, mapper)
         {

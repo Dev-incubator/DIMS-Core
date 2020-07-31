@@ -2,7 +2,7 @@
 
 namespace DIMS_Core.BusinessLayer.Interfaces
 {
-    public interface ITaskService : IGenericCRUDService<TaskModel>
+    public interface ITaskService : IBasicCRUDService<TaskModel>
     {
     }
 }
