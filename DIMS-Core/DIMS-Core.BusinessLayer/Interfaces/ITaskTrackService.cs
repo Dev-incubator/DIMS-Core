@@ -2,7 +2,7 @@
 
 namespace DIMS_Core.BusinessLayer.Interfaces
 {
-    public interface ITaskTrackService : IGenericCRUDService<TaskTrackModel>
+    public interface ITaskTrackService : IBasicCRUDService<TaskTrackModel>
     {
     }
 }

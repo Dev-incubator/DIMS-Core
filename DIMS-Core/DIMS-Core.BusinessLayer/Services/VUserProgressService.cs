@@ -6,7 +6,7 @@ using DIMS_Core.DataAccessLayer.Interfaces;
 
 namespace DIMS_Core.BusinessLayer.Services
 {
-    public class VUserProgressService : GenericCRUDService<VUserProgress, VUserProgressModel>, IVUserProgressService
+    public class VUserProgressService : BasicCRUDService<VUserProgress, VUserProgressModel>, IVUserProgressService
     {
         public VUserProgressService(IUnitOfWork unitOfWork, IMapper mapper) : base(unitOfWork, mapper)
         {

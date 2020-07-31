@@ -6,7 +6,7 @@ using DIMS_Core.DataAccessLayer.Interfaces;
 
 namespace DIMS_Core.BusinessLayer.Services
 {
-    public class UserProfileService : GenericCRUDService<UserProfile, UserProfileModel>, IUserProfileService
+    public class UserProfileService : BasicCRUDService<UserProfile, UserProfileModel>, IUserProfileService
     {
         public UserProfileService(IUnitOfWork unitOfWork, IMapper mapper) : base(unitOfWork, mapper)
         {

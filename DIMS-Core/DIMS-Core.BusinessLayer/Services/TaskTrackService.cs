@@ -6,7 +6,7 @@ using DIMS_Core.DataAccessLayer.Interfaces;
 
 namespace DIMS_Core.BusinessLayer.Services
 {
-    public class TaskTrackService : GenericCRUDService<TaskTrack, TaskTrackModel>, ITaskTrackService
+    public class TaskTrackService : BasicCRUDService<TaskTrack, TaskTrackModel>, ITaskTrackService
     {
         public TaskTrackService(IUnitOfWork unitOfWork, IMapper mapper) : base(unitOfWork, mapper)
         {

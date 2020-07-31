@@ -2,7 +2,7 @@
 
 namespace DIMS_Core.BusinessLayer.Interfaces
 {
-    public interface IDirectionService : IGenericCRUDService<DirectionModel>
+    public interface IDirectionService : IBasicCRUDService<DirectionModel>
     {
     }
 }

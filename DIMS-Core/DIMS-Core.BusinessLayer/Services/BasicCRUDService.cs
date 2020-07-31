@@ -2,18 +2,21 @@
 using DIMS_Core.BusinessLayer.Interfaces;
 using DIMS_Core.BusinessLayer.Models.BaseModels;
 using DIMS_Core.DataAccessLayer.Interfaces;
+using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace DIMS_Core.BusinessLayer.Services
 {
-    public abstract class GenericCRUDService<TEntity, DefaultDTOModel> : IGenericCRUDService<DefaultDTOModel> where TEntity : class where DefaultDTOModel : BaseDTOModel
+    public abstract class BasicCRUDService<TEntity, DefaultDTOModel> : IBasicCRUDService<DefaultDTOModel> where TEntity : class where DefaultDTOModel : BaseDTOModel
     {
         protected readonly IUnitOfWork unitOfWork;
         protected readonly IMapper mapper;
 
         private protected abstract IRepository<TEntity> BaseRepository { get; }
 
-        public GenericCRUDService(IUnitOfWork unitOfWork, IMapper mapper)
+        public BasicCRUDService(IUnitOfWork unitOfWork, IMapper mapper)
         {
             this.unitOfWork = unitOfWork;
             this.mapper = mapper;
@@ -92,6 +95,19 @@ namespace DIMS_Core.BusinessLayer.Services
             await BaseRepository.DeleteAsync(id);
 
             await unitOfWork.SaveAsync();
+        }
+
+        public async Task<IEnumerable<DefaultDTOModel>> GetAll()
+        {
+            return await GetAll<DefaultDTOModel>();
+        }
+
+        public async Task<IEnumerable<T>> GetAll<T>()
+        {
+            var allEntities = BaseRepository.GetAll();
+            var allModels = mapper.ProjectTo<T>(allEntities);
+
+            return await allModels.ToListAsync();
         }
     }
 }
