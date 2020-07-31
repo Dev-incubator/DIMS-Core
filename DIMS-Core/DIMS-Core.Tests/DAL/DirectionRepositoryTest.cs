@@ -31,12 +31,13 @@ namespace DIMS_Core.Tests.DAL
         {
             Direction direction = new Direction
             {
+                DirectionId = 5,
                 Name = "C++",
                 Description = "none"
             };
 
             await directionRepository.CreateAsync(direction);
-            _DbSetDirectionMock.Verify(db => db.AddAsync(It.IsAny<Direction>(), It.IsAny<CancellationToken>()), Times.Once);
+            Assert.NotNull(_DbSetDirectionMock.Object.FirstOrDefault(d=>d.DirectionId==direction.DirectionId));
         }
 
         [Test]
