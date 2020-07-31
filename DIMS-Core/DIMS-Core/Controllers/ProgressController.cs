@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace DIMS_Core.Controllers
 {
-    public class TrackManagerController : Controller
+    public class ProgressController : Controller
     {
         public IActionResult MembersTasksManageGrid()
         {
