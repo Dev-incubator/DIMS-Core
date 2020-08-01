@@ -40,15 +40,6 @@ namespace DIMS_Core.Tests.DAL
         }
 
         [Test]
-        [TestCase(1)]
-        public async Task DeleteExistingElement(int id)
-        {
-            _DbSetDirectionMock.Setup(m => m.FindAsync(It.IsAny<int>())).ReturnsAsync(() => _DbSetList.SingleOrDefault(d => d.DirectionId == id));
-            await directionRepository.DeleteAsync(id);
-            Assert.IsNull(await _DbSetDirectionMock.Object.FindAsync(id));
-        }
-
-        [Test]
         [TestCase(-1)]
         public void DeleteNotExistingElement(int id)
         {
@@ -66,7 +57,7 @@ namespace DIMS_Core.Tests.DAL
         }
 
         [Test]
-        [TestCase(1)]
+        [TestCase(2)]
         public async Task GetByIdExisting(int id)
         {
             _DbSetDirectionMock.Setup(m => m.FindAsync(It.IsAny<int>())).ReturnsAsync(() => _DbSetList.SingleOrDefault(d => d.DirectionId == id));
@@ -81,6 +72,15 @@ namespace DIMS_Core.Tests.DAL
             _DbSetDirectionMock.Setup(m => m.FindAsync(It.IsAny<int>())).ReturnsAsync(() => _DbSetList.SingleOrDefault(d => d.DirectionId == id));
             var res = await directionRepository.GetByIdAsync(id);
             Assert.IsNull(res);
+        }
+
+        [Test]
+        [TestCase(1)]
+        public async Task DeleteExistingElement(int id)
+        {
+            _DbSetDirectionMock.Setup(m => m.FindAsync(It.IsAny<int>())).ReturnsAsync(() => _DbSetList.SingleOrDefault(d => d.DirectionId == id));
+            await directionRepository.DeleteAsync(id);
+            Assert.IsNull(await _DbSetDirectionMock.Object.FindAsync(id));
         }
 
         private void InitializeDbMock()
@@ -115,7 +115,6 @@ namespace DIMS_Core.Tests.DAL
             _DbSetDirectionMock = MockHelper.CreateDbSetMock<Direction>(_DbSetList);
             _DbMock = new Mock<DIMSCoreDatabaseContext>();
             _DbMock.Setup(db => db.Set<Direction>()).Returns(_DbSetDirectionMock.Object);
-            _DbMock.Setup(db => db.Direction).Returns(_DbSetDirectionMock.Object);
         }
     }
 }

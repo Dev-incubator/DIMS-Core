@@ -65,7 +65,7 @@ namespace DIMS_Core.Tests.DAL
         }
 
         [Test]
-        [TestCase(1)]
+        [TestCase(2)]
         public async Task GetByIdExisting(int id)
         {
             _DbSetTaskStateMock.Setup(m => m.FindAsync(It.IsAny<int>())).ReturnsAsync(() => _DbSetList.SingleOrDefault(d => d.StateId == id));
@@ -105,7 +105,6 @@ namespace DIMS_Core.Tests.DAL
             _DbSetTaskStateMock = MockHelper.CreateDbSetMock<TaskState>(_DbSetList);
             _DbMock = new Mock<DIMSCoreDatabaseContext>();
             _DbMock.Setup(db => db.Set<TaskState>()).Returns(_DbSetTaskStateMock.Object);
-            _DbMock.Setup(db => db.TaskState).Returns(_DbSetTaskStateMock.Object);
         }
     }
 }
