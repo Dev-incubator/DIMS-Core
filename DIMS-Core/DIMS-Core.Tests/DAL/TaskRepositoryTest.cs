@@ -46,7 +46,7 @@ namespace DIMS_Core.Tests.DAL
             };
 
             await taskRepository.CreateAsync(Task);
-            Assert.NotNull(_DbSetTaskMock.Object.FirstOrDefault(t => t.TaskId == 5));
+            Assert.NotNull(_DbSetTaskMock.Object.FirstOrDefault(t => t.TaskId == Task.TaskId));
         }
 
         [Test]
