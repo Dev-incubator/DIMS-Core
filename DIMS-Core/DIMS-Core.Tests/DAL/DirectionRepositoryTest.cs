@@ -8,7 +8,6 @@ using Moq;
 using NUnit.Framework;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading;
 using Task = System.Threading.Tasks.Task;
 
 namespace DIMS_Core.Tests.DAL
@@ -37,7 +36,7 @@ namespace DIMS_Core.Tests.DAL
             };
 
             await directionRepository.CreateAsync(direction);
-            Assert.NotNull(_DbSetDirectionMock.Object.FirstOrDefault(d=>d.DirectionId==direction.DirectionId));
+            Assert.NotNull(_DbSetDirectionMock.Object.FirstOrDefault(d => d.DirectionId == direction.DirectionId));
         }
 
         [Test]
@@ -46,14 +45,24 @@ namespace DIMS_Core.Tests.DAL
         {
             _DbSetDirectionMock.Setup(m => m.FindAsync(It.IsAny<int>())).ReturnsAsync(() => _DbSetList.SingleOrDefault(d => d.DirectionId == id));
             await directionRepository.DeleteAsync(id);
-            _DbSetDirectionMock.Verify(m => m.Remove(It.IsAny<Direction>()), Times.Once);
+            Assert.IsNull(await _DbSetDirectionMock.Object.FindAsync(id));
+        }
+
+        [Test]
+        [TestCase(-1)]
+        public void DeleteNotExistingElement(int id)
+        {
+            int prevCount = _DbSetDirectionMock.Object.Count();
+            _DbSetDirectionMock.Setup(m => m.FindAsync(It.IsAny<int>())).ReturnsAsync(() => _DbSetList.SingleOrDefault(d => d.DirectionId == id));
+            Assert.DoesNotThrowAsync(async () => await directionRepository.DeleteAsync(id));
+            Assert.AreEqual(prevCount, _DbSetDirectionMock.Object.Count());
         }
 
         [Test]
         public void GetAllFromRepository()
         {
             var res = directionRepository.GetAll();
-            Assert.IsTrue(res.Count() == _DbSetList.Count);
+            Assert.AreEqual(_DbSetDirectionMock.Object.Count(), res.Count());
         }
 
         [Test]
@@ -62,12 +71,11 @@ namespace DIMS_Core.Tests.DAL
         {
             _DbSetDirectionMock.Setup(m => m.FindAsync(It.IsAny<int>())).ReturnsAsync(() => _DbSetList.SingleOrDefault(d => d.DirectionId == id));
             var res = await directionRepository.GetByIdAsync(id);
-            Assert.IsTrue(res.DirectionId == id);
+            Assert.AreEqual(id, res.DirectionId);
         }
 
         [Test]
-        [TestCase(-300)]
-        [TestCase(100)]
+        [TestCase(-1)]
         public async Task GetByIdNotExisting(int id)
         {
             _DbSetDirectionMock.Setup(m => m.FindAsync(It.IsAny<int>())).ReturnsAsync(() => _DbSetList.SingleOrDefault(d => d.DirectionId == id));

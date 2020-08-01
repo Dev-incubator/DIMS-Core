@@ -21,6 +21,8 @@ namespace DIMS_Core.Tests.DAL.Mocks
             dbSetMock.As<IQueryable<T>>().Setup(m => m.GetEnumerator()).Returns(elementsAsQueryable.GetEnumerator());
             dbSetMock.Setup(m => m.AddAsync(It.IsAny<T>(), It.IsAny<CancellationToken>()))
                 .Callback((T elem, CancellationToken token) => elements.Add(elem));
+            dbSetMock.Setup(m => m.Remove(It.IsAny<T>()))
+                .Callback((T elem) => elements.Remove(elem));
 
             return dbSetMock;
         }
