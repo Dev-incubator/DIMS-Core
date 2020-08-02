@@ -1,11 +1,15 @@
 ﻿@model DIMS_Core.Models.TaskEditViewModel;
-<form asp-action="EditTask" asp-controller="TaskManager" method="post">
+<form asp-action="CreateTask" asp-controller="TaskManager" method="post">
     <div>
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title">Task - @Model.Name</h5>
+                <h5 class="modal-title">Create new task</h5>
             </div>
             <div class="modal-body">
+                <div>
+                    <label>Name</label>
+                    <input type="text" value="@Model.Name" asp-for="Name" />
+                </div>
                 <div>
                     <input type="hidden" asp-for="TaskId" />
                     <label>Description</label>
@@ -19,14 +23,15 @@
                 </div>
                 <div>
                     <label>Members</label>
-                    <div>@Html.ListBoxFor(m=>m.UsersAtTask, Model.AllMembers)
+                    <div>
+                        @Html.ListBoxFor(m=>m.UsersAtTask, Model.AllMembers, "multiple")
                     </div>
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button type="submit" class="btn btn-primary">Save</button>
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Back to grid</button>
             </div>
         </div>
+        <div class="modal-footer">
+            <button type="submit" class="btn btn-primary">Create</button>
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Back to grid</button>
+        </div>
     </div>
+</div>
 </form>

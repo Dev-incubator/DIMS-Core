@@ -5,23 +5,28 @@ using System.Threading.Tasks;
 using AutoMapper;
 using DIMS_Core.BusinessLayer.Interfaces;
 using DIMS_Core.BusinessLayer.Models.BaseModels;
+using DIMS_Core.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace DIMS_Core.Controllers
 {
     public class TaskManagerController : Controller
     {
+        IVUserProfileService vUserProfileService;
         ITaskService taskService;
         IVTaskService vTaskService;
         IVUserProgressService vUserProgressService;
         IMapper mapper;
 
-        public TaskManagerController( IMapper mapper, IVUserProgressService vUserProgressService, ITaskService taskService, IVTaskService vTaskService)
+        public TaskManagerController( IMapper mapper, IVUserProgressService vUserProgressService, ITaskService taskService, IVTaskService vTaskService,
+            IVUserProfileService vUserProfileService)
         {
             this.mapper = mapper;
             this.vUserProgressService = vUserProgressService;
             this.taskService = taskService;
             this.vTaskService = vTaskService;
+            this.vUserProfileService = vUserProfileService;
         }
 
         [HttpGet]
@@ -42,32 +47,43 @@ namespace DIMS_Core.Controllers
             return View(taskModels);
         }
 
-        public async Task<IActionResult> EditTask(int? TaskId)
+        [HttpGet]
+        public async Task<IActionResult> CreateTask()
         {
-            if (TaskId != null)
-            {
-                var model = await taskService.GetEntityModel(TaskId.Value);
-                return PartialView("TaskEditWindow", model);
-            }
+            var model = new TaskEditViewModel();
+            var allMembers = await vUserProfileService.GetAll();
+            var list = new MultiSelectList(allMembers, "UserId", "FullName");
+            model.AllMembers = list;
+            return PartialView("TaskCreateWindow", model);
+        }
 
-            return PartialView("TaskEditWindow", new TaskModel());
+        [HttpPost]
+        public async Task<IActionResult> CreateTask(TaskEditViewModel model)
+        {
+            var taskModel = mapper.Map<TaskModel>(model);
+            await taskService.Create(taskModel);
+            return RedirectToAction("TasksManageGrid");
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> EditTask(int TaskId)
+        {
+            var taskModel = await taskService.GetEntityModel(TaskId);
+            var model = mapper.Map<TaskEditViewModel>(taskModel);
+            return PartialView("TaskEditWindow", model);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> EditTask(TaskEditViewModel model)
+        {
+            var taskModel = mapper.Map<TaskModel>(model);
+            await taskService.Update(taskModel);
+            return RedirectToAction("TasksManageGrid");
         }
 
         public async Task<IActionResult> DeleteTask(int TaskId)
         {
             return RedirectToAction("TasksManageGrid");
-        }
-
-        public async Task SaveChanges(TaskModel taskModel)
-        {
-            if (taskModel.TaskId.HasValue)
-            {
-                await taskService.Update(taskModel);
-            }
-            else
-            {
-                await taskService.Create(taskModel);
-            }
         }
     }
 }
