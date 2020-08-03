@@ -45,7 +45,7 @@ namespace DIMS_Core.BusinessLayer.Services
             await Create<DefaultDTOModel>(model);
         }
 
-        public async Task Create<TModel>(TModel model)
+        public async Task Create<DTOModel>(DTOModel model)
         {
             if (model is null)
             {
@@ -55,8 +55,9 @@ namespace DIMS_Core.BusinessLayer.Services
             var entity = mapper.Map<TEntity>(model);
 
             await BaseRepository.CreateAsync(entity);
-
             await unitOfWork.SaveAsync();
+            mapper.Map(entity, model);
+
         }
 
         public async Task Update(DefaultDTOModel model)

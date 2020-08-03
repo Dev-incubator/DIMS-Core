@@ -1,4 +1,4 @@
-﻿@model DIMS_Core.Models.TaskEditViewModel;
+﻿@model DIMS_Core.BusinessLayer.Models.TaskManagerModels.TaskCreateModel;
 <form asp-action="CreateTask" asp-controller="TaskManager" method="post">
     <div>
         <div class="modal-content">
@@ -24,7 +24,8 @@
                 <div>
                     <label>Members</label>
                     <div>
-                        @Html.ListBoxFor(m=>m.UsersAtTask, Model.AllMembers, "multiple")
+                        @Html.ListBox("AllMembers", new SelectList(Model.AllUsers, "UserId", "FullName"));
+                        @Html.ListBoxFor(m=>m.UsersAtTask, new SelectList( Model.UsersAtTask , "UserId", "FullName"))
                     </div>
             </div>
         </div>
