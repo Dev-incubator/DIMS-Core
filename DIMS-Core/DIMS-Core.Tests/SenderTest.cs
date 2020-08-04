@@ -20,7 +20,7 @@ namespace DIMS_Core.Tests
         [Test]
         [TestCase("Test message",
             "<div><h3>This is test message from DIMS Core</h3></div>",
-            null)] // TODO: here need to write your email for testing.
+            "test@mail.ru")] // TODO: here need to write your email for testing.
         public async Task SendMessageAsync(string subject, string body, string email)
         {
             if (subject.IsNullOrWhiteSpace() 

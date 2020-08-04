@@ -33,7 +33,7 @@ namespace DIMS_Core.DataAccessLayer.Context
             if (!optionsBuilder.IsConfigured)
             {
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. See http://go.microsoft.com/fwlink/?LinkId=723263 for guidance on storing connection strings.
-                optionsBuilder.UseSqlServer("Server=(localdb)\\mssqllocaldb;Database=DIMS-Core.Database;Trusted_Connection=True;");
+                optionsBuilder.UseSqlServer("Server=(localdb)\\MSSQLLocalDB; Database=DIMS-Core.Database; Trusted_Connection=True;");
             }
         }
 
@@ -150,6 +150,12 @@ namespace DIMS_Core.DataAccessLayer.Context
             modelBuilder.Entity<UserTask>(entity =>
             {
                 entity.Property(e => e.StateId).HasDefaultValueSql("((1))");
+
+                entity.HasOne(d => d.State)
+                    .WithMany(p => p.UserTask)
+                    .HasForeignKey(d => d.StateId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_UserTask_To_TaskState");
 
                 entity.HasOne(d => d.Task)
                     .WithMany(p => p.UserTask)
