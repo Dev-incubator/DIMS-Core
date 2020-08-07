@@ -51,13 +51,14 @@ namespace DIMS_Core.Controllers
         [HttpGet]
         public async Task<IActionResult> CreateTask()
         {
-            var model = new TaskCreateModel();
-            model.AllUsers = await vUserProfileService.GetAll(); 
+            var model = new TaskEditModel();
+            var allUsers = await vUserProfileService.GetAll();
+            model.UsersTask = (mapper.ProjectTo<UserTaskTaskMangerModel>(allUsers.AsQueryable())).ToList();
             return PartialView("TaskCreateWindow", model);
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateTask(TaskCreateModel model)
+        public async Task<IActionResult> CreateTask(TaskEditModel model)
         {
             await taskManager.CreateTask(model);
             return RedirectToAction("TasksManageGrid");

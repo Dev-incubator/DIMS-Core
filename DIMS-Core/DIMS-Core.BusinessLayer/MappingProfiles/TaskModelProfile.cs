@@ -9,7 +9,7 @@ namespace DIMS_Core.BusinessLayer.MappingProfiles
         public TaskModelProfile()
         {
             CreateMap<TaskEditModel, TaskModel>().ReverseMap();
-            CreateMap<TaskCreateModel, TaskModel>().ReverseMap();
+            CreateMap<TaskEditModel, TaskModel>().ReverseMap();
         }
     }
 }

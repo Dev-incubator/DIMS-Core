@@ -24,21 +24,24 @@ namespace DIMS_Core.BusinessLayer.Services
             this.taskService = taskService;
             this.vUserProfileService = vUserProfileService;
         }
-        public async Task CreateTask(TaskCreateModel model)
+        public async Task CreateTask(TaskEditModel model)
         {
             var taskModel = mapper.Map<TaskModel>(model);
             await taskService.Create(taskModel);
 
             int taskId = taskModel.TaskId.Value;
-            foreach (var userId in model.UsersAtTask)
+            foreach (var user in model.UsersTask)
             {
-                UserTaskModel userTaskModel = new UserTaskModel
+                if (user.OnTask)
                 {
-                   TaskId=taskId,
-                   UserId=userId.UserId
-                };
+                    UserTaskModel userTaskModel = new UserTaskModel
+                    {
+                        TaskId = taskId,
+                        UserId = user.UserId
+                    };
 
-                await userTaskService.Create(userTaskModel);
+                    await userTaskService.Create(userTaskModel);
+                }
             }
         }
 
@@ -55,18 +58,16 @@ namespace DIMS_Core.BusinessLayer.Services
         public async Task<TaskEditModel> GetModel(int id)
         {
             var entity = await taskService.GetEntityModel(id);
-            var model = mapper.Map<TaskEditModel>(entity);
-
             var allUsers = await vUserProfileService.GetAll();
+            var userTask = await userTaskService.GetAll();
 
-            var userAtTask = (from ut in entity.UserTask
-                             join up in allUsers on ut.UserId equals up.UserId
-                             select up).ToList();
-
-            var allOtherUsers = allUsers.Except(userAtTask);
-
-            model.AllOtherUsers = allOtherUsers;
-            model.UsersAtTaskWas = userAtTask;
+            var model = mapper.Map<TaskEditModel>(entity);
+            model.UsersTask = allUsers.Select(u => new UserTaskTaskMangerModel()
+            {
+                UserId = u.UserId,
+                FullName = u.FullName,
+                OnTask = userTask.Any(ut=>ut.UserId==u.UserId&&ut.TaskId==id)
+            }).ToList();
 
             return model;
         }

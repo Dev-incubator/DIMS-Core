@@ -5,7 +5,7 @@ namespace DIMS_Core.BusinessLayer.Interfaces
 {
     public interface ITaskManager
     {
-        Task CreateTask(TaskCreateModel model);
+        Task CreateTask(TaskEditModel model);
 
         Task UpdateTask(TaskEditModel model);
 
