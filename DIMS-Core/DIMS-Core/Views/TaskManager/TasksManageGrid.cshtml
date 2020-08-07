@@ -35,7 +35,7 @@
                                 @Html.ActionLink("Edit", "EditTask", "TaskManager", new { TaskId = t.TaskId })
                             </button>
                             <button class="btn-danger">
-                                @Html.ActionLink("Delete", "DeleteTask", "TaskManager", new { TaskId = t.TaskId }, new { name = "delete" })
+                                @Html.ActionLink("Delete", "DeleteTask", "TaskManager", new { TaskId = t.TaskId })
                             </button>
                         </td>
                     </tr>
@@ -52,7 +52,7 @@
     <script type="text/javascript">
         $(function () {
             $.ajaxSetup({ cache: false });
-            $('main a:not([name = delete])').click(function (e) {
+            $('main a').click(function (e) {
                 e.preventDefault();
                 $.get(this.href, function (data) {
                     $('#dialogContent').html(data);

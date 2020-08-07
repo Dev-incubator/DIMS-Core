@@ -2,6 +2,7 @@
 using DIMS_Core.BusinessLayer.Interfaces;
 using DIMS_Core.BusinessLayer.Models.BaseModels;
 using DIMS_Core.BusinessLayer.Models.TaskManagerModels;
+using System;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -79,6 +80,16 @@ namespace DIMS_Core.BusinessLayer.Services
         public async Task DeleteTask(int id)
         {
             await taskService.Delete(id);
+        }
+
+        public async Task<TaskEditModel> GetRawModel()
+        {
+            var model = new TaskEditModel();
+            var allUsers = await vUserProfileService.GetAll();
+            model.UsersTask = mapper.ProjectTo<UserTaskTaskMangerModel>(allUsers.AsQueryable()).ToList();
+            model.StartDate = DateTime.Now;
+            model.DeadlineDate = (DateTime.Now).AddDays(1);
+            return model;
         }
 
         public async Task<TaskEditModel> GetModel(int id)

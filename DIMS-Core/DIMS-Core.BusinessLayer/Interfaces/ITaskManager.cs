@@ -11,6 +11,8 @@ namespace DIMS_Core.BusinessLayer.Interfaces
 
         Task DeleteTask(int id);
 
+        Task<TaskEditModel> GetRawModel();
+
         Task<TaskEditModel> GetModel(int id);
     }
 }

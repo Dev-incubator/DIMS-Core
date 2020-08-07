@@ -1,32 +1,22 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using AutoMapper;
-using DIMS_Core.BusinessLayer.Interfaces;
+﻿using DIMS_Core.BusinessLayer.Interfaces;
 using DIMS_Core.BusinessLayer.Models.BaseModels;
 using DIMS_Core.BusinessLayer.Models.TaskManagerModels;
-using DIMS_Core.Models;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace DIMS_Core.Controllers
 {
     public class TaskManagerController : Controller
     {
-        IVUserProfileService vUserProfileService;
-        IVTaskService vTaskService;
-        IVUserProgressService vUserProgressService;
-        ITaskManager taskManager;
-        IMapper mapper;
+        private IVTaskService vTaskService;
+        private IVUserProgressService vUserProgressService;
+        private ITaskManager taskManager;
 
-        public TaskManagerController( IMapper mapper, IVUserProgressService vUserProgressService, IVTaskService vTaskService,
-            IVUserProfileService vUserProfileService, ITaskManager taskManager)
+        public TaskManagerController(IVUserProgressService vUserProgressService, IVTaskService vTaskService, ITaskManager taskManager)
         {
-            this.mapper = mapper;
             this.vUserProgressService = vUserProgressService;
             this.vTaskService = vTaskService;
-            this.vUserProfileService = vUserProfileService;
             this.taskManager = taskManager;
         }
 
@@ -51,9 +41,7 @@ namespace DIMS_Core.Controllers
         [HttpGet]
         public async Task<IActionResult> CreateTask()
         {
-            var model = new TaskEditModel();
-            var allUsers = await vUserProfileService.GetAll();
-            model.UsersTask = (mapper.ProjectTo<UserTaskTaskMangerModel>(allUsers.AsQueryable())).ToList();
+            var model = await taskManager.GetRawModel();
             return PartialView("TaskCreateWindow", model);
         }
 
@@ -78,9 +66,17 @@ namespace DIMS_Core.Controllers
             return RedirectToAction("TasksManageGrid");
         }
 
+        [HttpGet]
         public async Task<IActionResult> DeleteTask(int TaskId)
         {
-            await taskManager.DeleteTask(TaskId);
+            var model = await vTaskService.GetEntityModel(TaskId);
+            return PartialView("TaskDeleteWindow", model);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> DeleteTask(VTaskModel model)
+        {
+            await taskManager.DeleteTask(model.TaskId);
             return RedirectToAction("TasksManageGrid");
         }
     }
