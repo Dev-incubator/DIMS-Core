@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace DIMS_Core.Controllers
 {
-    public class MembersController : Controller
+    public class MembersManagerController : Controller
     {
         private readonly IMapper mapper;
         private readonly IUserProfileService userProfileService;
@@ -18,7 +18,7 @@ namespace DIMS_Core.Controllers
         private readonly IVUserProgressService vUserProgressService;
         private readonly IDirectionService directionService;
 
-        public MembersController(IUserProfileService userProfileService, IVUserProfileService vUserProfileService, IVUserProgressService vUserProgressService,
+        public MembersManagerController(IUserProfileService userProfileService, IVUserProfileService vUserProfileService, IVUserProgressService vUserProgressService,
             IDirectionService directionService, IMapper mapper)
         {
             this.userProfileService = userProfileService;

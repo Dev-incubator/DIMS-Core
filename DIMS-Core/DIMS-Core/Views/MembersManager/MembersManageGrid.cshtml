@@ -3,7 +3,7 @@
     ViewData["Title"] = "MembersManageGrid";
 }
 <button class="btn btn-warning">
-@Html.ActionLink("Register", "EditMember", "Members")
+    @Html.ActionLink("Register", "EditMember", "MembersManager")
 </button>
 <h1>MembersManageGrid</h1>
 <div>
@@ -28,25 +28,25 @@
                     i++;
                     <tr>
                         <th scope="row">@i</th>
-                        <td>@Html.ActionLink(vUser.FullName, "EditMember", "Members", new { UserId = vUser.UserId })</td>
+                        <td>@Html.ActionLink(vUser.FullName, "EditMember", "MembersManager", new { UserId = vUser.UserId })</td>
                         <td>@vUser.Direction</td>
                         <td>@vUser.Education</td>
                         <td>@vUser.StartDate.ToShortDateString()</td>
                         <td>@vUser.Age</td>
                         <td>
                             <button class="btn-info">
-                                @Html.ActionLink("Progress", "MemberProgressGrid", "TaskManager", new { UserId = vUser.UserId}, new { @name="progress" })
+                                @Html.ActionLink("Progress", "MemberProgressGrid", "TaskManager", new { UserId = vUser.UserId }, new { @name = "progress" })
                             </button>
                             <button class="btn-info">
                                 Tasks
                             </button>
                             @if (User.IsInRole("Admin"))
                             {
-                                <button data-id="@vUser.UserId" name="edit" class="btn-warning">
-                                    Edit
+                                <button class="btn-warning">
+                                    @Html.ActionLink("Edit", "EditMember", "MembersManager", new { UserId = vUser.UserId, FullName = vUser.FullName })
                                 </button>
                                 <button class="btn-danger">
-                                    @Html.ActionLink("Delete", "Delete", "Members", new { UserId= vUser.UserId, FullName = vUser.FullName})
+                                    @Html.ActionLink("Delete", "Delete", "MembersManager", new { UserId = vUser.UserId, FullName = vUser.FullName })
                                 </button>
                             }
                         </td>
@@ -72,15 +72,6 @@
                     $('#modal').modal('show');
                 });
             });
-
-            $("[name = edit]").click(function (e) {
-                e.preventDefault();
-                $.get('/Members/EditMember/', { UserId: this.getAttribute('data-id') }).done(function (data) {
-                    $('#dialogContent').html(data);
-                    $('#modal').modal('show');
-                });
-            });
-
         });
     </script>
 }

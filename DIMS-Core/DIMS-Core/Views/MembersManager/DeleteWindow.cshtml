@@ -1,5 +1,5 @@
 ﻿@model DIMS_Core.Models.DeleteUserViewModel;
-<form asp-action="DeleteConfirm" asp-controller="Members" method="post">
+<form asp-action="DeleteConfirm" asp-controller="MembersManager" method="post">
     <input type="hidden" value="@Model.UserId" asp-for="UserId" />
     <input type="hidden" value="@Model.FullName" asp-for="FullName" />
     <div>
@@ -8,7 +8,7 @@
                 <h5 class="modal-title">@Model.FullName</h5>
             </div>
             <div class="modal-body">
-                Are you realy want to delete this user?
+                Do you realy want to delete this user?
             </div>
             <div class="modal-footer">
                 <button type="submit" class="btn btn-primary">Yes</button>
