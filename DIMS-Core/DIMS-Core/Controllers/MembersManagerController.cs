@@ -10,6 +10,8 @@ using System.Threading.Tasks;
 
 namespace DIMS_Core.Controllers
 {
+
+
     public class MembersManagerController : Controller
     {
         private readonly IMapper mapper;
@@ -17,14 +19,16 @@ namespace DIMS_Core.Controllers
         private readonly IVUserProfileService vUserProfileService;
         private readonly IVUserProgressService vUserProgressService;
         private readonly IDirectionService directionService;
+        private readonly IUserIdentityService userIdentityService;
 
         public MembersManagerController(IUserProfileService userProfileService, IVUserProfileService vUserProfileService, IVUserProgressService vUserProgressService,
-            IDirectionService directionService, IMapper mapper)
+            IDirectionService directionService, IUserIdentityService userIdentityService ,IMapper mapper)
         {
             this.userProfileService = userProfileService;
             this.vUserProfileService = vUserProfileService;
             this.vUserProgressService = vUserProgressService;
             this.directionService = directionService;
+            this.userIdentityService = userIdentityService;
             this.mapper = mapper;
         }
 
@@ -37,43 +41,41 @@ namespace DIMS_Core.Controllers
             return View(model);
         }
 
-        [HttpGet]
         [Authorize(Roles = "Admin")]
-        public async Task<IActionResult> EditMember(int? UserId)
+        [HttpGet]
+        public async Task<IActionResult> EditMember(int UserId)
         {
             var directions = await directionService.GetAll();
             ViewBag.directions = new SelectList(directions, "DirectionId", "Name");
-
-            if (UserId is null)
-            {
-                return PartialView("MemberEditWindow", new UserProfileEditViewModel());
-            }
-
-            var userProfile = await userProfileService.GetEntityModel(UserId.Value);
+            var userProfile = await userProfileService.GetEntityModel(UserId);
             var mappedProfile = mapper.Map<UserProfileEditViewModel>(userProfile);
             return PartialView("MemberEditWindow", mappedProfile);
         }
 
-        [HttpPost]
         [Authorize(Roles = "Admin")]
-        public async Task<IActionResult> SaveChanges(UserProfileEditViewModel model)
+        [HttpPost]
+        public async Task<IActionResult> EditMember(UserProfileEditViewModel model)
         {
-            if (model.UserId is null)
-            {
-                await RegistUser(model);
-            }
-            else
-            {
-                var existingModel = await userProfileService.GetEntityModel(model.UserId.Value);
-                mapper.Map(model, existingModel);
-                await userProfileService.Update(existingModel);
-            }
+            var existingModel = await userProfileService.GetEntityModel(model.UserId.Value);
+            mapper.Map(model, existingModel);
+            await userProfileService.Update(existingModel);
 
             return RedirectToAction("MembersManageGrid");
         }
 
         [Authorize(Roles = "Admin")]
-        private async Task RegistUser(UserProfileEditViewModel model)
+        [HttpGet]
+        public async Task<IActionResult> RegistUser()
+        {
+            var directions = await directionService.GetAll();
+            ViewBag.directions = new SelectList(directions, "DirectionId", "Name");
+            var model = new UserRegistViewModel();
+            return PartialView("RegistUserWindow", model);
+        }
+
+        [Authorize(Roles = "Admin")]
+        [HttpPost]
+        public async Task RegistUser(UserRegistViewModel model)
         {
             var userProfileModel = mapper.Map<UserProfileModel>(model);
             await userProfileService.Create(userProfileModel);

@@ -1,0 +1,56 @@
+﻿@model DIMS_Core.Models.UserRegistViewModel;
+<form asp-action="RegistUser" asp-controller="MembersManager" method="post">
+    <div>
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">User registration</h5>
+            </div>
+            <div class="modal-body">
+                <div>
+                    <label asp-for="Email"></label>
+                    <input type="email" asp-for="Email" />
+                </div>
+                <div>
+                    <label asp-for="Name">Name</label>
+                    <input type="text" asp-for="Name" />
+                </div>
+                <div>
+                    <label asp-for="LastName"></label>
+                    <input type="text" asp-for="LastName" />
+                </div>
+                <div>
+                    <label asp-for="Sex"></label>
+                    <select asp-for="Sex" asp-items="Html.GetEnumSelectList<UserRegistViewModel.Gender>()"></select>
+                </div>
+                <div>
+                    <label asp-for="BirthDate"></label>
+                    <input type="date" asp-for="BirthDate" />
+                </div>
+                <div>
+                    <label asp-for="Education"></label>
+                    <input type="text" asp-for="Education" />
+                </div>
+                <div>
+                    <label asp-for="DirectionId"></label>
+                    @Html.DropDownListFor(Model => Model.DirectionId, Html.GetEnumSelectList<UserRegistViewModel.Gender>())
+                </div>
+                <div>
+                    <label asp-for="MobilePhone"></label>
+                    <input type="tel" asp-for="MobilePhone" />
+                </div>
+                <div>
+                    <label asp-for="Skype"></label>
+                    <input type="text" asp-for="Skype" />
+                </div>
+                <div>
+                    <label asp-for="UserRole"></label>
+                    <select asp-for="Sex" asp-items="Html.GetEnumSelectList<UserRegistViewModel.Role>()"></select>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="submit" class="btn btn-primary">Save</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Back to grid</button>
+            </div>
+        </div>
+    </div>
+</form>
