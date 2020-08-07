@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace DIMS_Core.Controllers
@@ -37,13 +38,13 @@ namespace DIMS_Core.Controllers
         {
             MembersGridViewModel model = new MembersGridViewModel();
             var vUserProfiles = await vUserProfileService.GetAll();
-            model.vUserProfileViewModels = mapper.Map<IEnumerable<vUserProfileViewModel>>(vUserProfiles);
+            model.vUserProfileViewModels = mapper.ProjectTo<vUserProfileViewModel>(vUserProfiles.AsQueryable());
             return View(model);
         }
 
         [Authorize(Roles = "Admin")]
         [HttpGet]
-        public async Task<IActionResult> EditMember(int UserId)
+        public async Task<IActionResult> EditUser(int UserId)
         {
             var directions = await directionService.GetAll();
             ViewBag.directions = new SelectList(directions, "DirectionId", "Name");
@@ -54,7 +55,7 @@ namespace DIMS_Core.Controllers
 
         [Authorize(Roles = "Admin")]
         [HttpPost]
-        public async Task<IActionResult> EditMember(UserProfileEditViewModel model)
+        public async Task<IActionResult> EditUser(UserProfileEditViewModel model)
         {
             var existingModel = await userProfileService.GetEntityModel(model.UserId.Value);
             mapper.Map(model, existingModel);
@@ -83,7 +84,7 @@ namespace DIMS_Core.Controllers
 
         [HttpGet]
         [Authorize(Roles = "Admin")]
-        public IActionResult Delete(int UserId, string FullName)
+        public IActionResult DeleteUser(int UserId, string FullName)
         {
             DeleteUserViewModel model = new DeleteUserViewModel(UserId, FullName);
             return PartialView("DeleteWindow", model);
@@ -91,7 +92,7 @@ namespace DIMS_Core.Controllers
 
         [HttpPost]
         [Authorize(Roles = "Admin")]
-        public async Task<IActionResult> DeleteConfirm(DeleteUserViewModel model)
+        public async Task<IActionResult> DeleteUser(DeleteUserViewModel model)
         {
             await userProfileService.Delete(model.UserId);
             return RedirectToAction("MembersManageGrid");

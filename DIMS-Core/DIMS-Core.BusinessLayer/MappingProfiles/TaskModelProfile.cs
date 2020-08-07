@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using DIMS_Core.BusinessLayer.Models.BaseModels;
 using DIMS_Core.BusinessLayer.Models.TaskManagerModels;
+using DIMS_Core.DataAccessLayer.Entities;
 
 namespace DIMS_Core.BusinessLayer.MappingProfiles
 {
@@ -10,6 +11,7 @@ namespace DIMS_Core.BusinessLayer.MappingProfiles
         {
             CreateMap<TaskEditModel, TaskModel>().ReverseMap();
             CreateMap<TaskEditModel, TaskModel>().ReverseMap();
+            CreateMap<Task, TaskModel>().ReverseMap();
         }
     }
 }

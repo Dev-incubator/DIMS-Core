@@ -28,7 +28,7 @@
                     i++;
                     <tr>
                         <th scope="row">@i</th>
-                        <td>@Html.ActionLink(vUser.FullName, "EditMember", "MembersManager", new { UserId = vUser.UserId })</td>
+                        <td>@Html.ActionLink(vUser.FullName, "EditUser", "MembersManager", new { UserId = vUser.UserId })</td>
                         <td>@vUser.Direction</td>
                         <td>@vUser.Education</td>
                         <td>@vUser.StartDate.ToShortDateString()</td>
@@ -43,10 +43,10 @@
                             @if (User.IsInRole("Admin"))
                             {
                                 <button class="btn-warning">
-                                    @Html.ActionLink("Edit", "EditMember", "MembersManager", new { UserId = vUser.UserId, FullName = vUser.FullName })
+                                    @Html.ActionLink("Edit", "EditUser", "MembersManager", new { UserId = vUser.UserId, FullName = vUser.FullName })
                                 </button>
                                 <button class="btn-danger">
-                                    @Html.ActionLink("Delete", "Delete", "MembersManager", new { UserId = vUser.UserId, FullName = vUser.FullName })
+                                    @Html.ActionLink("Delete", "DeleteUser", "MembersManager", new { UserId = vUser.UserId, FullName = vUser.FullName })
                                 </button>
                             }
                         </td>

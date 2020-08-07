@@ -5,9 +5,9 @@ using DIMS_Core.DataAccessLayer.Entities;
 
 namespace DIMS_Core.BusinessLayer.MappingProfiles
 {
-    public class VUserProfileProfile : Profile
+    public class VUserProfileModelProfile : Profile
     {
-        public VUserProfileProfile()
+        public VUserProfileModelProfile()
         {
             CreateMap<VUserProfile, VUserProfileModel>().ReverseMap();
             CreateMap<VUserProfileModel, UserTaskTaskMangerModel>();
