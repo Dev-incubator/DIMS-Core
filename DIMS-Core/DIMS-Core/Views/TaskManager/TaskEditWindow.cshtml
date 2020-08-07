@@ -7,27 +7,33 @@
             </div>
             <div class="modal-body">
                 <div>
+                    <input type="hidden" asp-for="Name" />
                     <input type="hidden" asp-for="TaskId" />
                     <label>Description</label>
                     <input type="text" value="@Model.Description" asp-for="Description" />
                 </div>
                 <div>
-                    <label>Start date</label>
-                    <input type="date" value="@Model.StartDate" asp-for="StartDate" />
-                    <label>Deadline</label>
-                    <input type="date" value="@Model.DeadlineDate" asp-for="DeadlineDate" />
+                    <div>
+                        <label>Start date</label>
+                        @Html.EditorFor(m => m.StartDate)
+                    </div>
+                    <div>
+                        <label>Deadline</label>
+                        @Html.EditorFor(m => m.DeadlineDate)
+                    </div>
                 </div>
                 <div>
                     <label>Members</label>
                     <div>
                         @for (int i = 0; i < Model.UsersTask.Count() - 1; i++)
                         {
-                            <label>
-                                <input type="hidden" asp-for="UsersTask[i].UserId" />
-                                @Html.EditorFor(m => m.UsersTask[i].OnTask)
-                                @Model.UsersTask[i].FullName
-                            </label>
-                            <br />
+                            <div>
+                                <label>
+                                    <input type="hidden" asp-for="UsersTask[i].UserId" />
+                                    @Html.EditorFor(m => m.UsersTask[i].OnTask)
+                                    @Model.UsersTask[i].FullName
+                                </label>
+                            </div>
                         }
                     </div>
                 </div>

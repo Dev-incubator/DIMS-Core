@@ -74,8 +74,7 @@ namespace DIMS_Core.Controllers
         [HttpPost]
         public async Task<IActionResult> EditTask(TaskEditModel model)
         {
-            //var taskModel = mapper.Map<TaskModel>(model);
-            //await taskService.Update(taskModel);
+            await taskManager.UpdateTask(model);
             return RedirectToAction("TasksManageGrid");
         }
 
