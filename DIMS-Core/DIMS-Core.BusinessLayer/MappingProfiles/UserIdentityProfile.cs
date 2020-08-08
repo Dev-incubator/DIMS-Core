@@ -4,9 +4,9 @@ using DIMS_Core.Identity.Entities;
 
 namespace DIMS_Core.BusinessLayer.MappingProfiles
 {
-    public class UserProfile : Profile
+    public class UserIdentityProfile : Profile
     {
-        public UserProfile()
+        public UserIdentityProfile()
         {
             CreateMap<SignUpModel, User>()
                 .ForMember(q => q.Email, w => w.MapFrom(q => q.Email))

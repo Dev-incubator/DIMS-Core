@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace DIMS_Core.BusinessLayer.Interfaces
 {
-    public interface IUserService : IDisposable
+    public interface IUserIdentityService : IDisposable
     {
         Task<SignInResult> SignInAsync(SignInModel model);
         Task SignOutAsync();
