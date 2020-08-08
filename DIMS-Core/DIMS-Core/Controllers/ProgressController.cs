@@ -4,24 +4,41 @@ using System.Linq;
 using System.Threading.Tasks;
 using DIMS_Core.BusinessLayer.Interfaces;
 using DIMS_Core.Models.ProgressModels;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DIMS_Core.Controllers
 {
     public class ProgressController : Controller
     {
-        private IVUserTaskService  vUserTaskService {get;set;}
-        public ProgressController(IVUserTaskService vUserTaskService)
+        private IVUserTaskService vUserTaskService { get; set; }
+        private IVUserProgressService vUserProgressService { get; set; }
+        private IUserTaskService userTaskService { get; set; }
+        public ProgressController(IVUserTaskService vUserTaskService, IVUserProgressService vUserProgressService, IUserTaskService userTaskService)
         {
             this.vUserTaskService = vUserTaskService;
+            this.vUserProgressService = vUserProgressService;
+            this.userTaskService = userTaskService;
         }
 
         public async Task<IActionResult> MembersTasksManageGrid(int UserId, string UserName)
         {
+            var allUserTask = await userTaskService.GetAllAsync();
+            var allVUserTask = await vUserTaskService.GetAllAsync();
+
             var model = new MembersTasksViewModel();
-            var allUserTask = await vUserTaskService.GetAllAsync();
             model.UserName = UserName;
-            model.userTaskModels = allUserTask.Where(ut=>ut.UserId==UserId);
+            model.userTaskModels = (from vut in allVUserTask
+                                    join ut in allUserTask on vut.TaskId equals ut.TaskId
+                                    where ut.UserId == UserId && UserId == vut.UserId
+                                    select new UserTaskViewModel
+                                    {
+                                        UserTaskId = ut.UserTaskId.Value,
+                                        TaskName = vut.TaskName,
+                                        DeadlineDate = vut.DeadlineDate,
+                                        StartDate = vut.StartDate,
+                                        State = vut.State
+                                    }).ToList();
 
             return View(model);
         }
