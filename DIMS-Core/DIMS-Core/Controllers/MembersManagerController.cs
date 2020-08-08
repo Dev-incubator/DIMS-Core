@@ -37,7 +37,7 @@ namespace DIMS_Core.Controllers
         public async Task<IActionResult> MembersManageGrid()
         {
             MembersGridViewModel model = new MembersGridViewModel();
-            var vUserProfiles = await vUserProfileService.GetAll();
+            var vUserProfiles = await vUserProfileService.GetAllAsync();
             model.vUserProfileViewModels = mapper.ProjectTo<vUserProfileViewModel>(vUserProfiles.AsQueryable());
             return View(model);
         }
@@ -46,9 +46,9 @@ namespace DIMS_Core.Controllers
         [HttpGet]
         public async Task<IActionResult> EditUser(int UserId)
         {
-            var directions = await directionService.GetAll();
+            var directions = await directionService.GetAllAsync();
             ViewBag.directions = new SelectList(directions, "DirectionId", "Name");
-            var userProfile = await userProfileService.GetEntityModel(UserId);
+            var userProfile = await userProfileService.GetEntityModelAsync(UserId);
             var mappedProfile = mapper.Map<UserProfileEditViewModel>(userProfile);
             return PartialView("MemberEditWindow", mappedProfile);
         }
@@ -57,9 +57,9 @@ namespace DIMS_Core.Controllers
         [HttpPost]
         public async Task<IActionResult> EditUser(UserProfileEditViewModel model)
         {
-            var existingModel = await userProfileService.GetEntityModel(model.UserId.Value);
+            var existingModel = await userProfileService.GetEntityModelAsync(model.UserId.Value);
             mapper.Map(model, existingModel);
-            await userProfileService.Update(existingModel);
+            await userProfileService.UpdateAsync(existingModel);
 
             return RedirectToAction("MembersManageGrid");
         }
@@ -68,7 +68,7 @@ namespace DIMS_Core.Controllers
         [HttpGet]
         public async Task<IActionResult> RegistUser()
         {
-            var directions = await directionService.GetAll();
+            var directions = await directionService.GetAllAsync();
             ViewBag.directions = new SelectList(directions, "DirectionId", "Name");
             var model = new UserRegistViewModel();
             return PartialView("RegistUserWindow", model);
@@ -79,7 +79,7 @@ namespace DIMS_Core.Controllers
         public async Task RegistUser(UserRegistViewModel model)
         {
             var userProfileModel = mapper.Map<UserProfileModel>(model);
-            await userProfileService.Create(userProfileModel);
+            await userProfileService.CreateAsync(userProfileModel);
         }
 
         [HttpGet]
@@ -94,7 +94,7 @@ namespace DIMS_Core.Controllers
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> DeleteUser(DeleteUserViewModel model)
         {
-            await userProfileService.Delete(model.UserId);
+            await userProfileService.DeleteAsync(model.UserId);
             return RedirectToAction("MembersManageGrid");
         }
 

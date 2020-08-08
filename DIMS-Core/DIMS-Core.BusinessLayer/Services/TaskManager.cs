@@ -26,7 +26,7 @@ namespace DIMS_Core.BusinessLayer.Services
         public async Task CreateTask(TaskEditModel model)
         {
             var taskModel = mapper.Map<TaskModel>(model);
-            await taskService.Create(taskModel);
+            await taskService.CreateAsync(taskModel);
 
             foreach (var user in model.UsersTask)
             {
@@ -38,7 +38,7 @@ namespace DIMS_Core.BusinessLayer.Services
                         UserId = user.UserId
                     };
 
-                    await userTaskService.Create(userTaskModel);
+                    await userTaskService.CreateAsync(userTaskModel);
                 }
             }
         }
@@ -51,9 +51,9 @@ namespace DIMS_Core.BusinessLayer.Services
             }
 
             var taskModel = mapper.Map<TaskModel>(model);
-            await taskService.Update(taskModel);
+            await taskService.UpdateAsync(taskModel);
 
-            var allUserTasks = await userTaskService.GetAll();
+            var allUserTasks = await userTaskService.GetAllAsync();
             var UsersOnTaskBefore = allUserTasks.Where(ut => ut.TaskId == model.TaskId).Select(ut => ut.UserId);
             var UserTasksNow = model.UsersTask.Where(ut => ut.OnTask == true).Select(ut => ut.UserId);
 
@@ -63,7 +63,7 @@ namespace DIMS_Core.BusinessLayer.Services
             var userTasksToRemove = allUserTasks.Where(ut => ut.TaskId == taskModel.TaskId && usersRemovedFromTask.Any(u => u == ut.UserId));
             foreach (var ut in userTasksToRemove)
             {
-                await userTaskService.Delete(ut.UserTaskId.Value);
+                await userTaskService.DeleteAsync(ut.UserTaskId.Value);
             }
 
             foreach (var userId in usersAddedToTask)
@@ -73,19 +73,19 @@ namespace DIMS_Core.BusinessLayer.Services
                     TaskId = taskModel.TaskId.Value,
                     UserId = userId
                 };
-                await userTaskService.Create(userTaskModel);
+                await userTaskService.CreateAsync(userTaskModel);
             }
         }
 
         public async Task DeleteTask(int id)
         {
-            await taskService.Delete(id);
+            await taskService.DeleteAsync(id);
         }
 
         public async Task<TaskEditModel> GetRawModel()
         {
             var model = new TaskEditModel();
-            var allUsers = await vUserProfileService.GetAll();
+            var allUsers = await vUserProfileService.GetAllAsync();
             model.UsersTask = mapper.ProjectTo<UserTaskTaskMangerModel>(allUsers.AsQueryable()).ToList();
             model.StartDate = DateTime.Now;
             model.DeadlineDate = (DateTime.Now).AddDays(1);
@@ -94,9 +94,9 @@ namespace DIMS_Core.BusinessLayer.Services
 
         public async Task<TaskEditModel> GetModel(int id)
         {
-            var entity = await taskService.GetEntityModel(id);
-            var allUsers = await vUserProfileService.GetAll();
-            var userTask = await userTaskService.GetAll();
+            var entity = await taskService.GetEntityModelAsync(id);
+            var allUsers = await vUserProfileService.GetAllAsync();
+            var userTask = await userTaskService.GetAllAsync();
 
             var model = mapper.Map<TaskEditModel>(entity);
             model.UsersTask = allUsers.Select(u => new UserTaskTaskMangerModel()

@@ -23,7 +23,7 @@ namespace DIMS_Core.Controllers
         [HttpGet]
         public async Task<IActionResult> MemberProgressGrid(int? UserId)
         {
-            var userProgress = await vUserProgressService.GetEntityModel(UserId.Value);
+            var userProgress = await vUserProgressService.GetEntityModelAsync(UserId.Value);
 
             if (UserId is null)
             {
@@ -34,7 +34,7 @@ namespace DIMS_Core.Controllers
 
         public async Task<IActionResult> TasksManageGrid()
         {
-            IEnumerable<VTaskModel> taskModels = await vTaskService.GetAll();
+            IEnumerable<VTaskModel> taskModels = await vTaskService.GetAllAsync();
             return View(taskModels);
         }
 
@@ -69,7 +69,7 @@ namespace DIMS_Core.Controllers
         [HttpGet]
         public async Task<IActionResult> DeleteTask(int TaskId)
         {
-            var model = await vTaskService.GetEntityModel(TaskId);
+            var model = await vTaskService.GetEntityModelAsync(TaskId);
             return PartialView("TaskDeleteWindow", model);
         }
 
