@@ -32,7 +32,7 @@
                 </div>
                 <div>
                     <label asp-for="DirectionId"></label>
-                    @Html.DropDownListFor(Model => Model.DirectionId, Html.GetEnumSelectList<UserRegistViewModel.Gender>())
+                    @Html.DropDownListFor(Model => Model.DirectionId, ViewBag.directions as SelectList)
                 </div>
                 <div>
                     <label asp-for="MobilePhone"></label>
