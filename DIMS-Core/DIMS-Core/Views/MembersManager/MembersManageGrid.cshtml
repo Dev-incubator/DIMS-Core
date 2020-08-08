@@ -36,7 +36,7 @@
                         <td>@vUser.Age</td>
                         <td>
                             <button class="btn-info">
-                                @Html.ActionLink("Progress", "MemberProgressGrid", "TaskManager", new { UserId = vUser.UserId, UserName = userFirstName }, new { @name = "progress" })
+                                @Html.ActionLink("Progress", "MemberProgressGrid", "Progress", new { UserId = vUser.UserId, UserName = userFirstName }, new { @name = "progress" })
                             </button>
                             <button class="btn-info">
                                 @Html.ActionLink("Tasks", "MembersTasksManageGrid", "Progress", new { UserId = vUser.UserId, UserName = userFirstName }, new { @name = "tasks" })

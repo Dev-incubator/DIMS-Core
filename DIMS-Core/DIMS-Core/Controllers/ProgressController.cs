@@ -14,6 +14,7 @@ namespace DIMS_Core.Controllers
         private IVUserTaskService vUserTaskService { get; set; }
         private IVUserProgressService vUserProgressService { get; set; }
         private IUserTaskService userTaskService { get; set; }
+
         public ProgressController(IVUserTaskService vUserTaskService, IVUserProgressService vUserProgressService, IUserTaskService userTaskService)
         {
             this.vUserTaskService = vUserTaskService;
@@ -21,6 +22,18 @@ namespace DIMS_Core.Controllers
             this.userTaskService = userTaskService;
         }
 
+        [HttpGet]
+        public async Task<IActionResult> MemberProgressGrid(int UserId, string UserName)
+        {
+            var allVUserProgress = await vUserProgressService.GetAllAsync();
+            var currentUserProgress = allVUserProgress.Where(up => up.UserId == UserId);
+            var model = new MembersProgressViewModel();
+            model.vUserProgressModels = currentUserProgress;
+            model.UserName = UserName;
+            return View(model);
+        }
+
+        [HttpGet]
         public async Task<IActionResult> MembersTasksManageGrid(int UserId, string UserName)
         {
             var allUserTask = await userTaskService.GetAllAsync();
