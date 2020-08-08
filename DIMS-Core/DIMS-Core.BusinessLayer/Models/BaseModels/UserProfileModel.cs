@@ -4,7 +4,7 @@ namespace DIMS_Core.BusinessLayer.Models.BaseModels
 {
     public class UserProfileModel : BaseDTOModel
     {
-        public int UserId { get; set; }
+        public int? UserId { get; set; }
         public int? DirectionId { get; set; }
         public string Name { get; set; }
         public string Email { get; set; }
@@ -19,6 +19,6 @@ namespace DIMS_Core.BusinessLayer.Models.BaseModels
         public string Skype { get; set; }
         public DateTime? StartDate { get; set; }
 
-        protected internal override int PKId => UserId;
+        protected internal override int PKId => UserId.Value;
     }
 }

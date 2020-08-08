@@ -2,11 +2,11 @@
 {
     public class UserTaskModel : BaseDTOModel
     {
-        public int UserTaskId { get; set; }
+        public int? UserTaskId { get; set; }
         public int TaskId { get; set; }
         public int UserId { get; set; }
         public int StateId { get; set; }
 
-        protected internal override int PKId => UserTaskId;
+        protected internal override int PKId => UserTaskId.Value;
     }
 }
