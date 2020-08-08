@@ -25,6 +25,7 @@
                 int i = 0;
                 foreach (var vUser in Model.vUserProfileViewModels)
                 {
+                    string userFirstName = vUser.FullName.Split(' ').First();
                     i++;
                     <tr>
                         <th scope="row">@i</th>
@@ -35,10 +36,10 @@
                         <td>@vUser.Age</td>
                         <td>
                             <button class="btn-info">
-                                @Html.ActionLink("Progress", "MemberProgressGrid", "TaskManager", new { UserId = vUser.UserId, UserName = vUser.FullName }, new { @name = "progress" })
+                                @Html.ActionLink("Progress", "MemberProgressGrid", "TaskManager", new { UserId = vUser.UserId, UserName = userFirstName }, new { @name = "progress" })
                             </button>
                             <button class="btn-info">
-                                Tasks
+                                @Html.ActionLink("Tasks", "MembersTasksManageGrid", "Progress", new { UserId = vUser.UserId, UserName = userFirstName })
                             </button>
                             @if (User.IsInRole("Admin"))
                             {

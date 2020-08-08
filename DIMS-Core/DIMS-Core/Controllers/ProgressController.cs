@@ -2,13 +2,21 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using DIMS_Core.BusinessLayer.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DIMS_Core.Controllers
 {
     public class ProgressController : Controller
     {
-        public IActionResult MembersTasksManageGrid()
+        private IUserProfileService userProfileService { get; set; }
+        private IVUserTaskService  vUserTaskService {get;set;}
+        public ProgressController()
+        {
+
+        }
+
+        public IActionResult MembersTasksManageGrid(int UserId, string UserName)
         {
             return View();
         }
