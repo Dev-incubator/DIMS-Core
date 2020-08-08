@@ -6,21 +6,21 @@ namespace DIMS_Core.BusinessLayer.Interfaces
 {
     public interface IBasicCRUDService<DefaultDTOModel> where DefaultDTOModel : BaseDTOModel
     {
-        Task<IEnumerable<DefaultDTOModel>> GetAll();
-        Task<IEnumerable<T>> GetAll<T>();
+        Task<IEnumerable<DefaultDTOModel>> GetAllAsync();
+        Task<IEnumerable<T>> GetAllAsync<T>();
 
-        Task<DefaultDTOModel> GetEntityModel(int id);
+        Task<DefaultDTOModel> GetEntityModelAsync(int id);
 
-        Task<DTOModel> GetEntityModel<DTOModel>(int id);
+        Task<DTOModel> GetEntityModelAsync<DTOModel>(int id);
 
-        Task Create(DefaultDTOModel model);
+        Task CreateAsync(DefaultDTOModel model);
 
-        Task Create<DTOModel>(DTOModel model);
+        Task CreateAsync<DTOModel>(DTOModel model);
 
-        Task Update(DefaultDTOModel model);
+        Task UpdateAsync(DefaultDTOModel model);
 
-        Task Update<DTOModel>(DTOModel model) where DTOModel : BaseDTOModel;
+        Task UpdateAsync<DTOModel>(DTOModel model) where DTOModel : BaseDTOModel;
 
-        Task Delete(int id);
+        Task DeleteAsync(int id);
     }
 }

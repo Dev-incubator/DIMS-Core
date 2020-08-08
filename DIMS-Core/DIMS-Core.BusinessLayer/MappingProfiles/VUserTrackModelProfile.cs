@@ -4,9 +4,9 @@ using DIMS_Core.DataAccessLayer.Entities;
 
 namespace DIMS_Core.BusinessLayer.MappingProfiles
 {
-    public class VUserTrackProfile : Profile
+    public class VUserTrackModelProfile : Profile
     {
-        public VUserTrackProfile()
+        public VUserTrackModelProfile()
         {
             CreateMap<VUserTrack, VUserTrackModel>().ReverseMap();
         }
