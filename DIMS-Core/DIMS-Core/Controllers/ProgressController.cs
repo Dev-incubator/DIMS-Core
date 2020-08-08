@@ -11,9 +11,9 @@ namespace DIMS_Core.Controllers
     public class ProgressController : Controller
     {
         private IVUserTaskService  vUserTaskService {get;set;}
-        public ProgressController()
+        public ProgressController(IVUserTaskService vUserTaskService)
         {
-
+            this.vUserTaskService = vUserTaskService;
         }
 
         public async Task<IActionResult> MembersTasksManageGrid(int UserId, string UserName)
