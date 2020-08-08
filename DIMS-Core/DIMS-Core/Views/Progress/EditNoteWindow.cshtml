@@ -1,4 +1,5 @@
-﻿@{
+﻿@model DIMS_Core.Models.ProgressModels.CreateEditNoteViewModel;
+@{
     ViewData["Title"] = "EditNoteWindowView";
 }
 
@@ -10,21 +11,13 @@
             </div>
             <div class="modal-body">
                 <div>
-                    @*<input type="hidden" asp-for="TaskId" />
-                    <label>Description</label>
-                    <input type="text" value="@Model.Description" asp-for="Description" />*@
+                    <input type="hidden" asp-for="UserTaskId" />
+                        <label>Date</label>
+                        <input type="date" asp-for="TrackDate" asp-format="{0:yyyy-MM-dd}" readonly />
                 </div>
                 <div>
-                    @*<label>Start date</label>
-                    <input type="date" value="@Model.StartDate" asp-for="StartDate" />
-                    <label>Deadline</label>
-                    <input type="date" value="@Model.DeadlineDate" asp-for="DeadlineDate" />*@
-                </div>
-                <div>
-                    @*<label>Members</label>
-                        @Html.DropDownListFor(Model => Model.DirectionId, ViewBag.directions as SelectList)
-                        @Html.ListBoxFor(m=>m.)
-                        <input type="tel" value="@Model.MobilePhone" asp-for="MobilePhone" />*@
+                    <label>Note</label>
+                    <textarea asp-for="TrackNote">@Model.TrackNote</textarea>
                 </div>
             </div>
             <div class="modal-footer">
