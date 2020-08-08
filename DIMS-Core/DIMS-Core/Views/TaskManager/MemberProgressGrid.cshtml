@@ -1,12 +1,12 @@
-﻿@model IEnumerable<DIMS_Core.BusinessLayer.Models.BaseModels.VUserProgressModel>
+﻿@model DIMS_Core.Models.ProgressModels.MembersProgressViewModel;
 
 @{
     ViewData["Title"] = "MemberProgressGrid";
 }
 
-@if (Model?.Count() > 0)
+@if (Model?.UserName != null)
 {
-    <h1>@Model.First().UserName's progress</h1>
+    <h1>@Model.UserName's progress</h1>
 }
 else
 {
@@ -24,10 +24,10 @@ else
         </thread>
         <tbody>
             <tr>
-                @if (Model != null &&Model.Count()>0)
+                @if (Model != null && Model.vUserProgressModels.Count() > 0)
                 {
                     int i = 0;
-                    foreach (var up in Model)
+                    foreach (var up in Model.vUserProgressModels)
                     {
                         i++;
                         <th scope="row">@i</th>

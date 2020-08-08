@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using DIMS_Core.BusinessLayer.Models.BaseModels;
+using DIMS_Core.DataAccessLayer.Entities;
 
 namespace DIMS_Core.BusinessLayer.MappingProfiles
 {
@@ -7,7 +8,7 @@ namespace DIMS_Core.BusinessLayer.MappingProfiles
     {
         public VUserProgressModelProfile()
         {
-            CreateMap<VUserProgressModelProfile, VUserProgressModel>().ReverseMap();
+            CreateMap<VUserProgress, VUserProgressModel>().ReverseMap();
         }
     }
 }
