@@ -2,9 +2,9 @@
 {
     public class TaskStateModel : BaseDTOModel
     {
-        public int StateId { get; set; }
+        public int? StateId { get; set; }
         public string StateName { get; set; }
 
-        protected internal override int PKId => StateId;
+        protected internal override int PKId => StateId.Value;
     }
 }

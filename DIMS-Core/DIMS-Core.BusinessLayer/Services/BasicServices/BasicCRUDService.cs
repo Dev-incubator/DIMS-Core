@@ -22,12 +22,12 @@ namespace DIMS_Core.BusinessLayer.Services
             this.mapper = mapper;
         }
 
-        public async Task<DefaultDTOModel> GetEntityModel(int id)
+        public async Task<DefaultDTOModel> GetEntityModelAsync(int id)
         {
-            return await GetEntityModel<DefaultDTOModel>(id);
+            return await GetEntityModelAsync<DefaultDTOModel>(id);
         }
 
-        public async Task<TModel> GetEntityModel<TModel>(int id)
+        public async Task<TModel> GetEntityModelAsync<TModel>(int id)
         {
             if (id <= 0)
             {
@@ -40,12 +40,12 @@ namespace DIMS_Core.BusinessLayer.Services
             return model;
         }
 
-        public async Task Create(DefaultDTOModel model)
+        public async Task CreateAsync(DefaultDTOModel model)
         {
-            await Create<DefaultDTOModel>(model);
+            await CreateAsync<DefaultDTOModel>(model);
         }
 
-        public async Task Create<DTOModel>(DTOModel model)
+        public async Task CreateAsync<TModel>(TModel model)
         {
             if (model is null)
             {
@@ -55,17 +55,16 @@ namespace DIMS_Core.BusinessLayer.Services
             var entity = mapper.Map<TEntity>(model);
 
             await BaseRepository.CreateAsync(entity);
+
             await unitOfWork.SaveAsync();
-            mapper.Map(entity, model);
-
         }
 
-        public async Task Update(DefaultDTOModel model)
+        public async Task UpdateAsync(DefaultDTOModel model)
         {
-            await Update<DefaultDTOModel>(model);
+            await UpdateAsync<DefaultDTOModel>(model);
         }
 
-        public async Task Update<DTOModel>(DTOModel model) where DTOModel : BaseDTOModel
+        public async Task UpdateAsync<DTOModel>(DTOModel model) where DTOModel : BaseDTOModel
         {
             if (model is null)
             {
@@ -86,7 +85,7 @@ namespace DIMS_Core.BusinessLayer.Services
             await unitOfWork.SaveAsync();
         }
 
-        public async Task Delete(int id)
+        public async Task DeleteAsync(int id)
         {
             if (id <= 0)
             {
@@ -98,12 +97,12 @@ namespace DIMS_Core.BusinessLayer.Services
             await unitOfWork.SaveAsync();
         }
 
-        public async Task<IEnumerable<DefaultDTOModel>> GetAll()
+        public async Task<IEnumerable<DefaultDTOModel>> GetAllAsync()
         {
-            return await GetAll<DefaultDTOModel>();
+            return await GetAllAsync<DefaultDTOModel>();
         }
 
-        public async Task<IEnumerable<T>> GetAll<T>()
+        public async Task<IEnumerable<T>> GetAllAsync<T>()
         {
             var allEntities = BaseRepository.GetAll();
             var allModels = mapper.ProjectTo<T>(allEntities);
