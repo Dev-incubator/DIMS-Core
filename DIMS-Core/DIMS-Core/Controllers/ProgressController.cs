@@ -11,15 +11,18 @@ namespace DIMS_Core.Controllers
 {
     public class ProgressController : Controller
     {
+        private IVTaskService vTaskService { get; set; }
         private IVUserTaskService vUserTaskService { get; set; }
         private IVUserProgressService vUserProgressService { get; set; }
         private IUserTaskService userTaskService { get; set; }
 
-        public ProgressController(IVUserTaskService vUserTaskService, IVUserProgressService vUserProgressService, IUserTaskService userTaskService)
+        public ProgressController(IVUserTaskService vUserTaskService, IVUserProgressService vUserProgressService, IUserTaskService userTaskService,
+            IVTaskService vTaskService)
         {
             this.vUserTaskService = vUserTaskService;
             this.vUserProgressService = vUserProgressService;
             this.userTaskService = userTaskService;
+            this.vTaskService = vTaskService;
         }
 
         [HttpGet]
@@ -62,9 +65,14 @@ namespace DIMS_Core.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> CreateNote(int TaskId)
+        public async Task<IActionResult> CreateNote(int UserTaskId)
         {
-            return PartialView("CreateNoteWindow");
+            var currentUserTask = await userTaskService.GetEntityModelAsync(UserTaskId);
+            var allVTasks = await vTaskService.GetAllAsync();
+            var taskName = allVTasks.First(vt=>vt.TaskId==currentUserTask.TaskId).Name;
+            var model = new CreateEditNoteViewModel();
+            model.TaskName = taskName;
+            return PartialView("CreateNoteWindow", model);
         }
 
         [HttpPost]
@@ -74,7 +82,7 @@ namespace DIMS_Core.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> EditNote(int id)
+        public async Task<IActionResult> EditNote(int TaskTrackId)
         {
             return PartialView("EditNoteWindow");
         }
@@ -86,7 +94,7 @@ namespace DIMS_Core.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> DeleteNote(int id)
+        public async Task<IActionResult> DeleteNote(int TaskTrackId)
         {
             return View("TaskTracksManageGrid");
         }
