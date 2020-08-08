@@ -1,7 +1,5 @@
-﻿using System;
+﻿using DIMS_Core.DataAccessLayer.Entities;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata;
-using DIMS_Core.DataAccessLayer.Entities;
 
 namespace DIMS_Core.DataAccessLayer.Context
 {
@@ -170,7 +168,7 @@ namespace DIMS_Core.DataAccessLayer.Context
 
             modelBuilder.Entity<VTask>(entity =>
             {
-                entity.HasKey(e=>e.TaskId);
+                entity.HasKey(e => e.TaskId);
 
                 entity.ToView("vTask");
 
@@ -226,7 +224,7 @@ namespace DIMS_Core.DataAccessLayer.Context
 
             modelBuilder.Entity<VUserProgress>(entity =>
             {
-                entity.HasKey(e=>e.TaskTrackId);
+                entity.HasKey(e => e.TaskTrackId);
 
                 entity.ToView("vUserProgress");
 
@@ -246,7 +244,7 @@ namespace DIMS_Core.DataAccessLayer.Context
 
             modelBuilder.Entity<VUserTask>(entity =>
             {
-                entity.HasKey(e=>e.TaskId);
+                entity.HasKey(e => e.TaskId);
 
                 entity.ToView("vUserTask");
 
@@ -269,7 +267,7 @@ namespace DIMS_Core.DataAccessLayer.Context
 
             modelBuilder.Entity<VUserTrack>(entity =>
             {
-                entity.HasKey(e=>e.TaskTrackId);
+                entity.HasKey(e => e.TaskTrackId);
 
                 entity.ToView("vUserTrack");
 
