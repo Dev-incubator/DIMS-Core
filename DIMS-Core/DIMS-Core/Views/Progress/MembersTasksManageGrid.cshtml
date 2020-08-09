@@ -6,7 +6,9 @@
 
 @if (Model?.UserName != null)
 {
+    @Html.ActionLink("Go to tracks", "TaskTracksManageGrid", "Progress", new { }, new { @class = "btn btn-info" })
     <h1>Hi, dear @Model.UserName! This is your current tasks:</h1>
+
 }
 else
 {

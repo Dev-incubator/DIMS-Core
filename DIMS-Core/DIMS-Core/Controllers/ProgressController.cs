@@ -45,15 +45,27 @@ namespace DIMS_Core.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> MembersTasksManageGrid(int UserId, string UserName)
+        public async Task<IActionResult> MembersTasksManageGrid(int? UserId, string UserName) //Raw session methods, just to test, need to be rebuilt
         {
+            if (UserId is null)
+            {
+                UserId = HttpContext.Session.GetInt32("UserId");
+                UserName = HttpContext.Session.GetString("UserName");
+            }
+            else
+            {
+
+                HttpContext.Session.SetInt32("UserId", UserId.Value);
+                HttpContext.Session.SetString("UserName", UserName);
+            }
+
             var allUserTask = await userTaskService.GetAllAsync();
             var allVUserTask = await vUserTaskService.GetAllAsync();
 
             var model = new MembersTasksViewModel();
             model.UserName = UserName;
             model.userTaskModels = (from vut in allVUserTask
-                                    join ut in allUserTask on new { uid=vut.UserId, tid=vut.TaskId} equals new {uid=ut.UserId, tid=ut.TaskId}
+                                    join ut in allUserTask on new { uid = vut.UserId, tid = vut.TaskId } equals new { uid = ut.UserId, tid = ut.TaskId }
                                     where ut.UserId == UserId
                                     select new UserTaskViewModel
                                     {
@@ -67,8 +79,10 @@ namespace DIMS_Core.Controllers
             return View(model);
         }
 
-        public async Task<IActionResult> TaskTracksManageGrid(int UserId)
+        [HttpGet]
+        public async Task<IActionResult> TaskTracksManageGrid()
         {
+            int UserId = HttpContext.Session.GetInt32("UserId").GetValueOrDefault();
             var allVUserTrack = await vUserTrackService.GetAllAsync();
             var currentVUserTrack = allVUserTrack.Where(ut=>ut.UserId==UserId);
             return View();

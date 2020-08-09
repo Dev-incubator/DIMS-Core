@@ -21,6 +21,9 @@ namespace DIMS_Core
         {
             services.AddControllersWithViews();
 
+            services.AddDistributedMemoryCache();
+            services.AddSession();
+
             services.AddCustomSolutionConfigs(Configuration, Assembly.GetExecutingAssembly());
         }
 
@@ -35,6 +38,8 @@ namespace DIMS_Core
                 app.UseExceptionHandler("/Home/Error");
             }
 
+            app.UseSession();
+
             app.UseStaticFiles();
 
             app.UseRouting();
@@ -43,6 +48,7 @@ namespace DIMS_Core
             app.UseAuthorization();
 
             app.UseCustomEndpoints();
+
         }
     }
 }
