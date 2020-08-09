@@ -1,9 +1,10 @@
-﻿
+﻿@model IEnumerable<DIMS_Core.BusinessLayer.Models.BaseModels.VUserTrackModel>
 @{
     ViewData["Title"] = "TaskTracksManageGrid";
 }
 
-<h1>TaskTracksManageGrid</h1>
+@Html.ActionLink("Back to tasks", "MembersTasksManageGrid", "Progress", new { }, new { @class = "btn btn-info" })
+<h1>This is your task tracks</h1>
 <div>
     <table class="table table-bordered">
         <thread class="thead-dark">
@@ -17,19 +18,28 @@
         </thread>
         <tbody>
             <tr>
-                <th scope="row">1</th>
-                <td>Create DB</td>
-                <td>Implemention started</td>
-                <td>15.10.2020</td>
-                <td>
-                    <button class="btn-info">
-                        Edit
-                    </button>
-                    <button class="btn-info">
-                        Delete
-                    </button>
-                </td>
+                @if (Model != null && Model.Any())
+                {
+                    int i = 0;
+                    foreach (var track in Model)
+                    {
+                        i++;
+                        <th scope="row">@i</th>
+                        <td>@track.TaskName</td>
+                        <td>@track.TrackNote</td>
+                        <td>@track.TrackDate.ToShortDateString()</td>
+                        <td>
+                            <button class="btn-info">
+                                @Html.ActionLink("Edit", "EditNote", "Progress", new { TaskTrackId = track.TaskTrackId })
+                            </button>
+                            <button class="btn-danger">
+                                @Html.ActionLink("Delete", "DeleteNote", "Progress", new { TaskTrackId = track.TaskTrackId })
+                            </button>
+                        </td>
+                    }
+                }
             </tr>
         </tbody>
     </table>
 </div>
+<partial name="_Modal" />
