@@ -2,7 +2,7 @@
 
 namespace DIMS_Core.Models.ProgressModels
 {
-    public class CreateEditNoteViewModel
+    public class CreateNoteViewModel
     {
         public int UserTaskId { get; set; }
         public DateTime TrackDate { get; set; }

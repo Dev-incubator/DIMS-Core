@@ -1,4 +1,4 @@
-﻿@model DIMS_Core.Models.ProgressModels.CreateEditNoteViewModel;
+﻿@model DIMS_Core.BusinessLayer.Models.BaseModels.TaskTrackModel;
 @{
     ViewData["Title"] = "EditNoteWindowView";
 }
@@ -12,6 +12,7 @@
             <div class="modal-body">
                 <div>
                     <input type="hidden" asp-for="UserTaskId" />
+                    <input type="hidden" asp-for="TaskTrackId" />
                     <label>Date</label>
                     <input type="date" asp-for="TrackDate" asp-format="{0:yyyy-MM-dd}" readonly />
                 </div>

@@ -8,7 +8,7 @@ namespace DIMS_Core.MappingProfiles
     {
         public CreateEditNoteViewModelProfile()
         {
-            CreateMap<CreateEditNoteViewModel, TaskTrackModel>().ReverseMap();
+            CreateMap<CreateNoteViewModel, TaskTrackModel>().ReverseMap();
         }
     }
 }

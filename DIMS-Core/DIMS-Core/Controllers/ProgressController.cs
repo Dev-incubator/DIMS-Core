@@ -19,7 +19,7 @@ namespace DIMS_Core.Controllers
         private IUserTaskService userTaskService { get; set; }
         private ITaskTrackService taskTrackService { get; set; }
         private IVUserTrackService vUserTrackService { get; set; }
-        private IMapper mapper;
+        private IMapper mapper { get; set; }
         public ProgressController(IVUserTaskService vUserTaskService, IVUserProgressService vUserProgressService, IUserTaskService userTaskService,
             IVTaskService vTaskService, ITaskTrackService taskTrackService, IVUserTrackService vUserTrackService, IMapper mapper)
         {
@@ -85,7 +85,7 @@ namespace DIMS_Core.Controllers
             int UserId = HttpContext.Session.GetInt32("UserId").GetValueOrDefault();
             var allVUserTrack = await vUserTrackService.GetAllAsync();
             var currentVUserTrack = allVUserTrack.Where(ut=>ut.UserId==UserId);
-            return View();
+            return View(currentVUserTrack);
         }
 
         [HttpGet]
@@ -94,13 +94,13 @@ namespace DIMS_Core.Controllers
             var currentUserTask = await userTaskService.GetEntityModelAsync(UserTaskId);
             var allVTasks = await vTaskService.GetAllAsync();
             var taskName = allVTasks.First(vt=>vt.TaskId==currentUserTask.TaskId).Name;
-            var model = new CreateEditNoteViewModel();
+            var model = new CreateNoteViewModel();
             model.TaskName = taskName;
             return PartialView("CreateNoteWindow", model);
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateNote(CreateEditNoteViewModel model)
+        public async Task<IActionResult> CreateNote(CreateNoteViewModel model)
         {
             var trackModel = mapper.Map<TaskTrackModel>(model);
             await taskTrackService.CreateAsync(trackModel);
@@ -110,23 +110,21 @@ namespace DIMS_Core.Controllers
         [HttpGet]
         public async Task<IActionResult> EditNote(int TaskTrackId)
         {
-            var trackModel = await taskTrackService.GetEntityModelAsync(TaskTrackId);
-            var model = mapper.Map<CreateEditNoteViewModel>(trackModel);
+            var model = await taskTrackService.GetEntityModelAsync(TaskTrackId);
             return PartialView("EditNoteWindow", model);
         }
 
         [HttpPost]
-        public async Task<IActionResult> EditNote(CreateEditNoteViewModel model)
+        public async Task<IActionResult> EditNote(TaskTrackModel model)
         {
-            var trackModel = mapper.Map<TaskTrackModel>(model);
-            await taskTrackService.UpdateAsync(trackModel);
+            await taskTrackService.UpdateAsync(model);
             return RedirectToAction("TaskTracksManageGrid");
         }
 
         [HttpGet]
         public async Task<IActionResult> DeleteNote(int TaskTrackId)
         {
-            var model = await taskTrackService.GetEntityModelAsync(TaskTrackId);
+            var model = await vUserTrackService.GetEntityModelAsync(TaskTrackId);
             return PartialView("DeleteNoteWindow", model);
         }
 
