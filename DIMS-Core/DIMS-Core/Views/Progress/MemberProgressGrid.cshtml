@@ -23,20 +23,20 @@ else
             </tr>
         </thread>
         <tbody>
-            <tr>
-                @if (Model != null && Model.vUserProgressModels.Count() > 0)
+            @if (Model != null && Model.vUserProgressModels.Count() > 0)
+            {
+                int i = 0;
+                foreach (var up in Model.vUserProgressModels)
                 {
-                    int i = 0;
-                    foreach (var up in Model.vUserProgressModels)
-                    {
-                        i++;
+                    i++;
+                    <tr>
                         <th scope="row">@i</th>
                         <td>@Html.ActionLink(up.TaskName, "EditTask", "TaskManager", new { TaskId = up.TaskId })</td>
                         <td>@up.TrackNote</td>
                         <td>@up.TrackDate</td>
-                    }
+                    </tr>
                 }
-            </tr>
+            }
         </tbody>
     </table>
 </div>

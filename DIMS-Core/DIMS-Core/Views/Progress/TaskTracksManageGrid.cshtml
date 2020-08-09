@@ -17,13 +17,13 @@
             </tr>
         </thread>
         <tbody>
-            <tr>
-                @if (Model != null && Model.Any())
+            @if (Model != null && Model.Any())
+            {
+                int i = 0;
+                foreach (var track in Model)
                 {
-                    int i = 0;
-                    foreach (var track in Model)
-                    {
-                        i++;
+                    i++;
+                    <tr>
                         <th scope="row">@i</th>
                         <td>@track.TaskName</td>
                         <td>@track.TrackNote</td>
@@ -36,9 +36,10 @@
                                 @Html.ActionLink("Delete", "DeleteNote", "Progress", new { TaskTrackId = track.TaskTrackId })
                             </button>
                         </td>
-                    }
+                    </tr>
                 }
-            </tr>
+            }
+
         </tbody>
     </table>
 </div>
