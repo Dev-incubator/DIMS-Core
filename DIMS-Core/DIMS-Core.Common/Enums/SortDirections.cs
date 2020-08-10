@@ -5,16 +5,4 @@
         ASC,
         DESC
     }
-
-    public enum Gender
-    {
-        Male,
-        Female
-    }
-
-    public enum Role
-    {
-        Member,
-        Mentor
-    }
 }
