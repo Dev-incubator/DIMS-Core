@@ -63,21 +63,5 @@ namespace DIMS_Core.Controllers
 
             return RedirectToAction("MembersManageGrid");
         }
-
-        [HttpGet]
-        [Authorize(Roles = "Admin")]
-        public IActionResult DeleteUser(int UserId, string FullName)
-        {
-            DeleteUserViewModel model = new DeleteUserViewModel(UserId, FullName);
-            return PartialView("DeleteWindow", model);
-        }
-
-        [HttpPost]
-        [Authorize(Roles = "Admin")]
-        public async Task<IActionResult> DeleteUser(DeleteUserViewModel model)
-        {
-            await userProfileService.DeleteAsync(model.UserId);
-            return RedirectToAction("MembersManageGrid");
-        }
     }
 }

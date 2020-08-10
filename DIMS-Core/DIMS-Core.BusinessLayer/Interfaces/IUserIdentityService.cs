@@ -10,5 +10,7 @@ namespace DIMS_Core.BusinessLayer.Interfaces
         Task<SignInResult> SignInAsync(SignInModel model);
         Task SignOutAsync();
         Task<IdentityResult> SignUpAsync(SignUpModel model);
+        Task<IdentityResult> DeleteAsync(int Id);
+        Task<IdentityResult> DeleteAsync(string Email);
     }
 }

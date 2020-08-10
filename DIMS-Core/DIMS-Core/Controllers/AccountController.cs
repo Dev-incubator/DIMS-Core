@@ -87,6 +87,7 @@ namespace DIMS_Core.Controllers
             if (result.Succeeded)
             {
                 var userProfileModel = mapper.Map<UserProfileModel>(model);
+                //userProfileModel.UserId = identityModel.Id; ???? Will work, if both DB are new
                 await userProfileService.CreateAsync(userProfileModel);
                 return PartialView("RegisterSucceeded");
             }
@@ -99,6 +100,30 @@ namespace DIMS_Core.Controllers
 
                 return PartialView("RegistUserWindow", model);
             }
+        }
+
+        [HttpGet]
+        [Authorize(Roles = "Admin")]
+        public IActionResult Delete(int UserId, string FullName)
+        {
+            DeleteUserViewModel model = new DeleteUserViewModel(UserId, FullName);
+            return PartialView("DeleteWindow", model);
+        }
+
+        [HttpPost]
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> Delete(DeleteUserViewModel model)
+        {
+            string userEmail = (await userProfileService.GetEntityModelAsync(model.UserId)).Email;
+
+            var result = await userIdentityService.DeleteAsync(userEmail);
+            
+            if (result.Succeeded)
+            {
+                await userProfileService.DeleteAsync(model.UserId);
+            }
+
+            return RedirectToAction("MembersManageGrid", "MembersManager");
         }
 
         [HttpGet("logout")]

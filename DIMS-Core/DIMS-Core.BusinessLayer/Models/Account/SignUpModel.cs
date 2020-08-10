@@ -23,5 +23,7 @@ namespace DIMS_Core.BusinessLayer.Models.Account
 
         [Required]
         public Role UserRole { get; set; }
+
+        public int? Id { get; set; }
     }
 }

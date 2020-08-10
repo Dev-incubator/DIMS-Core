@@ -33,8 +33,25 @@ namespace DIMS_Core.BusinessLayer.Services
             var result = await unitOfWork.UserManager.CreateAsync(mappedEntity, model.Password);
             if (result.Succeeded)
             {
-               result = await unitOfWork.UserManager.AddToRoleAsync(mappedEntity, model.UserRole.ToString());
+                mapper.Map(mappedEntity, model);
+                await unitOfWork.UserManager.AddToRoleAsync(mappedEntity, model.UserRole.ToString());
             }
+
+            return result;
+        }
+
+        public async Task<IdentityResult> DeleteAsync(int Id)
+        {
+            var user = await unitOfWork.UserManager.FindByIdAsync(Id.ToString());
+            var result = await unitOfWork.UserManager.DeleteAsync(user);
+
+            return result;
+        }
+
+        public async Task<IdentityResult> DeleteAsync(string Email)
+        {
+            var user = await unitOfWork.UserManager.FindByEmailAsync(Email);
+            var result = await unitOfWork.UserManager.DeleteAsync(user);
 
             return result;
         }
