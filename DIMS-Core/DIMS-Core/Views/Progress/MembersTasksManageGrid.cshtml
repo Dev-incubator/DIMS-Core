@@ -7,7 +7,14 @@
 @if (Model?.UserName != null)
 {
     @Html.ActionLink("Go to tracks", "TaskTracksManageGrid", "Progress", new { }, new { @class = "btn btn-info" })
-    <h1>Hi, dear @Model.UserName! This is your current tasks:</h1>
+    if (User.IsInRole("Member"))
+    {
+        <h1>Hi, dear @Model.UserName! This is your current tasks:</h1>
+    }
+    else
+    {
+        <h1>@Model.UserName's tasks:</h1>
+    }
 
 }
 else
@@ -23,7 +30,10 @@ else
                 <th>Start</th>
                 <th>Deadline</th>
                 <th>Status</th>
+                @(User.IsInRole("Member"))
+                {
                 <th></th>
+                }
                 @if (User.IsInRole("Admin"))
                 {
                     <th>Administration tools</th>
@@ -43,11 +53,14 @@ else
                         <td>@ut.StartDate.ToShortDateString()</td>
                         <td>@ut.DeadlineDate.ToShortDateString()</td>
                         <td>@ut.State</td>
-                        <td>
-                            <button class="btn-info">
-                                @Html.ActionLink("Track", "CreateNote", "Progress", new { UserTaskId = ut.UserTaskId })
-                            </button>
-                        </td>
+                        @if (User.IsInRole("Member"))
+                        {
+                            <td>
+                                <button class="btn-info">
+                                    @Html.ActionLink("Track", "CreateNote", "Progress", new { UserTaskId = ut.UserTaskId })
+                                </button>
+                            </td>
+                        }
                         @if (User.IsInRole("Admin"))
                         {
                             <td>

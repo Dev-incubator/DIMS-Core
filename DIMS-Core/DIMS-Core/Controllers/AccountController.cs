@@ -2,12 +2,13 @@
 using DIMS_Core.BusinessLayer.Interfaces;
 using DIMS_Core.BusinessLayer.Models.Account;
 using DIMS_Core.BusinessLayer.Models.BaseModels;
-using DIMS_Core.BusinessLayer.Services;
 using DIMS_Core.Identity.Configs;
 using DIMS_Core.Models;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace DIMS_Core.Controllers
@@ -46,6 +47,11 @@ namespace DIMS_Core.Controllers
 
             if (result.Succeeded)
             {
+                var allUserProfiles = await userProfileService.GetAllAsync(); //?????????
+                var currentUserProfile = allUserProfiles.FirstOrDefault(up => up.Email == model.Email);
+
+                HttpContext.Session.SetInt32("UserId", currentUserProfile.UserId.Value);
+
                 return RedirectToAction("Index", "Home");
             }
             else
@@ -117,7 +123,7 @@ namespace DIMS_Core.Controllers
             string userEmail = (await userProfileService.GetEntityModelAsync(model.UserId)).Email;
 
             var result = await userIdentityService.DeleteAsync(userEmail);
-            
+
             if (result.Succeeded)
             {
                 await userProfileService.DeleteAsync(model.UserId);
@@ -143,6 +149,5 @@ namespace DIMS_Core.Controllers
 
             base.Dispose(disposing);
         }
-
     }
 }

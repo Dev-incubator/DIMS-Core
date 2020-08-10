@@ -2,9 +2,13 @@
 @{
     ViewData["Title"] = "MembersManageGrid";
 }
-<button class="btn btn-warning">
-    @Html.ActionLink("Register", "Register", "Account")
-</button>
+
+@if (User.IsInRole("Admin"))
+{
+    <button class="btn btn-warning">
+        @Html.ActionLink("Register", "Register", "Account")
+    </button>
+}
 <h1>MembersManageGrid</h1>
 <div>
     <table class="table table-bordered">
