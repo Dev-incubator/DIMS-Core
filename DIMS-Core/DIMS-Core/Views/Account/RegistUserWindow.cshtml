@@ -22,7 +22,7 @@
                 </div>
                 <div>
                     <label asp-for="Sex"></label>
-                    <select asp-for="Sex" asp-items="Html.GetEnumSelectList<UserRegistViewModel.Gender>()"></select>
+                    <select asp-for="Sex" asp-items="Html.GetEnumSelectList<DIMS_Core.Common.Enums.Gender>()"></select>
                 </div>
                 <div>
                     <label asp-for="BirthDate"></label>
@@ -46,7 +46,7 @@
                 </div>
                 <div>
                     <label asp-for="UserRole"></label>
-                    <select asp-for="Sex" asp-items="Html.GetEnumSelectList<UserRegistViewModel.Role>()"></select>
+                    <select asp-for="Sex" asp-items="Html.GetEnumSelectList<DIMS_Core.Common.Enums.Role>()"></select>
                 </div>
             </div>
             <div class="modal-footer">

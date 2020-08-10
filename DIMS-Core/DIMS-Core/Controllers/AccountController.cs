@@ -85,7 +85,7 @@ namespace DIMS_Core.Controllers
             {
                 var userProfileModel = mapper.Map<UserProfileModel>(model);
                 await userProfileService.CreateAsync(userProfileModel);
-                return Json("OK");
+                return Content("Registration completed!");
             }
             else
             {

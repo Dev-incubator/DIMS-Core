@@ -31,6 +31,10 @@ namespace DIMS_Core.BusinessLayer.Services
             var mappedEntity = mapper.Map<User>(model);
 
             var result = await unitOfWork.UserManager.CreateAsync(mappedEntity, model.Password);
+            if (result.Succeeded)
+            {
+               result = await unitOfWork.UserManager.AddToRoleAsync(mappedEntity, model.UserRole.ToString());
+            }
 
             return result;
         }

@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using DIMS_Core.Common.Enums;
+using System.ComponentModel.DataAnnotations;
 
 namespace DIMS_Core.BusinessLayer.Models.Account
 {
@@ -19,5 +20,8 @@ namespace DIMS_Core.BusinessLayer.Models.Account
         [DataType(DataType.Password)]
         [MinLength(5)]
         public string ConfirmPassword { get; set; }
+
+        [Required]
+        public Role UserRole { get; set; }
     }
 }

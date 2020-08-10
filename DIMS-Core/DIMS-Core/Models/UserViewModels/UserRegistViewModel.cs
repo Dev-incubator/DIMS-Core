@@ -1,21 +1,11 @@
-﻿using System;
+﻿using DIMS_Core.Common.Enums;
+using System;
 using System.ComponentModel.DataAnnotations;
 
 namespace DIMS_Core.Models
 {
     public class UserRegistViewModel
     {
-        public enum Gender
-        {
-            Male,
-            Female
-        }
-
-        public enum Role
-        {
-            Mentor,
-            Member
-        }
         [Required]
         [EmailAddress]
         public string Email { get; set; }
