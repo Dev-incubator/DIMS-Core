@@ -1,5 +1,5 @@
 ﻿@model DIMS_Core.Models.UserRegistViewModel;
-<form asp-action="Register" asp-controller="Account" method="post">
+<form id="regForm" asp-action="Register" asp-controller="Account" asp-antiforgery="true" method="post">
     <div>
         <div class="modal-content">
             <div class="modal-header">
@@ -53,6 +53,17 @@
                 <button type="submit" class="btn btn-primary">Save</button>
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Back to grid</button>
             </div>
+            <div class="validation" asp-validation-summary="All">
+            </div>
         </div>
     </div>
 </form>
+<script type="text/javascript">
+    $('#regForm').submit(function (e) {
+        e.preventDefault();
+        let formData = $(this).serialize();
+        $.post($(this).attr('action'), formData, function (data) {
+                    $('#dialogContent').html(data);
+                });
+    });
+</script>
