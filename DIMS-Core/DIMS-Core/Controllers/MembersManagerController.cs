@@ -64,24 +64,6 @@ namespace DIMS_Core.Controllers
             return RedirectToAction("MembersManageGrid");
         }
 
-        [Authorize(Roles = "Admin")]
-        [HttpGet]
-        public async Task<IActionResult> RegistUser()
-        {
-            var directions = await directionService.GetAllAsync();
-            ViewBag.directions = new SelectList(directions, "DirectionId", "Name");
-            var model = new UserRegistViewModel();
-            return PartialView("RegistUserWindow", model);
-        }
-
-        [Authorize(Roles = "Admin")]
-        [HttpPost]
-        public async Task RegistUser(UserRegistViewModel model)
-        {
-            var userProfileModel = mapper.Map<UserProfileModel>(model);
-            await userProfileService.CreateAsync(userProfileModel);
-        }
-
         [HttpGet]
         [Authorize(Roles = "Admin")]
         public IActionResult DeleteUser(int UserId, string FullName)

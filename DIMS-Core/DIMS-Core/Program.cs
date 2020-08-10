@@ -25,7 +25,7 @@ namespace DIMS_Core
                 {
                     var userManager = services.GetRequiredService<UserManager<User>>();
                     var rolesManager = services.GetRequiredService<RoleManager<Role>>();
-                    await RoleInitializer.InitializeAsync(userManager, rolesManager);
+                    await IdentityAdditionalMethods.InitializeRolesAsync(userManager, rolesManager);
                 }
                 catch (Exception ex)
                 {

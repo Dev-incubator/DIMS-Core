@@ -4,9 +4,9 @@ using DIMS_Core.Models.ProgressModels;
 
 namespace DIMS_Core.MappingProfiles
 {
-    public class CreateEditNoteViewModelProfile : Profile
+    public class CreateNoteViewModelProfile : Profile
     {
-        public CreateEditNoteViewModelProfile()
+        public CreateNoteViewModelProfile()
         {
             CreateMap<CreateNoteViewModel, TaskTrackModel>().ReverseMap();
         }

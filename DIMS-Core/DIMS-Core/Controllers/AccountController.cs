@@ -1,18 +1,30 @@
-﻿using DIMS_Core.BusinessLayer.Interfaces;
+﻿using AutoMapper;
+using DIMS_Core.BusinessLayer.Interfaces;
 using DIMS_Core.BusinessLayer.Models.Account;
+using DIMS_Core.BusinessLayer.Models.BaseModels;
+using DIMS_Core.BusinessLayer.Services;
+using DIMS_Core.Identity.Configs;
+using DIMS_Core.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using System.Threading.Tasks;
 
 namespace DIMS_Core.Controllers
 {
-    [Route("account")]
     public class AccountController : Controller
     {
-        private readonly IUserIdentityService userService;
+        private readonly IUserIdentityService userIdentityService;
+        private readonly IDirectionService directionService;
+        private readonly IMapper mapper;
+        private readonly IUserProfileService userProfileService;
 
-        public AccountController(IUserIdentityService userService)
+        public AccountController(IUserIdentityService userIdentityService, IUserProfileService userProfileService, IDirectionService directionService, IMapper mapper)
         {
-            this.userService = userService;
+            this.userProfileService = userProfileService;
+            this.userIdentityService = userIdentityService;
+            this.directionService = directionService;
+            this.mapper = mapper;
         }
 
         [HttpGet("login")]
@@ -30,7 +42,7 @@ namespace DIMS_Core.Controllers
                 return View(model);
             }
 
-            var result = await userService.SignInAsync(model);
+            var result = await userIdentityService.SignInAsync(model);
 
             if (result.Succeeded)
             {
@@ -44,26 +56,36 @@ namespace DIMS_Core.Controllers
             }
         }
 
-        [HttpGet("register")]
-        public IActionResult Register()
+        [HttpGet]
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> Register()
         {
-            return View();
+            var directions = await directionService.GetAllAsync();
+            ViewBag.directions = new SelectList(directions, "DirectionId", "Name");
+            var model = new UserRegistViewModel();
+            model.Password = IdentityAdditionalMethods.GenerateRandomPassword();
+            model.ConfirmPassword = IdentityAdditionalMethods.GenerateRandomPassword();
+            return PartialView("RegistUserWindow", model);
         }
 
-        [HttpPost("register")]
+        [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Register(SignUpModel model)
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> Register(UserRegistViewModel model)
         {
             if (!ModelState.IsValid)
             {
-                return View(model);
+                return PartialView("RegistUserWindow", model);
             }
 
-            var result = await userService.SignUpAsync(model);
+            var identityModel = mapper.Map<SignUpModel>(model);
+            var result = await userIdentityService.SignUpAsync(identityModel);
 
             if (result.Succeeded)
             {
-                return RedirectToAction("Index", "Home");
+                var userProfileModel = mapper.Map<UserProfileModel>(model);
+                await userProfileService.CreateAsync(userProfileModel);
+                return Json("OK");
             }
             else
             {
@@ -72,14 +94,14 @@ namespace DIMS_Core.Controllers
                     ModelState.AddModelError("", item.Description);
                 }
 
-                return View(model);
+                return PartialView("RegistUserWindow", model);
             }
         }
 
         [HttpGet("logout")]
         public async Task<IActionResult> LogOut()
         {
-            await userService.SignOutAsync();
+            await userIdentityService.SignOutAsync();
 
             return RedirectToAction("Index", "Home");
         }
@@ -88,7 +110,7 @@ namespace DIMS_Core.Controllers
         {
             if (disposing)
             {
-                userService.Dispose();
+                userIdentityService.Dispose();
             }
 
             base.Dispose(disposing);

@@ -3,7 +3,7 @@
     ViewData["Title"] = "MembersManageGrid";
 }
 <button class="btn btn-warning">
-    @Html.ActionLink("Register", "RegistUser", "MembersManager")
+    @Html.ActionLink("Register", "Register", "Account")
 </button>
 <h1>MembersManageGrid</h1>
 <div>
@@ -60,6 +60,7 @@
 <partial name="_Modal" />
 
 @section Scripts{
+    <partial name="_ValidationScripts" />
     <script type="text/javascript">
 
         $(function () {

@@ -1,11 +1,13 @@
 ﻿@model DIMS_Core.Models.UserRegistViewModel;
-<form asp-action="RegistUser" asp-controller="MembersManager" method="post">
+<form asp-action="Register" asp-controller="Account" method="post">
     <div>
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title">User registration</h5>
             </div>
             <div class="modal-body">
+                <input type="hidden" asp-for="Password" />
+                <input type="hidden" asp-for="ConfirmPassword" />
                 <div>
                     <label asp-for="Email"></label>
                     <input type="email" asp-for="Email" />
