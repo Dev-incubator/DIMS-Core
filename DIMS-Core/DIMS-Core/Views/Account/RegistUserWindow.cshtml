@@ -34,7 +34,7 @@
                 </div>
                 <div>
                     <label asp-for="DirectionId"></label>
-                    @Html.DropDownListFor(Model => Model.DirectionId, ViewBag.directions as SelectList)
+                    @Html.DropDownListFor(Model => Model.DirectionId, Model.Directions)
                 </div>
                 <div>
                     <label asp-for="MobilePhone"></label>

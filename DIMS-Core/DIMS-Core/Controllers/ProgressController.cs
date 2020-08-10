@@ -35,7 +35,7 @@ namespace DIMS_Core.Controllers
         }
 
         [HttpGet]
-        [Authorize("Admin, Mentor")]
+        [Authorize(Roles = "Admin, Mentor")]
         public async Task<IActionResult> MemberProgressGrid(int UserId, string UserName)
         {
             var allVUserProgress = await vUserProgressService.GetAllAsync();
@@ -48,7 +48,7 @@ namespace DIMS_Core.Controllers
         }
 
         [HttpGet]
-        [Authorize("Admin, Mentor")]
+        [Authorize(Roles = "Admin, Mentor")]
         public async Task<IActionResult> MembersTasksManageGrid(int? UserId, string UserName) //Raw session methods, just to test, need to be rebuilt
         {
             if (UserId is null)
@@ -145,13 +145,13 @@ namespace DIMS_Core.Controllers
             return RedirectToAction("TaskTracksManageGrid");
         }
 
-        [Authorize("Admin, Mentor")]
+        [Authorize(Roles = "Admin, Mentor")]
         public async Task<IActionResult> SetSuccess()
         {
             return RedirectToAction("MembersTasksManageGrid");
         }
 
-        [Authorize("Admin, Mentor")]
+        [Authorize(Roles = "Admin, Mentor")]
         public async Task<IActionResult> SetFail()
         {
             return RedirectToAction("MembersTasksManageGrid");

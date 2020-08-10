@@ -1,4 +1,5 @@
 ﻿using DIMS_Core.Common.Enums;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using System;
 using System.ComponentModel.DataAnnotations;
 
@@ -39,5 +40,7 @@ namespace DIMS_Core.Models
 
         [Required]
         public Role UserRole { get; set; }
+
+        public SelectList Directions { get; set; }
     }
 }

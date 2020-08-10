@@ -20,7 +20,7 @@ namespace DIMS_Core.Controllers
             this.taskManager = taskManager;
         }
 
-        [Authorize("Admin, Mentor")]
+        [Authorize(Roles = "Admin, Mentor")]
         public async Task<IActionResult> TasksManageGrid()
         {
             IEnumerable<VTaskModel> taskModels = await vTaskService.GetAllAsync();
@@ -28,7 +28,7 @@ namespace DIMS_Core.Controllers
         }
 
         [HttpGet]
-        [Authorize("Admin, Mentor")]
+        [Authorize(Roles = "Admin, Mentor")]
         public async Task<IActionResult> CreateTask()
         {
             var model = await taskManager.GetRawModel();
@@ -36,7 +36,7 @@ namespace DIMS_Core.Controllers
         }
 
         [HttpPost]
-        [Authorize("Admin, Mentor")]
+        [Authorize(Roles = "Admin, Mentor")]
         public async Task<IActionResult> CreateTask(TaskEditModel model)
         {
             await taskManager.CreateTask(model);
@@ -44,7 +44,7 @@ namespace DIMS_Core.Controllers
         }
 
         [HttpGet]
-        [Authorize("Admin, Mentor")]
+        [Authorize(Roles = "Admin, Mentor")]
         public async Task<IActionResult> EditTask(int TaskId)
         {
             var taskEditModel = await taskManager.GetModel(TaskId);
@@ -52,7 +52,7 @@ namespace DIMS_Core.Controllers
         }
 
         [HttpPost]
-        [Authorize("Admin, Mentor")]
+        [Authorize(Roles = "Admin, Mentor")]
         public async Task<IActionResult> EditTask(TaskEditModel model)
         {
             await taskManager.UpdateTask(model);
@@ -60,7 +60,7 @@ namespace DIMS_Core.Controllers
         }
 
         [HttpGet]
-        [Authorize("Admin, Mentor")]
+        [Authorize(Roles = "Admin, Mentor")]
         public async Task<IActionResult> DeleteTask(int TaskId)
         {
             var model = await vTaskService.GetEntityModelAsync(TaskId);
@@ -68,7 +68,7 @@ namespace DIMS_Core.Controllers
         }
 
         [HttpPost]
-        [Authorize("Admin, Mentor")]
+        [Authorize(Roles = "Admin, Mentor")]
         public async Task<IActionResult> DeleteTask(VTaskModel model)
         {
             await taskManager.DeleteTask(model.TaskId);

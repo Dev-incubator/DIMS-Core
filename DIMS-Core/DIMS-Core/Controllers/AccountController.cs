@@ -60,9 +60,9 @@ namespace DIMS_Core.Controllers
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Register()
         {
-            var directions = await directionService.GetAllAsync();
-            ViewBag.directions = new SelectList(directions, "DirectionId", "Name");
             var model = new UserRegistViewModel();
+            var directions = await directionService.GetAllAsync();
+            model.Directions = new SelectList(directions, "DirectionId", "Name");
             model.Password = IdentityAdditionalMethods.GenerateRandomPassword();
             model.ConfirmPassword = IdentityAdditionalMethods.GenerateRandomPassword();
             return PartialView("RegistUserWindow", model);
@@ -73,6 +73,9 @@ namespace DIMS_Core.Controllers
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Register(UserRegistViewModel model)
         {
+            var directions = await directionService.GetAllAsync();
+            model.Directions = new SelectList(directions, "DirectionId", "Name");
+
             if (!ModelState.IsValid)
             {
                 return PartialView("RegistUserWindow", model);
@@ -115,5 +118,6 @@ namespace DIMS_Core.Controllers
 
             base.Dispose(disposing);
         }
+
     }
 }
