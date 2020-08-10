@@ -6,7 +6,8 @@
 
 @if (Model?.UserName != null)
 {
-    @Html.ActionLink("Go to tracks", "TaskTracksManageGrid", "Progress", new { }, new { @class = "btn btn-info" })
+    Html.ActionLink("Go to tracks", "TaskTracksManageGrid", "Progress", new { }, new { @class = "btn btn-info" });
+    
     if (User.IsInRole("Member"))
     {
         <h1>Hi, dear @Model.UserName! This is your current tasks:</h1>
@@ -30,7 +31,7 @@ else
                 <th>Start</th>
                 <th>Deadline</th>
                 <th>Status</th>
-                @(User.IsInRole("Member"))
+                @if(User.IsInRole("Member"))
                 {
                 <th></th>
                 }
