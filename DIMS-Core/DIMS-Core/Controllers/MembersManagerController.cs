@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 namespace DIMS_Core.Controllers
 {
 
-
+    [Authorize]
     public class MembersManagerController : Controller
     {
         private readonly IMapper mapper;
@@ -96,11 +96,6 @@ namespace DIMS_Core.Controllers
         {
             await userProfileService.DeleteAsync(model.UserId);
             return RedirectToAction("MembersManageGrid");
-        }
-
-        public IActionResult Progress(int UserId)
-        {
-            return RedirectToAction("MemberProgressGrid", "TaskManager", UserId);
         }
     }
 }

@@ -1,16 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using AutoMapper;
+﻿using AutoMapper;
 using DIMS_Core.BusinessLayer.Interfaces;
 using DIMS_Core.BusinessLayer.Models.BaseModels;
 using DIMS_Core.Models.ProgressModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace DIMS_Core.Controllers
 {
+    [Authorize]
     public class ProgressController : Controller
     {
         private IVTaskService vTaskService { get; set; }
@@ -20,6 +21,7 @@ namespace DIMS_Core.Controllers
         private ITaskTrackService taskTrackService { get; set; }
         private IVUserTrackService vUserTrackService { get; set; }
         private IMapper mapper { get; set; }
+
         public ProgressController(IVUserTaskService vUserTaskService, IVUserProgressService vUserProgressService, IUserTaskService userTaskService,
             IVTaskService vTaskService, ITaskTrackService taskTrackService, IVUserTrackService vUserTrackService, IMapper mapper)
         {
@@ -33,6 +35,7 @@ namespace DIMS_Core.Controllers
         }
 
         [HttpGet]
+        [Authorize("Admin, Mentor")]
         public async Task<IActionResult> MemberProgressGrid(int UserId, string UserName)
         {
             var allVUserProgress = await vUserProgressService.GetAllAsync();
@@ -45,6 +48,7 @@ namespace DIMS_Core.Controllers
         }
 
         [HttpGet]
+        [Authorize("Admin, Mentor")]
         public async Task<IActionResult> MembersTasksManageGrid(int? UserId, string UserName) //Raw session methods, just to test, need to be rebuilt
         {
             if (UserId is null)
@@ -54,7 +58,6 @@ namespace DIMS_Core.Controllers
             }
             else
             {
-
                 HttpContext.Session.SetInt32("UserId", UserId.Value);
                 HttpContext.Session.SetString("UserName", UserName);
             }
@@ -80,26 +83,29 @@ namespace DIMS_Core.Controllers
         }
 
         [HttpGet]
+        [Authorize("Member")]
         public async Task<IActionResult> TaskTracksManageGrid()
         {
             int UserId = HttpContext.Session.GetInt32("UserId").GetValueOrDefault();
             var allVUserTrack = await vUserTrackService.GetAllAsync();
-            var currentVUserTrack = allVUserTrack.Where(ut=>ut.UserId==UserId);
+            var currentVUserTrack = allVUserTrack.Where(ut => ut.UserId == UserId);
             return View(currentVUserTrack);
         }
 
         [HttpGet]
+        [Authorize("Member")]
         public async Task<IActionResult> CreateNote(int UserTaskId)
         {
             var currentUserTask = await userTaskService.GetEntityModelAsync(UserTaskId);
             var allVTasks = await vTaskService.GetAllAsync();
-            var taskName = allVTasks.First(vt=>vt.TaskId==currentUserTask.TaskId).Name;
+            var taskName = allVTasks.First(vt => vt.TaskId == currentUserTask.TaskId).Name;
             var model = new CreateNoteViewModel();
             model.TaskName = taskName;
             return PartialView("CreateNoteWindow", model);
         }
 
         [HttpPost]
+        [Authorize("Member")]
         public async Task<IActionResult> CreateNote(CreateNoteViewModel model)
         {
             var trackModel = mapper.Map<TaskTrackModel>(model);
@@ -108,6 +114,7 @@ namespace DIMS_Core.Controllers
         }
 
         [HttpGet]
+        [Authorize("Member")]
         public async Task<IActionResult> EditNote(int TaskTrackId)
         {
             var model = await taskTrackService.GetEntityModelAsync(TaskTrackId);
@@ -115,6 +122,7 @@ namespace DIMS_Core.Controllers
         }
 
         [HttpPost]
+        [Authorize("Member")]
         public async Task<IActionResult> EditNote(TaskTrackModel model)
         {
             await taskTrackService.UpdateAsync(model);
@@ -122,6 +130,7 @@ namespace DIMS_Core.Controllers
         }
 
         [HttpGet]
+        [Authorize("Member")]
         public async Task<IActionResult> DeleteNote(int TaskTrackId)
         {
             var model = await vUserTrackService.GetEntityModelAsync(TaskTrackId);
@@ -129,17 +138,20 @@ namespace DIMS_Core.Controllers
         }
 
         [HttpPost]
+        [Authorize("Member")]
         public async Task<IActionResult> DeleteNote(VUserTrackModel model)
         {
             await taskTrackService.DeleteAsync(model.TaskTrackId);
             return RedirectToAction("TaskTracksManageGrid");
         }
 
+        [Authorize("Admin, Mentor")]
         public async Task<IActionResult> SetSuccess()
         {
             return RedirectToAction("MembersTasksManageGrid");
         }
 
+        [Authorize("Admin, Mentor")]
         public async Task<IActionResult> SetFail()
         {
             return RedirectToAction("MembersTasksManageGrid");
