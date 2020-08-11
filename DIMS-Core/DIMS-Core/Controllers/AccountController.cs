@@ -2,6 +2,7 @@
 using DIMS_Core.BusinessLayer.Interfaces;
 using DIMS_Core.BusinessLayer.Models.Account;
 using DIMS_Core.BusinessLayer.Models.BaseModels;
+using DIMS_Core.Common.Enums;
 using DIMS_Core.Identity.Configs;
 using DIMS_Core.Models;
 using Microsoft.AspNetCore.Authorization;
@@ -47,13 +48,6 @@ namespace DIMS_Core.Controllers
 
             if (result.Succeeded)
             {
-                if (User.IsInRole("Member"))
-                {
-                    var allUserProfiles = await userProfileService.GetAllAsync(); //?????????
-                    var currentUserProfile = allUserProfiles.FirstOrDefault(up => up.Email == model.Email);
-                    HttpContext.Session.SetInt32("UserId", currentUserProfile.UserId.Value);
-                }
-
                 return RedirectToAction("Index", "Home");
             }
             else
@@ -94,9 +88,13 @@ namespace DIMS_Core.Controllers
 
             if (result.Succeeded)
             {
-                var userProfileModel = mapper.Map<UserProfileModel>(model);
-                //userProfileModel.UserId = identityModel.Id; ???? Will work, if both DB are new
-                await userProfileService.CreateAsync(userProfileModel);
+                if (model.UserRole==Role.Member)
+                {
+                    var userProfileModel = mapper.Map<UserProfileModel>(model);
+                    userProfileModel.UserId = identityModel.Id;
+                    await userProfileService.CreateAsync(userProfileModel);
+                }
+
                 return PartialView("RegisterSucceeded");
             }
             else
