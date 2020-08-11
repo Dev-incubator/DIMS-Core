@@ -47,24 +47,6 @@ namespace DIMS_Core.Identity.Configs
                     await userManager.AddToRoleAsync(admin, "Admin");
                 }
             }
-            if (await userManager.FindByNameAsync("mentor@gmail.com") == null)
-            {
-                User mentor = new User { Email = "mentor@gmail.com", UserName = "mentor@gmail.com" };
-                IdentityResult result = await userManager.CreateAsync(mentor, password);
-                if (result.Succeeded)
-                {
-                    await userManager.AddToRoleAsync(mentor, "Mentor");
-                }
-            }
-            if (await userManager.FindByNameAsync("member@gmail.com") == null)
-            {
-                User member = new User { Email = "member@gmail.com", UserName = "member@gmail.com" };
-                IdentityResult result = await userManager.CreateAsync(member, password);
-                if (result.Succeeded)
-                {
-                    await userManager.AddToRoleAsync(member, "Member");
-                }
-            }
         }
 
         public static string GenerateRandomPassword(PasswordOptions opts = null)
