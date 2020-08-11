@@ -15,18 +15,13 @@ namespace DIMS_Core.Controllers
         private readonly IMapper mapper;
         private readonly IUserProfileService userProfileService;
         private readonly IVUserProfileService vUserProfileService;
-        private readonly IVUserProgressService vUserProgressService;
         private readonly IDirectionService directionService;
-        private readonly IUserIdentityService userIdentityService;
 
-        public MembersManagerController(IUserProfileService userProfileService, IVUserProfileService vUserProfileService, IVUserProgressService vUserProgressService,
-            IDirectionService directionService, IUserIdentityService userIdentityService, IMapper mapper)
+        public MembersManagerController(IUserProfileService userProfileService, IVUserProfileService vUserProfileService, IDirectionService directionService, IMapper mapper)
         {
             this.userProfileService = userProfileService;
             this.vUserProfileService = vUserProfileService;
-            this.vUserProgressService = vUserProgressService;
             this.directionService = directionService;
-            this.userIdentityService = userIdentityService;
             this.mapper = mapper;
         }
 

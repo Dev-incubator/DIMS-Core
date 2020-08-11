@@ -3,7 +3,6 @@ using DIMS_Core.BusinessLayer.Interfaces;
 using DIMS_Core.BusinessLayer.Models.BaseModels;
 using DIMS_Core.Models.ProgressModels;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Linq;
@@ -147,14 +146,20 @@ namespace DIMS_Core.Controllers
         }
 
         [Authorize(Roles = "Admin, Mentor")]
-        public async Task<IActionResult> SetSuccess()
+        public async Task<IActionResult> SetSuccess(int UserTaskId)
         {
+            var userTaskModel = await userTaskService.GetEntityModelAsync(UserTaskId);
+            userTaskModel.StateId = 2;
+            await userTaskService.UpdateAsync(userTaskModel);
             return RedirectToAction("MembersTasksManageGrid");
         }
 
         [Authorize(Roles = "Admin, Mentor")]
-        public async Task<IActionResult> SetFail()
+        public async Task<IActionResult> SetFail(int UserTaskId)
         {
+            var userTaskModel = await userTaskService.GetEntityModelAsync(UserTaskId);
+            userTaskModel.StateId = 3;
+            await userTaskService.UpdateAsync(userTaskModel);
             return RedirectToAction("MembersTasksManageGrid");
         }
     }
