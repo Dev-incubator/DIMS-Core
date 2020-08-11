@@ -20,10 +20,12 @@ namespace DIMS_Core.Controllers
         private IUserTaskService userTaskService { get; set; }
         private ITaskTrackService taskTrackService { get; set; }
         private IVUserTrackService vUserTrackService { get; set; }
+        private IVUserProfileService vUserProfileService { get; set; }
         private IMapper mapper { get; set; }
 
         public ProgressController(IVUserTaskService vUserTaskService, IVUserProgressService vUserProgressService, IUserTaskService userTaskService,
-            IVTaskService vTaskService, ITaskTrackService taskTrackService, IVUserTrackService vUserTrackService, IMapper mapper)
+            IVTaskService vTaskService, ITaskTrackService taskTrackService, IVUserTrackService vUserTrackService, IVUserProfileService vUserProfileService,
+            IMapper mapper)
         {
             this.vUserTaskService = vUserTaskService;
             this.vUserProgressService = vUserProgressService;
@@ -31,6 +33,7 @@ namespace DIMS_Core.Controllers
             this.vTaskService = vTaskService;
             this.taskTrackService = taskTrackService;
             this.vUserTrackService = vUserTrackService;
+            this.vUserProfileService = vUserProfileService;
             this.mapper = mapper;
         }
 
@@ -48,25 +51,21 @@ namespace DIMS_Core.Controllers
         }
 
         [HttpGet]
-        [Authorize(Roles = "Admin, Mentor")]
-        public async Task<IActionResult> MembersTasksManageGrid(int? UserId, string UserName) //Raw session methods, just to test, need to be rebuilt
+        [Authorize(Roles = "Admin, Mentor, Member")]
+        public async Task<IActionResult> MembersTasksManageGrid(int? UserId)
         {
             if (UserId is null)
             {
                 UserId = HttpContext.Session.GetInt32("UserId");
-                UserName = HttpContext.Session.GetString("UserName");
             }
-            else
-            {
-                HttpContext.Session.SetInt32("UserId", UserId.Value);
-                HttpContext.Session.SetString("UserName", UserName);
-            }
+
+            var currentUserProfile = await vUserProfileService.GetEntityModelAsync(UserId.Value);
 
             var allUserTask = await userTaskService.GetAllAsync();
             var allVUserTask = await vUserTaskService.GetAllAsync();
 
             var model = new MembersTasksViewModel();
-            model.UserName = UserName;
+            model.UserName = currentUserProfile.FullName.Split(' ').First();
             model.userTaskModels = (from vut in allVUserTask
                                     join ut in allUserTask on new { uid = vut.UserId, tid = vut.TaskId } equals new { uid = ut.UserId, tid = ut.TaskId }
                                     where ut.UserId == UserId

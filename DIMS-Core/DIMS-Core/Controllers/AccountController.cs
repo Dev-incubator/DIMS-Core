@@ -47,10 +47,12 @@ namespace DIMS_Core.Controllers
 
             if (result.Succeeded)
             {
-                var allUserProfiles = await userProfileService.GetAllAsync(); //?????????
-                var currentUserProfile = allUserProfiles.FirstOrDefault(up => up.Email == model.Email);
-
-                HttpContext.Session.SetInt32("UserId", currentUserProfile.UserId.Value);
+                if (User.IsInRole("Member"))
+                {
+                    var allUserProfiles = await userProfileService.GetAllAsync(); //?????????
+                    var currentUserProfile = allUserProfiles.FirstOrDefault(up => up.Email == model.Email);
+                    HttpContext.Session.SetInt32("UserId", currentUserProfile.UserId.Value);
+                }
 
                 return RedirectToAction("Index", "Home");
             }
