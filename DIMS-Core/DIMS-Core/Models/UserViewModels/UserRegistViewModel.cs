@@ -39,7 +39,7 @@ namespace DIMS_Core.Models
         public DateTime StartDate { get; set; } = DateTime.Now;
 
         [Required]
-        public Role UserRole { get; set; }
+        public Role UserRole { get; set; } = Role.Member;
 
         public SelectList Directions { get; set; }
     }
