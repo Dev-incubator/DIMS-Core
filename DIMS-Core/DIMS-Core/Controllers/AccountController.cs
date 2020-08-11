@@ -42,8 +42,6 @@ namespace DIMS_Core.Controllers
 
             if (result.Succeeded)
             {
-                //var user = await userIdentityService.GetUserAsync(model.Email);
-                //HttpContext.Session.SetInt32("UserId", user.Id);
                 return RedirectToAction("Index", "Home");
             }
             else
