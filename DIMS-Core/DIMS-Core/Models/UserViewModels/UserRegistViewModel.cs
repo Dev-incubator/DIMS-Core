@@ -13,7 +13,7 @@ namespace DIMS_Core.Models
 
         [Required]
         [MinLength(4)]
-        public string Name { get; set; }
+        public string FirstName { get; set; }
 
         [Required]
         [MinLength(2)]

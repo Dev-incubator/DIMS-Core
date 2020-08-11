@@ -9,8 +9,8 @@ namespace DIMS_Core.MappingProfiles
         public UserProfileEditViewModelProfile()
         {
             CreateMap<UserProfileModel, UserProfileEditViewModel>()
-                .ForMember("FullName", dest => dest.MapFrom(src => src.LastName + " " + src.Name))
-                .ForMember("FirstName", dest => dest.MapFrom(src => src.Name))
+                .ForMember("FullName", dest => dest.MapFrom(src => src.LastName + " " + src.FirstName))
+                .ForMember("FirstName", dest => dest.MapFrom(src => src.FirstName))
                 .ReverseMap();
         }
     }
