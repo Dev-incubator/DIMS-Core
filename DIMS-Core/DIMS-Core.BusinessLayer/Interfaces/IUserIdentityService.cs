@@ -1,4 +1,5 @@
 ﻿using DIMS_Core.BusinessLayer.Models.Account;
+using DIMS_Core.Identity.Entities;
 using Microsoft.AspNetCore.Identity;
 using System;
 using System.Threading.Tasks;
@@ -12,5 +13,6 @@ namespace DIMS_Core.BusinessLayer.Interfaces
         Task<IdentityResult> SignUpAsync(SignUpModel model);
         Task<IdentityResult> DeleteAsync(int Id);
         Task<IdentityResult> DeleteAsync(string Email);
+        Task<User> GetUserAsync(string Email);
     }
 }

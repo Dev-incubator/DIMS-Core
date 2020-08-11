@@ -60,6 +60,11 @@ namespace DIMS_Core.BusinessLayer.Services
         {
             return unitOfWork.SignInManager.SignOutAsync();
         }
+        public async Task<User> GetUserAsync(string Email)
+        {
+            var user = await unitOfWork.UserManager.FindByEmailAsync(Email);
+            return user;
+        }
 
         #region Disposable
 
@@ -88,6 +93,7 @@ namespace DIMS_Core.BusinessLayer.Services
             Dispose(disposing: true);
             System.GC.SuppressFinalize(this);
         }
+
 
         #endregion Disposable
     }

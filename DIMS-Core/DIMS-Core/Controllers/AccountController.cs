@@ -9,7 +9,6 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace DIMS_Core.Controllers
@@ -48,6 +47,8 @@ namespace DIMS_Core.Controllers
 
             if (result.Succeeded)
             {
+                var user = await userIdentityService.GetUserAsync(model.Email);
+                HttpContext.Session.SetInt32("UserId", user.Id);
                 return RedirectToAction("Index", "Home");
             }
             else
@@ -88,7 +89,7 @@ namespace DIMS_Core.Controllers
 
             if (result.Succeeded)
             {
-                if (model.UserRole==Role.Member)
+                if (model.UserRole == Role.Member)
                 {
                     var userProfileModel = mapper.Map<UserProfileModel>(model);
                     userProfileModel.UserId = identityModel.Id;
