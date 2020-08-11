@@ -82,7 +82,7 @@ namespace DIMS_Core.Controllers
         }
 
         [HttpGet]
-        [Authorize("Member")]
+        [Authorize(Roles = "Member")]
         public async Task<IActionResult> TaskTracksManageGrid()
         {
             int UserId = HttpContext.Session.GetInt32("UserId").GetValueOrDefault();
@@ -92,7 +92,7 @@ namespace DIMS_Core.Controllers
         }
 
         [HttpGet]
-        [Authorize("Member")]
+        [Authorize(Roles = "Member")]
         public async Task<IActionResult> CreateNote(int UserTaskId)
         {
             var currentUserTask = await userTaskService.GetEntityModelAsync(UserTaskId);
@@ -104,7 +104,7 @@ namespace DIMS_Core.Controllers
         }
 
         [HttpPost]
-        [Authorize("Member")]
+        [Authorize(Roles = "Member")]
         public async Task<IActionResult> CreateNote(CreateNoteViewModel model)
         {
             var trackModel = mapper.Map<TaskTrackModel>(model);
@@ -113,7 +113,7 @@ namespace DIMS_Core.Controllers
         }
 
         [HttpGet]
-        [Authorize("Member")]
+        [Authorize(Roles = "Member")]
         public async Task<IActionResult> EditNote(int TaskTrackId)
         {
             var model = await taskTrackService.GetEntityModelAsync(TaskTrackId);
@@ -121,7 +121,7 @@ namespace DIMS_Core.Controllers
         }
 
         [HttpPost]
-        [Authorize("Member")]
+        [Authorize(Roles = "Member")]
         public async Task<IActionResult> EditNote(TaskTrackModel model)
         {
             await taskTrackService.UpdateAsync(model);
@@ -129,7 +129,7 @@ namespace DIMS_Core.Controllers
         }
 
         [HttpGet]
-        [Authorize("Member")]
+        [Authorize(Roles = "Member")]
         public async Task<IActionResult> DeleteNote(int TaskTrackId)
         {
             var model = await vUserTrackService.GetEntityModelAsync(TaskTrackId);
@@ -137,7 +137,7 @@ namespace DIMS_Core.Controllers
         }
 
         [HttpPost]
-        [Authorize("Member")]
+        [Authorize(Roles = "Member")]
         public async Task<IActionResult> DeleteNote(VUserTrackModel model)
         {
             await taskTrackService.DeleteAsync(model.TaskTrackId);
