@@ -1,6 +1,5 @@
 ﻿using AutoMapper;
 using DIMS_Core.BusinessLayer.Models.Account;
-using DIMS_Core.BusinessLayer.Models.BaseModels;
 using DIMS_Core.Models;
 
 namespace DIMS_Core.MappingProfiles
@@ -9,8 +8,7 @@ namespace DIMS_Core.MappingProfiles
     {
         public UserRegistViewModelProfile()
         {
-            CreateMap<UserRegistViewModel, SignUpModel>();
-            CreateMap<UserRegistViewModel, UserProfileModel>();
+            CreateMap<UserRegistViewModel, UserRegistModel>();
         }
     }
 }

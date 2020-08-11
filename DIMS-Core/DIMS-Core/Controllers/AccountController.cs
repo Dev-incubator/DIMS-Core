@@ -15,17 +15,13 @@ namespace DIMS_Core.Controllers
 {
     public class AccountController : Controller
     {
-        private readonly IUserIdentityService userIdentityService;
         private readonly IDirectionService directionService;
         private readonly IMapper mapper;
-        private readonly IUserProfileService userProfileService;
         private readonly IUserService userService;
 
-        public AccountController(IUserIdentityService userIdentityService, IUserProfileService userProfileService, IDirectionService directionService,
+        public AccountController(  IDirectionService directionService,
             IUserService userService , IMapper mapper)
         {
-            this.userProfileService = userProfileService;
-            this.userIdentityService = userIdentityService;
             this.directionService = directionService;
             this.mapper = mapper;
             this.userService = userService;
@@ -46,12 +42,12 @@ namespace DIMS_Core.Controllers
                 return View(model);
             }
 
-            var result = await userIdentityService.SignInAsync(model);
+            var result = await userService.SignInAsync(model);
 
             if (result.Succeeded)
             {
-                var user = await userIdentityService.GetUserAsync(model.Email);
-                HttpContext.Session.SetInt32("UserId", user.Id);
+                //var user = await userIdentityService.GetUserAsync(model.Email);
+                //HttpContext.Session.SetInt32("UserId", user.Id);
                 return RedirectToAction("Index", "Home");
             }
             else
@@ -93,18 +89,11 @@ namespace DIMS_Core.Controllers
                 return PartialView("RegistUserWindow", model);
             }
 
-            var identityModel = mapper.Map<SignUpModel>(model);
-            var result = await userIdentityService.SignUpAsync(identityModel);
+            var userRegistModel = mapper.Map<UserRegistModel>(model);
+            var result = await userService.RegistAsync(userRegistModel);
 
             if (result.Succeeded)
             {
-                if (model.UserRole == Role.Member)
-                {
-                    var userProfileModel = mapper.Map<UserProfileModel>(model);
-                    userProfileModel.UserId = identityModel.Id;
-                    await userProfileService.CreateAsync(userProfileModel);
-                }
-
                 return PartialView("RegisterSucceeded");
             }
             else
@@ -138,7 +127,7 @@ namespace DIMS_Core.Controllers
         [HttpGet("logout")]
         public async Task<IActionResult> LogOut()
         {
-            await userIdentityService.SignOutAsync();
+            await userService.SignOutAsync();
 
             return RedirectToAction("Index", "Home");
         }
@@ -147,7 +136,7 @@ namespace DIMS_Core.Controllers
         {
             if (disposing)
             {
-                userIdentityService.Dispose();
+                userService.Dispose();
             }
 
             base.Dispose(disposing);
