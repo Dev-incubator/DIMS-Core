@@ -63,11 +63,17 @@ namespace DIMS_Core.Controllers
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Register()
         {
-            var model = new UserRegistViewModel();
             var directions = await directionService.GetAllAsync();
+            
+            var model = new UserRegistViewModel();
+
             model.Directions = new SelectList(directions, "DirectionId", "Name");
-            model.Password = IdentityAdditionalMethods.GenerateRandomPassword();
-            model.ConfirmPassword = IdentityAdditionalMethods.GenerateRandomPassword();
+            model.Password = "qwerty";
+            model.ConfirmPassword = "qwerty";
+
+            //model.Password = IdentityAdditionalMethods.GenerateRandomPassword();        uncomment, when sender will be workable
+            //model.ConfirmPassword = IdentityAdditionalMethods.GenerateRandomPassword();
+
             return PartialView("RegistUserWindow", model);
         }
 
