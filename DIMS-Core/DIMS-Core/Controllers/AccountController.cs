@@ -1,12 +1,8 @@
 ﻿using AutoMapper;
 using DIMS_Core.BusinessLayer.Interfaces;
 using DIMS_Core.BusinessLayer.Models.Account;
-using DIMS_Core.BusinessLayer.Models.BaseModels;
-using DIMS_Core.Common.Enums;
-using DIMS_Core.Identity.Configs;
 using DIMS_Core.Models;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System.Threading.Tasks;
@@ -19,8 +15,8 @@ namespace DIMS_Core.Controllers
         private readonly IMapper mapper;
         private readonly IUserService userService;
 
-        public AccountController(  IDirectionService directionService,
-            IUserService userService , IMapper mapper)
+        public AccountController(IDirectionService directionService,
+            IUserService userService, IMapper mapper)
         {
             this.directionService = directionService;
             this.mapper = mapper;
@@ -63,7 +59,7 @@ namespace DIMS_Core.Controllers
         public async Task<IActionResult> Register()
         {
             var directions = await directionService.GetAllAsync();
-            
+
             var model = new UserRegistViewModel();
 
             model.Directions = new SelectList(directions, "DirectionId", "Name");

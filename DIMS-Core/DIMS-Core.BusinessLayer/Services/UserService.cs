@@ -59,9 +59,13 @@ namespace DIMS_Core.BusinessLayer.Services
             await userIdentityService.SignOutAsync();
         }
 
+        #region disposable
+
         public void Dispose()
         {
             userIdentityService.Dispose();
         }
+
+        #endregion disposable
     }
 }

@@ -1,17 +1,14 @@
 ﻿using AutoMapper;
 using DIMS_Core.BusinessLayer.Interfaces;
-using DIMS_Core.BusinessLayer.Models.BaseModels;
 using DIMS_Core.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
 namespace DIMS_Core.Controllers
 {
-
     [Authorize]
     public class MembersManagerController : Controller
     {
@@ -23,7 +20,7 @@ namespace DIMS_Core.Controllers
         private readonly IUserIdentityService userIdentityService;
 
         public MembersManagerController(IUserProfileService userProfileService, IVUserProfileService vUserProfileService, IVUserProgressService vUserProgressService,
-            IDirectionService directionService, IUserIdentityService userIdentityService ,IMapper mapper)
+            IDirectionService directionService, IUserIdentityService userIdentityService, IMapper mapper)
         {
             this.userProfileService = userProfileService;
             this.vUserProfileService = vUserProfileService;
@@ -39,6 +36,7 @@ namespace DIMS_Core.Controllers
             MembersGridViewModel model = new MembersGridViewModel();
             var vUserProfiles = await vUserProfileService.GetAllAsync();
             model.vUserProfileViewModels = mapper.ProjectTo<vUserProfileViewModel>(vUserProfiles.AsQueryable());
+
             return View(model);
         }
 
@@ -48,8 +46,10 @@ namespace DIMS_Core.Controllers
         {
             var directions = await directionService.GetAllAsync();
             ViewBag.directions = new SelectList(directions, "DirectionId", "Name");
+
             var userProfile = await userProfileService.GetEntityModelAsync(UserId);
             var mappedProfile = mapper.Map<UserProfileEditViewModel>(userProfile);
+
             return PartialView("MemberEditWindow", mappedProfile);
         }
 

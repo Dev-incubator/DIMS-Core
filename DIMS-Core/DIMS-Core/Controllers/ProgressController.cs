@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace DIMS_Core.Controllers
@@ -16,11 +17,11 @@ namespace DIMS_Core.Controllers
     {
         private IVTaskService vTaskService { get; set; }
         private IVUserTaskService vUserTaskService { get; set; }
+        private IVUserTrackService vUserTrackService { get; set; }
+        private IVUserProfileService vUserProfileService { get; set; }
         private IVUserProgressService vUserProgressService { get; set; }
         private IUserTaskService userTaskService { get; set; }
         private ITaskTrackService taskTrackService { get; set; }
-        private IVUserTrackService vUserTrackService { get; set; }
-        private IVUserProfileService vUserProfileService { get; set; }
         private IMapper mapper { get; set; }
 
         public ProgressController(IVUserTaskService vUserTaskService, IVUserProgressService vUserProgressService, IUserTaskService userTaskService,
@@ -47,6 +48,7 @@ namespace DIMS_Core.Controllers
             var model = new MembersProgressViewModel();
             model.vUserProgressModels = currentUserProgress;
             model.UserName = UserName;
+
             return View(model);
         }
 
@@ -56,7 +58,7 @@ namespace DIMS_Core.Controllers
         {
             if (UserId is null)
             {
-                UserId = HttpContext.Session.GetInt32("UserId");
+                UserId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value); ;
             }
 
             var currentUserProfile = await vUserProfileService.GetEntityModelAsync(UserId.Value);
@@ -85,7 +87,7 @@ namespace DIMS_Core.Controllers
         [Authorize(Roles = "Member")]
         public async Task<IActionResult> TaskTracksManageGrid()
         {
-            int UserId = HttpContext.Session.GetInt32("UserId").GetValueOrDefault();
+            int UserId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
             var allVUserTrack = await vUserTrackService.GetAllAsync();
             var currentVUserTrack = allVUserTrack.Where(ut => ut.UserId == UserId);
             return View(currentVUserTrack);
