@@ -19,13 +19,16 @@ namespace DIMS_Core.Controllers
         private readonly IDirectionService directionService;
         private readonly IMapper mapper;
         private readonly IUserProfileService userProfileService;
+        private readonly IUserService userService;
 
-        public AccountController(IUserIdentityService userIdentityService, IUserProfileService userProfileService, IDirectionService directionService, IMapper mapper)
+        public AccountController(IUserIdentityService userIdentityService, IUserProfileService userProfileService, IDirectionService directionService,
+            IUserService userService , IMapper mapper)
         {
             this.userProfileService = userProfileService;
             this.userIdentityService = userIdentityService;
             this.directionService = directionService;
             this.mapper = mapper;
+            this.userService = userService;
         }
 
         [HttpGet("login")]
@@ -127,14 +130,7 @@ namespace DIMS_Core.Controllers
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Delete(DeleteUserViewModel model)
         {
-            string userEmail = (await userProfileService.GetEntityModelAsync(model.UserId)).Email;
-
-            var result = await userIdentityService.DeleteAsync(userEmail);
-
-            if (result.Succeeded)
-            {
-                await userProfileService.DeleteAsync(model.UserId);
-            }
+            await userService.DeleteAsync(model.UserId);
 
             return RedirectToAction("MembersManageGrid", "MembersManager");
         }
