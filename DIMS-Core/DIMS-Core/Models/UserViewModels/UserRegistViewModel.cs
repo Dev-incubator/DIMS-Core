@@ -27,10 +27,12 @@ namespace DIMS_Core.Models
 
         [Required]
         public Gender Sex { get; set; }
+
         public string Education { get; set; }
 
         [Required]
         public DateTime BirthDate { get; set; }
+
         public double UniversityAverageScore { get; set; }
         public double MathScore { get; set; }
         public string Address { get; set; }
@@ -39,7 +41,7 @@ namespace DIMS_Core.Models
         public DateTime StartDate { get; set; } = DateTime.Now;
 
         [Required]
-        public Role UserRole { get; set; } = Role.Member;
+        public Role UserRole { get; set; }
 
         public SelectList Directions { get; set; }
     }
