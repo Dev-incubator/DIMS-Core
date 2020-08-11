@@ -12,7 +12,7 @@ namespace DIMS_Core.Models
         public string Email { get; set; }
 
         [Required]
-        [MinLength(4)]
+        [MinLength(2)]
         public string FirstName { get; set; }
 
         [Required]
@@ -22,7 +22,11 @@ namespace DIMS_Core.Models
         [Required]
         public int DirectionId { get; set; }
 
+        [Required]
+        [MinLength(6)]
         public string Password { get; set; }
+
+        [Compare("Password")]
         public string ConfirmPassword { get; set; }
 
         [Required]

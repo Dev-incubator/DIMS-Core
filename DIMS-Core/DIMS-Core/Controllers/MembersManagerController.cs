@@ -52,7 +52,7 @@ namespace DIMS_Core.Controllers
         [HttpPost]
         public async Task<IActionResult> EditUser(UserProfileEditViewModel model)
         {
-            var existingModel = await userProfileService.GetEntityModelAsync(model.UserId.Value);
+            var existingModel = await userProfileService.GetEntityModelAsync(model.UserId);
             mapper.Map(model, existingModel);
             await userProfileService.UpdateAsync(existingModel);
 
