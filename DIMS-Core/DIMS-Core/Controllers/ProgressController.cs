@@ -151,7 +151,7 @@ namespace DIMS_Core.Controllers
             var userTaskModel = await userTaskService.GetEntityModelAsync(UserTaskId);
             userTaskModel.StateId = 2;
             await userTaskService.UpdateAsync(userTaskModel);
-            return RedirectToAction("MembersTasksManageGrid");
+            return RedirectToAction("MembersTasksManageGrid", new { userTaskModel.UserId });
         }
 
         [Authorize(Roles = "Admin, Mentor")]
@@ -160,7 +160,7 @@ namespace DIMS_Core.Controllers
             var userTaskModel = await userTaskService.GetEntityModelAsync(UserTaskId);
             userTaskModel.StateId = 3;
             await userTaskService.UpdateAsync(userTaskModel);
-            return RedirectToAction("MembersTasksManageGrid");
+            return RedirectToAction("MembersTasksManageGrid", new { userTaskModel.UserId });
         }
     }
 }
