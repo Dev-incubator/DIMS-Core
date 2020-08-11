@@ -3,7 +3,7 @@ SELECT
 UserProfile.UserId,
 UserTask.TaskId,
 TaskTrack.TaskTrackId,
-(UserProfile.[Name]+' '+UserProfile.LastName) as UserName,
+(UserProfile.FirstName+' '+UserProfile.LastName) as UserName,
 Task.[Name] as TaskName,
 TaskTrack.TrackNote,
 TaskTrack.TrackDate

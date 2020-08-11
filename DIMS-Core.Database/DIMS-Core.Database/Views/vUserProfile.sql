@@ -1,7 +1,7 @@
 ﻿CREATE VIEW [dbo].[vUserProfile] AS
 SELECT 
 UserProfile.UserId,
-(UserProfile.[Name] + ' ' + UserProfile.LastName) as FullName,
+(UserProfile.FirstName + ' ' + UserProfile.LastName) as FullName,
 UserProfile.Email,
 Direction.[Name] as Direction,
 UserProfile.Sex,
