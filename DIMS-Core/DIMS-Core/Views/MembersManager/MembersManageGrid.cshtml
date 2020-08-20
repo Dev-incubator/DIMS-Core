@@ -1,0 +1,81 @@
+﻿@model DIMS_Core.Models.MembersGridViewModel;
+@{
+    ViewData["Title"] = "MembersManageGrid";
+}
+
+@if (User.IsInRole("Admin"))
+{
+    <button class="btn btn-warning">
+        @Html.ActionLink("Register", "Register", "Account")
+    </button>
+}
+<h1>MembersManageGrid</h1>
+<div>
+    <table class="table table-bordered">
+        <thread class="thead-dark">
+            <tr>
+                <th>#</th>
+                <th>Full Name</th>
+                <th>Direction</th>
+                <th>Education</th>
+                <th>Start</th>
+                <th>Age</th>
+                <th></th>
+            </tr>
+        </thread>
+        <tbody>
+            @if (Model?.vUserProfileViewModels != null)
+            {
+                int i = 0;
+                foreach (var vUser in Model.vUserProfileViewModels)
+                {
+                    string userFirstName = vUser.FullName.Split(' ').First();
+                    i++;
+                    <tr>
+                        <th scope="row">@i</th>
+                        <td>@Html.ActionLink(vUser.FullName, "EditUser", "MembersManager", new { UserId = vUser.UserId })</td>
+                        <td>@vUser.Direction</td>
+                        <td>@vUser.Education</td>
+                        <td>@vUser.StartDate.ToShortDateString()</td>
+                        <td>@vUser.Age</td>
+                        <td>
+                            <button class="btn-info">
+                                @Html.ActionLink("Progress", "MemberProgressGrid", "Progress", new { UserId = vUser.UserId, UserName = userFirstName }, new { @name = "progress" })
+                            </button>
+                            <button class="btn-info">
+                                @Html.ActionLink("Tasks", "MembersTasksManageGrid", "Progress", new { UserId = vUser.UserId, UserName = userFirstName }, new { @name = "tasks" })
+                            </button>
+                            @if (User.IsInRole("Admin"))
+                            {
+                                <button class="btn-warning">
+                                    @Html.ActionLink("Edit", "EditUser", "MembersManager", new { UserId = vUser.UserId, FullName = vUser.FullName })
+                                </button>
+                                <button class="btn-danger">
+                                    @Html.ActionLink("Delete", "Delete", "Account", new { UserId = vUser.UserId, FullName = vUser.FullName })
+                                </button>
+                            }
+                        </td>
+                    </tr>
+                }
+            }
+        </tbody>
+    </table>
+</div>
+<partial name="_Modal" />
+
+@section Scripts{
+    <partial name="_ValidationScripts" />
+    <script type="text/javascript">
+
+        $(function () {
+            $.ajaxSetup({ cache: false });
+            $('main a:not([name=progress], [name=tasks])').click(function (e) {
+                e.preventDefault();
+                $.get(this.href, function (data) {
+                    $('#dialogContent').html(data);
+                    $('#modal').modal('show');
+                });
+            });
+        });
+    </script>
+}

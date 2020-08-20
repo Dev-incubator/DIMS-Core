@@ -1,0 +1,29 @@
+﻿@model DIMS_Core.Models.ProgressModels.CreateNoteViewModel;
+@{
+    ViewData["Title"] = "CreateNoteWindow";
+}
+
+<form asp-action="CreateNote" asp-controller="Progress" method="post">
+    <div>
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Task Track - @Model.TaskName</h5>
+            </div>
+            <div class="modal-body">
+                <div>
+                    <input type="hidden" asp-for="UserTaskId" />
+                    <label>Date</label>
+                    <input type="date" asp-for="TrackDate" asp-format="{0:yyyy-MM-dd}" value="@DateTime.Now.ToString("yyyy-MM-dd")" readonly />
+                </div>
+                <div>
+                    <label>Note</label>
+                    <textarea asp-for="TrackNote"></textarea>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="submit" class="btn btn-primary">Create note</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Back to grid</button>
+            </div>
+        </div>
+    </div>
+</form>

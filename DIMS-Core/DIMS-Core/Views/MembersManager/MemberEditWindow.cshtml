@@ -1,0 +1,44 @@
+﻿@model DIMS_Core.Models.UserProfileEditViewModel;
+<form asp-action="EditUser" asp-controller="MembersManager" method="post" >
+    <div>
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">@Model?.FullName</h5>
+            </div>
+            <div class="modal-body">
+                <div>
+                    <input type="hidden" value="@Model?.UserId" asp-for="UserId" />
+                    <label>First Name</label>
+                    <input type="text" value="@Model?.FirstName" asp-for="FirstName" />
+                    <span asp-validation-for="FirstName"></span>
+                </div>
+                <div>
+                    <label>Last Name</label>
+                    <input type="text" value="@Model?.LastName" asp-for="LastName" />
+                    <span asp-validation-for="LastName"></span>
+                </div>
+                <div>
+                    <label>Sex</label>
+                    @Html.DropDownListFor(m=>m.Sex, Html.GetEnumSelectList<DIMS_Core.Common.Enums.Gender>())
+                </div>
+                <div>
+                    <label>Direction</label>
+                    @Html.DropDownListFor(Model => Model.DirectionId, ViewBag.directions as SelectList)
+                </div>
+                <div>
+                    <label>Mobile</label>
+                    <input type="tel" value="@Model?.MobilePhone" asp-for="MobilePhone" />
+                    <span asp-validation-for="MobilePhone"></span>
+                </div>
+                <div>
+                    <label>Skype</label>
+                    <input type="text" value="@Model?.Skype" asp-for="Skype" />
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="submit" class="btn btn-primary">Save</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Back to grid</button>
+            </div>
+        </div>
+    </div>
+</form>

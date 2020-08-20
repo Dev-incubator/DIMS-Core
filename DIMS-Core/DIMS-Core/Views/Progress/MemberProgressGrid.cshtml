@@ -1,0 +1,58 @@
+﻿@model DIMS_Core.Models.ProgressModels.MembersProgressViewModel;
+
+@{
+    ViewData["Title"] = "MemberProgressGrid";
+}
+
+@if (Model?.UserName != null)
+{
+    <h1>@Model.UserName's progress</h1>
+}
+else
+{
+    <h1>User not exists</h1>
+}
+<div>
+    <table class="table table-bordered">
+        <thread class="thead-dark">
+            <tr>
+                <th>#</th>
+                <th>Task</th>
+                <th>Note</th>
+                <th>Date</th>
+            </tr>
+        </thread>
+        <tbody>
+            @if (Model != null && Model.vUserProgressModels.Count() > 0)
+            {
+                int i = 0;
+                foreach (var up in Model.vUserProgressModels)
+                {
+                    i++;
+                    <tr>
+                        <th scope="row">@i</th>
+                        <td>@Html.ActionLink(up.TaskName, "EditTask", "TaskManager", new { TaskId = up.TaskId })</td>
+                        <td>@up.TrackNote</td>
+                        <td>@up.TrackDate</td>
+                    </tr>
+                }
+            }
+        </tbody>
+    </table>
+</div>
+<partial name="_Modal" />
+
+@section Scripts{
+    <script type="text/javascript">
+        $(function () {
+            $.ajaxSetup({ cache: false });
+            $('table a').click(function (e) {
+                e.preventDefault();
+                $.get(this.href, function (data) {
+                    $('#dialogContent').html(data);
+                    $('#modal').modal('show');
+                });
+            });
+        })
+    </script>
+}

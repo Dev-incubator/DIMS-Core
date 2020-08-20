@@ -31,6 +31,27 @@ namespace DIMS_Core.BusinessLayer.Services
             var mappedEntity = mapper.Map<User>(model);
 
             var result = await unitOfWork.UserManager.CreateAsync(mappedEntity, model.Password);
+            if (result.Succeeded)
+            {
+                mapper.Map(mappedEntity, model);
+                await unitOfWork.UserManager.AddToRoleAsync(mappedEntity, model.UserRole.ToString());
+            }
+
+            return result;
+        }
+
+        public async Task<IdentityResult> DeleteAsync(int Id)
+        {
+            var user = await unitOfWork.UserManager.FindByIdAsync(Id.ToString());
+            var result = await unitOfWork.UserManager.DeleteAsync(user);
+
+            return result;
+        }
+
+        public async Task<IdentityResult> DeleteAsync(string Email)
+        {
+            var user = await unitOfWork.UserManager.FindByEmailAsync(Email);
+            var result = await unitOfWork.UserManager.DeleteAsync(user);
 
             return result;
         }
@@ -38,6 +59,11 @@ namespace DIMS_Core.BusinessLayer.Services
         public Task SignOutAsync()
         {
             return unitOfWork.SignInManager.SignOutAsync();
+        }
+        public async Task<User> GetUserAsync(string Email)
+        {
+            var user = await unitOfWork.UserManager.FindByEmailAsync(Email);
+            return user;
         }
 
         #region Disposable
@@ -67,6 +93,7 @@ namespace DIMS_Core.BusinessLayer.Services
             Dispose(disposing: true);
             System.GC.SuppressFinalize(this);
         }
+
 
         #endregion Disposable
     }

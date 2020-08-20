@@ -1,17 +1,25 @@
-﻿using DIMS_Core.BusinessLayer.Interfaces;
+﻿using AutoMapper;
+using DIMS_Core.BusinessLayer.Interfaces;
 using DIMS_Core.BusinessLayer.Models.Account;
+using DIMS_Core.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using System.Threading.Tasks;
 
 namespace DIMS_Core.Controllers
 {
-    [Route("account")]
     public class AccountController : Controller
     {
-        private readonly IUserIdentityService userService;
+        private readonly IDirectionService directionService;
+        private readonly IMapper mapper;
+        private readonly IUserService userService;
 
-        public AccountController(IUserIdentityService userService)
+        public AccountController(IDirectionService directionService,
+            IUserService userService, IMapper mapper)
         {
+            this.directionService = directionService;
+            this.mapper = mapper;
             this.userService = userService;
         }
 
@@ -44,26 +52,43 @@ namespace DIMS_Core.Controllers
             }
         }
 
-        [HttpGet("register")]
-        public IActionResult Register()
+        [HttpGet]
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> Register()
         {
-            return View();
+            var directions = await directionService.GetAllAsync();
+
+            var model = new UserRegistViewModel();
+
+            model.Directions = new SelectList(directions, "DirectionId", "Name");
+            model.Password = "qwerty";
+            model.ConfirmPassword = "qwerty";
+
+            //model.Password = IdentityAdditionalMethods.GenerateRandomPassword();        uncomment, when sender will be workable
+            //model.ConfirmPassword = IdentityAdditionalMethods.GenerateRandomPassword();
+
+            return PartialView("RegistUserWindow", model);
         }
 
-        [HttpPost("register")]
+        [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Register(SignUpModel model)
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> Register(UserRegistViewModel model)
         {
+            var directions = await directionService.GetAllAsync();
+            model.Directions = new SelectList(directions, "DirectionId", "Name");
+
             if (!ModelState.IsValid)
             {
-                return View(model);
+                return PartialView("RegistUserWindow", model);
             }
 
-            var result = await userService.SignUpAsync(model);
+            var userRegistModel = mapper.Map<UserRegistModel>(model);
+            var result = await userService.RegistAsync(userRegistModel);
 
             if (result.Succeeded)
             {
-                return RedirectToAction("Index", "Home");
+                return PartialView("RegisterSucceeded");
             }
             else
             {
@@ -72,8 +97,25 @@ namespace DIMS_Core.Controllers
                     ModelState.AddModelError("", item.Description);
                 }
 
-                return View(model);
+                return PartialView("RegistUserWindow", model);
             }
+        }
+
+        [HttpGet]
+        [Authorize(Roles = "Admin")]
+        public IActionResult Delete(int UserId, string FullName)
+        {
+            DeleteUserViewModel model = new DeleteUserViewModel(UserId, FullName);
+            return PartialView("DeleteWindow", model);
+        }
+
+        [HttpPost]
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> Delete(DeleteUserViewModel model)
+        {
+            await userService.DeleteAsync(model.UserId);
+
+            return RedirectToAction("MembersManageGrid", "MembersManager");
         }
 
         [HttpGet("logout")]

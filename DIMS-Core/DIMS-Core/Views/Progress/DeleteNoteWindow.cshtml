@@ -1,0 +1,18 @@
+﻿@model DIMS_Core.BusinessLayer.Models.BaseModels.VUserTrackModel;
+<form asp-action="DeleteNote" asp-controller="Progress" method="post">
+    <input type="hidden" value="@Model.TaskTrackId" asp-for="TaskTrackId" />
+    <div>
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">@Model.TaskName - @Model.TrackNote</h5>
+            </div>
+            <div class="modal-body">
+                Do you realy want to delete this note?
+            </div>
+            <div class="modal-footer">
+                <button type="submit" class="btn btn-primary">Yes</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
+            </div>
+        </div>
+    </div>
+</form>

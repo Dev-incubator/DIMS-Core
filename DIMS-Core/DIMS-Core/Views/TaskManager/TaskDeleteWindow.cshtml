@@ -1,0 +1,18 @@
+﻿@model DIMS_Core.BusinessLayer.Models.BaseModels.VTaskModel;
+<form asp-action="DeleteTask" asp-controller="TaskManager" method="post">
+    <input type="hidden" value="@Model.TaskId" asp-for="TaskId" />
+    <div>
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">@Model.Name</h5>
+            </div>
+            <div class="modal-body">
+                Do you realy want to delete this task?
+            </div>
+            <div class="modal-footer">
+                <button type="submit" class="btn btn-primary">Yes</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
+            </div>
+        </div>
+    </div>
+</form>

@@ -1,0 +1,69 @@
+﻿@model DIMS_Core.Models.UserRegistViewModel;
+<form id="regForm" asp-action="Register" asp-controller="Account" asp-antiforgery="true" method="post">
+    <div>
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">User registration</h5>
+            </div>
+            <div class="modal-body">
+                <input type="hidden" asp-for="Password" />
+                <input type="hidden" asp-for="ConfirmPassword" />
+                <div>
+                    <label asp-for="Email"></label>
+                    <input type="email" asp-for="Email" />
+                </div>
+                <div>
+                    <label asp-for="FirstName">Name</label>
+                    <input type="text" asp-for="FirstName" />
+                </div>
+                <div>
+                    <label asp-for="LastName"></label>
+                    <input type="text" asp-for="LastName" />
+                </div>
+                <div>
+                    <label asp-for="Sex"></label>
+                    <select asp-for="Sex" asp-items="Html.GetEnumSelectList<DIMS_Core.Common.Enums.Gender>()"></select>
+                </div>
+                <div>
+                    <label asp-for="BirthDate"></label>
+                    <input type="date" asp-for="BirthDate" />
+                </div>
+                <div>
+                    <label asp-for="Education"></label>
+                    <input type="text" asp-for="Education" />
+                </div>
+                <div>
+                    <label asp-for="DirectionId"></label>
+                    @Html.DropDownListFor(Model => Model.DirectionId, Model.Directions)
+                </div>
+                <div>
+                    <label asp-for="MobilePhone"></label>
+                    <input type="tel" asp-for="MobilePhone" />
+                </div>
+                <div>
+                    <label asp-for="Skype"></label>
+                    <input type="text" asp-for="Skype" />
+                </div>
+                <div>
+                    <label asp-for="UserRole"></label>
+                    <select asp-for="UserRole" asp-items="Html.GetEnumSelectList<DIMS_Core.Common.Enums.Role>()"></select>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="submit" class="btn btn-primary">Save</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Back to grid</button>
+            </div>
+            <div class="validation" asp-validation-summary="All">
+            </div>
+        </div>
+    </div>
+</form>
+<script type="text/javascript">
+    $('#regForm').submit(function (e) {
+        e.preventDefault();
+        let formData = $(this).serialize();
+        $.post($(this).attr('action'), formData, function (data) {
+                    $('#dialogContent').html(data);
+                });
+    });
+</script>

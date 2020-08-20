@@ -8,9 +8,13 @@
 
   <ItemGroup>
     <Compile Remove="logs\**" />
+    <Compile Remove="Models\User\**" />
     <Content Remove="logs\**" />
+    <Content Remove="Models\User\**" />
     <EmbeddedResource Remove="logs\**" />
+    <EmbeddedResource Remove="Models\User\**" />
     <None Remove="logs\**" />
+    <None Remove="Models\User\**" />
   </ItemGroup>
 
   <ItemGroup>
@@ -37,7 +41,7 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="3.1.3" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="3.1.4" />
   </ItemGroup>
 
   <ItemGroup>

@@ -8,7 +8,13 @@ namespace DIMS_Core.BusinessLayer.Interfaces
     public interface IUserIdentityService : IDisposable
     {
         Task<SignInResult> SignInAsync(SignInModel model);
+
         Task SignOutAsync();
+
         Task<IdentityResult> SignUpAsync(SignUpModel model);
+
+        Task<IdentityResult> DeleteAsync(int Id);
+
+        Task<IdentityResult> DeleteAsync(string Email);
     }
 }

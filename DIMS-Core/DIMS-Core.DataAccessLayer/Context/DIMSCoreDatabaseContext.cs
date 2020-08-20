@@ -126,7 +126,7 @@ namespace DIMS_Core.DataAccessLayer.Context
                     .HasMaxLength(25)
                     .IsFixedLength();
 
-                entity.Property(e => e.Name)
+                entity.Property(e => e.FirstName)
                     .IsRequired()
                     .HasMaxLength(50);
 

@@ -57,6 +57,8 @@ namespace DIMS_Core.BusinessLayer.Services
             await BaseRepository.CreateAsync(entity);
 
             await unitOfWork.SaveAsync();
+
+            mapper.Map(entity, model);
         }
 
         public async Task UpdateAsync(DefaultDTOModel model)

@@ -9,8 +9,8 @@ namespace DIMS_Core.BusinessLayer.MappingProfiles
         public UserIdentityProfile()
         {
             CreateMap<SignUpModel, User>()
-                .ForMember(q => q.Email, w => w.MapFrom(q => q.Email))
-                .ForMember(q => q.UserName, w => w.MapFrom(q => q.Email));
+                .ForMember(opt => opt.Email, dist => dist.MapFrom(src => src.Email))
+                .ForMember(opt => opt.UserName, dist => dist.MapFrom(src => src.Email));
         }
     }
 }

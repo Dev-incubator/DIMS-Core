@@ -1,0 +1,45 @@
+﻿@model DIMS_Core.BusinessLayer.Models.TaskManagerModels.TaskEditModel;
+
+<form asp-action="CreateTask" asp-controller="TaskManager" method="post">
+    <div>
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Create new task</h5>
+            </div>
+            <div class="modal-body">
+                <div>
+                    <label>Name</label>
+                    <input type="text" value="@Model.Name" asp-for="Name" />
+                </div>
+                <div>
+                    <div>
+                        <label>Start date</label>
+                        @Html.EditorFor(m => m.StartDate)
+                    </div>
+                    <div>
+                        <label>Deadline</label>
+                        @Html.EditorFor(m => m.DeadlineDate)
+                    </div>
+                </div>
+                <div>
+                    <label>Members</label>
+                    <div>
+                        @for (int i = 0; i < Model.UsersTask.Count(); i++)
+                        {
+                            <label>
+                                <input type="hidden" asp-for="UsersTask[i].UserId" />
+                                @Html.EditorFor(m => m.UsersTask[i].OnTask)
+                                @Model.UsersTask[i].FullName
+                            </label>
+                            <br />
+                        }
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="submit" class="btn btn-primary">Create</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Back to grid</button>
+            </div>
+        </div>
+    </div>
+</form>

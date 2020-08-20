@@ -1,0 +1,97 @@
+﻿@model DIMS_Core.Models.ProgressModels.MembersTasksViewModel
+
+@{
+    ViewData["Title"] = "MembersTasksManageGrid";
+}
+
+@if (Model?.UserName != null)
+{
+    Html.ActionLink("Go to tracks", "TaskTracksManageGrid", "Progress", new { }, new { @class = "btn btn-info" });
+    
+    if (User.IsInRole("Member"))
+    {
+        <h1>Hi, dear @Model.UserName! This is your current tasks:</h1>
+    }
+    else
+    {
+        <h1>@Model.UserName's tasks:</h1>
+    }
+
+}
+else
+{
+    <h1>User not exists</h1>
+}
+<div>
+    <table class="table table-bordered">
+        <thread class="thead-dark">
+            <tr>
+                <th>#</th>
+                <th>Name</th>
+                <th>Start</th>
+                <th>Deadline</th>
+                <th>Status</th>
+                @if(User.IsInRole("Member"))
+                {
+                <th></th>
+                }
+                @if (User.IsInRole("Admin"))
+                {
+                    <th>Administration tools</th>
+                }
+            </tr>
+        </thread>
+        <tbody>
+            @if (Model != null && Model.userTaskModels.Any())
+            {
+                int i = 0;
+                foreach (var ut in Model.userTaskModels)
+                {
+                    i++;
+                    <tr>
+                        <th scope="row">@i</th>
+                        <td>@ut.TaskName</td>
+                        <td>@ut.StartDate.ToShortDateString()</td>
+                        <td>@ut.DeadlineDate.ToShortDateString()</td>
+                        <td>@ut.State</td>
+                        @if (User.IsInRole("Member"))
+                        {
+                            <td>
+                                <button class="btn-info">
+                                    @Html.ActionLink("Track", "CreateNote", "Progress", new { UserTaskId = ut.UserTaskId })
+                                </button>
+                            </td>
+                        }
+                        @if (User.IsInRole("Admin"))
+                        {
+                            <td>
+                                <button class="btn btn-success">
+                                    @Html.ActionLink("Success", "SetSuccess", "Progress", new { UserTaskId = ut.UserTaskId }, new { @name = "success" })
+                                </button>
+                                <button class="btn btn-danger">
+                                    @Html.ActionLink("Fail", "SetFail", "Progress", new { UserTaskId = ut.UserTaskId }, new { @name = "fail" })
+                                </button>
+                            </td>
+                        }
+                    </tr>
+                }
+            }
+        </tbody>
+    </table>
+</div>
+<partial name="_Modal" />
+
+@section Scripts{
+    <script type="text/javascript">
+        $(function () {
+            $.ajaxSetup({ cache: false });
+            $('table a:not([name=success], [name=fail])').click(function (e) {
+                e.preventDefault();
+                $.get(this.href, function (data) {
+                    $('#dialogContent').html(data);
+                    $('#modal').modal('show');
+                });
+            });
+        });
+    </script>
+}
