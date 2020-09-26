@@ -59,6 +59,7 @@
   <ItemGroup>
     <Folder Include="Properties" />
     <Folder Include="Tables" />
+    <Folder Include="Views" />
   </ItemGroup>
   <ItemGroup>
     <Build Include="Tables\Direction.sql" />
@@ -67,6 +68,11 @@
     <Build Include="Tables\Task.sql" />
     <Build Include="Tables\UserTask.sql" />
     <Build Include="Tables\TaskTrack.sql" />
+    <Build Include="Views\vUserProfile.sql" />
+    <Build Include="Views\vTask.sql" />
+    <Build Include="Views\vUserTask.sql" />
+    <Build Include="Views\vUserProgress.sql" />
+    <Build Include="Views\vUserTrack.sql" />
   </ItemGroup>
   <ItemGroup>
     <RefactorLog Include="DIMS-Core.Database.refactorlog" />
