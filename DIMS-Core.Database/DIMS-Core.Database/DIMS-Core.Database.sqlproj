@@ -69,6 +69,7 @@
     <Build Include="Tables\UserTask.sql" />
     <Build Include="Tables\TaskTrack.sql" />
     <Build Include="Views\vUserProfile.sql" />
+    <Build Include="Views\vTask.sql" />
   </ItemGroup>
   <ItemGroup>
     <RefactorLog Include="DIMS-Core.Database.refactorlog" />
