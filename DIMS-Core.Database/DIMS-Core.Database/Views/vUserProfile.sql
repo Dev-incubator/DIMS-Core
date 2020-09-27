@@ -6,7 +6,7 @@
 		Direction.[Name] as Direction,
 		UserProfile.Sex,
 		UserProfile.Education,
-		(DATEDIFF(YEAR, UserProfile.BirthOfDate, GETDATE())) as Age,
+		((CONVERT(int,CONVERT(char(8),GETDATE(),112))-CONVERT(char(8),UserProfile.BirthOfDate,112))/10000) AS Age,
 		UserProfile.UniversityAverageScore,
 		UserProfile.MathScore,
 		UserProfile.[Address],
