@@ -3,6 +3,6 @@
 		Task.TaskId,
 		Task.[Name],
 		Task.[Description],
-		FORMAT(Task.StartDate, 'dd/MM/yyyy hh:mm') as StartDate,
-		FORMAT(Task.DeadlineDate, 'dd/MM/yyyy hh:mm') as DeadlineDate
+		FORMAT(Task.StartDate, 'dd.MM.yyyy hh:mm:ss') as StartDate,
+		FORMAT(Task.DeadlineDate, 'dd.MM.yyyy hh:mm:ss') as DeadlineDate
 	FROM [Task]

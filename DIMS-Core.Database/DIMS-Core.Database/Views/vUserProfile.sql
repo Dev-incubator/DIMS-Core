@@ -12,5 +12,5 @@
 		UserProfile.[Address],
 		UserProfile.MobilePhone,
 		UserProfile.Skype,
-		FORMAT(UserProfile.StartDate, 'dd/MM/yyyy', 'en-US') as UserProfile
+		FORMAT(UserProfile.StartDate, 'dd.MM.yyyy', 'en-US') as UserProfile
 	FROM UserProfile INNER JOIN Direction ON UserProfile.DirectionId=Direction.DirectionId
