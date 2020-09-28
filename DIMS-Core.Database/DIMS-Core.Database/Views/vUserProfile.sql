@@ -12,5 +12,5 @@
 		UserProfile.[Address],
 		UserProfile.MobilePhone,
 		UserProfile.Skype,
-		UserProfile.StartDate,
+		UserProfile.StartDate
 	FROM UserProfile INNER JOIN Direction ON UserProfile.DirectionId=Direction.DirectionId
