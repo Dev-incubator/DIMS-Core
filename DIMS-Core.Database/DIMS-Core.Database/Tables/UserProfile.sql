@@ -11,7 +11,7 @@
     [UniversityAverageScore] FLOAT NOT NULL, 
     [MathScore] FLOAT NOT NULL, 
     [Address] NVARCHAR(255) NOT NULL, 
-    [MobilePhone] NVARCHAR(255) NOT NULL, 
+    [MobilePhone] NVARCHAR(16) NOT NULL, 
     [Skype] NVARCHAR(255) NOT NULL, 
     [StartDate] DATETIME NOT NULL,
     FOREIGN KEY ([DirectionId]) REFERENCES [dbo].[Direction] ([DirectionId])
