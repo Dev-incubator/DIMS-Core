@@ -4,5 +4,5 @@
     [UserTaskId] INT NOT NULL, 
     [TrackDate] DATETIME NOT NULL, 
     [TrackNote] NVARCHAR(255) NULL,
-    FOREIGN KEY ([UserTaskId]) REFERENCES [dbo].[UserTask] ([UserTaskId])
+    FOREIGN KEY ([UserTaskId]) REFERENCES [dbo].[UserTask] ([UserTaskId]) on delete cascade on update cascade
 )

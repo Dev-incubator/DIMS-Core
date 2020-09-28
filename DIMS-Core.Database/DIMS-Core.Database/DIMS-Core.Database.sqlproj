@@ -61,6 +61,7 @@
     <Folder Include="Tables" />
     <Folder Include="Views" />
     <Folder Include="SeedData" />
+    <Folder Include="Procedures" />
   </ItemGroup>
   <ItemGroup>
     <Build Include="Tables\Direction.sql" />
@@ -74,6 +75,7 @@
     <Build Include="Views\vUserTask.sql" />
     <Build Include="Views\vUserProgress.sql" />
     <Build Include="Views\vUserTrack.sql" />
+    <Build Include="Procedures\DeleteUser.sql" />
   </ItemGroup>
   <ItemGroup>
     <RefactorLog Include="DIMS-Core.Database.refactorlog" />
