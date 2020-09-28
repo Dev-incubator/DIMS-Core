@@ -4,8 +4,8 @@
 		UserTask.TaskId,
 		Task.[Name] as TaskName,
 		Task.[Description],
-		FORMAT(Task.StartDate, 'dd.MM.yyyy hh:mm:ss') as StartDate,
-		FORMAT(Task.DeadlineDate, 'dd.MM.yyyy hh:mm:ss') as DeadlineDate,
+		Task.StartDate,
+		Task.DeadlineDate,
 		TaskState.StateName as 'State'
 	FROM UserTask
 		JOIN Task ON UserTask.TaskId = Task.TaskId
