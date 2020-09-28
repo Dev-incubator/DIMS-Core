@@ -14,5 +14,5 @@
     [MobilePhone] NVARCHAR(255) NOT NULL, 
     [Skype] NVARCHAR(255) NOT NULL, 
     [StartDate] DATETIME NOT NULL,
-    FOREIGN KEY ([DirectionId]) REFERENCES [dbo].[Direction] ([DirectionId])
+    FOREIGN KEY ([DirectionId]) REFERENCES [dbo].[Direction] ([DirectionId]) on delete cascade on update cascade
 )
