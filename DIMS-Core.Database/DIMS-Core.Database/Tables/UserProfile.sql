@@ -10,7 +10,7 @@
     [BirthOfDate] DATETIME NULL, 
     [UniversityAverageScore] FLOAT NULL, 
     [MathScore] FLOAT NULL, 
-    [Address] NVARCHAR(255) NULL, 
+    [Address] NVARCHAR(128) NULL, 
     [MobilePhone] NVARCHAR(16) NULL, 
     [Skype] NVARCHAR(255) NULL, 
     [StartDate] DATETIME NULL,
