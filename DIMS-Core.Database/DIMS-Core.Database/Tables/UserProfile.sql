@@ -6,7 +6,7 @@
     [Email] NVARCHAR(255) NOT NULL, 
     [LastName] NVARCHAR(64) NOT NULL, 
     [Sex] TINYINT NOT NULL, 
-    [Education] NVARCHAR(255) NOT NULL, 
+    [Education] NVARCHAR(128) NOT NULL, 
     [BirthOfDate] DATETIME NOT NULL, 
     [UniversityAverageScore] FLOAT NOT NULL, 
     [MathScore] FLOAT NOT NULL, 
