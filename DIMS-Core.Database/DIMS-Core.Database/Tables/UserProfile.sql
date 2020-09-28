@@ -2,9 +2,9 @@
 (
 	[UserId] INT Identity(1,1) NOT NULL PRIMARY KEY, 
     [DirectionId] INT NOT NULL, 
-    [Name] NVARCHAR(255) NOT NULL, 
+    [Name] NVARCHAR(64) NOT NULL, 
     [Email] NVARCHAR(255) NOT NULL, 
-    [LastName] NVARCHAR(255) NOT NULL, 
+    [LastName] NVARCHAR(64) NOT NULL, 
     [Sex] TINYINT NOT NULL, 
     [Education] NVARCHAR(255) NOT NULL, 
     [BirthOfDate] DATETIME NOT NULL, 
