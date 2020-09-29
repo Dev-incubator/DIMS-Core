@@ -12,7 +12,6 @@ namespace DIMS_Core.DataAccessLayer.Entities
 
         public int StateId { get; set; }
         public string StateName { get; set; }
-
         public virtual ICollection<UserTask> UserTask { get; set; }
     }
 }
