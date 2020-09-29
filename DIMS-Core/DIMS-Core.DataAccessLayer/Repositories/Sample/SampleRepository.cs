@@ -1,6 +1,7 @@
 ﻿using DIMS_Core.Common.Enums;
 using DIMS_Core.Common.Extensions;
 using DIMS_Core.DataAccessLayer.Context;
+using DIMS_Core.DataAccessLayer.Entities;
 using DIMS_Core.DataAccessLayer.Filters;
 using DIMS_Core.DataAccessLayer.Interfaces;
 using Microsoft.EntityFrameworkCore;
