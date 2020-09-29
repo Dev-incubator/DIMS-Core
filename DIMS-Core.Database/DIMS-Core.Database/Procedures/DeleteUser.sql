@@ -1,4 +1,4 @@
 ﻿CREATE PROCEDURE [dbo].[DeleteUser]
-	@UserId int
+    @UserId int
 AS
-	Delete from UserProfile where UserId = @UserId;
+    Delete from UserProfile where UserId = @UserId;
