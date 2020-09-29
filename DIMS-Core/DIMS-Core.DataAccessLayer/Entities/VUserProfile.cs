@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DIMS_Core.DataAccessLayer.Enums;
+using System;
 using System.Collections.Generic;
 
 namespace DIMS_Core.DataAccessLayer.Entities
@@ -9,7 +10,7 @@ namespace DIMS_Core.DataAccessLayer.Entities
         public string FullName { get; set; }
         public string Email { get; set; }
         public string Direction { get; set; }
-        public byte Sex { get; set; }
+        public Sex Sex { get; set; }
         public string Education { get; set; }
         public int? Age { get; set; }
         public double? UniversityAverageScore { get; set; }
