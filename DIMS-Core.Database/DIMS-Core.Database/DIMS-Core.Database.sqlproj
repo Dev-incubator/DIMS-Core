@@ -58,5 +58,31 @@
   <Import Condition="'$(SQLDBExtensionsRefPath)' == ''" Project="$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v$(VisualStudioVersion)\SSDT\Microsoft.Data.Tools.Schema.SqlTasks.targets" />
   <ItemGroup>
     <Folder Include="Properties" />
+    <Folder Include="Tables" />
+    <Folder Include="Views" />
+    <Folder Include="SeedData" />
+    <Folder Include="Procedures" />
+    <Folder Include="Functions" />
+  </ItemGroup>
+  <ItemGroup>
+    <Build Include="Tables\Direction.sql" />
+    <Build Include="Tables\UserProfile.sql" />
+    <Build Include="Tables\TaskState.sql" />
+    <Build Include="Tables\Task.sql" />
+    <Build Include="Tables\UserTask.sql" />
+    <Build Include="Tables\TaskTrack.sql" />
+    <Build Include="Views\vUserProfile.sql" />
+    <Build Include="Views\vTask.sql" />
+    <Build Include="Views\vUserTask.sql" />
+    <Build Include="Views\vUserProgress.sql" />
+    <Build Include="Views\vUserTrack.sql" />
+    <Build Include="Procedures\DeleteUser.sql" />
+    <Build Include="Functions\CalcFullAge.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <RefactorLog Include="DIMS-Core.Database.refactorlog" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="SeedData\SeedData.sql" />
   </ItemGroup>
 </Project>

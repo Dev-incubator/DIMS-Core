@@ -1,6 +1,7 @@
 ﻿using DIMS_Core.Common.Enums;
 using DIMS_Core.Common.Extensions;
 using DIMS_Core.DataAccessLayer.Context;
+using DIMS_Core.DataAccessLayer.Entities;
 using DIMS_Core.DataAccessLayer.Filters;
 using DIMS_Core.DataAccessLayer.Interfaces;
 using Microsoft.EntityFrameworkCore;
@@ -38,7 +39,7 @@ namespace DIMS_Core.DataAccessLayer.Repositories
                 query = query.Where(q => q.Description.Contains(filter.Description));
             }
 
-            query.SortAndTake(filter.SortExpression, filter.Page, filter.PageSize, q => q.SampleId, SortDirections.DESC);
+            query = query.SortAndTake(filter.SortExpression, filter.Page, filter.PageSize, q => q.SampleId, SortDirections.DESC);
 
             return query;
         }

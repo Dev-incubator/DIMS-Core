@@ -1,4 +1,5 @@
 ﻿using DIMS_Core.DataAccessLayer.Context;
+using DIMS_Core.DataAccessLayer.Entities;
 using DIMS_Core.DataAccessLayer.Filters;
 using System.Linq;
 
