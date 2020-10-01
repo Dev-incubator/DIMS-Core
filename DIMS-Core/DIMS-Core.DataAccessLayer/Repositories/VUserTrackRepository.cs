@@ -7,8 +7,8 @@ using System.Text;
 
 namespace DIMS_Core.DataAccessLayer.Repositories
 {
-    public class VUserTaskRepository : Repository<VUserTask>, IVUserTaskRepository
+    public class VUserTrackRepository : Repository<VUserTrack>, IVUserTrackRepository
     {
-        public VUserTaskRepository(DIMSCoreDatabaseContext dbContext) : base(dbContext) { }
+        public VUserTrackRepository(DIMSCoreDatabaseContext dbContext) : base(dbContext) { }
     }
 }
