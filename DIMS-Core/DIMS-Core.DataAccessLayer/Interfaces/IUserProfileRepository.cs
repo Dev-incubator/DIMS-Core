@@ -5,7 +5,7 @@ using System.Text;
 
 namespace DIMS_Core.DataAccessLayer.Interfaces
 {
-    interface IUserProfileRepository : IRepository<UserProfile>
+    public interface IUserProfileRepository : IRepository<UserProfile>
     {
 
     }

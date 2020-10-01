@@ -5,7 +5,7 @@ using System.Text;
 
 namespace DIMS_Core.DataAccessLayer.Interfaces
 {
-    interface IUserTaskRepository : IRepository<UserTask>
+    public interface IUserTaskRepository : IRepository<UserTask>
     {
 
     }

@@ -5,7 +5,7 @@ using System.Text;
 
 namespace DIMS_Core.DataAccessLayer.Interfaces
 {
-    interface ITaskTrackRepository : IRepository<TaskTrack>
+    public interface ITaskTrackRepository : IRepository<TaskTrack>
     {
 
     }

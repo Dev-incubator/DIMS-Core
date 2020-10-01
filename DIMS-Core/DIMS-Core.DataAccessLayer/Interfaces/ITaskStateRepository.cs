@@ -5,7 +5,7 @@ using System.Text;
 
 namespace DIMS_Core.DataAccessLayer.Interfaces
 {
-    interface ITaskStateRepository : IRepository<TaskState>
+    public interface ITaskStateRepository : IRepository<TaskState>
     {
 
     }
