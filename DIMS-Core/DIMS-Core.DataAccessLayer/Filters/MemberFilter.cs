@@ -3,9 +3,9 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace DIMS_Core.BusinessLayer.Models.Members
+namespace DIMS_Core.DataAccessLayer.Filters
 {
-    public class MemberModel
+    public class MemberFilter
     {
         public int UserId { get; set; }
         public string FullName { get; set; }

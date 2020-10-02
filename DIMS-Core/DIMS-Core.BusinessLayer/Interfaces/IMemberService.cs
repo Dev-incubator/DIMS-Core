@@ -1,4 +1,5 @@
 ﻿using DIMS_Core.BusinessLayer.Models.Members;
+using DIMS_Core.DataAccessLayer.Filters;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -8,7 +9,7 @@ namespace DIMS_Core.BusinessLayer.Interfaces
 {
     public interface IMemberService
     {
-        //Task<IEnumerable<MemberModel>> SearchAsync(SampleFilter searchFilter);
+        Task<IEnumerable<MemberModel>> SearchAsync(MemberFilter searchFilter);
 
         Task<MemberModel> GetMemberAsync(int id);
 
