@@ -59,9 +59,25 @@ namespace DIMS_Core.BusinessLayer.Services
             await unitOfWork.SaveAsync();
         }
 
-        public Task UpdateAsync(MemberModel model)
+        public async Task UpdateAsync(MemberModel model)
         {
-            throw new NotImplementedException();
+            if (model is null || model.UserId <= 0)
+            {
+                return;
+            }
+
+            var entity = await unitOfWork.UserProfileRepository.GetByIdAsync(model.UserId);
+
+            if (entity is null)
+            {
+                return;
+            }
+
+            var mappedEntity = mapper.Map(model, entity);
+
+            unitOfWork.UserProfileRepository.Update(mappedEntity);
+
+            await unitOfWork.SaveAsync();
         }
 
         public Task DeleteAsync(int id)
