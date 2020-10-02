@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using DIMS_Core.BusinessLayer.Interfaces;
+using DIMS_Core.BusinessLayer.MappingProfiles;
 using DIMS_Core.BusinessLayer.Models.Members;
 using DIMS_Core.DataAccessLayer.Filters;
 using DIMS_Core.DataAccessLayer.Interfaces;
@@ -8,6 +9,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
+using EntityUserProfile = DIMS_Core.DataAccessLayer.Entities.UserProfile;
 
 namespace DIMS_Core.BusinessLayer.Services
 {
@@ -30,14 +32,31 @@ namespace DIMS_Core.BusinessLayer.Services
             return await mappedQuery.ToListAsync();
         }
 
-        public Task<MemberModel> GetMemberAsync(int id)
+        public async Task<MemberModel> GetMemberAsync(int id)
         {
-            throw new NotImplementedException();
+            if (id <= 0)
+            {
+                return null;
+            }
+
+            var entity = await unitOfWork.VUserProfileRepository.GetByIdAsync(id);
+            var model = mapper.Map<MemberModel>(entity);
+
+            return model;
         }
 
-        public Task CreateAsync(MemberModel model)
+        public async Task CreateAsync(MemberModel model)
         {
-            throw new NotImplementedException();
+            if (model is null || model.UserId != 0)
+            {
+                return;
+            }
+
+            var entity = mapper.Map<EntityUserProfile>(model);
+
+            await unitOfWork.UserProfileRepository.CreateAsync(entity);
+
+            await unitOfWork.SaveAsync();
         }
 
         public Task UpdateAsync(MemberModel model)
