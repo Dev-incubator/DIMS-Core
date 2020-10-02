@@ -80,9 +80,16 @@ namespace DIMS_Core.BusinessLayer.Services
             await unitOfWork.SaveAsync();
         }
 
-        public Task DeleteAsync(int id)
+        public async Task DeleteAsync(int id)
         {
-            throw new NotImplementedException();
+            if (id <= 0)
+            {
+                return;
+            }
+
+            await unitOfWork.UserProfileRepository.DeleteAsync(id);
+
+            await unitOfWork.SaveAsync();
         }
 
     }
