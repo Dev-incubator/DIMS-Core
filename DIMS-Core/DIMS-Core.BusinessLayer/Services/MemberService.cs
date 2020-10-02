@@ -3,6 +3,7 @@ using DIMS_Core.BusinessLayer.Interfaces;
 using DIMS_Core.BusinessLayer.Models.Members;
 using DIMS_Core.DataAccessLayer.Filters;
 using DIMS_Core.DataAccessLayer.Interfaces;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -21,9 +22,12 @@ namespace DIMS_Core.BusinessLayer.Services
             this.mapper = mapper;
         }
 
-        public Task<IEnumerable<MemberModel>> SearchAsync(MemberFilter searchFilter)
+        public async Task<IEnumerable<MemberModel>> SearchAsync()
         {
-            throw new NotImplementedException();
+            var query = unitOfWork.VUserProfileRepository.Search();
+            var mappedQuery = mapper.ProjectTo<MemberModel>(query);
+
+            return await mappedQuery.ToListAsync();
         }
 
         public Task<MemberModel> GetMemberAsync(int id)

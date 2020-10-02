@@ -9,7 +9,7 @@ namespace DIMS_Core.BusinessLayer.Interfaces
 {
     public interface IMemberService
     {
-        Task<IEnumerable<MemberModel>> SearchAsync(MemberFilter searchFilter);
+        Task<IEnumerable<MemberModel>> SearchAsync();
 
         Task<MemberModel> GetMemberAsync(int id);
 

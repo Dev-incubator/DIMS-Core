@@ -7,7 +7,7 @@ namespace DIMS_Core.DataAccessLayer.Filters
 {
     public class MemberFilter
     {
-        public int UserId { get; set; }
+        public int? UserId { get; set; }
         public string FullName { get; set; }
         public string Email { get; set; }
         public string Direction { get; set; }
