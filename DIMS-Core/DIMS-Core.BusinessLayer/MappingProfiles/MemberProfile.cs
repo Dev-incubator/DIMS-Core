@@ -7,7 +7,7 @@ using System.Text;
 
 namespace DIMS_Core.BusinessLayer.MappingProfiles
 {
-    public class MemberProfile : Profile
+    internal class MemberProfile : Profile
     {
         public MemberProfile()
         {
