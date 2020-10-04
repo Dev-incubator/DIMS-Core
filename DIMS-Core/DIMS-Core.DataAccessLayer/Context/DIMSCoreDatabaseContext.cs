@@ -2,18 +2,20 @@
 using DIMS_Core.DataAccessLayer.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.Extensions.Configuration;
 
 namespace DIMS_Core.DataAccessLayer.Context
 {
     public partial class DIMSCoreDatabaseContext : DbContext
     {
-        public DIMSCoreDatabaseContext()
-        {
-        }
+        private readonly IConfiguration configuration;
 
-        public DIMSCoreDatabaseContext(DbContextOptions<DIMSCoreDatabaseContext> options)
-            : base(options)
+        public DIMSCoreDatabaseContext() { }
+
+        public DIMSCoreDatabaseContext(DbContextOptions<DIMSCoreDatabaseContext> options, IConfiguration configuration)
+            : base(options) 
         {
+            this.configuration = configuration;
         }
 
         public virtual DbSet<Direction> Direction { get; set; }
@@ -33,7 +35,7 @@ namespace DIMS_Core.DataAccessLayer.Context
             if (!optionsBuilder.IsConfigured)
             {
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. See http://go.microsoft.com/fwlink/?LinkId=723263 for guidance on storing connection strings.
-                optionsBuilder.UseSqlServer("Server=DESKTOP-N10FT1S;Database=DIMS;Trusted_Connection=True;");
+                optionsBuilder.UseSqlServer(configuration.GetConnectionString("DIMSDatabase"));
             }
         }
 
