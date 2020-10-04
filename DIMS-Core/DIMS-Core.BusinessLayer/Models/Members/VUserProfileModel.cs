@@ -5,7 +5,7 @@ using System.Text;
 
 namespace DIMS_Core.BusinessLayer.Models.Members
 {
-    public class MemberModel
+    public class VUserProfileModel
     {
         public int UserId { get; set; }
         public string FullName { get; set; }

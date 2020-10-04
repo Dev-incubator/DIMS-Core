@@ -24,15 +24,15 @@ namespace DIMS_Core.BusinessLayer.Services
             this.mapper = mapper;
         }
 
-        public async Task<IEnumerable<MemberModel>> SearchAsync()
+        public async Task<IEnumerable<VUserProfileModel>> SearchAsync()
         {
             var query = unitOfWork.VUserProfileRepository.Search();
-            var mappedQuery = mapper.ProjectTo<MemberModel>(query);
+            var mappedQuery = mapper.ProjectTo<VUserProfileModel>(query);
 
             return await mappedQuery.ToListAsync();
         }
 
-        public async Task<MemberModel> GetMemberAsync(int id)
+        public async Task<VUserProfileModel> GetMemberAsync(int id)
         {
             if (id <= 0)
             {
@@ -40,12 +40,12 @@ namespace DIMS_Core.BusinessLayer.Services
             }
 
             var entity = await unitOfWork.VUserProfileRepository.GetByIdAsync(id);
-            var model = mapper.Map<MemberModel>(entity);
+            var model = mapper.Map<VUserProfileModel>(entity);
 
             return model;
         }
 
-        public async Task CreateAsync(MemberModel model)
+        public async Task CreateAsync(VUserProfileModel model)
         {
             if (model is null || model.UserId != 0)
             {
@@ -59,7 +59,7 @@ namespace DIMS_Core.BusinessLayer.Services
             await unitOfWork.SaveAsync();
         }
 
-        public async Task UpdateAsync(MemberModel model)
+        public async Task UpdateAsync(VUserProfileModel model)
         {
             if (model is null || model.UserId <= 0)
             {

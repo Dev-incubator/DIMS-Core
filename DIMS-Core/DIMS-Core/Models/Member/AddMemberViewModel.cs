@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace DIMS_Core.Models.Member
 {
-    public class MemberAddViewModel
+    public class AddMemberViewModel
     {
         [Required(ErrorMessage = "Name is required")]
         public string Name { get; set; }

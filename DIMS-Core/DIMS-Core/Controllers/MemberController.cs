@@ -39,14 +39,14 @@ namespace DIMS_Core.Controllers
 
         [HttpPost("create")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([FromForm]MemberAddViewModel model)
+        public async Task<IActionResult> Create([FromForm]AddMemberViewModel model)
         {
             if (!ModelState.IsValid)
             {
                 return View(model);
             }
 
-            var dto = mapper.Map<MemberModel>(model);
+            var dto = mapper.Map<VUserProfileModel>(model);
 
             await memberService.CreateAsync(dto);
 
