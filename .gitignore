@@ -261,7 +261,8 @@ __pycache__/
 *.pyc
 
 # Connection strings
-database.json
+/DIMS-Core/DIMS-Core/database.json
 
 # Logs folder
 logs/
+
