@@ -1,9 +1,9 @@
-﻿@model IEnumerable<MemberViewModel>
+﻿@model IEnumerable<TaskViewModel>
 @{
-    ViewData["Title"] = "Members";
+    ViewData["Title"] = "Tasks";
 }
 
-<h1>Members</h1>
+<h1>Tasks</h1>
 
 <p class="float-lg-right">
     <a class="btn btn-primary" asp-action="create" asp-controller="members">Create</a>
@@ -12,19 +12,16 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.FullName)
+                @Html.DisplayNameFor(model => model.TaskId)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Direction)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Education)
+                @Html.DisplayNameFor(model => model.Name)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.StartDate)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Age)
+                @Html.DisplayNameFor(model => model.DeadlineDate)
             </th>
             <th width="300px">Actions</th>
         </tr>
@@ -44,25 +41,21 @@
             {
                 <tr>
                     <td>
-                        @Html.DisplayFor(modelItem => item.FullName)
+                        @Html.DisplayFor(modelItem => item.TaskId)
                     </td>
                     <td>
-                        @Html.DisplayFor(modelItem => item.Direction)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Education)
+                        @Html.DisplayFor(modelItem => item.Name)
                     </td>
                     <td>
                         @Html.DisplayFor(modelItem => item.StartDate)
                     </td>
                     <td>
-                        @Html.DisplayFor(modelItem => item.Age)
+                        @Html.DisplayFor(modelItem => item.DeadlineDate)
                     </td>
                     <td align="center">
                         <div class="btn-group">
-                            @Html.ActionLink("Details", "Details", new { id = item.UserId }, new { @class = "btn btn-info" })
-                            @Html.ActionLink("Edit", "Edit", new { id = item.UserId }, new { @class = "btn btn-warning" })
-                            @Html.ActionLink("Delete", "Delete", new { id = item.UserId }, new { @class = "btn btn-danger" })
+                            @Html.ActionLink("Edit", "Edit", new { id = item.TaskId }, new { @class = "btn btn-warning" })
+                            @Html.ActionLink("Delete", "Delete", new { id = item.TaskId }, new { @class = "btn btn-danger" })
                         </div>
                     </td>
                 </tr>
