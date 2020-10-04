@@ -10,7 +10,7 @@
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="create" asp-controller="samples" asp-antiforgery="true">
+        <form asp-action="create" asp-controller="member" asp-antiforgery="true">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="Name" class="control-label"></label>
@@ -79,4 +79,4 @@
     </div>
 </div>
 
-@await Html.PartialAsync("_BackToList", new BackToListViewModel { Controller = "samples" })
+@await Html.PartialAsync("_BackToList", new BackToListViewModel { Controller = "member" })

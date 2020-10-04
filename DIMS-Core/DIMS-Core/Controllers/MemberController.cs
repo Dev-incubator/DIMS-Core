@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using DIMS_Core.BusinessLayer.Interfaces;
+using DIMS_Core.BusinessLayer.Models.Members;
 using DIMS_Core.BusinessLayer.Models.Samples;
 using DIMS_Core.Models.Member;
 using DIMS_Core.Models.Sample;
@@ -34,6 +35,22 @@ namespace DIMS_Core.Controllers
         public IActionResult Create()
         {
             return View();
+        }
+
+        [HttpPost("create")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Create([FromForm]MemberAddViewModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
+
+            var dto = mapper.Map<MemberModel>(model);
+
+            await memberService.CreateAsync(dto);
+
+            return RedirectToAction("Index");
         }
     }
 }
