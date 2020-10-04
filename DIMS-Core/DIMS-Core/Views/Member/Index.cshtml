@@ -1,4 +1,4 @@
-﻿@model IEnumerable<DIMS_Core.Models.Member.MemberViewModel>
+﻿@model IEnumerable<MemberViewModel>
 @{
     ViewData["Title"] = "Members";
 }
@@ -42,30 +42,30 @@
         {
             foreach (var item in Model)
             {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.FullName)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Direction)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Education)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.StartDate)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Age)
-        </td>
-        <td align="center">
-            <div class="btn-group">
-                @Html.ActionLink("Details", "Details", new { id = item.UserId }, new { @class = "btn btn-info" })
-                @Html.ActionLink("Edit", "Edit", new { id = item.UserId }, new { @class = "btn btn-warning" })
-                @Html.ActionLink("Delete", "Delete", new { id = item.UserId }, new { @class = "btn btn-danger" })
-            </div>
-        </td>
-    </tr>
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.FullName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Direction)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Education)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.StartDate)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Age)
+                    </td>
+                    <td align="center">
+                        <div class="btn-group">
+                            @Html.ActionLink("Details", "Details", new { id = item.UserId }, new { @class = "btn btn-info" })
+                            @Html.ActionLink("Edit", "Edit", new { id = item.UserId }, new { @class = "btn btn-warning" })
+                            @Html.ActionLink("Delete", "Delete", new { id = item.UserId }, new { @class = "btn btn-danger" })
+                        </div>
+                    </td>
+                </tr>
             }
         }
     </tbody>
