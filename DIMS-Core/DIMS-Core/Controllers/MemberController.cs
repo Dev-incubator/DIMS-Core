@@ -29,5 +29,11 @@ namespace DIMS_Core.Controllers
 
             return View(model);
         }
+
+        [HttpGet("create")]
+        public IActionResult Create()
+        {
+            return View();
+        }
     }
 }
