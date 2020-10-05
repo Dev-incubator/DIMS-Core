@@ -45,7 +45,7 @@ namespace DIMS_Core.BusinessLayer.Services
             return model;
         }
 
-        public async Task CreateAsync(VUserProfileModel model)
+        public async Task CreateAsync(UserProfileModel model)
         {
             if (model is null || model.UserId != 0)
             {
@@ -59,7 +59,7 @@ namespace DIMS_Core.BusinessLayer.Services
             await unitOfWork.SaveAsync();
         }
 
-        public async Task UpdateAsync(VUserProfileModel model)
+        public async Task UpdateAsync(UserProfileModel model)
         {
             if (model is null || model.UserId <= 0)
             {

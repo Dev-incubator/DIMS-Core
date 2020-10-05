@@ -46,7 +46,7 @@ namespace DIMS_Core.Controllers
                 return View(model);
             }
 
-            var dto = mapper.Map<VUserProfileModel>(model);
+            var dto = mapper.Map<UserProfileModel>(model);
 
             await memberService.CreateAsync(dto);
 

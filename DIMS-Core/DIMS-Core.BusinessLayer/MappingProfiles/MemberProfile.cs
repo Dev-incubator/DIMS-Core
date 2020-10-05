@@ -4,6 +4,7 @@ using DIMS_Core.DataAccessLayer.Entities;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using EntityUserProfile = DIMS_Core.DataAccessLayer.Entities.UserProfile;
 
 namespace DIMS_Core.BusinessLayer.MappingProfiles
 {
@@ -11,6 +12,7 @@ namespace DIMS_Core.BusinessLayer.MappingProfiles
     {
         public MemberProfile()
         {
+            CreateMap<UserProfileModel, EntityUserProfile>().ReverseMap();
             CreateMap<VUserProfileModel, VUserProfile>().ReverseMap();
         }
     }

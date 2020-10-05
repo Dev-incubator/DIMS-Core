@@ -5,6 +5,10 @@
     <RootNamespace>DIMS_Core.BusinessLayer</RootNamespace>
   </PropertyGroup>
 
+  <ItemGroup>
+    <None Remove="Models\Members\UserProfileModel.cs~RF14c41bc4.TMP" />
+  </ItemGroup>
+
 	<ItemGroup>
 		<FrameworkReference Include="Microsoft.AspNetCore.App" />
 	</ItemGroup>

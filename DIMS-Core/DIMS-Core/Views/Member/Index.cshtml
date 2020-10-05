@@ -58,11 +58,21 @@
                     <td>
                         @Html.DisplayFor(modelItem => item.Age)
                     </td>
-                    <td align="center">
-                        <div class="btn-group">
-                            @Html.ActionLink("Details", "Details", new { id = item.UserId }, new { @class = "btn btn-info" })
-                            @Html.ActionLink("Edit", "Edit", new { id = item.UserId }, new { @class = "btn btn-warning" })
-                            @Html.ActionLink("Delete", "Delete", new { id = item.UserId }, new { @class = "btn btn-danger" })
+                    <td>
+                        <div class="btn-group container">
+                            <div class="row">
+                                <div class="col">
+                                    @Html.ActionLink("Progress", "Progress", new { id = item.UserId }, new { @class = "btn btn-primary w-100 m-2" })
+                                    @Html.ActionLink("Edit", "Edit", new { id = item.UserId }, new { @class = "btn btn-warning w-100 m-2" })
+                                </div>
+                                <div class="col">
+                                    @Html.ActionLink("Tasks", "Tasks", new { id = item.UserId }, new { @class = "btn btn-primary w-100 m-2" })
+                                    @Html.ActionLink("Delete", "Delete", new { id = item.UserId }, new { @class = "btn btn-danger w-100 m-2" })
+                                </div>
+                                
+                                    
+                                    
+                            </div>
                         </div>
                     </td>
                 </tr>

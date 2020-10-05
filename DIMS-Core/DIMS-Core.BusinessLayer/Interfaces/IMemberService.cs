@@ -13,10 +13,10 @@ namespace DIMS_Core.BusinessLayer.Interfaces
 
         Task<VUserProfileModel> GetMemberAsync(int id);
 
-        Task CreateAsync(VUserProfileModel model);
+        Task CreateAsync(UserProfileModel model);
 
         Task DeleteAsync(int id);
 
-        Task UpdateAsync(VUserProfileModel model);
+        Task UpdateAsync(UserProfileModel model);
     }
 }
