@@ -50,5 +50,33 @@ namespace DIMS_Core.Controllers
 
             return RedirectToAction("Index");
         }
+
+        [HttpGet("delete/{id}")]
+        public async Task<IActionResult> Delete(int id)
+        {
+            if (id <= 0)
+            {
+                return BadRequest();
+            }
+
+            var dto = await taskService.GetTaskAsync(id);
+            var model = mapper.Map<TaskViewModel>(dto);
+
+            return View(model);
+        }
+
+        [HttpPost("delete/{id}")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeletePost(int id)
+        {
+            if (id <= 0)
+            {
+                return BadRequest();
+            }
+
+            await taskService.DeleteAsync(id);
+
+            return RedirectToAction("Index");
+        }
     }
 }
