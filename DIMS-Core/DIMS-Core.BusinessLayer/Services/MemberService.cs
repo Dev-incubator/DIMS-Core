@@ -32,15 +32,15 @@ namespace DIMS_Core.BusinessLayer.Services
             return await mappedQuery.ToListAsync();
         }
 
-        public async Task<VUserProfileModel> GetMemberAsync(int id)
+        public async Task<UserProfileModel> GetMemberAsync(int id)
         {
             if (id <= 0)
             {
                 return null;
             }
 
-            var entity = await unitOfWork.VUserProfileRepository.GetByIdAsync(id);
-            var model = mapper.Map<VUserProfileModel>(entity);
+            var entity = await unitOfWork.UserProfileRepository.GetByIdAsync(id);
+            var model = mapper.Map<UserProfileModel>(entity);
 
             return model;
         }

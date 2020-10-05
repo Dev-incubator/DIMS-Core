@@ -52,5 +52,42 @@ namespace DIMS_Core.Controllers
 
             return RedirectToAction("Index");
         }
+
+        [HttpGet("edit/{id}")]
+        public async Task<IActionResult> Edit(int id)
+        {
+            if (id <= 0)
+            {
+                return BadRequest();
+            }
+
+            var dto = await memberService.GetMemberAsync(id);
+            var model = mapper.Map<EditMemberViewModel>(dto);
+
+            return View(model);
+        }
+
+        [HttpPost("edit")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Edit([FromForm]EditMemberViewModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
+
+            if (model.UserId <= 0)
+            {
+                ModelState.AddModelError("", "Incorrect identifier.");
+
+                return View(model);
+            }
+
+            var dto = mapper.Map<UserProfileModel>(model);
+
+            await memberService.UpdateAsync(dto);
+
+            return RedirectToAction("Index");
+        }
     }
 }

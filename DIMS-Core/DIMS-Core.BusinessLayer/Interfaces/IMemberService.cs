@@ -11,7 +11,7 @@ namespace DIMS_Core.BusinessLayer.Interfaces
     {
         Task<IEnumerable<VUserProfileModel>> SearchAsync();
 
-        Task<VUserProfileModel> GetMemberAsync(int id);
+        Task<UserProfileModel> GetMemberAsync(int id);
 
         Task CreateAsync(UserProfileModel model);
 

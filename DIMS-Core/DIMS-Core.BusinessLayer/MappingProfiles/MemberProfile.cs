@@ -12,7 +12,9 @@ namespace DIMS_Core.BusinessLayer.MappingProfiles
     {
         public MemberProfile()
         {
-            CreateMap<UserProfileModel, EntityUserProfile>().ReverseMap();
+            CreateMap< EntityUserProfile, UserProfileModel>()
+                .ForMember(dest => dest.Email,
+                opt => opt.MapFrom(src => src.Email)).ReverseMap();
             CreateMap<VUserProfileModel, VUserProfile>().ReverseMap();
         }
     }
