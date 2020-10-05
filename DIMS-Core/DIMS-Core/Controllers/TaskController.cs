@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using DIMS_Core.BusinessLayer.Interfaces;
+using DIMS_Core.BusinessLayer.Models.Task;
 using DIMS_Core.Models.Task;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
@@ -26,6 +27,28 @@ namespace DIMS_Core.Controllers
             var model = mapper.Map<IEnumerable<TaskViewModel>>(searchResult);
 
             return View(model);
+        }
+
+        [HttpGet("create")]
+        public IActionResult Create()
+        {
+            return View();
+        }
+
+        [HttpPost("create")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Create([FromForm] TaskViewModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
+
+            var dto = mapper.Map<TaskModel>(model);
+
+            await taskService.CreateAsync(dto);
+
+            return RedirectToAction("Index");
         }
     }
 }
