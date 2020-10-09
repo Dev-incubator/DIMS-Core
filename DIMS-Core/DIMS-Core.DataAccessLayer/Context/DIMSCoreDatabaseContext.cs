@@ -12,6 +12,8 @@ namespace DIMS_Core.DataAccessLayer.Context
 
         public DIMSCoreDatabaseContext() { }
 
+        public DIMSCoreDatabaseContext(DbContextOptions<DIMSCoreDatabaseContext> options) : base(options) { }
+
         public DIMSCoreDatabaseContext(DbContextOptions<DIMSCoreDatabaseContext> options, IConfiguration configuration)
             : base(options) 
         {
@@ -160,7 +162,7 @@ namespace DIMS_Core.DataAccessLayer.Context
 
             modelBuilder.Entity<VUserProfile>(entity =>
             {
-                entity.HasNoKey();
+                entity.HasKey("UserId");
 
                 entity.ToView("vUserProfile");
 
