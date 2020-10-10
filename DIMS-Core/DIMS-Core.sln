@@ -19,8 +19,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DIMS-Core.Identity", "DIMS-
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DIMS-Core.Tests", "DIMS-Core.Tests\DIMS-Core.Tests.csproj", "{8BA9839F-7A6D-4979-AB5A-65451485C888}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DIMS-Core.DataAccessLayer.Tests", "DIMS-Core.DataAccessLayer.Tests\DIMS-Core.DataAccessLayer.Tests.csproj", "{E6A6CAD1-CA4F-4459-933F-9446770A9357}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -59,10 +57,6 @@ Global
 		{8BA9839F-7A6D-4979-AB5A-65451485C888}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8BA9839F-7A6D-4979-AB5A-65451485C888}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8BA9839F-7A6D-4979-AB5A-65451485C888}.Release|Any CPU.Build.0 = Release|Any CPU
-		{E6A6CAD1-CA4F-4459-933F-9446770A9357}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{E6A6CAD1-CA4F-4459-933F-9446770A9357}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{E6A6CAD1-CA4F-4459-933F-9446770A9357}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{E6A6CAD1-CA4F-4459-933F-9446770A9357}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
