@@ -1,15 +1,11 @@
 ﻿using AutoMapper;
 using DIMS_Core.BusinessLayer.Interfaces;
-using DIMS_Core.BusinessLayer.MappingProfiles;
-using DIMS_Core.BusinessLayer.Models.Members;
 using DIMS_Core.BusinessLayer.Models.Task;
-using DIMS_Core.DataAccessLayer.Filters;
 using DIMS_Core.DataAccessLayer.Interfaces;
 using Microsoft.EntityFrameworkCore;
-using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
+using TaskEntities = DIMS_Core.DataAccessLayer.Entities.Task;
 
 namespace DIMS_Core.BusinessLayer.Services
 {
@@ -52,7 +48,7 @@ namespace DIMS_Core.BusinessLayer.Services
                 return;
             }
 
-            var entity = mapper.Map<DataAccessLayer.Entities.Task>(model);
+            var entity = mapper.Map<TaskEntities>(model);
 
             await unitOfWork.TaskRepository.CreateAsync(entity);
 
