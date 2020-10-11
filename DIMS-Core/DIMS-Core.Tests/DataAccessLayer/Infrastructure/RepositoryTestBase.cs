@@ -278,6 +278,36 @@ namespace DIMS_Core.Tests.Infrastructure
             context.VTask.AddRange(vTaskRepositories);
             #endregion
 
+            #region Seed VUserTrack
+            var vUserTracks = new[]{
+                new VUserTrack{
+                    TaskTrackId = 1,
+                    UserId = 1,
+                    TaskId = 1,
+                    TaskName = "Create database",
+                    TrackDate = new DateTime(2020, 12,04),
+                    TrackNote = "Create table UserProfile"
+                },
+                new VUserTrack{
+                    TaskTrackId = 2,
+                    UserId = 1,
+                    TaskId = 1,
+                    TaskName = "Create database",
+                    TrackDate = new DateTime(2020, 12,04),
+                    TrackNote = "Create table Tasks"
+                },
+                new VUserTrack{
+                    TaskTrackId = 3,
+                    UserId = 1,
+                    TaskId = 1,
+                    TaskName = "Create database",
+                    TrackDate = new DateTime(2020, 12,04),
+                    TrackNote = "Create table TaskState"
+                }
+            };
+            context.VUserTrack.AddRange(vUserTracks);
+            #endregion
+
             context.SaveChanges();
         }
 
