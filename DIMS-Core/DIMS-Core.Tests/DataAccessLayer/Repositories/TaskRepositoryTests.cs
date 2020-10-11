@@ -12,7 +12,8 @@ using System;
 
 namespace DIMS_Core.Tests.DataAccessLayer.Repositories
 {
-    class TaskRepositoryTests : RepositoryTestBase
+    [TestFixture]
+    public class TaskRepositoryTests : RepositoryTestBase
     {
         [Test]
         public void ShouldReturnAll()
