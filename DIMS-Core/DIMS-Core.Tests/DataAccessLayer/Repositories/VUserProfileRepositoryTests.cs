@@ -42,13 +42,14 @@ namespace DIMS_Core.DataAccessLayer.Tests
         {
             // Arrange
             int getId = 1;
+            string returnFullName = "Elisey Butko";
             var query = new VUserProfileRepository(context);
 
             // Act
             var result = await query.GetByIdAsync(getId);
 
             //Assert
-            Assert.AreEqual("Elisey Butko", result.FullName);
+            Assert.AreEqual(returnFullName, result.FullName);
         }
     }
 }

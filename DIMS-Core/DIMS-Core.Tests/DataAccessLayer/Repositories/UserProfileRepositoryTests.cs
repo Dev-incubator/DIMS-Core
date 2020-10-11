@@ -31,13 +31,14 @@ namespace DIMS_Core.DataAccessLayer.Tests
         {
             // Arrange
             int getId = 1;
+            string returnName = "Elisey";
             var query = new UserProfileRepository(context);
 
             // Act
             var result = await query.GetByIdAsync(getId);
 
             //Assert
-            Assert.AreEqual("Elisey", result.Name);
+            Assert.AreEqual(returnName, result.Name);
         }
 
         [Test]
