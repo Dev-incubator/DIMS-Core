@@ -1,11 +1,11 @@
 using DIMS_Core.DataAccessLayer.Repositories;
-using DIMS_Core.Tests.Infrastructure;
+using DIMS_Core.Tests.DataAccessLayer.Infrastructure;
 using System.Linq;
 using System.Linq.Dynamic.Core;
 using NUnit.Framework;
 using System.Threading.Tasks;
 
-namespace DIMS_Core.DataAccessLayer.Tests
+namespace DIMS_Core.Tests.DataAccessLayer.Repositories
 {
     public class VUserProfileRepositoryTests : RepositoryTestBase
     {

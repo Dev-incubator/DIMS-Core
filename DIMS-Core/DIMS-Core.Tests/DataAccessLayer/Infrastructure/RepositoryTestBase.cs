@@ -3,10 +3,8 @@ using DIMS_Core.DataAccessLayer.Entities;
 using DIMS_Core.DataAccessLayer.Enums;
 using Microsoft.EntityFrameworkCore;
 using System;
-using System.Data;
-using System.Net.WebSockets;
 
-namespace DIMS_Core.Tests.Infrastructure
+namespace DIMS_Core.Tests.DataAccessLayer.Infrastructure
 {
     public class RepositoryTestBase : IDisposable
     {

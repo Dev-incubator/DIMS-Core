@@ -1,14 +1,14 @@
 ﻿using DIMS_Core.DataAccessLayer.Repositories;
-using DIMS_Core.Tests.Infrastructure;
+using DIMS_Core.DataAccessLayer.Enums;
+using DIMS_Core.Tests.DataAccessLayer.Infrastructure;
 using System.Linq;
 using System.Linq.Dynamic.Core;
 using NUnit.Framework;
-using DIMS_Core.DataAccessLayer.Enums;
 using System;
-using UserProfile = DIMS_Core.DataAccessLayer.Entities.UserProfile;
 using System.Threading.Tasks;
+using UserProfile = DIMS_Core.DataAccessLayer.Entities.UserProfile;
 
-namespace DIMS_Core.DataAccessLayer.Tests
+namespace DIMS_Core.Tests.DataAccessLayer.Repositories
 {
     public class UserProfileRepositoryTests : RepositoryTestBase
     {
