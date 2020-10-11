@@ -7,6 +7,7 @@ using Xunit;
 
 namespace DIMS_Core.Tests.Repositories
 {
+    [TestFixture]
     public class VTaskRepositoryTests : RepositoryTestBase
     {
         [Fact]
