@@ -66,6 +66,7 @@ namespace DIMS_Core.Tests.DataAccessLayer.Repositories
 
             // Act
             await query.CreateAsync(newUserProfile);                    //add
+            context.SaveChanges();
             var result = await query.GetByIdAsync(newId);               //get
 
             //Assert
@@ -85,6 +86,7 @@ namespace DIMS_Core.Tests.DataAccessLayer.Repositories
 
             // Act
             query.Update(updateUserProfile);                            //update
+            context.SaveChanges();
             var result = await query.GetByIdAsync(updateId);            //get
 
             //Assert
