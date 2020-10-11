@@ -10,6 +10,7 @@ using UserProfile = DIMS_Core.DataAccessLayer.Entities.UserProfile;
 
 namespace DIMS_Core.Tests.DataAccessLayer.Repositories
 {
+    [TestFixture]
     public class UserProfileRepositoryTests : RepositoryTestBase
     {
         [Test]

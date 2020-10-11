@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 
 namespace DIMS_Core.Tests.DataAccessLayer.Repositories
 {
+    [TestFixture]
     public class VUserProfileRepositoryTests : RepositoryTestBase
     {
         [Test]

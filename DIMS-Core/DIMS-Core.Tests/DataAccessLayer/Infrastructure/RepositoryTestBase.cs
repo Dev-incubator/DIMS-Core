@@ -2,10 +2,12 @@
 using DIMS_Core.DataAccessLayer.Entities;
 using DIMS_Core.DataAccessLayer.Enums;
 using Microsoft.EntityFrameworkCore;
+using NUnit.Framework;
 using System;
 
 namespace DIMS_Core.Tests.DataAccessLayer.Infrastructure
 {
+    [TestFixture]
     public class RepositoryTestBase : IDisposable
     {
         protected readonly DIMSCoreDatabaseContext context;
@@ -155,6 +157,7 @@ namespace DIMS_Core.Tests.DataAccessLayer.Infrastructure
             else return null;
         }
 
+        [OneTimeTearDown]
         public void Dispose()
         {
             context.Database.EnsureDeleted();
