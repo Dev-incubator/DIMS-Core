@@ -1,16 +1,19 @@
 ﻿using DIMS_Core.DataAccessLayer.Context;
 using DIMS_Core.DataAccessLayer.Entities;
 using Microsoft.EntityFrameworkCore;
+using NUnit.Framework;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
 namespace DIMS_Core.DataAccessLayer.Tests.Infrastructure
 {
+    [TestFixture]
     public class RepositoryTestBase : IDisposable
     {
         protected readonly DIMSCoreDatabaseContext context;
 
+        
         public RepositoryTestBase()
         {
             var options = new DbContextOptionsBuilder<DIMSCoreDatabaseContext>()
@@ -102,6 +105,7 @@ namespace DIMS_Core.DataAccessLayer.Tests.Infrastructure
             context.VUserTask.AddRange(vUserTasks);
         }
 
+        [OneTimeTearDown]
         public void Dispose()
         {
             context.Database.EnsureDeleted();
