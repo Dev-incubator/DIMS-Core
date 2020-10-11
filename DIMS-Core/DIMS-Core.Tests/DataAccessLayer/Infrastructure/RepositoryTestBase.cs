@@ -6,6 +6,7 @@ using NUnit.Framework;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using EntityTask = DIMS_Core.DataAccessLayer.Entities.Task;
 
 namespace DIMS_Core.Tests.Infrastructure
 {
@@ -119,6 +120,38 @@ namespace DIMS_Core.Tests.Infrastructure
                 };
 
             context.UserProfile.AddRange(userProfiles);
+            #endregion
+
+            #region Seed Tasks
+            var tasks = new[]
+            {
+                new EntityTask
+                {
+                    TaskId = 1,
+                    Name = "Create database",
+                    Description = "Description to create database",
+                    StartDate = new DateTime(2020,07,30),
+                    DeadlineDate = new DateTime(2020, 12,04)
+                },
+                new EntityTask
+                {
+                    TaskId = 2,
+                    Name = "Write CRUD operations for Users",
+                    Description = "Write create, read, update and delete operations for Users",
+                    StartDate = new DateTime(2020,07,30),
+                    DeadlineDate = new DateTime(2020, 12,04)
+                },
+                new EntityTask
+                {
+                    TaskId = 3,
+                    Name = "Write CRUD operations for Tasks",
+                    Description = "Write create, read, update and delete operations for Tasks",
+                    StartDate = new DateTime(2020,07,30),
+                    DeadlineDate = new DateTime(2020, 12,04)
+                },
+            };
+
+            context.Task.AddRange(tasks);
             #endregion
 
             #region Seed VUserProfiles
