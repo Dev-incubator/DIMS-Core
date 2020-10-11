@@ -251,7 +251,33 @@ namespace DIMS_Core.Tests.Infrastructure
             context.VUserTask.AddRange(vUserTasks);
             #endregion
 
-            
+            #region Seed VTaskRepository
+            var vTaskRepositories = new[]{
+                new VTask{
+                    TaskId = 1,
+                    Name = "Write CRUD operations for Users",
+                    Description = "Write create, read, update and delete operations for Users",
+                    StartDate = new DateTime(2020,07,30),
+                    DeadlineDate = new DateTime(2020, 12,04)
+                },
+                 new VTask{
+                    TaskId = 2,
+                    Name = "Create database",
+                    Description = "Description to create database",
+                    StartDate = new DateTime(2020,07,30),
+                    DeadlineDate = new DateTime(2020, 12,04)
+                },
+                 new VTask{
+                    TaskId = 3,
+                    Name = "Write CRUD operations for Tasks",
+                    Description = "Write create, read, update and delete operations for Tasks",
+                    StartDate = new DateTime(2020,07,30),
+                    DeadlineDate = new DateTime(2020, 12,04)
+                }
+            };
+            context.VTask.AddRange(vTaskRepositories);
+            #endregion
+
             context.SaveChanges();
         }
 
