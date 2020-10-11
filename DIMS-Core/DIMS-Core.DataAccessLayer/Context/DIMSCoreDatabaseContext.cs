@@ -9,8 +9,14 @@ namespace DIMS_Core.DataAccessLayer.Context
     public partial class DIMSCoreDatabaseContext : DbContext
     {
         private readonly IConfiguration configuration;
+        private DbContextOptions<DIMSCoreDatabaseContext> options;
 
         public DIMSCoreDatabaseContext() { }
+
+        public DIMSCoreDatabaseContext(DbContextOptions<DIMSCoreDatabaseContext> options)
+        {
+            this.options = options;
+        }
 
         public DIMSCoreDatabaseContext(DbContextOptions<DIMSCoreDatabaseContext> options, IConfiguration configuration)
             : base(options) 
