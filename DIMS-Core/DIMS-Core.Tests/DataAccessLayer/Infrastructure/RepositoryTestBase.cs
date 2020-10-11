@@ -1,4 +1,5 @@
 ﻿using DIMS_Core.DataAccessLayer.Context;
+using DIMS_Core.DataAccessLayer.Enums;
 using DIMS_Core.DataAccessLayer.Entities;
 using Microsoft.EntityFrameworkCore;
 using NUnit.Framework;
@@ -6,7 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace DIMS_Core.DataAccessLayer.Tests.Infrastructure
+namespace DIMS_Core.Tests.Infrastructure
 {
     [TestFixture]
     public class RepositoryTestBase : IDisposable
@@ -42,7 +43,7 @@ namespace DIMS_Core.DataAccessLayer.Tests.Infrastructure
                     FullName = "Elisey Butko",
                     Email = "elisey.butko@gmail.com",
                     Direction = "JAVA",
-                    Sex = Enums.Sex.Female,
+                    Sex = Sex.Female,
                     Education = "БГУИР",
                     Age = 21,
                     UniversityAverageScore = 9.0,
@@ -57,7 +58,7 @@ namespace DIMS_Core.DataAccessLayer.Tests.Infrastructure
                     FullName = "Mark Davydov",
                     Email = "mark.davydov@gmail.com",
                     Direction = "FRONTEND",
-                    Sex = Enums.Sex.Female,
+                    Sex = Sex.Female,
                     Education = "БГУ",
                     Age = 25,
                     UniversityAverageScore = 8.5,
@@ -72,7 +73,7 @@ namespace DIMS_Core.DataAccessLayer.Tests.Infrastructure
                     FullName = "Peter Doronin",
                     Email = "peter.doronin@gmail.com",
                     Direction = ".NET",
-                    Sex = Enums.Sex.Female,
+                    Sex = Sex.Female,
                     Education = "БНТУ",
                     Age = 20,
                     UniversityAverageScore = 7.5,
