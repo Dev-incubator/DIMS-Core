@@ -154,6 +154,43 @@ namespace DIMS_Core.Tests.Infrastructure
             context.Task.AddRange(tasks);
             #endregion
 
+            #region Seed TaskState
+            var taskStates = new[]
+                {
+                    new TaskState
+                    {
+                        StateId = 1,
+                        StateName = "In development"
+                    },
+                    new TaskState
+                    {
+                        StateId = 2,
+                        StateName = "Design in progress"
+                    },
+                    new TaskState
+                    {
+                        StateId = 3,
+                        StateName = "Ready to estimate"
+                    },
+                    new TaskState
+                    {
+                        StateId = 4,
+                        StateName = "Design complete"
+                    },
+                    new TaskState
+                    {
+                        StateId = 5,
+                        StateName = "Done"
+                    },
+                    new TaskState
+                    {
+                        StateId = 6,
+                        StateName = "Ready to development"
+                    }
+                };
+            context.TaskState.AddRange(taskStates);
+            #endregion
+
             #region Seed VUserProfiles
             var vUserProfiles = new VUserProfile[3];
             for (int i = 0; i < 3; i++)
@@ -179,7 +216,7 @@ namespace DIMS_Core.Tests.Infrastructure
             context.VUserProfile.AddRange(vUserProfiles);
             #endregion
 
-            #region SeedVUserTasks
+            #region Seed VUserTasks
             var vUserTasks = new[]
             {
                 new VUserTask {
@@ -213,6 +250,8 @@ namespace DIMS_Core.Tests.Infrastructure
 
             context.VUserTask.AddRange(vUserTasks);
             #endregion
+
+            
             context.SaveChanges();
         }
 
