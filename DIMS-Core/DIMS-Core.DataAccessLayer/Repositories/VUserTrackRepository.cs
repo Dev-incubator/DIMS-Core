@@ -3,6 +3,7 @@ using DIMS_Core.DataAccessLayer.Entities;
 using DIMS_Core.DataAccessLayer.Interfaces;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace DIMS_Core.DataAccessLayer.Repositories
@@ -10,5 +11,10 @@ namespace DIMS_Core.DataAccessLayer.Repositories
     public class VUserTrackRepository : Repository<VUserTrack>, IVUserTrackRepository
     {
         public VUserTrackRepository(DIMSCoreDatabaseContext dbContext) : base(dbContext) { }
+
+        public IQueryable<VUserTrack> Search()
+        {
+            return GetAll();
+        }
     }
 }
