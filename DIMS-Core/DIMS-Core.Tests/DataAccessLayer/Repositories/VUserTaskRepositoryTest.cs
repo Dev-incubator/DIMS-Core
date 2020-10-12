@@ -3,7 +3,6 @@ using DIMS_Core.Tests.Infrastructure;
 using NUnit.Framework;
 using System.Linq;
 using System.Linq.Dynamic.Core;
-using Xunit;
 
 
 namespace DIMS_Core.Tests.DataAccessLayer.Repositories
@@ -11,7 +10,7 @@ namespace DIMS_Core.Tests.DataAccessLayer.Repositories
     [TestFixture]
     public class VUserTaskRepositoryTest : RepositoryTestBase
     {
-        [Fact]
+        [Test]
         public void ShouldReturnAllSearch()
         {
             // Arrange
@@ -25,7 +24,7 @@ namespace DIMS_Core.Tests.DataAccessLayer.Repositories
             Assert.Equals(countUserTasks, result.Count());
         }
 
-        [Fact]
+        [Test]
         public void ShouldReturnAll()
         {
             // Arrange
@@ -39,7 +38,7 @@ namespace DIMS_Core.Tests.DataAccessLayer.Repositories
             Assert.Equals(countUserTasks, result.Count());
         }
 
-        [Fact]
+        [Test]
         public void ShouldReturnById()
         {
             // Arrange

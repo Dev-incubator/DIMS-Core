@@ -5,7 +5,6 @@ using NUnit.Framework;
 using System.Linq;
 using System.Linq.Dynamic.Core;
 using System.Threading.Tasks;
-using Xunit;
 using TaskThread = System.Threading.Tasks.Task;
 
 namespace DIMS_Core.Tests.DataAccessLayer.Repositories

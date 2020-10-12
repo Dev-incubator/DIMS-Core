@@ -3,14 +3,13 @@ using DIMS_Core.Tests.Infrastructure;
 using NUnit.Framework;
 using System.Linq;
 using System.Linq.Dynamic.Core;
-using Xunit;
 
 namespace DIMS_Core.Tests.Repositories
 {
     [TestFixture]
     public class VTaskRepositoryTests : RepositoryTestBase
     {
-        [Fact]
+        [Test]
         public void ShouldReturnAllSearch()
         {
             // Arrange
@@ -24,7 +23,7 @@ namespace DIMS_Core.Tests.Repositories
             Assert.Equals(countTasks, result.Count());
         }
 
-        [Fact]
+        [Test]
         public void ShouldReturnAll()
         {
             // Arrange
@@ -38,7 +37,7 @@ namespace DIMS_Core.Tests.Repositories
             Assert.Equals(countTasks, result.Count());
         }
 
-        [Fact]
+        [Test]
         public void ShouldReturnById()
         {
             // Arrange
