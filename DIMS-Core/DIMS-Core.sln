@@ -17,7 +17,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DIMS-Core.Mailer", "DIMS-Co
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DIMS-Core.Identity", "DIMS-Core.Identity\DIMS-Core.Identity.csproj", "{F6238AA0-D631-4A05-95F6-A4F739A9C8F9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DIMS-Core.Tests", "DIMS-Core.Tests\DIMS-Core.Tests.csproj", "{8BA9839F-7A6D-4979-AB5A-65451485C888}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DIMS-Core.Tests", "DIMS-Core.Tests\DIMS-Core.Tests.csproj", "{8BA9839F-7A6D-4979-AB5A-65451485C888}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
