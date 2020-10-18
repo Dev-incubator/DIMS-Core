@@ -1,34 +1,30 @@
 ﻿using DIMS_Core.DataAccessLayer.Repositories;
-using DIMS_Core.DataAccessLayer.Enums;
 using DIMS_Core.Tests.DataAccessLayer.Infrastructure;
-using System.Linq;
-using System.Linq.Dynamic.Core;
 using NUnit.Framework;
 using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
-using UserProfile = DIMS_Core.DataAccessLayer.Entities.UserProfile;
-using MimeKit.Cryptography;
-using System.Reflection;
-using System.Diagnostics;
 
 namespace DIMS_Core.Tests.DataAccessLayer.Repositories
 {
     [TestFixture]
-    public class UserProfileRepositoryTests : RepositoryTestBase
+    public class UserTaskRepositoryTest : RepositoryTestBase
     {
-        private UserProfileRepository query;
+        private UserTaskRepository query;
 
         [OneTimeSetUp]
         public void InitQuery()
         {
-            query = new UserProfileRepository(Context);
+            query = new UserTaskRepository(Context);
         }
 
         [Test]
         public void GetAll_ActualCount()
         {
             // Arrange
-            int expected = Context.UserProfile.Count();
+            int expected = Context.UserTask.Count();
 
             // Act
             var actual = query.GetAll();
@@ -37,12 +33,13 @@ namespace DIMS_Core.Tests.DataAccessLayer.Repositories
             Assert.That(expected, Is.EqualTo(actual.Count()));
         }
 
+
         [Test]
-        public async Task GetByIdAsync_Id1_UserProfile()
+        public async Task GetByIdAsync_Id1_UserTask()
         {
             // Arrange
             int getId = 1;
-            var expected = Context.UserProfile.Find(getId);
+            var expected = Context.UserTask.Find(getId);
 
             // Act
             var actual = await query.GetByIdAsync(getId);
@@ -50,6 +47,7 @@ namespace DIMS_Core.Tests.DataAccessLayer.Repositories
             // Assert
             Assert.That(expected, Is.EqualTo(actual));
         }
+
 
         [Test]
         public async Task GetByIdAsync_Id5_IsNull()
@@ -65,11 +63,11 @@ namespace DIMS_Core.Tests.DataAccessLayer.Repositories
         }
 
         [Test]
-        public async Task CreateAsync_Id4_NewUserProfile()
+        public async Task CreateAsync_Id4_NewUserTask()
         {
             // Arrange
             int newId = 4;
-            var expected = CreateNewUserProfile(newId);
+            var expected = CreateNewUserTask(newId);
 
             // Act
             await query.CreateAsync(expected);
@@ -87,21 +85,21 @@ namespace DIMS_Core.Tests.DataAccessLayer.Repositories
         }
 
         [Test]
-        public async Task Update_Id1_NewName()
+        public async Task Update_Id1_NewState()
         {
             // Arrange
             int updateId = 1;
-            string expected = "New name";
-            var updateUserProfile = Context.UserProfile.Find(updateId);
-            updateUserProfile.Name = expected;
+            var expected = Context.TaskState.Find(2);
+            var updateUserTask = Context.UserTask.Find(updateId);
+            updateUserTask.State = expected;
 
             // Act
-            query.Update(updateUserProfile);
+            query.Update(updateUserTask);
             Context.SaveChanges();
             var actual = await query.GetByIdAsync(updateId);
 
             // Assert
-            Assert.That(expected, Is.EqualTo(actual.Name));
+            Assert.That(expected, Is.EqualTo(actual.State));
         }
 
         [Test]
@@ -110,12 +108,12 @@ namespace DIMS_Core.Tests.DataAccessLayer.Repositories
             // Arrange
             int getId = 1;
             int updateId = 5;
-            string expected = "New name";
-            var updateUserProfile = Context.UserProfile.Find(getId);
-            updateUserProfile.Name = expected;
+            var expected = Context.TaskState.Find(2);
+            var updateUserTask = Context.UserTask.Find(getId);
+            updateUserTask.State = expected;
 
             // Act
-            query.Update(updateUserProfile);
+            query.Update(updateUserTask);
             Context.SaveChanges();
             var actual = await query.GetByIdAsync(updateId);
 
@@ -158,5 +156,6 @@ namespace DIMS_Core.Tests.DataAccessLayer.Repositories
         {
             query.Dispose();
         }
+
     }
 }

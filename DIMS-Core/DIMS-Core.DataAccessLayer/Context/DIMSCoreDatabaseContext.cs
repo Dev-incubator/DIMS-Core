@@ -125,6 +125,8 @@ namespace DIMS_Core.DataAccessLayer.Context
 
             modelBuilder.Entity<UserTask>(entity =>
             {
+                entity.HasKey(e => e.UserTaskId);
+
                 entity.HasOne(d => d.State)
                     .WithMany(p => p.UserTask)
                     .HasForeignKey(d => d.StateId)
@@ -210,7 +212,8 @@ namespace DIMS_Core.DataAccessLayer.Context
 
             modelBuilder.Entity<VUserTask>(entity =>
             {
-                entity.HasNoKey();
+                //Inmemory tests don't work without primary key.
+                entity.HasKey(e => e.TestOnlyKey);
 
                 entity.ToView("vUserTask");
 

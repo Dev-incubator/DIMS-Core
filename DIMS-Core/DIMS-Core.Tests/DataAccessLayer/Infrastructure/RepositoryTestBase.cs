@@ -11,7 +11,6 @@ namespace DIMS_Core.Tests.DataAccessLayer.Infrastructure
     public class RepositoryTestBase : IDisposable
     {
         protected DIMSCoreDatabaseContext Context { get; set; }
-        protected UserProfile NewUserProfile { get; set; }
 
         [OneTimeSetUp]
         public void Init()
@@ -114,7 +113,7 @@ namespace DIMS_Core.Tests.DataAccessLayer.Infrastructure
 
             #region Seed VUserProfiles
             var vUserProfiles = new VUserProfile[3];
-            for (int i = 0; i < 3; i++)
+            for (int i = 0; i < vUserProfiles.Length; i++)
             {
                 vUserProfiles[i] = new VUserProfile
                 {
@@ -136,7 +135,100 @@ namespace DIMS_Core.Tests.DataAccessLayer.Infrastructure
             Context.VUserProfile.AddRange(vUserProfiles);
             #endregion
 
-            NewUserProfile = CreateNewUserProfile(4);
+            #region Seed Tasks
+            var tasks = new[]
+            {
+                new Task {
+                    TaskId = 1,
+                    Name = "Create database",
+                    Description = "Description to create database",
+                    StartDate = new DateTime(2020,07,30),
+                    DeadlineDate = new DateTime(2020,12,04)
+                },
+                new Task {
+                    TaskId = 2,
+                    Name = "Write CRUD operations for Users",
+                    Description = "Write create, read, update and delete operations for Users",
+                    StartDate = new DateTime(2020,07,30),
+                    DeadlineDate = new DateTime(2020,12,04)
+                },
+                new Task {
+                    TaskId = 3,
+                    Name = "Write CRUD operations for Tasks",
+                    Description = "Write create, read, update and delete operations for Tasks",
+                    StartDate = new DateTime(2020,07,30),
+                    DeadlineDate = new DateTime(2020,12,04)
+                }
+            };
+            Context.Task.AddRange(tasks);
+            #endregion
+
+            #region Seed TaskState
+            var taskStates = new[]
+            {
+                new TaskState {
+                    StateId = 1,
+                    StateName = "In work"
+                },
+                new TaskState {
+                    StateId = 2,
+                    StateName = "Pause"
+                }
+            };
+            Context.TaskState.AddRange(taskStates);
+            #endregion
+
+            #region Seed UserTasks
+            var userTasks = new[]
+            {
+                new UserTask {
+                    UserTaskId = 1,
+                    TaskId = 1,
+                    UserId = 1,
+                    StateId = 1,
+                    Task = Context.Task.Find(1),
+                    User = Context.UserProfile.Find(1),
+                    State = Context.TaskState.Find(1)
+                },
+                new UserTask {
+                    UserTaskId = 2,
+                    TaskId = 2,
+                    UserId = 1,
+                    StateId = 1,
+                    Task = Context.Task.Find(2),
+                    User = Context.UserProfile.Find(1),
+                    State = Context.TaskState.Find(1)
+                },
+                new UserTask {
+                    UserTaskId = 3,
+                    TaskId = 3,
+                    UserId = 2,
+                    StateId = 1,
+                    Task = Context.Task.Find(3),
+                    User = Context.UserProfile.Find(2),
+                    State = Context.TaskState.Find(1)
+                }
+            };
+            Context.UserTask.AddRange(userTasks);
+            #endregion
+
+            #region Seed VUserTasks
+            var vUserTasks = new VUserTask[3];
+            for (int i = 0; i < vUserTasks.Length; i++)
+            {
+                vUserTasks[i] = new VUserTask
+                {
+                    UserId = userTasks[i].UserId,
+                    TaskId = userTasks[i].Task.TaskId,
+                    TaskName = userTasks[i].Task.Name,
+                    Description = userTasks[i].Task.Description,
+                    StartDate = userTasks[i].Task.StartDate,
+                    DeadlineDate = userTasks[i].Task.DeadlineDate,
+                    State = userTasks[i].State.StateName
+                };
+            }
+            Context.VUserTask.AddRange(vUserTasks);
+            #endregion
 
             Context.SaveChanges();
         }
@@ -162,6 +254,21 @@ namespace DIMS_Core.Tests.DataAccessLayer.Infrastructure
                 StartDate = new DateTime(2020, 09, 25)
             };
             return userProfile;
+        }
+
+        protected UserTask CreateNewUserTask(int newId)
+        {
+            UserTask userTask = new UserTask()
+            {
+                UserTaskId = newId,
+                TaskId = 3,
+                UserId = 2,
+                StateId = 1,
+                Task = Context.Task.Find(3),
+                State = Context.TaskState.Find(2),
+                User = Context.UserProfile.Find(2)
+            };
+            return userTask;
         }
 
         private int? GetFullAge(DateTime? birthdate)
