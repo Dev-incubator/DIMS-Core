@@ -192,7 +192,7 @@ namespace DIMS_Core.Tests.Infrastructure
 
             #region Seed VUserProfiles
             var vUserProfiles = new VUserProfile[3];
-            for (int i = 0; i < 3; i++)
+            for (int i = 0; i < vUserProfiles.Length; i++)
             {
                 vUserProfiles[i] = new VUserProfile
                 {

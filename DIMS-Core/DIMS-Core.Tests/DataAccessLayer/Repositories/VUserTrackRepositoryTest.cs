@@ -20,7 +20,7 @@ namespace DIMS_Core.Tests.DataAccessLayer.Repositories
             var result = query.Search();
 
             //Assert
-            Assert.Equals(countUserTracks, result.Count());
+            Assert.That(countUserTracks, Is.EqualTo(result.Count()));
         }
 
         [Test]
@@ -34,7 +34,7 @@ namespace DIMS_Core.Tests.DataAccessLayer.Repositories
             var result = query.GetAll();
 
             //Assert
-            Assert.Equals(countUserTracks, result.Count());
+            Assert.That(countUserTracks, Is.EqualTo(result.Count()));
         }
 
         [Test]
@@ -49,7 +49,7 @@ namespace DIMS_Core.Tests.DataAccessLayer.Repositories
             var result = query.GetByIdAsync(getId);
 
             //Assert
-            Assert.Equals(returnTrackNote, result.Result.TrackNote);
+            Assert.That(returnTrackNote, Is.EqualTo(result.Result.TrackNote));
         }
     } 
 }

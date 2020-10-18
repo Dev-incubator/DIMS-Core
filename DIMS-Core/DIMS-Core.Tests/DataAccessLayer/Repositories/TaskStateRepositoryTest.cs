@@ -23,7 +23,7 @@ namespace DIMS_Core.Tests.DataAccessLayer.Repositories
             var result = query.GetAll();
 
             //Assert
-            Assert.AreEqual(countTasksStates, result.Count());
+            Assert.That(countTasksStates, Is.EqualTo(result.Count()));
         }
 
         [Test]
@@ -38,7 +38,7 @@ namespace DIMS_Core.Tests.DataAccessLayer.Repositories
             var result = await query.GetByIdAsync(getId);
 
             //Assert
-            Assert.AreEqual(returnName, result.StateName);
+            Assert.That(returnName, Is.EqualTo(result.StateName));
         }
 
         [Test]
@@ -59,7 +59,7 @@ namespace DIMS_Core.Tests.DataAccessLayer.Repositories
             var result = await query.GetByIdAsync(newId);               //get
 
             //Assert
-            Assert.AreEqual(newTaskState, result);
+            Assert.That(newTaskState, Is.EqualTo(result));
         }
 
         [Test]
@@ -79,7 +79,7 @@ namespace DIMS_Core.Tests.DataAccessLayer.Repositories
             var result = await query.GetByIdAsync(updateId);            //get
 
             //Assert
-            Assert.AreEqual(newName, result.StateName);
+            Assert.That(newName, Is.EqualTo(result.StateName));
         }
 
         [Test]

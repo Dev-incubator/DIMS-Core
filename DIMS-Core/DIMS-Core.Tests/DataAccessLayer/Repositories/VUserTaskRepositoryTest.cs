@@ -21,7 +21,7 @@ namespace DIMS_Core.Tests.DataAccessLayer.Repositories
             var result = query.Search();
 
             //Assert
-            Assert.Equals(countUserTasks, result.Count());
+            Assert.That(countUserTasks, Is.EqualTo(result.Count()));
         }
 
         [Test]
@@ -35,7 +35,7 @@ namespace DIMS_Core.Tests.DataAccessLayer.Repositories
             var result = query.GetAll();
 
             //Assert
-            Assert.Equals(countUserTasks, result.Count());
+            Assert.That(countUserTasks, Is.EqualTo(result.Count()));
         }
 
         [Test]
@@ -50,7 +50,7 @@ namespace DIMS_Core.Tests.DataAccessLayer.Repositories
             var result = query.GetByIdAsync(getId);
 
             //Assert
-            Assert.Equals(returnTaskName, result.Result.TaskName);
+            Assert.That(returnTaskName, Is.EqualTo(result.Result.TaskName));
         }
     }
 }

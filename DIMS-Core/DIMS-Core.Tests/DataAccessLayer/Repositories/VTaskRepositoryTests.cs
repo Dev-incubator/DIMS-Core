@@ -20,7 +20,7 @@ namespace DIMS_Core.Tests.Repositories
             var result = query.Search();
 
             //Assert
-            Assert.Equals(countTasks, result.Count());
+            Assert.That(countTasks, Is.EqualTo(result.Count()));
         }
 
         [Test]
@@ -34,7 +34,7 @@ namespace DIMS_Core.Tests.Repositories
             var result = query.GetAll();
 
             //Assert
-            Assert.Equals(countTasks, result.Count());
+            Assert.That(countTasks, Is.EqualTo(result.Count()));
         }
 
         [Test]
@@ -49,7 +49,7 @@ namespace DIMS_Core.Tests.Repositories
             var result = query.GetByIdAsync(getId);
 
             //Assert
-            Assert.Equals(returnTaskName, result.Result.Name);
+            Assert.That(returnTaskName, Is.EqualTo(result.Result.Name));
         }
     }
 }
