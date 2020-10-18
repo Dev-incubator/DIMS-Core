@@ -30,14 +30,6 @@ namespace DIMS_Core.DataAccessLayer.Context
         public virtual DbSet<VUserTask> VUserTask { get; set; }
         public virtual DbSet<VUserTrack> VUserTrack { get; set; }
 
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            if (!optionsBuilder.IsConfigured)
-            {
-                optionsBuilder.UseSqlServer(configuration.GetConnectionString("DIMSDatabase"));
-            }
-        }
-
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Direction>(entity =>

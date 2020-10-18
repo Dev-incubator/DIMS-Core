@@ -1,6 +1,8 @@
 using DIMS_Core.BusinessLayer.Extensions;
+using DIMS_Core.DataAccessLayer.Context;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -22,6 +24,8 @@ namespace DIMS_Core
             services.AddControllersWithViews();
 
             services.AddCustomSolutionConfigs(Configuration, Assembly.GetExecutingAssembly());
+            services.AddDbContext<DIMSCoreDatabaseContext>
+                 (options => options.UseSqlServer(Configuration.GetConnectionString("DIMSDatabase")));
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
