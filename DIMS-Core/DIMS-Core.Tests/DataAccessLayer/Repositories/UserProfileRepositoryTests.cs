@@ -65,6 +65,19 @@ namespace DIMS_Core.Tests.DataAccessLayer.Repositories
         }
 
         [Test]
+        public async Task GetByIdAsync_IdNegative_IsNull()
+        {
+            // Arrange
+            int getId = -1;
+
+            // Act
+            var actual = await query.GetByIdAsync(getId);
+
+            // Assert
+            Assert.IsNull(actual);
+        }
+
+        [Test]
         public async Task CreateAsync_Id4_NewUserProfile()
         {
             // Arrange
@@ -84,6 +97,22 @@ namespace DIMS_Core.Tests.DataAccessLayer.Repositories
         public void CreateAsync_Null_NotThrow()
         {
             Assert.DoesNotThrowAsync(async () => await query.CreateAsync(null));
+        }
+
+        [Test]
+        public async Task CreateAsync_IdNegative_IsNull()
+        {
+            // Arrange
+            int newId = -1;
+            var expected = CreateNewUserProfile(newId);
+
+            // Act
+            await query.CreateAsync(expected);
+            Context.SaveChanges();
+            var actual = await query.GetByIdAsync(newId);
+
+            // Assert
+            Assert.IsNull(actual);
         }
 
         [Test]
@@ -108,8 +137,27 @@ namespace DIMS_Core.Tests.DataAccessLayer.Repositories
         public async Task Update_Id5_IsNull()
         {
             // Arrange
-            int getId = 1;
             int updateId = 5;
+            int getId = 1;
+            string expected = "New name";
+            var updateUserProfile = Context.UserProfile.Find(getId);
+            updateUserProfile.Name = expected;
+
+            // Act
+            query.Update(updateUserProfile);
+            Context.SaveChanges();
+            var actual = await query.GetByIdAsync(updateId);
+
+            // Assert
+            Assert.IsNull(actual);
+        }
+
+        [Test]
+        public async Task Update_IdNegative_IsNull()
+        {
+            // Arrange
+            int updateId = -1;
+            int getId = 1;
             string expected = "New name";
             var updateUserProfile = Context.UserProfile.Find(getId);
             updateUserProfile.Name = expected;
@@ -143,6 +191,21 @@ namespace DIMS_Core.Tests.DataAccessLayer.Repositories
         {
             // Arrange
             int deleteId = 5;
+
+            // Act
+            await query.DeleteAsync(deleteId);
+            Context.SaveChanges();
+            var actual = await query.GetByIdAsync(deleteId);
+
+            // Assert
+            Assert.IsNull(actual);
+        }
+
+        [Test]
+        public async Task DeleteAsync_IdNegative_IsNull()
+        {
+            // Arrange
+            int deleteId = -1;
 
             // Act
             await query.DeleteAsync(deleteId);

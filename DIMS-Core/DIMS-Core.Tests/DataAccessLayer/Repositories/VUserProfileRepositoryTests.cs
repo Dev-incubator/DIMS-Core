@@ -71,6 +71,18 @@ namespace DIMS_Core.Tests.DataAccessLayer.Repositories
             Assert.IsNull(actual);
         }
 
+        [Test]
+        public async Task GetByIdAsync_IdNegative_IsNull()
+        {
+            // Arrange
+            int getId = -1;
+
+            // Act
+            var actual = await query.GetByIdAsync(getId);
+
+            // Assert
+            Assert.IsNull(actual);
+        }
 
         [OneTimeTearDown]
         public void CleanupQuery()
