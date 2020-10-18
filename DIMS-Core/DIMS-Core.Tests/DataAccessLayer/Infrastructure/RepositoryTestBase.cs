@@ -230,6 +230,31 @@ namespace DIMS_Core.Tests.DataAccessLayer.Infrastructure
             Context.VUserTask.AddRange(vUserTasks);
             #endregion
 
+            #region Seed TaskTrack
+            var taskTracks = new[]
+            {
+                new TaskTrack {
+                    TaskTrackId = 1,
+                    UserTaskId = 1,
+                    TrackDate = new DateTime(2020,08,20,12,30,00),
+                    TrackNote = "First track note"
+                },
+                new TaskTrack {
+                    TaskTrackId = 2,
+                    UserTaskId = 1,
+                    TrackDate = new DateTime(2020,08,20,14,12,53),
+                    TrackNote = "Second track note"
+                },
+                new TaskTrack {
+                    TaskTrackId = 3,
+                    UserTaskId = 2,
+                    TrackDate = new DateTime(2020,08,22,09,40,03),
+                    TrackNote = "Third track note"
+                }
+            };
+            Context.TaskTrack.AddRange(taskTracks);
+            #endregion
+
             Context.SaveChanges();
         }
 
@@ -269,6 +294,18 @@ namespace DIMS_Core.Tests.DataAccessLayer.Infrastructure
                 User = Context.UserProfile.Find(2)
             };
             return userTask;
+        }
+
+        protected TaskTrack CreateNewTaskTrack(int newId)
+        {
+            TaskTrack taskTrack = new TaskTrack()
+            {
+                TaskTrackId = newId,
+                UserTaskId = 2,
+                TrackDate = new DateTime(2020, 09, 26, 10, 00, 00),
+                TrackNote = "New track note"
+            };
+            return taskTrack;
         }
 
         private int? GetFullAge(DateTime? birthdate)
