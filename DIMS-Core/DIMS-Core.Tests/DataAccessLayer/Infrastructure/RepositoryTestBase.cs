@@ -15,7 +15,6 @@ namespace DIMS_Core.Tests.Infrastructure
     {
         protected readonly DIMSCoreDatabaseContext context;
 
-        
         public RepositoryTestBase()
         {
             var options = new DbContextOptionsBuilder<DIMSCoreDatabaseContext>()
