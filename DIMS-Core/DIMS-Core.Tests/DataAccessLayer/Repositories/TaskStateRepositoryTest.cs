@@ -31,7 +31,7 @@ namespace DIMS_Core.Tests.DataAccessLayer.Repositories
         public async TaskThread ShouldReturnById()
         {
             int getId = 2;
-            string returnName = "Design in progress";
+            const string returnName = "Design in progress";
             var result = await query.GetByIdAsync(getId);
             Assert.That(returnName, Is.EqualTo(result.StateName));
         }
@@ -55,7 +55,7 @@ namespace DIMS_Core.Tests.DataAccessLayer.Repositories
         public async TaskThread ShouldUpdate()
         {
             int updateId = 1;
-            string newName = "In progress";
+            const string newName = "In progress";
             var updateTask = await query.GetByIdAsync(updateId);  
             updateTask.StateName = newName;
             query.Update(updateTask);                          

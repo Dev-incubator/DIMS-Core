@@ -33,7 +33,7 @@ namespace DIMS_Core.Tests.DataAccessLayer.Repositories
         public async TaskThread ShouldReturnById()
         {
             int getId = 2;
-            string returnName = "Write CRUD operations for Users";
+            const string returnName = "Write CRUD operations for Users";
             var result = await query.GetByIdAsync(getId);
             Assert.That(returnName, Is.EqualTo(result.Name));
         }
@@ -60,7 +60,7 @@ namespace DIMS_Core.Tests.DataAccessLayer.Repositories
         public async TaskThread ShouldUpdate()
         {
             int updateId = 1;
-            string newName = "Create MainDatabase";
+            const string newName = "Create MainDatabase";
             var updateTask = await query.GetByIdAsync(updateId);  
             updateTask.Name = newName;
             query.Update(updateTask);                            

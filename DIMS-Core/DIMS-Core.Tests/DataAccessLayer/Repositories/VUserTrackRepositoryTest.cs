@@ -36,7 +36,7 @@ namespace DIMS_Core.Tests.DataAccessLayer.Repositories
         public void ShouldReturnById()
         {
             int getId = 1;
-            string returnTrackNote = "Create table UserProfile";
+            const string returnTrackNote = "Create table UserProfile";
             var result = query.GetByIdAsync(getId);
             Assert.That(returnTrackNote, Is.EqualTo(result.Result.TrackNote));
         }

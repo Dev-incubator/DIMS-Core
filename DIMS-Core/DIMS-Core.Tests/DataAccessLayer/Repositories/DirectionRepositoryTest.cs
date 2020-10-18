@@ -31,7 +31,7 @@ namespace DIMS_Core.Tests.Repositories
         public async TaskThread ShouldReturnById()
         {
             int getId = 2;
-            string returnName = "FRONTEND";
+            const string returnName = "FRONTEND";
             var result = await query.GetByIdAsync(getId);
             Assert.That(returnName, Is.EqualTo(result.Name));
         }
@@ -56,7 +56,7 @@ namespace DIMS_Core.Tests.Repositories
         public async TaskThread ShouldUpdate()
         {
             int updateId = 1;
-            string newName = "---";
+            const string newName = "---";
             var updateDirection = await query.GetByIdAsync(updateId);  
             updateDirection.Name = newName;
             query.Update(updateDirection);                            

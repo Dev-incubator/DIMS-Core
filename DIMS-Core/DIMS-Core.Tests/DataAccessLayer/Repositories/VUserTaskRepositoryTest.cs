@@ -37,7 +37,7 @@ namespace DIMS_Core.Tests.DataAccessLayer.Repositories
         public void ShouldReturnById()
         {
             int getId = 1;
-            string returnTaskName = "Create database";
+            const string returnTaskName = "Create database";
             var result = query.GetByIdAsync(getId);
             Assert.That(returnTaskName, Is.EqualTo(result.Result.TaskName));
         }
