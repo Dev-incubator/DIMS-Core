@@ -7,107 +7,156 @@ using NUnit.Framework;
 using System;
 using System.Threading.Tasks;
 using UserProfile = DIMS_Core.DataAccessLayer.Entities.UserProfile;
+using MimeKit.Cryptography;
+using System.Reflection;
+using System.Diagnostics;
 
 namespace DIMS_Core.Tests.DataAccessLayer.Repositories
 {
     [TestFixture]
     public class UserProfileRepositoryTests : RepositoryTestBase
     {
-        [Test]
-        public void ShouldReturnAll()
+        private UserProfileRepository query;
+
+        [OneTimeSetUp]
+        public void InitQuery()
         {
-            // Arrange
-            int countUsers = 3;
-            var query = new UserProfileRepository(context);
-
-            // Act
-            var result = query.GetAll();
-
-            //Assert
-            Assert.AreEqual(countUsers, result.Count());
+            query = new UserProfileRepository(Context);
         }
 
         [Test]
-        public async Task ShouldReturnById()
+        public void GetAll_ActualCount()
+        {
+            // Arrange
+            int expected = Context.UserProfile.Count();
+
+            // Act
+            var actual = query.GetAll();
+
+            // Assert
+            Assert.That(expected, Is.EqualTo(actual.Count()));
+        }
+
+        [Test]
+        public async Task GetByIdAsync_Id1_UserProfile()
         {
             // Arrange
             int getId = 1;
-            string returnName = "Elisey";
-            var query = new UserProfileRepository(context);
+            var expected = Context.UserProfile.Find(getId);
 
             // Act
-            var result = await query.GetByIdAsync(getId);
+            var actual = await query.GetByIdAsync(getId);
 
-            //Assert
-            Assert.AreEqual(returnName, result.Name);
+            // Assert
+            Assert.That(expected, Is.EqualTo(actual));
         }
 
         [Test]
-        public async Task ShouldAdd()
+        public async Task GetByIdAsync_Id5_IsNull()
+        {
+            // Arrange
+            int getId = 5;
+
+            // Act
+            var actual = await query.GetByIdAsync(getId);
+
+            // Assert
+            Assert.IsNull(actual);
+        }
+
+        [Test]
+        public async Task CreateAsync_Id4_NewUserProfile()
         {
             // Arrange
             int newId = 4;
-            var query = new UserProfileRepository(context);
-            var newUserProfile = new UserProfile() {
-                UserId = newId,
-                Name = "Harry",
-                LastName = "Soloviev",
-                Email = "harry.soloviev@gmail.com",
-                DirectionId = 1,
-                Sex = Sex.Female,
-                Education = "БГУИР",
-                BirthOfDate = new DateTime(1999, 09, 11),
-                UniversityAverageScore = 7,
-                MathScore = 8,
-                Address = "Минск, ул. Михалово 1, 50",
-                MobilePhone = "375254440608",
-                Skype = "harrysoloviev",
-                StartDate = new DateTime(2020, 09, 25)
-            };
+            var expected = NewUserProfile;
 
             // Act
-            await query.CreateAsync(newUserProfile);                    //add
-            context.SaveChanges();
-            var result = await query.GetByIdAsync(newId);               //get
+            await query.CreateAsync(expected);
+            Context.SaveChanges();
+            var actual = await query.GetByIdAsync(newId);
 
-            //Assert
-            Assert.AreEqual(newUserProfile, result);
+            // Assert
+            Assert.That(expected, Is.EqualTo(actual));
         }
 
         [Test]
-        public async Task ShouldUpdate()
+        public void CreateAsync_Null_NotThrow()
+        {
+            Assert.DoesNotThrowAsync(async () => await query.CreateAsync(null));
+        }
+
+        [Test]
+        public async Task Update_Id1_NewName()
         {
             // Arrange
             int updateId = 1;
-            string newName = "Igor";
-
-            var query = new UserProfileRepository(context);
-            var updateUserProfile = await query.GetByIdAsync(updateId);  //get
-            updateUserProfile.Name = newName;
+            string expected = "New name";
+            var updateUserProfile = Context.UserProfile.Find(updateId);
+            updateUserProfile.Name = expected;
 
             // Act
-            query.Update(updateUserProfile);                            //update
-            context.SaveChanges();
-            var result = await query.GetByIdAsync(updateId);            //get
+            query.Update(updateUserProfile);
+            Context.SaveChanges();
+            var actual = await query.GetByIdAsync(updateId);
 
-            //Assert
-            Assert.AreEqual(newName, result.Name);
+            // Assert
+            Assert.That(expected, Is.EqualTo(actual.Name));
         }
 
         [Test]
-        public async Task ShouldDelete()
+        public async Task Update_Id5_IsNull()
+        {
+            // Arrange
+            int getId = 1;
+            int updateId = 5;
+            string expected = "New name";
+            var updateUserProfile = Context.UserProfile.Find(getId);
+            updateUserProfile.Name = expected;
+
+            // Act
+            query.Update(updateUserProfile);
+            Context.SaveChanges();
+            var actual = await query.GetByIdAsync(updateId);
+
+            // Assert
+            Assert.IsNull(actual);
+        }
+
+        [Test]
+        public async Task DeleteAsync_Id3_IsNull()
         {
             // Arrange
             int deleteId = 3;
-            var query = new UserProfileRepository(context);
 
             // Act
-            await query.DeleteAsync(deleteId);                          //delete
-            context.SaveChanges();
-            UserProfile result = await query.GetByIdAsync(deleteId);    //get
+            await query.DeleteAsync(deleteId);
+            Context.SaveChanges();
+            var actual = await query.GetByIdAsync(deleteId);
 
-            //Assert
-            Assert.IsNull(result);
+            // Assert
+            Assert.IsNull(actual);
+        }
+
+        [Test]
+        public async Task DeleteAsync_Id5_IsNull()
+        {
+            // Arrange
+            int deleteId = 5;
+
+            // Act
+            await query.DeleteAsync(deleteId);
+            Context.SaveChanges();
+            var actual = await query.GetByIdAsync(deleteId);
+
+            // Assert
+            Assert.IsNull(actual);
+        }
+
+        [OneTimeTearDown]
+        public void CleanupQuery()
+        {
+            query.Dispose();
         }
     }
 }

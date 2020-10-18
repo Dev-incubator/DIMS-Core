@@ -10,47 +10,72 @@ namespace DIMS_Core.Tests.DataAccessLayer.Repositories
     [TestFixture]
     public class VUserProfileRepositoryTests : RepositoryTestBase
     {
-        [Test]
-        public void ShouldReturnAllSearch()
+        private VUserProfileRepository query;
+
+        [OneTimeSetUp]
+        public void InitQuery()
         {
-            // Arrange
-            int countUsers = 3;
-            var query = new VUserProfileRepository(context);
-
-            // Act
-            var result = query.Search();
-
-            //Assert
-            Assert.AreEqual(countUsers, result.Count());
+            query = new VUserProfileRepository(Context);
         }
 
         [Test]
-        public void ShouldReturnAll()
+        public void GetAll_ActualCount()
         {
             // Arrange
-            int countUsers = 3;
-            var query = new VUserProfileRepository(context);
+            int expected = Context.UserProfile.Count();
 
             // Act
-            var result = query.GetAll();
+            var actual = query.GetAll();
 
-            //Assert
-            Assert.AreEqual(countUsers, result.Count());
+            // Assert
+            Assert.That(expected, Is.EqualTo(actual.Count()));
         }
 
         [Test]
-        public async Task ShouldReturnById()
+        public void Search_ActualCount()
+        {
+            // Arrange
+            int expected = Context.UserProfile.Count();
+
+            // Act
+            var actual = query.Search();
+
+            // Assert
+            Assert.That(expected, Is.EqualTo(actual.Count()));
+        }
+
+        [Test]
+        public async Task GetByIdAsync_Id1_VUserProfile()
         {
             // Arrange
             int getId = 1;
-            string returnFullName = "Elisey Butko";
-            var query = new VUserProfileRepository(context);
+            var expected = Context.VUserProfile.Find(getId);
 
             // Act
-            var result = await query.GetByIdAsync(getId);
+            var actual = await query.GetByIdAsync(getId);
 
-            //Assert
-            Assert.AreEqual(returnFullName, result.FullName);
+            // Assert
+            Assert.That(expected, Is.EqualTo(actual));
+        }
+
+        [Test]
+        public async Task GetByIdAsync_Id5_IsNull()
+        {
+            // Arrange
+            int getId = 5;
+
+            // Act
+            var actual = await query.GetByIdAsync(getId);
+
+            // Assert
+            Assert.IsNull(actual);
+        }
+
+
+        [OneTimeTearDown]
+        public void CleanupQuery()
+        {
+            query.Dispose();
         }
     }
 }
