@@ -9,28 +9,29 @@ using TaskThread = System.Threading.Tasks.Task;
 using TaskEntity = DIMS_Core.DataAccessLayer.Entities.Task;
 using System;
 
-namespace DIMS_Core.Tests.DataAccessLayer.Repositories
+namespace DIMS_Core.Tests.Repositories
 {
     [TestFixture]
     public class TaskRepositoryTests : RepositoryTestBase
     {
-        private readonly TaskRepository query;
+        private TaskRepository query;
 
-        private TaskRepositoryTests()
+        [OneTimeSetUp]
+        public void InitQuery()
         {
-            query = new TaskRepository(context);
+            query = new TaskRepository(Context);
         }
 
         [Test]
-        public void ShouldReturnAll()
+        public void GetAll_GetAllItems_GetActualCountOfItems()
         {
-            int countTasks = 3;
+            int countTasks = Context.Task.Count();
             var result = query.GetAll();
             Assert.That(countTasks, Is.EqualTo(result.Count()));
         }
 
         [Test]
-        public async TaskThread ShouldReturnById()
+        public async TaskThread GetByIdAsync_GetItemByExistingId_ItemFound()
         {
             int getId = 2;
             const string returnName = "Write CRUD operations for Users";
@@ -39,7 +40,7 @@ namespace DIMS_Core.Tests.DataAccessLayer.Repositories
         }
 
         [Test]
-        public async TaskThread ShouldAdd()
+        public async TaskThread CreateAsync_CreatingWithNotExistingId_CreatedSuccessfull()
         {
             int newId = 4;
             var newTask = new TaskEntity()
@@ -51,30 +52,30 @@ namespace DIMS_Core.Tests.DataAccessLayer.Repositories
                 DeadlineDate = new DateTime(2020, 12, 04)
             };
             await query.CreateAsync(newTask);
-            context.SaveChanges();
+            Context.SaveChanges();
             var result = await query.GetByIdAsync(newId);         
             Assert.That(newTask, Is.EqualTo(result));
         }
 
         [Test]
-        public async TaskThread ShouldUpdate()
+        public async TaskThread Update_UpdateNameByExistingId_NameUpdated()
         {
             int updateId = 1;
             const string newName = "Create MainDatabase";
             var updateTask = await query.GetByIdAsync(updateId);  
             updateTask.Name = newName;
             query.Update(updateTask);                            
-            context.SaveChanges();
+            Context.SaveChanges();
             var result = await query.GetByIdAsync(updateId);            
             Assert.That(newName, Is.EqualTo(result.Name));
         }
 
         [Test]
-        public async TaskThread ShouldDelete()
+        public async TaskThread Delete_DeleteByExistingId_DeletedItemEqualsNull()
         {
             int deleteId = 3;
             await query.DeleteAsync(deleteId);                          
-            context.SaveChanges();
+            Context.SaveChanges();
             var result = await query.GetByIdAsync(deleteId);   
             Assert.IsNull(result);
         }

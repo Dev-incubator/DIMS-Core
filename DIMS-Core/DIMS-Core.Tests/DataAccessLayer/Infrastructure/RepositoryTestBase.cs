@@ -13,19 +13,21 @@ namespace DIMS_Core.Tests.Infrastructure
     [TestFixture]
     public class RepositoryTestBase : IDisposable
     {
-        protected readonly DIMSCoreDatabaseContext context;
+        protected DIMSCoreDatabaseContext Context;
 
-        public RepositoryTestBase()
+        [OneTimeSetUp]
+        public void Init()
         {
             var options = new DbContextOptionsBuilder<DIMSCoreDatabaseContext>()
-                   .UseInMemoryDatabase(databaseName: Guid.NewGuid().ToString())
-                   .Options;
+                       .UseInMemoryDatabase(databaseName: Guid.NewGuid().ToString())
+                       .Options;
 
-            context = new DIMSCoreDatabaseContext(options);
-            context.Database.EnsureCreated();
+            Context = new DIMSCoreDatabaseContext(options);
+            Context.Database.EnsureCreated();
 
-            Seed(context);
+            Seed(Context);
         }
+
 
         private void Seed(DIMSCoreDatabaseContext context)
         {
@@ -324,8 +326,8 @@ namespace DIMS_Core.Tests.Infrastructure
         [OneTimeTearDown]
         public void Dispose()
         {
-            context.Database.EnsureDeleted();
-            context.Dispose();
+            Context.Database.EnsureDeleted();
+            Context.Dispose();
         }
     }
 }

@@ -4,8 +4,7 @@ using NUnit.Framework;
 using System.Linq;
 using System.Linq.Dynamic.Core;
 
-
-namespace DIMS_Core.Tests.DataAccessLayer.Repositories
+namespace DIMS_Core.Tests.Repositories
 {
     [TestFixture]
     public class VUserTaskRepositoryTest : RepositoryTestBase
@@ -14,27 +13,27 @@ namespace DIMS_Core.Tests.DataAccessLayer.Repositories
 
         private VUserTaskRepositoryTest()
         {
-            query = new VUserTaskRepository(context);
+            query = new VUserTaskRepository(Context);
         }
 
         [Test]
-        public void ShouldReturnAllSearch()
+        public void Search_SearchAllItems_GetActualCountOfItems()
         {
-            int countUserTasks = 3;
+            int countUserTasks = Context.VUserTask.Count();
             var result = query.Search();
             Assert.That(countUserTasks, Is.EqualTo(result.Count()));
         }
 
         [Test]
-        public void ShouldReturnAll()
+        public void GetAll_GetAllItems_GetActualCountOfItems()
         {
-            int countUserTasks = 3;
+            int countUserTasks = Context.VUserTask.Count();
             var result = query.GetAll();
             Assert.That(countUserTasks, Is.EqualTo(result.Count()));
         }
 
         [Test]
-        public void ShouldReturnById()
+        public void GetByIdAsync_GetItemByExistingId_ItemFound()
         {
             int getId = 1;
             const string returnTaskName = "Create database";

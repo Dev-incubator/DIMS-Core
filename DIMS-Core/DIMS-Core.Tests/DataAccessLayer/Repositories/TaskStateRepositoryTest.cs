@@ -7,7 +7,7 @@ using System.Linq.Dynamic.Core;
 using System.Threading.Tasks;
 using TaskThread = System.Threading.Tasks.Task;
 
-namespace DIMS_Core.Tests.DataAccessLayer.Repositories
+namespace DIMS_Core.Tests.Repositories
 {
     [TestFixture]
     public class TaskStateRepositoryTest : RepositoryTestBase
@@ -16,19 +16,19 @@ namespace DIMS_Core.Tests.DataAccessLayer.Repositories
 
         private TaskStateRepositoryTest()
         {
-            query = new TaskStateRepository(context);
+            query = new TaskStateRepository(Context);
         }
 
         [Test]
-        public void ShouldReturnAll()
+        public void GetAll_GetAllItems_GetActualCountOfItems()
         {
-            int countTasksStates = 6;
+            int countTasksStates = Context.TaskState.Count();
             var result = query.GetAll();
             Assert.That(countTasksStates, Is.EqualTo(result.Count()));
         }
 
         [Test]
-        public async TaskThread ShouldReturnById()
+        public async TaskThread GetByIdAsync_GetItemByExistingId_ItemFound()
         {
             int getId = 2;
             const string returnName = "Design in progress";
@@ -37,7 +37,7 @@ namespace DIMS_Core.Tests.DataAccessLayer.Repositories
         }
 
         [Test]
-        public async TaskThread ShouldAdd()
+        public async TaskThread CreateAsync_CreatingWithNotExistingId_CreatedSuccessfull()
         {
             int newId = 7;
             var newTaskState = new TaskState()
@@ -46,30 +46,30 @@ namespace DIMS_Core.Tests.DataAccessLayer.Repositories
                 StateName = "On check",
             };
             await query.CreateAsync(newTaskState);          
-            context.SaveChanges();
+            Context.SaveChanges();
             var result = await query.GetByIdAsync(newId);             
             Assert.That(newTaskState, Is.EqualTo(result));
         }
 
         [Test]
-        public async TaskThread ShouldUpdate()
+        public async TaskThread Update_UpdateNameByExistingId_NameUpdated()
         {
             int updateId = 1;
             const string newName = "In progress";
             var updateTask = await query.GetByIdAsync(updateId);  
             updateTask.StateName = newName;
             query.Update(updateTask);                          
-            context.SaveChanges();
+            Context.SaveChanges();
             var result = await query.GetByIdAsync(updateId);        
             Assert.That(newName, Is.EqualTo(result.StateName));
         }
 
         [Test]
-        public async TaskThread ShouldDelete()
+        public async TaskThread Delete_DeleteByExistingId_DeletedItemEqualsNull()
         {
             int deleteId = 3;
             await query.DeleteAsync(deleteId);                          
-            context.SaveChanges();
+            Context.SaveChanges();
             TaskState result = await query.GetByIdAsync(deleteId);     
             Assert.IsNull(result);
         }

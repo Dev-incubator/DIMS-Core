@@ -4,7 +4,7 @@ using NUnit.Framework;
 using System.Linq;
 using System.Linq.Dynamic.Core;
 
-namespace DIMS_Core.Tests.DataAccessLayer.Repositories
+namespace DIMS_Core.Tests.Repositories
 {
     [TestFixture]
     public class VUserTrackRepositoryTest : RepositoryTestBase
@@ -13,11 +13,11 @@ namespace DIMS_Core.Tests.DataAccessLayer.Repositories
 
         private VUserTrackRepositoryTest()
         {
-            query = new VUserTrackRepository(context);
+            query = new VUserTrackRepository(Context);
         }
 
         [Test]
-        public void ShouldReturnAllSearch()
+        public void Search_SearchAllItems_GetActualCountOfItems()
         {
             int countUserTracks = 3;
             var result = query.Search();
@@ -25,7 +25,7 @@ namespace DIMS_Core.Tests.DataAccessLayer.Repositories
         }
 
         [Test]
-        public void ShouldReturnAll()
+        public void GetAll_GetAllItems_GetActualCountOfItems()
         {
             int countUserTracks = 3;
             var result = query.GetAll();
@@ -33,7 +33,7 @@ namespace DIMS_Core.Tests.DataAccessLayer.Repositories
         }
 
         [Test]
-        public void ShouldReturnById()
+        public void GetByIdAsync_GetItemByExistingId_ItemFound()
         {
             int getId = 1;
             const string returnTrackNote = "Create table UserProfile";

@@ -13,27 +13,27 @@ namespace DIMS_Core.Tests.Repositories
 
         private VTaskRepositoryTests()
         {
-            query = new VTaskRepository(context);
+            query = new VTaskRepository(Context);
         }
 
         [Test]
-        public void ShouldReturnAllSearch()
+        public void Search_SearchAllItems_GetActualCountOfItems()
         {
-            int countTasks = 3;
+            int countTasks = Context.VTask.Count();
             var result = query.Search();
             Assert.That(countTasks, Is.EqualTo(result.Count()));
         }
 
         [Test]
-        public void ShouldReturnAll()
+        public void GetAll_GetAllItems_GetActualCountOfItems()
         {
-            int countTasks = 3;
+            int countTasks = Context.VTask.Count(); ;
             var result = query.GetAll();
             Assert.That(countTasks, Is.EqualTo(result.Count()));
         }
 
         [Test]
-        public void ShouldReturnById()
+        public void GetByIdAsync_GetItemByExistingId_ItemFound()
         {
             int getId = 1;
             const string returnTaskName = "Create database";
