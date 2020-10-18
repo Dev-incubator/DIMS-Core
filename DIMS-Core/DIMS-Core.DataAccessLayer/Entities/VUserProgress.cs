@@ -12,5 +12,8 @@ namespace DIMS_Core.DataAccessLayer.Entities
         public string TaskName { get; set; }
         public string TrackNote { get; set; }
         public DateTime TrackDate { get; set; }
+
+        //Inmemory tests don't work without primary key.
+        public int TestOnlyKey { get; internal set; }
     }
 }

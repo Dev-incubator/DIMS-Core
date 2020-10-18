@@ -193,7 +193,8 @@ namespace DIMS_Core.DataAccessLayer.Context
 
             modelBuilder.Entity<VUserProgress>(entity =>
             {
-                entity.HasNoKey();
+                //Inmemory tests don't work without primary key.
+                entity.HasKey(e => e.TestOnlyKey);
 
                 entity.ToView("vUserProgress");
 

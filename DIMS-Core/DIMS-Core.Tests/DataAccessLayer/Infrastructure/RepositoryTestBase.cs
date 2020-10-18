@@ -255,6 +255,40 @@ namespace DIMS_Core.Tests.DataAccessLayer.Infrastructure
             Context.TaskTrack.AddRange(taskTracks);
             #endregion
 
+            #region Seed VUserProgress
+            var vUserProgress = new[]
+            {
+                new VUserProgress {
+                    UserId = 1,
+                    TaskId = 1,
+                    TaskTrackId = 1,
+                    UserName = Context.UserProfile.Find(1).Name + " " + Context.UserProfile.Find(1).LastName,
+                    TaskName = Context.Task.Find(1).Name,
+                    TrackNote = Context.TaskTrack.Find(1).TrackNote,
+                    TrackDate = Context.TaskTrack.Find(1).TrackDate
+                },
+                new VUserProgress {
+                    UserId = 1,
+                    TaskId = 1,
+                    TaskTrackId = 2,
+                    UserName = Context.UserProfile.Find(1).Name + " " + Context.UserProfile.Find(1).LastName,
+                    TaskName = Context.Task.Find(1).Name,
+                    TrackNote = Context.TaskTrack.Find(2).TrackNote,
+                    TrackDate = Context.TaskTrack.Find(2).TrackDate
+                },
+                new VUserProgress {
+                    UserId = 2,
+                    TaskId = 2,
+                    TaskTrackId = 3,
+                    UserName = Context.UserProfile.Find(2).Name + " " + Context.UserProfile.Find(2).LastName,
+                    TaskName = Context.Task.Find(2).Name,
+                    TrackNote = Context.TaskTrack.Find(3).TrackNote,
+                    TrackDate = Context.TaskTrack.Find(3).TrackDate
+                }
+            };
+            Context.VUserProgress.AddRange(vUserProgress);
+            #endregion
+
             Context.SaveChanges();
         }
 
