@@ -15,36 +15,25 @@ namespace DIMS_Core.Tests.DataAccessLayer.Repositories
         [Test]
         public void ShouldReturnAll()
         {
-            // Arrange
             int countTasksStates = 6;
             var query = new TaskStateRepository(context);
-
-            // Act
             var result = query.GetAll();
-
-            //Assert
             Assert.That(countTasksStates, Is.EqualTo(result.Count()));
         }
 
         [Test]
         public async TaskThread ShouldReturnById()
         {
-            // Arrange
             int getId = 2;
             string returnName = "Design in progress";
             var query = new TaskStateRepository(context);
-
-            // Act
             var result = await query.GetByIdAsync(getId);
-
-            //Assert
             Assert.That(returnName, Is.EqualTo(result.StateName));
         }
 
         [Test]
         public async TaskThread ShouldAdd()
         {
-            // Arrange
             int newId = 7;
             var query = new TaskStateRepository(context);
             var newTaskState = new TaskState()
@@ -52,49 +41,34 @@ namespace DIMS_Core.Tests.DataAccessLayer.Repositories
                 StateId = 7,
                 StateName = "On check",
             };
-
-            // Act
-            await query.CreateAsync(newTaskState);                      //add
+            await query.CreateAsync(newTaskState);          
             context.SaveChanges();
-            var result = await query.GetByIdAsync(newId);               //get
-
-            //Assert
+            var result = await query.GetByIdAsync(newId);             
             Assert.That(newTaskState, Is.EqualTo(result));
         }
 
         [Test]
         public async TaskThread ShouldUpdate()
         {
-            // Arrange
             int updateId = 1;
             string newName = "In progress";
-
             var query = new TaskStateRepository(context);
-            var updateTask = await query.GetByIdAsync(updateId);  //get
+            var updateTask = await query.GetByIdAsync(updateId);  
             updateTask.StateName = newName;
-
-            // Act
-            query.Update(updateTask);                            //update
+            query.Update(updateTask);                          
             context.SaveChanges();
-            var result = await query.GetByIdAsync(updateId);            //get
-
-            //Assert
+            var result = await query.GetByIdAsync(updateId);        
             Assert.That(newName, Is.EqualTo(result.StateName));
         }
 
         [Test]
         public async TaskThread ShouldDelete()
         {
-            // Arrange
             int deleteId = 3;
             var query = new TaskStateRepository(context);
-
-            // Act
-            await query.DeleteAsync(deleteId);                          //delete
+            await query.DeleteAsync(deleteId);                          
             context.SaveChanges();
-            TaskState result = await query.GetByIdAsync(deleteId);      //get
-
-            //Assert
+            TaskState result = await query.GetByIdAsync(deleteId);     
             Assert.IsNull(result);
         }
     }

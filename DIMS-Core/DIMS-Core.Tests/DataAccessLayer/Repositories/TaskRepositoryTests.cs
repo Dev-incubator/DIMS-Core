@@ -17,36 +17,25 @@ namespace DIMS_Core.Tests.DataAccessLayer.Repositories
         [Test]
         public void ShouldReturnAll()
         {
-            // Arrange
             int countTasks = 3;
             var query = new TaskRepository(context);
-
-            // Act
             var result = query.GetAll();
-
-            //Assert
             Assert.That(countTasks, Is.EqualTo(result.Count()));
         }
 
         [Test]
         public async TaskThread ShouldReturnById()
         {
-            // Arrange
             int getId = 2;
             string returnName = "Write CRUD operations for Users";
             var query = new TaskRepository(context);
-
-            // Act
             var result = await query.GetByIdAsync(getId);
-
-            //Assert
             Assert.That(returnName, Is.EqualTo(result.Name));
         }
 
         [Test]
         public async TaskThread ShouldAdd()
         {
-            // Arrange
             int newId = 4;
             var query = new TaskRepository(context);
             var newTask = new TaskEntity()
@@ -57,49 +46,34 @@ namespace DIMS_Core.Tests.DataAccessLayer.Repositories
                 StartDate = new DateTime(2020, 07, 30),
                 DeadlineDate = new DateTime(2020, 12, 04)
             };
-
-            // Act
-            await query.CreateAsync(newTask);                      //add
+            await query.CreateAsync(newTask);
             context.SaveChanges();
-            var result = await query.GetByIdAsync(newId);               //get
-
-            //Assert
+            var result = await query.GetByIdAsync(newId);         
             Assert.That(newTask, Is.EqualTo(result));
         }
 
         [Test]
         public async TaskThread ShouldUpdate()
         {
-            // Arrange
             int updateId = 1;
             string newName = "Create MainDatabase";
-
             var query = new TaskRepository(context);
-            var updateTask = await query.GetByIdAsync(updateId);  //get
+            var updateTask = await query.GetByIdAsync(updateId);  
             updateTask.Name = newName;
-
-            // Act
-            query.Update(updateTask);                            //update
+            query.Update(updateTask);                            
             context.SaveChanges();
-            var result = await query.GetByIdAsync(updateId);            //get
-
-            //Assert
+            var result = await query.GetByIdAsync(updateId);            
             Assert.That(newName, Is.EqualTo(result.Name));
         }
 
         [Test]
         public async TaskThread ShouldDelete()
         {
-            // Arrange
             int deleteId = 3;
             var query = new TaskRepository(context);
-
-            // Act
-            await query.DeleteAsync(deleteId);                          //delete
+            await query.DeleteAsync(deleteId);                          
             context.SaveChanges();
-            TaskEntity result = await query.GetByIdAsync(deleteId);    //get
-
-            //Assert
+            TaskEntity result = await query.GetByIdAsync(deleteId);   
             Assert.IsNull(result);
         }
     }

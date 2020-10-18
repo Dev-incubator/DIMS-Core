@@ -13,43 +13,28 @@ namespace DIMS_Core.Tests.DataAccessLayer.Repositories
         [Test]
         public void ShouldReturnAllSearch()
         {
-            // Arrange
             int countUserTasks = 3;
             var query = new VUserTaskRepository(context);
-
-            // Act
             var result = query.Search();
-
-            //Assert
             Assert.That(countUserTasks, Is.EqualTo(result.Count()));
         }
 
         [Test]
         public void ShouldReturnAll()
         {
-            // Arrange
             int countUserTasks = 3;
             var query = new VUserTaskRepository(context);
-
-            // Act
             var result = query.GetAll();
-
-            //Assert
             Assert.That(countUserTasks, Is.EqualTo(result.Count()));
         }
 
         [Test]
         public void ShouldReturnById()
         {
-            // Arrange
             int getId = 1;
             string returnTaskName = "Create database";
             var query = new VUserTaskRepository(context);
-
-            // Act
             var result = query.GetByIdAsync(getId);
-
-            //Assert
             Assert.That(returnTaskName, Is.EqualTo(result.Result.TaskName));
         }
     }

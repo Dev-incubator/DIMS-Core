@@ -15,36 +15,25 @@ namespace DIMS_Core.Tests.Repositories
         [Test]
         public void ShouldReturnAll()
         {
-            // Arrange
             int countDirections = 5;
             var query = new DirectionRepository(context);
-
-            // Act
             var result = query.GetAll();
-
-            //Assert
             Assert.That(countDirections, Is.EqualTo(result.Count()));
         }
 
         [Test]
         public async TaskThread ShouldReturnById()
         {
-            // Arrange
             int getId = 2;
             string returnName = "FRONTEND";
             var query = new DirectionRepository(context);
-
-            // Act
             var result = await query.GetByIdAsync(getId);
-
-            //Assert
             Assert.That(returnName, Is.EqualTo(result.Name));
         }
 
         [Test]
         public async TaskThread ShouldAdd()
         {
-            // Arrange
             int newId = 4;
             var query = new DirectionRepository(context);
             var newDirection = new Direction()
@@ -53,49 +42,34 @@ namespace DIMS_Core.Tests.Repositories
                 Name = "Javascript",
                 Description = "1+'0' = 10",
             };
-
-            // Act
-            await query.CreateAsync(newDirection);                      //add
+            await query.CreateAsync(newDirection);                      
             context.SaveChanges();
-            var result = await query.GetByIdAsync(newId);               //get
-
-            //Assert
+            var result = await query.GetByIdAsync(newId);               
             Assert.That(newDirection, Is.EqualTo(result));
         }
 
         [Test]
         public async TaskThread ShouldUpdate()
         {
-            // Arrange
             int updateId = 1;
             string newName = "---";
-
             var query = new DirectionRepository(context);
-            var updateDirection = await query.GetByIdAsync(updateId);  //get
+            var updateDirection = await query.GetByIdAsync(updateId);  
             updateDirection.Name = newName;
-
-            // Act
-            query.Update(updateDirection);                            //update
+            query.Update(updateDirection);                            
             context.SaveChanges();
-            var result = await query.GetByIdAsync(updateId);            //get
-
-            //Assert
+            var result = await query.GetByIdAsync(updateId);        
             Assert.That(newName, Is.EqualTo(result.Name));
         }
 
         [Test]
         public async TaskThread ShouldDelete()
         {
-            // Arrange
             int deleteId = 3;
             var query = new DirectionRepository(context);
-
-            // Act
-            await query.DeleteAsync(deleteId);                          //delete
+            await query.DeleteAsync(deleteId);                     
             context.SaveChanges();
-            Direction result = await query.GetByIdAsync(deleteId);    //get
-
-            //Assert
+            Direction result = await query.GetByIdAsync(deleteId);    
             Assert.IsNull(result);
         }
     }
