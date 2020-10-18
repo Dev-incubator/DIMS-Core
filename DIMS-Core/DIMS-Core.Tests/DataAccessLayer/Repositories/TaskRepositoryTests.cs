@@ -73,7 +73,7 @@ namespace DIMS_Core.Tests.DataAccessLayer.Repositories
             var query = new TaskRepository(context);
             await query.DeleteAsync(deleteId);                          
             context.SaveChanges();
-            TaskEntity result = await query.GetByIdAsync(deleteId);   
+            var result = await query.GetByIdAsync(deleteId);   
             Assert.IsNull(result);
         }
     }
