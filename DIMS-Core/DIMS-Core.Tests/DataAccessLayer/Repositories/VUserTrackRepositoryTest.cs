@@ -9,11 +9,17 @@ namespace DIMS_Core.Tests.DataAccessLayer.Repositories
     [TestFixture]
     public class VUserTrackRepositoryTest : RepositoryTestBase
     {
+        private readonly VUserTrackRepository query;
+
+        private VUserTrackRepositoryTest()
+        {
+            query = new VUserTrackRepository(context);
+        }
+
         [Test]
         public void ShouldReturnAllSearch()
         {
             int countUserTracks = 3;
-            var query = new VUserTrackRepository(context);
             var result = query.Search();
             Assert.That(countUserTracks, Is.EqualTo(result.Count()));
         }
@@ -22,7 +28,6 @@ namespace DIMS_Core.Tests.DataAccessLayer.Repositories
         public void ShouldReturnAll()
         {
             int countUserTracks = 3;
-            var query = new VUserTrackRepository(context);
             var result = query.GetAll();
             Assert.That(countUserTracks, Is.EqualTo(result.Count()));
         }
@@ -32,7 +37,6 @@ namespace DIMS_Core.Tests.DataAccessLayer.Repositories
         {
             int getId = 1;
             string returnTrackNote = "Create table UserProfile";
-            var query = new VUserTrackRepository(context);
             var result = query.GetByIdAsync(getId);
             Assert.That(returnTrackNote, Is.EqualTo(result.Result.TrackNote));
         }

@@ -12,11 +12,17 @@ namespace DIMS_Core.Tests.DataAccessLayer.Repositories
     [TestFixture]
     public class TaskStateRepositoryTest : RepositoryTestBase
     {
+        private readonly TaskStateRepository query;
+
+        private TaskStateRepositoryTest()
+        {
+            query = new TaskStateRepository(context);
+        }
+
         [Test]
         public void ShouldReturnAll()
         {
             int countTasksStates = 6;
-            var query = new TaskStateRepository(context);
             var result = query.GetAll();
             Assert.That(countTasksStates, Is.EqualTo(result.Count()));
         }
@@ -26,7 +32,6 @@ namespace DIMS_Core.Tests.DataAccessLayer.Repositories
         {
             int getId = 2;
             string returnName = "Design in progress";
-            var query = new TaskStateRepository(context);
             var result = await query.GetByIdAsync(getId);
             Assert.That(returnName, Is.EqualTo(result.StateName));
         }
@@ -35,7 +40,6 @@ namespace DIMS_Core.Tests.DataAccessLayer.Repositories
         public async TaskThread ShouldAdd()
         {
             int newId = 7;
-            var query = new TaskStateRepository(context);
             var newTaskState = new TaskState()
             {
                 StateId = 7,
@@ -52,7 +56,6 @@ namespace DIMS_Core.Tests.DataAccessLayer.Repositories
         {
             int updateId = 1;
             string newName = "In progress";
-            var query = new TaskStateRepository(context);
             var updateTask = await query.GetByIdAsync(updateId);  
             updateTask.StateName = newName;
             query.Update(updateTask);                          
@@ -65,7 +68,6 @@ namespace DIMS_Core.Tests.DataAccessLayer.Repositories
         public async TaskThread ShouldDelete()
         {
             int deleteId = 3;
-            var query = new TaskStateRepository(context);
             await query.DeleteAsync(deleteId);                          
             context.SaveChanges();
             TaskState result = await query.GetByIdAsync(deleteId);     

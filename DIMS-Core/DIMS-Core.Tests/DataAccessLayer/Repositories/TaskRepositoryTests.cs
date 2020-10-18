@@ -14,11 +14,17 @@ namespace DIMS_Core.Tests.DataAccessLayer.Repositories
     [TestFixture]
     public class TaskRepositoryTests : RepositoryTestBase
     {
+        private readonly TaskRepository query;
+
+        private TaskRepositoryTests()
+        {
+            query = new TaskRepository(context);
+        }
+
         [Test]
         public void ShouldReturnAll()
         {
             int countTasks = 3;
-            var query = new TaskRepository(context);
             var result = query.GetAll();
             Assert.That(countTasks, Is.EqualTo(result.Count()));
         }
@@ -28,7 +34,6 @@ namespace DIMS_Core.Tests.DataAccessLayer.Repositories
         {
             int getId = 2;
             string returnName = "Write CRUD operations for Users";
-            var query = new TaskRepository(context);
             var result = await query.GetByIdAsync(getId);
             Assert.That(returnName, Is.EqualTo(result.Name));
         }
@@ -37,7 +42,6 @@ namespace DIMS_Core.Tests.DataAccessLayer.Repositories
         public async TaskThread ShouldAdd()
         {
             int newId = 4;
-            var query = new TaskRepository(context);
             var newTask = new TaskEntity()
             {
                 TaskId = 4,
@@ -57,7 +61,6 @@ namespace DIMS_Core.Tests.DataAccessLayer.Repositories
         {
             int updateId = 1;
             string newName = "Create MainDatabase";
-            var query = new TaskRepository(context);
             var updateTask = await query.GetByIdAsync(updateId);  
             updateTask.Name = newName;
             query.Update(updateTask);                            
@@ -70,7 +73,6 @@ namespace DIMS_Core.Tests.DataAccessLayer.Repositories
         public async TaskThread ShouldDelete()
         {
             int deleteId = 3;
-            var query = new TaskRepository(context);
             await query.DeleteAsync(deleteId);                          
             context.SaveChanges();
             var result = await query.GetByIdAsync(deleteId);   

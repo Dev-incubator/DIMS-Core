@@ -12,11 +12,17 @@ namespace DIMS_Core.Tests.Repositories
     [TestFixture]
     public class DirectionRepositoryTest : RepositoryTestBase
     {
+        private readonly DirectionRepository query;
+
+        private DirectionRepositoryTest()
+        {
+            query = new DirectionRepository(context);
+        }
+
         [Test]
         public void ShouldReturnAll()
         {
             int countDirections = 5;
-            var query = new DirectionRepository(context);
             var result = query.GetAll();
             Assert.That(countDirections, Is.EqualTo(result.Count()));
         }
@@ -26,7 +32,6 @@ namespace DIMS_Core.Tests.Repositories
         {
             int getId = 2;
             string returnName = "FRONTEND";
-            var query = new DirectionRepository(context);
             var result = await query.GetByIdAsync(getId);
             Assert.That(returnName, Is.EqualTo(result.Name));
         }
@@ -35,7 +40,6 @@ namespace DIMS_Core.Tests.Repositories
         public async TaskThread ShouldAdd()
         {
             int newId = 4;
-            var query = new DirectionRepository(context);
             var newDirection = new Direction()
             {
                 DirectionId = 6,
@@ -53,7 +57,6 @@ namespace DIMS_Core.Tests.Repositories
         {
             int updateId = 1;
             string newName = "---";
-            var query = new DirectionRepository(context);
             var updateDirection = await query.GetByIdAsync(updateId);  
             updateDirection.Name = newName;
             query.Update(updateDirection);                            
@@ -66,7 +69,6 @@ namespace DIMS_Core.Tests.Repositories
         public async TaskThread ShouldDelete()
         {
             int deleteId = 3;
-            var query = new DirectionRepository(context);
             await query.DeleteAsync(deleteId);                     
             context.SaveChanges();
             Direction result = await query.GetByIdAsync(deleteId);    

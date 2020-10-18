@@ -9,11 +9,17 @@ namespace DIMS_Core.Tests.Repositories
     [TestFixture]
     public class VTaskRepositoryTests : RepositoryTestBase
     {
+        private readonly VTaskRepository query;
+
+        private VTaskRepositoryTests()
+        {
+            query = new VTaskRepository(context);
+        }
+
         [Test]
         public void ShouldReturnAllSearch()
         {
             int countTasks = 3;
-            var query = new VTaskRepository(context);
             var result = query.Search();
             Assert.That(countTasks, Is.EqualTo(result.Count()));
         }
@@ -22,7 +28,6 @@ namespace DIMS_Core.Tests.Repositories
         public void ShouldReturnAll()
         {
             int countTasks = 3;
-            var query = new VTaskRepository(context);
             var result = query.GetAll();
             Assert.That(countTasks, Is.EqualTo(result.Count()));
         }
@@ -32,7 +37,6 @@ namespace DIMS_Core.Tests.Repositories
         {
             int getId = 1;
             string returnTaskName = "Create database";
-            var query = new VTaskRepository(context);
             var result = query.GetByIdAsync(getId);
             Assert.That(returnTaskName, Is.EqualTo(result.Result.Name));
         }

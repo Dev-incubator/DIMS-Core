@@ -10,11 +10,17 @@ namespace DIMS_Core.Tests.DataAccessLayer.Repositories
     [TestFixture]
     public class VUserTaskRepositoryTest : RepositoryTestBase
     {
+        private readonly VUserTaskRepository query;
+
+        private VUserTaskRepositoryTest()
+        {
+            query = new VUserTaskRepository(context);
+        }
+
         [Test]
         public void ShouldReturnAllSearch()
         {
             int countUserTasks = 3;
-            var query = new VUserTaskRepository(context);
             var result = query.Search();
             Assert.That(countUserTasks, Is.EqualTo(result.Count()));
         }
@@ -23,7 +29,6 @@ namespace DIMS_Core.Tests.DataAccessLayer.Repositories
         public void ShouldReturnAll()
         {
             int countUserTasks = 3;
-            var query = new VUserTaskRepository(context);
             var result = query.GetAll();
             Assert.That(countUserTasks, Is.EqualTo(result.Count()));
         }
@@ -33,7 +38,6 @@ namespace DIMS_Core.Tests.DataAccessLayer.Repositories
         {
             int getId = 1;
             string returnTaskName = "Create database";
-            var query = new VUserTaskRepository(context);
             var result = query.GetByIdAsync(getId);
             Assert.That(returnTaskName, Is.EqualTo(result.Result.TaskName));
         }
