@@ -40,5 +40,13 @@ namespace DIMS_Core.Tests.Repositories
             var result = query.GetByIdAsync(getId);
             Assert.That(returnTaskName, Is.EqualTo(result.Result.TaskName));
         }
+
+        [Test]
+        public void GetByIdAsync_GetItemByNegativeId_ValueIsNull()
+        {
+            int getId = -1;
+            var result = query.GetByIdAsync(getId);
+            Assert.That(result, Is.Null);
+        }
     }
 }
