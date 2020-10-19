@@ -12,7 +12,7 @@ namespace DIMS_Core.Tests.Repositories
         private VTaskRepository query;
         
         [OneTimeSetUp]
-        private void InitQuery()
+        public void InitQuery()
         {
             query = new VTaskRepository(Context);
         }

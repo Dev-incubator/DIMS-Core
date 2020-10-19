@@ -9,10 +9,10 @@ namespace DIMS_Core.Tests.Repositories
     [TestFixture]
     public class VUserTaskRepositoryTest : RepositoryTestBase
     {
-        private readonly VUserTaskRepository query;
+        private VUserTaskRepository query;
 
         [OneTimeSetUp]
-        private void InitQuery()
+        public void InitQuery()
         {
             query = new VUserTaskRepository(Context);
         }
