@@ -12,9 +12,10 @@ namespace DIMS_Core.Tests.Repositories
     [TestFixture]
     public class DirectionRepositoryTest : RepositoryTestBase
     {
-        private readonly DirectionRepository query;
+        private DirectionRepository query;
 
-        private DirectionRepositoryTest()
+        [OneTimeSetUp]
+        public void InitQuery()
         {
             query = new DirectionRepository(Context);
         }
@@ -73,6 +74,12 @@ namespace DIMS_Core.Tests.Repositories
             Context.SaveChanges();
             Direction result = await query.GetByIdAsync(deleteId);    
             Assert.That(result, Is.Null);
+        }
+
+        [OneTimeTearDown]
+        public void CleanupQuery()
+        {
+            query.Dispose();
         }
     }
 }

@@ -9,9 +9,10 @@ namespace DIMS_Core.Tests.Repositories
     [TestFixture]
     public class VUserTrackRepositoryTest : RepositoryTestBase
     {
-        private readonly VUserTrackRepository query;
+        private VUserTrackRepository query;
 
-        private VUserTrackRepositoryTest()
+        [OneTimeSetUp]
+        public void InitQuery()
         {
             query = new VUserTrackRepository(Context);
         }
@@ -39,6 +40,12 @@ namespace DIMS_Core.Tests.Repositories
             const string returnTrackNote = "Create table UserProfile";
             var result = query.GetByIdAsync(getId);
             Assert.That(returnTrackNote, Is.EqualTo(result.Result.TrackNote));
+        }
+
+        [OneTimeTearDown]
+        public void CleanupQuery()
+        {
+            query.Dispose();
         }
     } 
 }

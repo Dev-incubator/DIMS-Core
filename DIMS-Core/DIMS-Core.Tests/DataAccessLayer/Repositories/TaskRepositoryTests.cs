@@ -79,5 +79,11 @@ namespace DIMS_Core.Tests.Repositories
             var result = await query.GetByIdAsync(deleteId);   
             Assert.That(result, Is.Null);
         }
+
+        [OneTimeTearDown]
+        public void CleanupQuery()
+        {
+            query.Dispose();
+        }
     }
 }

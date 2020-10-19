@@ -11,7 +11,8 @@ namespace DIMS_Core.Tests.Repositories
     {
         private readonly VUserTaskRepository query;
 
-        private VUserTaskRepositoryTest()
+        [OneTimeSetUp]
+        private void InitQuery()
         {
             query = new VUserTaskRepository(Context);
         }
@@ -39,6 +40,12 @@ namespace DIMS_Core.Tests.Repositories
             const string returnTaskName = "Create database";
             var result = query.GetByIdAsync(getId);
             Assert.That(returnTaskName, Is.EqualTo(result.Result.TaskName));
+        }
+
+        [OneTimeTearDown]
+        public void CleanupQuery()
+        {
+            query.Dispose();
         }
     }
 }

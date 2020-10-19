@@ -9,9 +9,10 @@ namespace DIMS_Core.Tests.Repositories
     [TestFixture]
     public class VTaskRepositoryTests : RepositoryTestBase
     {
-        private readonly VTaskRepository query;
-
-        private VTaskRepositoryTests()
+        private VTaskRepository query;
+        
+        [OneTimeSetUp]
+        private void InitQuery()
         {
             query = new VTaskRepository(Context);
         }
@@ -39,6 +40,12 @@ namespace DIMS_Core.Tests.Repositories
             const string returnTaskName = "Create database";
             var result = query.GetByIdAsync(getId);
             Assert.That(returnTaskName, Is.EqualTo(result.Result.Name));
+        }
+
+        [OneTimeTearDown]
+        public void CleanupQuery()
+        {
+            query.Dispose();
         }
     }
 }
