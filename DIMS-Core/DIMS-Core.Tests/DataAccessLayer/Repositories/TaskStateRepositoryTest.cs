@@ -37,6 +37,14 @@ namespace DIMS_Core.Tests.Repositories
         }
 
         [Test]
+        public async TaskThread GetByIdAsync_GetItemByNegativeId_ValueIsNull()
+        {
+            int getId = -1;
+            var result = await query.GetByIdAsync(getId);
+            Assert.That(result, Is.Null);
+        }
+
+        [Test]
         public async TaskThread CreateAsync_CreatingWithNotExistingId_CreatedSuccessfull()
         {
             int newId = 7;
@@ -49,6 +57,15 @@ namespace DIMS_Core.Tests.Repositories
             Context.SaveChanges();
             var result = await query.GetByIdAsync(newId);             
             Assert.That(newTaskState, Is.EqualTo(result));
+        }
+
+        [Test]
+        public async TaskThread CreateAsync_TryAddNull_NothingCreated()
+        {
+            int countDirectionsBeforeAdding = Context.TaskState.Count();
+            await query.CreateAsync(null);
+            Context.SaveChanges();
+            Assert.That(countDirectionsBeforeAdding, Is.EqualTo(Context.TaskState.Count()));
         }
 
         [Test]
@@ -71,7 +88,23 @@ namespace DIMS_Core.Tests.Repositories
             await query.DeleteAsync(deleteId);                          
             Context.SaveChanges();
             TaskState result = await query.GetByIdAsync(deleteId);     
-            Assert.IsNull(result);
+            Assert.That(result, Is.Null);
+        }
+
+        [Test]
+        public async TaskThread DeleteAsync_DeleteByNegativeId_NoException()
+        {
+            int deleteId = -3;
+            await query.DeleteAsync(deleteId);
+            Assert.That(query.DeleteAsync(deleteId), Throws.Nothing);
+        }
+
+        [Test]
+        public async TaskThread DeleteAsync_DeleteByNotExistingId_NoException()
+        {
+            int deleteId = 33;
+            await query.DeleteAsync(deleteId);
+            Assert.That(query.DeleteAsync(deleteId), Throws.Nothing);
         }
     }
 }

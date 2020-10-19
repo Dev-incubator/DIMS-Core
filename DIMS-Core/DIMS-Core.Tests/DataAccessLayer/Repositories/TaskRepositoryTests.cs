@@ -48,15 +48,6 @@ namespace DIMS_Core.Tests.Repositories
         }
 
         [Test]
-        public async TaskThread CreateAsync_TryAddNull_NothingCreated()
-        {
-            int countDirectionsBeforeAdding = Context.Task.Count();
-            await query.CreateAsync(null);
-            Context.SaveChanges();
-            Assert.That(countDirectionsBeforeAdding, Is.EqualTo(Context.Task.Count()));
-        }
-
-        [Test]
         public async TaskThread CreateAsync_CreatingWithNotExistingId_CreatedSuccessfull()
         {
             int newId = 4;
@@ -72,6 +63,15 @@ namespace DIMS_Core.Tests.Repositories
             Context.SaveChanges();
             var result = await query.GetByIdAsync(newId);         
             Assert.That(newTask, Is.EqualTo(result));
+        }
+
+        [Test]
+        public async TaskThread CreateAsync_TryAddNull_NothingCreated()
+        {
+            int countDirectionsBeforeAdding = Context.Task.Count();
+            await query.CreateAsync(null);
+            Context.SaveChanges();
+            Assert.That(countDirectionsBeforeAdding, Is.EqualTo(Context.Task.Count()));
         }
 
         [Test]
