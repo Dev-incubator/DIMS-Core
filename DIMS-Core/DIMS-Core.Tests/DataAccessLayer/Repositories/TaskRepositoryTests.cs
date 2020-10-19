@@ -77,7 +77,7 @@ namespace DIMS_Core.Tests.Repositories
             await query.DeleteAsync(deleteId);                          
             Context.SaveChanges();
             var result = await query.GetByIdAsync(deleteId);   
-            Assert.IsNull(result);
+            Assert.That(result, Is.Null);
         }
     }
 }
