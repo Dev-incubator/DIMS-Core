@@ -3,6 +3,7 @@ using DIMS_Core.Tests.Infrastructure;
 using NUnit.Framework;
 using System.Linq;
 using System.Linq.Dynamic.Core;
+using System.Threading.Tasks;
 
 namespace DIMS_Core.Tests.Repositories
 {
@@ -39,6 +40,14 @@ namespace DIMS_Core.Tests.Repositories
             const string returnTaskName = "Create database";
             var result = query.GetByIdAsync(getId);
             Assert.That(returnTaskName, Is.EqualTo(result.Result.Name));
+        }
+
+        [Test]
+        public async Task GetByIdAsync_GetItemByNegativeId_ValueIsNull()
+        {
+            int getId = -1;
+            var result = await query.GetByIdAsync(getId);
+            Assert.That(result, Is.Null);
         }
     }
 }
