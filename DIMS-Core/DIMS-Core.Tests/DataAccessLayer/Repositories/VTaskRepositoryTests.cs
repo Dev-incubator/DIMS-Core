@@ -45,7 +45,7 @@ namespace DIMS_Core.Tests.Repositories
         public void GetByIdAsync_GetItemByNegativeId_ValueIsNull()
         {
             int getId = -1;
-            var result = await query.GetByIdAsync(getId);
+            var result = query.GetByIdAsync(getId);
             Assert.That(result, Is.Null);
         }
     }
