@@ -12,5 +12,7 @@ namespace DIMS_Core.DataAccessLayer.Entities
         public string TaskName { get; set; }
         public string TrackNote { get; set; }
         public DateTime TrackDate { get; set; }
+
+        public int TestOnlyKey { get; internal set; }
     }
 }

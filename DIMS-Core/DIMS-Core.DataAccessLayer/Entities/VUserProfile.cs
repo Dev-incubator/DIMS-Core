@@ -19,5 +19,7 @@ namespace DIMS_Core.DataAccessLayer.Entities
         public string MobilePhone { get; set; }
         public string Skype { get; set; }
         public DateTime? StartDate { get; set; }
+
+        public int TestOnlyKey { get; internal set; }
     }
 }

@@ -12,5 +12,7 @@ namespace DIMS_Core.DataAccessLayer.Entities
         public DateTime StartDate { get; set; }
         public DateTime DeadlineDate { get; set; }
         public string State { get; set; }
+
+        public int TestOnlyKey { get; internal set; }
     }
 }
