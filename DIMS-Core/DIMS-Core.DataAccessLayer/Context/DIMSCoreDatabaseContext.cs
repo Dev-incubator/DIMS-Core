@@ -9,7 +9,6 @@ namespace DIMS_Core.DataAccessLayer.Context
 {
     public partial class DIMSCoreDatabaseContext : DbContext
     {
-        private readonly IConfiguration configuration;
         private readonly DbContextOptions<DIMSCoreDatabaseContext> options;
 
         public DIMSCoreDatabaseContext() { }
@@ -17,12 +16,6 @@ namespace DIMS_Core.DataAccessLayer.Context
         public DIMSCoreDatabaseContext(DbContextOptions<DIMSCoreDatabaseContext> options) : base(options)
         {
             this.options = options;
-        }
-
-        public DIMSCoreDatabaseContext(DbContextOptions<DIMSCoreDatabaseContext> options, IConfiguration configuration)
-            : base(options) 
-        {
-            this.configuration = configuration;
         }
 
         public virtual DbSet<Direction> Direction { get; set; }
