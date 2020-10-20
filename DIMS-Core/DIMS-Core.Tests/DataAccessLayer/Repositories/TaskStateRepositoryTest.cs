@@ -12,19 +12,19 @@ namespace DIMS_Core.Tests.Repositories
     [TestFixture]
     public class TaskStateRepositoryTest : RepositoryTestBase
     {
-        private TaskStateRepository query;
+        private TaskStateRepository repository;
 
         [OneTimeSetUp]
-        public void InitQuery()
+        public void InitRepository()
         {
-            query = new TaskStateRepository(Context);
+            repository = new TaskStateRepository(Context);
         }
 
         [Test]
         public void GetAll_GetAllItems_GetActualCountOfItems()
         {
             int countTasksStates = Context.TaskState.Count();
-            var result = query.GetAll();
+            var result = repository.GetAll();
             Assert.That(countTasksStates, Is.EqualTo(result.Count()));
         }
 
@@ -33,7 +33,7 @@ namespace DIMS_Core.Tests.Repositories
         {
             int getId = 2;
             const string returnName = "Design in progress";
-            var result = await query.GetByIdAsync(getId);
+            var result = await repository.GetByIdAsync(getId);
             Assert.That(returnName, Is.EqualTo(result.StateName));
         }
 
@@ -46,9 +46,9 @@ namespace DIMS_Core.Tests.Repositories
                 StateId = 7,
                 StateName = "On check",
             };
-            await query.CreateAsync(newTaskState);          
+            await repository.CreateAsync(newTaskState);          
             Context.SaveChanges();
-            var result = await query.GetByIdAsync(newId);             
+            var result = await repository.GetByIdAsync(newId);             
             Assert.That(newTaskState, Is.EqualTo(result));
         }
 
@@ -57,11 +57,11 @@ namespace DIMS_Core.Tests.Repositories
         {
             int updateId = 1;
             const string newName = "In progress";
-            var updateTask = await query.GetByIdAsync(updateId);  
+            var updateTask = await repository.GetByIdAsync(updateId);  
             updateTask.StateName = newName;
-            query.Update(updateTask);                          
+            repository.Update(updateTask);                          
             Context.SaveChanges();
-            var result = await query.GetByIdAsync(updateId);        
+            var result = await repository.GetByIdAsync(updateId);        
             Assert.That(newName, Is.EqualTo(result.StateName));
         }
 
@@ -69,16 +69,16 @@ namespace DIMS_Core.Tests.Repositories
         public async TaskThread Delete_DeleteByExistingId_DeletedItemEqualsNull()
         {
             int deleteId = 3;
-            await query.DeleteAsync(deleteId);                          
+            await repository.DeleteAsync(deleteId);                          
             Context.SaveChanges();
-            TaskState result = await query.GetByIdAsync(deleteId);     
+            TaskState result = await repository.GetByIdAsync(deleteId);     
             Assert.That(result, Is.Null);
         }
 
         [OneTimeTearDown]
-        public void CleanupQuery()
+        public void CleanupRepository()
         {
-            query.Dispose();
+            repository.Dispose();
         }
     }
 }

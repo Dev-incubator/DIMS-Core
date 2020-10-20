@@ -9,19 +9,19 @@ namespace DIMS_Core.Tests.Repositories
     [TestFixture]
     public class VUserTrackRepositoryTest : RepositoryTestBase
     {
-        private VUserTrackRepository query;
+        private VUserTrackRepository repository;
 
         [OneTimeSetUp]
-        public void InitQuery()
+        public void InitRepository()
         {
-            query = new VUserTrackRepository(Context);
+            repository = new VUserTrackRepository(Context);
         }
 
         [Test]
         public void Search_SearchAllItems_GetActualCountOfItems()
         {
             int countUserTracks = 3;
-            var result = query.Search();
+            var result = repository.Search();
             Assert.That(countUserTracks, Is.EqualTo(result.Count()));
         }
 
@@ -29,7 +29,7 @@ namespace DIMS_Core.Tests.Repositories
         public void GetAll_GetAllItems_GetActualCountOfItems()
         {
             int countUserTracks = 3;
-            var result = query.GetAll();
+            var result = repository.GetAll();
             Assert.That(countUserTracks, Is.EqualTo(result.Count()));
         }
 
@@ -38,14 +38,14 @@ namespace DIMS_Core.Tests.Repositories
         {
             int getId = 1;
             const string returnTrackNote = "Create table UserProfile";
-            var result = query.GetByIdAsync(getId);
+            var result = repository.GetByIdAsync(getId);
             Assert.That(returnTrackNote, Is.EqualTo(result.Result.TrackNote));
         }
 
         [OneTimeTearDown]
-        public void CleanupQuery()
+        public void CleanupRepository()
         {
-            query.Dispose();
+            repository.Dispose();
         }
     } 
 }

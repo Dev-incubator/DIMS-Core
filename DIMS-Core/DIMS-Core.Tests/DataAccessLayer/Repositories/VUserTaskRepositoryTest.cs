@@ -9,19 +9,19 @@ namespace DIMS_Core.Tests.Repositories
     [TestFixture]
     public class VUserTaskRepositoryTest : RepositoryTestBase
     {
-        private VUserTaskRepository query;
+        private VUserTaskRepository repository;
 
         [OneTimeSetUp]
-        public void InitQuery()
+        public void InitRepository()
         {
-            query = new VUserTaskRepository(Context);
+            repository = new VUserTaskRepository(Context);
         }
 
         [Test]
         public void Search_SearchAllItems_GetActualCountOfItems()
         {
             int countUserTasks = Context.VUserTask.Count();
-            var result = query.Search();
+            var result = repository.Search();
             Assert.That(countUserTasks, Is.EqualTo(result.Count()));
         }
 
@@ -29,7 +29,7 @@ namespace DIMS_Core.Tests.Repositories
         public void GetAll_GetAllItems_GetActualCountOfItems()
         {
             int countUserTasks = Context.VUserTask.Count();
-            var result = query.GetAll();
+            var result = repository.GetAll();
             Assert.That(countUserTasks, Is.EqualTo(result.Count()));
         }
 
@@ -38,14 +38,14 @@ namespace DIMS_Core.Tests.Repositories
         {
             int getId = 1;
             const string returnTaskName = "Create database";
-            var result = query.GetByIdAsync(getId);
+            var result = repository.GetByIdAsync(getId);
             Assert.That(returnTaskName, Is.EqualTo(result.Result.TaskName));
         }
 
         [OneTimeTearDown]
-        public void CleanupQuery()
+        public void CleanupRepository()
         {
-            query.Dispose();
+            repository.Dispose();
         }
     }
 }
