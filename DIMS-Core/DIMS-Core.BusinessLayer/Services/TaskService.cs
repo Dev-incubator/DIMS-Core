@@ -26,7 +26,7 @@ namespace DIMS_Core.BusinessLayer.Services
 
         public async Task<IEnumerable<TaskModel>> SearchAsync()
         {
-            var query = unitOfWork.VTaskRepository.Search();
+            var query = unitOfWork.VTaskRepository.GetAll();
             var mappedQuery = mapper.ProjectTo<TaskModel>(query);
 
             return await mappedQuery.ToListAsync();
