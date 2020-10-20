@@ -11,10 +11,5 @@ namespace DIMS_Core.DataAccessLayer.Repositories
     public class VUserTaskRepository : Repository<VUserTask>, IVUserTaskRepository
     {
         public VUserTaskRepository(DIMSCoreDatabaseContext dbContext) : base(dbContext) { }
-
-        public IQueryable<VUserTask> Search()
-        {
-            return GetAll();
-        }
     }
 }

@@ -11,10 +11,5 @@ namespace DIMS_Core.DataAccessLayer.Repositories
     public class VTaskRepository : Repository<VTask>, IVTaskRepository
     {
         public VTaskRepository(DIMSCoreDatabaseContext dbContext) : base(dbContext) { }
-
-        public IQueryable<VTask> Search()
-        {
-            return GetAll();
-        }
     }
 }
