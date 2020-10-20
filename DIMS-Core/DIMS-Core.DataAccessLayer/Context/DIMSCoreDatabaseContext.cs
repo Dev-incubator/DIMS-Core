@@ -1,21 +1,15 @@
-﻿using System;
-using DIMS_Core.DataAccessLayer.Entities;
+﻿using DIMS_Core.DataAccessLayer.Entities;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata;
-using Microsoft.Extensions.Configuration;
 
 namespace DIMS_Core.DataAccessLayer.Context
 {
     public partial class DIMSCoreDatabaseContext : DbContext
     {
-        private readonly IConfiguration configuration;
-
         public DIMSCoreDatabaseContext() { }
 
-        public DIMSCoreDatabaseContext(DbContextOptions<DIMSCoreDatabaseContext> options, IConfiguration configuration)
+        public DIMSCoreDatabaseContext(DbContextOptions<DIMSCoreDatabaseContext> options)
             : base(options) 
         {
-            this.configuration = configuration;
         }
 
         public virtual DbSet<Direction> Direction { get; set; }
