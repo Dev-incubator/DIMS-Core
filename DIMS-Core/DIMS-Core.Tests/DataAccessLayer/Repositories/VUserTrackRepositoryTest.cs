@@ -3,6 +3,7 @@ using DIMS_Core.Tests.Infrastructure;
 using NUnit.Framework;
 using System.Linq;
 using System.Linq.Dynamic.Core;
+using System.Threading.Tasks;
 
 namespace DIMS_Core.Tests.Repositories
 {
@@ -42,10 +43,10 @@ namespace DIMS_Core.Tests.Repositories
         }
 
         [Test]
-        public void GetByIdAsync_GetItemByNegativeId_ValueIsNull()
+        public async Task GetByIdAsync_GetItemByNegativeId_ValueIsNull()
         {
             int getId = -1;
-            var result = query.GetByIdAsync(getId);
+            var result = await query.GetByIdAsync(getId);
             Assert.That(result, Is.Null);
         }
     } 
