@@ -20,7 +20,7 @@ namespace DIMS_Core.Tests.Repositories
         }
 
         [Test]
-        public void GetAll_GetAllItems_GetActualCountOfItems()
+        public void GetAll_ShouldReturn_AllDirections()
         {
             int countDirections = Context.Direction.Count();
             var result = repository.GetAll();
@@ -28,16 +28,16 @@ namespace DIMS_Core.Tests.Repositories
         }
 
         [Test]
-        public async TaskThread GetByIdAsync_GetItemByExistingId_ItemFound()
+        public async TaskThread GetById_ShouldReturn_Direction()
         {
             int getId = 2;
             const string returnName = "FRONTEND";
-            var result = await repository.GetByIdAsync(getId);
+            var result = await repository.GetById(getId);
             Assert.That(returnName, Is.EqualTo(result.Name));
         }
 
         [Test]
-        public async TaskThread CreateAsync_CreatingWithNotExistingId_CreatedSuccessfull()
+        public async TaskThread Create_ShouldCreate_Direction()
         {
             int newId = 4;
             var newDirection = new Direction()
@@ -46,32 +46,32 @@ namespace DIMS_Core.Tests.Repositories
                 Name = "Javascript",
                 Description = "1+'0' = 10",
             };
-            await repository.CreateAsync(newDirection);                      
+            await repository.Create(newDirection);                      
             Context.SaveChanges();
-            var result = await repository.GetByIdAsync(newId);               
+            var result = await repository.GetById(newId);               
             Assert.That(newDirection, Is.EqualTo(result));
         }
 
         [Test]
-        public async TaskThread Update_UpdateNameByExistingId_NameWasUpdated()
+        public async TaskThread Update_ShouldUpdate_DirectionName()
         {
             int updateId = 1;
             const string newName = "---";
-            var updateDirection = await repository.GetByIdAsync(updateId);  
+            var updateDirection = await repository.GetById(updateId);  
             updateDirection.Name = newName;
             repository.Update(updateDirection);                            
             Context.SaveChanges();
-            var result = await repository.GetByIdAsync(updateId);        
+            var result = await repository.GetById(updateId);        
             Assert.That(newName, Is.EqualTo(result.Name));
         }
 
         [Test]
-        public async TaskThread DeleteAsync_DeleteByExistingId_DeletedItemEqualsNull()
+        public async TaskThread Delete_ShouldDelete_Direction()
         {
             int deleteId = 3;
-            await repository.DeleteAsync(deleteId);                     
+            await repository.Delete(deleteId);                     
             Context.SaveChanges();
-            Direction result = await repository.GetByIdAsync(deleteId);    
+            Direction result = await repository.GetById(deleteId);    
             Assert.That(result, Is.Null);
         }
 

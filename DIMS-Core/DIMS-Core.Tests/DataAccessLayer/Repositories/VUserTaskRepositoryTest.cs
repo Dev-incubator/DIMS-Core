@@ -18,15 +18,7 @@ namespace DIMS_Core.Tests.Repositories
         }
 
         [Test]
-        public void Search_SearchAllItems_GetActualCountOfItems()
-        {
-            int countUserTasks = Context.VUserTask.Count();
-            var result = repository.Search();
-            Assert.That(countUserTasks, Is.EqualTo(result.Count()));
-        }
-
-        [Test]
-        public void GetAll_GetAllItems_GetActualCountOfItems()
+        public void GetAll_ShouldReturn_VUserTasks()
         {
             int countUserTasks = Context.VUserTask.Count();
             var result = repository.GetAll();
@@ -34,11 +26,11 @@ namespace DIMS_Core.Tests.Repositories
         }
 
         [Test]
-        public void GetByIdAsync_GetItemByExistingId_ItemFound()
+        public void GetById_ShouldReturn_VUserTask()
         {
             int getId = 1;
             const string returnTaskName = "Create database";
-            var result = repository.GetByIdAsync(getId);
+            var result = repository.GetById(getId);
             Assert.That(returnTaskName, Is.EqualTo(result.Result.TaskName));
         }
 

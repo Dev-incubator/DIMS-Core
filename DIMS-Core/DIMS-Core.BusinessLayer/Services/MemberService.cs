@@ -39,7 +39,7 @@ namespace DIMS_Core.BusinessLayer.Services
                 return null;
             }
 
-            var entity = await unitOfWork.UserProfileRepository.GetByIdAsync(id);
+            var entity = await unitOfWork.UserProfileRepository.GetById(id);
             var model = mapper.Map<UserProfileModel>(entity);
 
             return model;
@@ -54,7 +54,7 @@ namespace DIMS_Core.BusinessLayer.Services
 
             var entity = mapper.Map<EntityUserProfile>(model);
 
-            await unitOfWork.UserProfileRepository.CreateAsync(entity);
+            await unitOfWork.UserProfileRepository.Create(entity);
 
             await unitOfWork.SaveAsync();
         }
@@ -66,7 +66,7 @@ namespace DIMS_Core.BusinessLayer.Services
                 return;
             }
 
-            var entity = await unitOfWork.UserProfileRepository.GetByIdAsync(model.UserId);
+            var entity = await unitOfWork.UserProfileRepository.GetById(model.UserId);
 
             if (entity is null)
             {
@@ -87,7 +87,7 @@ namespace DIMS_Core.BusinessLayer.Services
                 return;
             }
 
-            await unitOfWork.UserProfileRepository.DeleteAsync(id);
+            await unitOfWork.UserProfileRepository.Delete(id);
 
             await unitOfWork.SaveAsync();
         }

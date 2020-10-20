@@ -18,15 +18,7 @@ namespace DIMS_Core.Tests.Repositories
         }
 
         [Test]
-        public void Search_SearchAllItems_GetActualCountOfItems()
-        {
-            int countUserTracks = 3;
-            var result = repository.Search();
-            Assert.That(countUserTracks, Is.EqualTo(result.Count()));
-        }
-
-        [Test]
-        public void GetAll_GetAllItems_GetActualCountOfItems()
+        public void GetAll_ShouldReturn_VUserTracks()
         {
             int countUserTracks = 3;
             var result = repository.GetAll();
@@ -34,11 +26,11 @@ namespace DIMS_Core.Tests.Repositories
         }
 
         [Test]
-        public void GetByIdAsync_GetItemByExistingId_ItemFound()
+        public void GetById_ShouldReturn_VUserTrack()
         {
             int getId = 1;
             const string returnTrackNote = "Create table UserProfile";
-            var result = repository.GetByIdAsync(getId);
+            var result = repository.GetById(getId);
             Assert.That(returnTrackNote, Is.EqualTo(result.Result.TrackNote));
         }
 

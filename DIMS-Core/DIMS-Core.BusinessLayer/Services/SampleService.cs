@@ -36,7 +36,7 @@ namespace DIMS_Core.BusinessLayer.Services
                 return null;
             }
 
-            var entity = await unitOfWork.SampleRepository.GetByIdAsync(id);
+            var entity = await unitOfWork.SampleRepository.GetById(id);
             var model = mapper.Map<SampleModel>(entity);
 
             return model;
@@ -51,7 +51,7 @@ namespace DIMS_Core.BusinessLayer.Services
 
             var entity = mapper.Map<Sample>(model);
 
-            await unitOfWork.SampleRepository.CreateAsync(entity);
+            await unitOfWork.SampleRepository.Create(entity);
 
             await unitOfWork.SaveAsync();
         }
@@ -63,7 +63,7 @@ namespace DIMS_Core.BusinessLayer.Services
                 return;
             }
 
-            var entity = await unitOfWork.SampleRepository.GetByIdAsync(model.SampleId);
+            var entity = await unitOfWork.SampleRepository.GetById(model.SampleId);
 
             if (entity is null)
             {
@@ -84,7 +84,7 @@ namespace DIMS_Core.BusinessLayer.Services
                 return;
             }
 
-            await unitOfWork.SampleRepository.DeleteAsync(id);
+            await unitOfWork.SampleRepository.Delete(id);
 
             await unitOfWork.SaveAsync();
         }

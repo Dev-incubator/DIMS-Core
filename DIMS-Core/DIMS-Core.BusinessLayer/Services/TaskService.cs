@@ -39,7 +39,7 @@ namespace DIMS_Core.BusinessLayer.Services
                 return null;
             }
 
-            var entity = await unitOfWork.TaskRepository.GetByIdAsync(id);
+            var entity = await unitOfWork.TaskRepository.GetById(id);
             var model = mapper.Map<TaskModel>(entity);
 
             return model;
@@ -54,7 +54,7 @@ namespace DIMS_Core.BusinessLayer.Services
 
             var entity = mapper.Map<DataAccessLayer.Entities.Task>(model);
 
-            await unitOfWork.TaskRepository.CreateAsync(entity);
+            await unitOfWork.TaskRepository.Create(entity);
 
             await unitOfWork.SaveAsync();
         }
@@ -66,7 +66,7 @@ namespace DIMS_Core.BusinessLayer.Services
                 return;
             }
 
-            var entity = await unitOfWork.TaskRepository.GetByIdAsync(model.TaskId);
+            var entity = await unitOfWork.TaskRepository.GetById(model.TaskId);
 
             if (entity is null)
             {
@@ -87,7 +87,7 @@ namespace DIMS_Core.BusinessLayer.Services
                 return;
             }
 
-            await unitOfWork.TaskRepository.DeleteAsync(id);
+            await unitOfWork.TaskRepository.Delete(id);
 
             await unitOfWork.SaveAsync();
         }

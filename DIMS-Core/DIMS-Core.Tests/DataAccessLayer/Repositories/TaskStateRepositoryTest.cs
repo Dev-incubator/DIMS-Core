@@ -21,7 +21,7 @@ namespace DIMS_Core.Tests.Repositories
         }
 
         [Test]
-        public void GetAll_GetAllItems_GetActualCountOfItems()
+        public void GetAll_ShouldReturn_AllTaskStates()
         {
             int countTasksStates = Context.TaskState.Count();
             var result = repository.GetAll();
@@ -29,16 +29,16 @@ namespace DIMS_Core.Tests.Repositories
         }
 
         [Test]
-        public async TaskThread GetByIdAsync_GetItemByExistingId_ItemFound()
+        public async TaskThread GetById_ShouldReturn_Task()
         {
             int getId = 2;
             const string returnName = "Design in progress";
-            var result = await repository.GetByIdAsync(getId);
+            var result = await repository.GetById(getId);
             Assert.That(returnName, Is.EqualTo(result.StateName));
         }
 
         [Test]
-        public async TaskThread CreateAsync_CreatingWithNotExistingId_CreatedSuccessfull()
+        public async TaskThread Create_ShouldCreate_TaskState()
         {
             int newId = 7;
             var newTaskState = new TaskState()
@@ -46,32 +46,32 @@ namespace DIMS_Core.Tests.Repositories
                 StateId = 7,
                 StateName = "On check",
             };
-            await repository.CreateAsync(newTaskState);          
+            await repository.Create(newTaskState);          
             Context.SaveChanges();
-            var result = await repository.GetByIdAsync(newId);             
+            var result = await repository.GetById(newId);             
             Assert.That(newTaskState, Is.EqualTo(result));
         }
 
         [Test]
-        public async TaskThread Update_UpdateNameByExistingId_NameUpdated()
+        public async TaskThread Update_ShouldUpdate_StateName()
         {
             int updateId = 1;
             const string newName = "In progress";
-            var updateTask = await repository.GetByIdAsync(updateId);  
+            var updateTask = await repository.GetById(updateId);  
             updateTask.StateName = newName;
             repository.Update(updateTask);                          
             Context.SaveChanges();
-            var result = await repository.GetByIdAsync(updateId);        
+            var result = await repository.GetById(updateId);        
             Assert.That(newName, Is.EqualTo(result.StateName));
         }
 
         [Test]
-        public async TaskThread Delete_DeleteByExistingId_DeletedItemEqualsNull()
+        public async TaskThread Delete_ShouldDelete_TaskState()
         {
             int deleteId = 3;
-            await repository.DeleteAsync(deleteId);                          
+            await repository.Delete(deleteId);                          
             Context.SaveChanges();
-            TaskState result = await repository.GetByIdAsync(deleteId);     
+            TaskState result = await repository.GetById(deleteId);     
             Assert.That(result, Is.Null);
         }
 

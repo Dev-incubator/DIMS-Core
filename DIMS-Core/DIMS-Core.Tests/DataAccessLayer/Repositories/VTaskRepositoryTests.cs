@@ -18,27 +18,19 @@ namespace DIMS_Core.Tests.Repositories
         }
 
         [Test]
-        public void Search_SearchAllItems_GetActualCountOfItems()
+        public void GetAll_ShouldReturn_AllVTasks()
         {
             int countTasks = Context.VTask.Count();
-            var result = repository.Search();
-            Assert.That(countTasks, Is.EqualTo(result.Count()));
-        }
-
-        [Test]
-        public void GetAll_GetAllItems_GetActualCountOfItems()
-        {
-            int countTasks = Context.VTask.Count(); ;
             var result = repository.GetAll();
             Assert.That(countTasks, Is.EqualTo(result.Count()));
         }
 
         [Test]
-        public void GetByIdAsync_GetItemByExistingId_ItemFound()
+        public void GetById_ShouldReturn_VTask()
         {
             int getId = 1;
             const string returnTaskName = "Create database";
-            var result = repository.GetByIdAsync(getId);
+            var result = repository.GetById(getId);
             Assert.That(returnTaskName, Is.EqualTo(result.Result.Name));
         }
 
