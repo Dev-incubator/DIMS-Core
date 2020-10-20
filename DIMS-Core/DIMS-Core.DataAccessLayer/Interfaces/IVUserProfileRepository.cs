@@ -8,6 +8,5 @@ namespace DIMS_Core.DataAccessLayer.Interfaces
 {
     public interface IVUserProfileRepository : IRepository<VUserProfile>
     {
-        IQueryable<VUserProfile> Search();
     }
 }
