@@ -98,7 +98,7 @@ namespace DIMS_Core.Tests.Repositories
         }
 
         [Test]
-        public async TaskThread DeleteAsync_DeleteByNegativeId_NoException()
+        public async TaskThread Delete_WithNegativeExistingIdShouldNo_ThrowError()
         {
             int deleteId = -3;
             await query.DeleteAsync(deleteId);
@@ -106,7 +106,7 @@ namespace DIMS_Core.Tests.Repositories
         }
 
         [Test]
-        public async TaskThread DeleteAsync_DeleteByNotExistingId_NoException()
+        public async TaskThread Delete_WithNotExistingIdShouldNo_ThrowError()
         {
             int deleteId = 33;
             await query.DeleteAsync(deleteId);
