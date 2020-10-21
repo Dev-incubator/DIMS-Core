@@ -1,0 +1,79 @@
+﻿@model IEnumerable<MemberViewModel>
+@{
+    ViewData["Title"] = "Members";
+}
+
+<h1>Members</h1>
+
+<p class="float-lg-right">
+    <a class="btn btn-primary" asp-action="create" asp-controller="members">Create</a>
+</p>
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.FullName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Direction)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Education)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.StartDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Age)
+            </th>
+            <th width="300px">Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (Model is null || !Model.Any())
+        {
+            <tr>
+                <td colspan="4" class="text-center">
+                    <strong>There aren't items.</strong>
+                </td>
+            </tr>
+        }
+        else
+        {
+            foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.FullName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Direction)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Education)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.StartDate)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Age)
+                    </td>
+                    <td>
+                        <div class="btn-group container">
+                            <div class="row">
+                                <div class="col">
+                                    @Html.ActionLink("Progress", "Progress", new { id = item.UserId }, new { @class = "btn btn-primary w-100 m-2" })
+                                    @Html.ActionLink("Edit", "Edit", new { id = item.UserId }, new { @class = "btn btn-warning w-100 m-2" })
+                                </div>
+                                <div class="col">
+                                    @Html.ActionLink("Tasks", "Tasks", new { id = item.UserId }, new { @class = "btn btn-primary w-100 m-2" })
+                                    @Html.ActionLink("Delete", "Delete", new { id = item.UserId }, new { @class = "btn btn-danger w-100 m-2" })
+                                </div>   
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+            }
+        }
+    </tbody>
+</table>

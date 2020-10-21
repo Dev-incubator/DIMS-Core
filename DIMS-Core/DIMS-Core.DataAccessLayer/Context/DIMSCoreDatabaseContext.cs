@@ -1,18 +1,14 @@
-﻿using System;
-using DIMS_Core.DataAccessLayer.Entities;
+﻿using DIMS_Core.DataAccessLayer.Entities;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata;
 
 namespace DIMS_Core.DataAccessLayer.Context
 {
     public partial class DIMSCoreDatabaseContext : DbContext
     {
-        public DIMSCoreDatabaseContext()
-        {
-        }
+        public DIMSCoreDatabaseContext() { }
 
         public DIMSCoreDatabaseContext(DbContextOptions<DIMSCoreDatabaseContext> options)
-            : base(options)
+            : base(options) 
         {
         }
 
@@ -27,15 +23,6 @@ namespace DIMS_Core.DataAccessLayer.Context
         public virtual DbSet<VUserProgress> VUserProgress { get; set; }
         public virtual DbSet<VUserTask> VUserTask { get; set; }
         public virtual DbSet<VUserTrack> VUserTrack { get; set; }
-
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            if (!optionsBuilder.IsConfigured)
-            {
-#warning To protect potentially sensitive information in your connection string, you should move it out of source code. See http://go.microsoft.com/fwlink/?LinkId=723263 for guidance on storing connection strings.
-                optionsBuilder.UseSqlServer("Server=DESKTOP-N10FT1S;Database=DIMS;Trusted_Connection=True;");
-            }
-        }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
