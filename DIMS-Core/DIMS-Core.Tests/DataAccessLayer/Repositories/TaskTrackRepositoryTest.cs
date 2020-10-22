@@ -97,7 +97,7 @@ namespace DIMS_Core.Tests.DataAccessLayer.Repositories
         public async Task Update_Id1_NewTrackNote()
         {
             int updateId = 1;
-            string expected = "New track note";
+            const string expected = "New track note";
             var updateTaskTrack = Context.TaskTrack.Find(updateId);
             updateTaskTrack.TrackNote = expected;
 

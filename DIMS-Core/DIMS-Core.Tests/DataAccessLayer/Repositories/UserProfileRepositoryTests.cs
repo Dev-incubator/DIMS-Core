@@ -101,7 +101,7 @@ namespace DIMS_Core.Tests.DataAccessLayer.Repositories
         public async Task Update_Id1_NewName()
         {
             int updateId = 1;
-            string expected = "New name";
+            const string expected = "New name";
             var updateUserProfile = Context.UserProfile.Find(updateId);
             updateUserProfile.Name = expected;
 
@@ -117,7 +117,7 @@ namespace DIMS_Core.Tests.DataAccessLayer.Repositories
         {
             int updateId = 5;
             int getId = 1;
-            string expected = "New name";
+            const string expected = "New name";
             var updateUserProfile = Context.UserProfile.Find(getId);
             updateUserProfile.Name = expected;
 
@@ -133,7 +133,7 @@ namespace DIMS_Core.Tests.DataAccessLayer.Repositories
         {
             int updateId = -1;
             int getId = 1;
-            string expected = "New name";
+            const string expected = "New name";
             var updateUserProfile = Context.UserProfile.Find(getId);
             updateUserProfile.Name = expected;
 
