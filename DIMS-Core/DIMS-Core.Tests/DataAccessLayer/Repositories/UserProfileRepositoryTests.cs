@@ -52,7 +52,7 @@ namespace DIMS_Core.Tests.DataAccessLayer.Repositories
 
             var actual = await query.GetByIdAsync(getId);
 
-            Assert.IsNull(actual);
+            Assert.That(actual, Is.Null);
         }
 
         [Test]
@@ -62,7 +62,7 @@ namespace DIMS_Core.Tests.DataAccessLayer.Repositories
 
             var actual = await query.GetByIdAsync(getId);
 
-            Assert.IsNull(actual);
+            Assert.That(actual, Is.Null);
         }
 
         [Test]
@@ -94,7 +94,7 @@ namespace DIMS_Core.Tests.DataAccessLayer.Repositories
             Context.SaveChanges();
             var actual = await query.GetByIdAsync(newId);
 
-            Assert.IsNull(actual);
+            Assert.That(actual, Is.Null);
         }
 
         [Test]
@@ -125,7 +125,7 @@ namespace DIMS_Core.Tests.DataAccessLayer.Repositories
             Context.SaveChanges();
             var actual = await query.GetByIdAsync(updateId);
 
-            Assert.IsNull(actual);
+            Assert.That(actual, Is.Null);
         }
 
         [Test]
@@ -141,7 +141,7 @@ namespace DIMS_Core.Tests.DataAccessLayer.Repositories
             Context.SaveChanges();
             var actual = await query.GetByIdAsync(updateId);
 
-            Assert.IsNull(actual);
+            Assert.That(actual, Is.Null);
         }
 
         [Test]
@@ -153,7 +153,7 @@ namespace DIMS_Core.Tests.DataAccessLayer.Repositories
             Context.SaveChanges();
             var actual = await query.GetByIdAsync(deleteId);
 
-            Assert.IsNull(actual);
+            Assert.That(actual, Is.Null);
         }
 
         [Test]
@@ -165,7 +165,7 @@ namespace DIMS_Core.Tests.DataAccessLayer.Repositories
             Context.SaveChanges();
             var actual = await query.GetByIdAsync(deleteId);
 
-            Assert.IsNull(actual);
+            Assert.That(actual, Is.Null);
         }
 
         [Test]
@@ -177,7 +177,7 @@ namespace DIMS_Core.Tests.DataAccessLayer.Repositories
             Context.SaveChanges();
             var actual = await query.GetByIdAsync(deleteId);
 
-            Assert.IsNull(actual);
+            Assert.That(actual, Is.Null);
         }
 
         [OneTimeTearDown]

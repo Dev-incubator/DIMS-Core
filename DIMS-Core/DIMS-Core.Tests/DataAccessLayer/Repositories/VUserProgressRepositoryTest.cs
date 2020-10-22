@@ -59,7 +59,7 @@ namespace DIMS_Core.Tests.DataAccessLayer.Repositories
 
             var actual = await query.GetByIdAsync(getId);
 
-            Assert.IsNull(actual);
+            Assert.That(actual, Is.Null);
         }
 
         [Test]
@@ -69,7 +69,7 @@ namespace DIMS_Core.Tests.DataAccessLayer.Repositories
 
             var actual = await query.GetByIdAsync(getId);
 
-            Assert.IsNull(actual);
+            Assert.That(actual, Is.Null);
         }
     }
 }
