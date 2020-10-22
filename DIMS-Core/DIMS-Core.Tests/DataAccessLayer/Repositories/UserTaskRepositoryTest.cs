@@ -27,7 +27,7 @@ namespace DIMS_Core.Tests.DataAccessLayer.Repositories
         }
 
         [Test]
-        public void GetAll_ActualCount()
+        public void GetAll_ShouldReturn_Count()
         {
             int expected = Context.UserTask.Count();
 
@@ -38,7 +38,7 @@ namespace DIMS_Core.Tests.DataAccessLayer.Repositories
 
 
         [Test]
-        public async Task GetByIdAsync_Id1_UserTask()
+        public async Task GetByIdAsync_WithCorrectIdShouldReturn_UserTask()
         {
             int getId = 1;
             var expected = Context.UserTask.Find(getId);
@@ -50,7 +50,7 @@ namespace DIMS_Core.Tests.DataAccessLayer.Repositories
 
 
         [Test]
-        public async Task GetByIdAsync_Id5_IsNull()
+        public async Task GetByIdAsync_WithInvalidIdShouldReturn_Null()
         {
             int getId = 5;
 
@@ -60,7 +60,7 @@ namespace DIMS_Core.Tests.DataAccessLayer.Repositories
         }
 
         [Test]
-        public async Task GetByIdAsync_IdNegative_IsNull()
+        public async Task GetByIdAsync_WithNegativeIdShouldReturn_Null()
         {
             int getId = -1;
 
@@ -70,7 +70,7 @@ namespace DIMS_Core.Tests.DataAccessLayer.Repositories
         }
 
         [Test]
-        public async Task CreateAsync_Id4_NewUserTask()
+        public async Task CreateAsync_WithCorrectIdShouldReturn_UserTask()
         {
             int newId = 4;
             var expected = CreateNewUserTask(newId);
@@ -83,14 +83,14 @@ namespace DIMS_Core.Tests.DataAccessLayer.Repositories
         }
 
         [Test]
-        public void CreateAsync_Null_NotThrow()
+        public void CreateAsync_WithNullEntryShouldReturn_NotThrow()
         {
             Assert.DoesNotThrowAsync(async () => await repository.CreateAsync(null));
         }
 
 
         [Test]
-        public async Task CreateAsync_IdNegative_IsNull()
+        public async Task CreateAsync_WithNegativeIdShouldReturn_Null()
         {
             int newId = -1;
             var expected = CreateNewUserTask(newId);
@@ -103,22 +103,22 @@ namespace DIMS_Core.Tests.DataAccessLayer.Repositories
         }
 
         [Test]
-        public async Task Update_Id1_NewState()
+        public async Task Update_WithCorrectIdShouldReturn_UserTask()
         {
             int updateId = 1;
-            var expected = Context.TaskState.Find(2);
-            var updateUserTask = Context.UserTask.Find(updateId);
-            updateUserTask.State = expected;
+            var newUserTaskState = Context.TaskState.Find(2);
+            var expected = Context.UserTask.Find(updateId);
+            expected.State = newUserTaskState;
 
-            repository.Update(updateUserTask);
+            repository.Update(expected);
             Context.SaveChanges();
             var actual = await repository.GetByIdAsync(updateId);
 
-            Assert.That(expected, Is.EqualTo(actual.State));
+            Assert.That(expected, Is.EqualTo(actual));
         }
 
         [Test]
-        public async Task Update_Id5_IsNull()
+        public async Task Update_WithInvalidIdShouldReturn_Null()
         {
             int getId = 1;
             int updateId = 5;
@@ -134,7 +134,7 @@ namespace DIMS_Core.Tests.DataAccessLayer.Repositories
         }
 
         [Test]
-        public async Task Update_IdNegative_IsNull()
+        public async Task Update_WithNegativeIdShouldReturn_Null()
         {
             int updateId = -1;
             int getId = 1;
@@ -150,7 +150,7 @@ namespace DIMS_Core.Tests.DataAccessLayer.Repositories
         }
 
         [Test]
-        public async Task DeleteAsync_Id3_IsNull()
+        public async Task DeleteAsync_WithCorrectIdShouldReturn_Null()
         {
             int deleteId = 3;
 
@@ -162,7 +162,7 @@ namespace DIMS_Core.Tests.DataAccessLayer.Repositories
         }
 
         [Test]
-        public async Task DeleteAsync_Id5_IsNull()
+        public async Task DeleteAsync_WithInvalidIdShouldReturn_Null()
         {
             int deleteId = 5;
 
@@ -174,7 +174,7 @@ namespace DIMS_Core.Tests.DataAccessLayer.Repositories
         }
 
         [Test]
-        public async Task DeleteAsync_IdNegative_IsNull()
+        public async Task DeleteAsync_WithNegativeIdShouldReturn_Null()
         {
             int deleteId = -1;
 

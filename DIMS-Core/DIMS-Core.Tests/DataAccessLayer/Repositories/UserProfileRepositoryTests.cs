@@ -31,7 +31,7 @@ namespace DIMS_Core.Tests.DataAccessLayer.Repositories
         }
 
         [Test]
-        public void GetAll_ActualCount()
+        public void GetAll_ShouldReturn_Count()
         {
             int expected = Context.UserProfile.Count();
 
@@ -41,7 +41,7 @@ namespace DIMS_Core.Tests.DataAccessLayer.Repositories
         }
 
         [Test]
-        public async Task GetByIdAsync_Id1_UserProfile()
+        public async Task GetByIdAsync_WithCorrectIdShouldReturn_UserProfile()
         {
             int getId = 1;
             var expected = Context.UserProfile.Find(getId);
@@ -52,7 +52,7 @@ namespace DIMS_Core.Tests.DataAccessLayer.Repositories
         }
 
         [Test]
-        public async Task GetByIdAsync_Id5_IsNull()
+        public async Task GetByIdAsync_WithInvalidIdShouldReturn_Null()
         {
             int getId = 5;
 
@@ -62,7 +62,7 @@ namespace DIMS_Core.Tests.DataAccessLayer.Repositories
         }
 
         [Test]
-        public async Task GetByIdAsync_IdNegative_IsNull()
+        public async Task GetByIdAsync_WithNegativeIdShouldReturn_Null()
         {
             int getId = -1;
 
@@ -72,7 +72,7 @@ namespace DIMS_Core.Tests.DataAccessLayer.Repositories
         }
 
         [Test]
-        public async Task CreateAsync_Id4_NewUserProfile()
+        public async Task CreateAsync_WithCorrectIdShouldReturn_UserProfile()
         {
             int newId = 4;
             var expected = CreateNewUserProfile(newId);
@@ -85,13 +85,13 @@ namespace DIMS_Core.Tests.DataAccessLayer.Repositories
         }
 
         [Test]
-        public void CreateAsync_Null_NotThrow()
+        public void CreateAsync_WithNullEntryShouldReturn_NotThrow()
         {
             Assert.DoesNotThrowAsync(async () => await repository.CreateAsync(null));
         }
 
         [Test]
-        public async Task CreateAsync_IdNegative_IsNull()
+        public async Task CreateAsync_WithNegativeIdShouldReturn_Null()
         {
             int newId = -1;
             var expected = CreateNewUserProfile(newId);
@@ -104,22 +104,22 @@ namespace DIMS_Core.Tests.DataAccessLayer.Repositories
         }
 
         [Test]
-        public async Task Update_Id1_NewName()
+        public async Task Update_WithCorrectIdShouldReturn_UserProfile()
         {
             int updateId = 1;
-            const string expected = "New name";
-            var updateUserProfile = Context.UserProfile.Find(updateId);
-            updateUserProfile.Name = expected;
+            const string newUserProfileName = "New name";
+            var expected = Context.UserProfile.Find(updateId);
+            expected.Name = newUserProfileName;
 
-            repository.Update(updateUserProfile);
+            repository.Update(expected);
             Context.SaveChanges();
             var actual = await repository.GetByIdAsync(updateId);
 
-            Assert.That(expected, Is.EqualTo(actual.Name));
+            Assert.That(expected, Is.EqualTo(actual));
         }
 
         [Test]
-        public async Task Update_Id5_IsNull()
+        public async Task Update_WithInvalidIdShouldReturn_Null()
         {
             int updateId = 5;
             int getId = 1;
@@ -135,7 +135,7 @@ namespace DIMS_Core.Tests.DataAccessLayer.Repositories
         }
 
         [Test]
-        public async Task Update_IdNegative_IsNull()
+        public async Task Update_WithNegativeIdShouldReturn_Null()
         {
             int updateId = -1;
             int getId = 1;
@@ -151,7 +151,7 @@ namespace DIMS_Core.Tests.DataAccessLayer.Repositories
         }
 
         [Test]
-        public async Task DeleteAsync_Id3_IsNull()
+        public async Task DeleteAsync_WithCorrectIdShouldReturn_Null()
         {
             int deleteId = 3;
 
@@ -163,7 +163,7 @@ namespace DIMS_Core.Tests.DataAccessLayer.Repositories
         }
 
         [Test]
-        public async Task DeleteAsync_Id5_IsNull()
+        public async Task DeleteAsync_WithInvalidIdShouldReturn_Null()
         {
             int deleteId = 5;
 
@@ -175,7 +175,7 @@ namespace DIMS_Core.Tests.DataAccessLayer.Repositories
         }
 
         [Test]
-        public async Task DeleteAsync_IdNegative_IsNull()
+        public async Task DeleteAsync_WithNegativeIdShouldReturn_Null()
         {
             int deleteId = -1;
 

@@ -27,7 +27,7 @@ namespace DIMS_Core.Tests.DataAccessLayer.Repositories
         }
 
         [Test]
-        public void GetAll_ActualCount()
+        public void GetAll_ShouldReturn_Count()
         {
             int expected = Context.VUserProgress.Count();
 
@@ -37,7 +37,7 @@ namespace DIMS_Core.Tests.DataAccessLayer.Repositories
         }
 
         [Test]
-        public void Search_ActualCount()
+        public void Search_ShouldReturn_Count()
         {
             int expected = Context.VUserProgress.Count();
 
@@ -47,7 +47,7 @@ namespace DIMS_Core.Tests.DataAccessLayer.Repositories
         }
 
         [Test]
-        public async Task GetByIdAsync_Id1_VUserProgress()
+        public async Task GetByIdAsync_WithCorrectIdShouldReturn_VUserProgress()
         {
             int getId = 1;
             var expected = Context.VUserProgress.Find(getId);
@@ -58,7 +58,7 @@ namespace DIMS_Core.Tests.DataAccessLayer.Repositories
         }
 
         [Test]
-        public async Task GetByIdAsync_Id5_IsNull()
+        public async Task GetByIdAsync_WithInvalidIdShouldReturn_Null()
         {
             int getId = 5;
 
@@ -68,7 +68,7 @@ namespace DIMS_Core.Tests.DataAccessLayer.Repositories
         }
 
         [Test]
-        public async Task GetByIdAsync_IdNegative_IsNull()
+        public async Task GetByIdAsync_WithNegativeIdShouldReturn_Null()
         {
             int getId = -1;
 

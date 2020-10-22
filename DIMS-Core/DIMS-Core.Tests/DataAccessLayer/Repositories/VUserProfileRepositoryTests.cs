@@ -25,7 +25,7 @@ namespace DIMS_Core.Tests.DataAccessLayer.Repositories
         }
 
         [Test]
-        public void GetAll_ActualCount()
+        public void GetAll_ShouldReturn_Count()
         {
             int expected = Context.UserProfile.Count();
 
@@ -35,7 +35,7 @@ namespace DIMS_Core.Tests.DataAccessLayer.Repositories
         }
 
         [Test]
-        public void Search_ActualCount()
+        public void Search_ShouldReturn_Count()
         {
             int expected = Context.UserProfile.Count();
 
@@ -45,7 +45,7 @@ namespace DIMS_Core.Tests.DataAccessLayer.Repositories
         }
 
         [Test]
-        public async Task GetByIdAsync_Id1_VUserProfile()
+        public async Task GetByIdAsync__WithCorrectIdShouldReturn_VUserProfile()
         {
             int getId = 1;
             var expected = Context.VUserProfile.Find(getId);
@@ -56,7 +56,7 @@ namespace DIMS_Core.Tests.DataAccessLayer.Repositories
         }
 
         [Test]
-        public async Task GetByIdAsync_Id5_IsNull()
+        public async Task GetByIdAsync_WithInvalidIdShouldReturn_Null()
         {
             int getId = 5;
 
@@ -66,7 +66,7 @@ namespace DIMS_Core.Tests.DataAccessLayer.Repositories
         }
 
         [Test]
-        public async Task GetByIdAsync_IdNegative_IsNull()
+        public async Task GetByIdAsync_WithNegativeIdShouldReturn_Null()
         {
             int getId = -1;
 
