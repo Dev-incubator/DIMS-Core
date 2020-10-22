@@ -12,12 +12,18 @@ namespace DIMS_Core.Tests.DataAccessLayer.Repositories
     [TestFixture]
     public class UserTaskRepositoryTest : RepositoryTestBase
     {
-        private UserTaskRepository query;
+        private UserTaskRepository repository;
 
         [OneTimeSetUp]
-        public void InitQuery()
+        public void InitRepository()
         {
-            query = new UserTaskRepository(Context);
+            repository = new UserTaskRepository(Context);
+        }
+
+        [OneTimeTearDown]
+        public void CleanupRepository()
+        {
+            repository.Dispose();
         }
 
         [Test]
@@ -25,7 +31,7 @@ namespace DIMS_Core.Tests.DataAccessLayer.Repositories
         {
             int expected = Context.UserTask.Count();
 
-            var actual = query.GetAll();
+            var actual = repository.GetAll();
 
             Assert.That(expected, Is.EqualTo(actual.Count()));
         }
@@ -37,7 +43,7 @@ namespace DIMS_Core.Tests.DataAccessLayer.Repositories
             int getId = 1;
             var expected = Context.UserTask.Find(getId);
 
-            var actual = await query.GetByIdAsync(getId);
+            var actual = await repository.GetByIdAsync(getId);
 
             Assert.That(expected, Is.EqualTo(actual));
         }
@@ -48,7 +54,7 @@ namespace DIMS_Core.Tests.DataAccessLayer.Repositories
         {
             int getId = 5;
 
-            var actual = await query.GetByIdAsync(getId);
+            var actual = await repository.GetByIdAsync(getId);
 
             Assert.That(actual, Is.Null);
         }
@@ -58,7 +64,7 @@ namespace DIMS_Core.Tests.DataAccessLayer.Repositories
         {
             int getId = -1;
 
-            var actual = await query.GetByIdAsync(getId);
+            var actual = await repository.GetByIdAsync(getId);
 
             Assert.That(actual, Is.Null);
         }
@@ -69,9 +75,9 @@ namespace DIMS_Core.Tests.DataAccessLayer.Repositories
             int newId = 4;
             var expected = CreateNewUserTask(newId);
 
-            await query.CreateAsync(expected);
+            await repository.CreateAsync(expected);
             Context.SaveChanges();
-            var actual = await query.GetByIdAsync(newId);
+            var actual = await repository.GetByIdAsync(newId);
 
             Assert.That(expected, Is.EqualTo(actual));
         }
@@ -79,7 +85,7 @@ namespace DIMS_Core.Tests.DataAccessLayer.Repositories
         [Test]
         public void CreateAsync_Null_NotThrow()
         {
-            Assert.DoesNotThrowAsync(async () => await query.CreateAsync(null));
+            Assert.DoesNotThrowAsync(async () => await repository.CreateAsync(null));
         }
 
 
@@ -89,9 +95,9 @@ namespace DIMS_Core.Tests.DataAccessLayer.Repositories
             int newId = -1;
             var expected = CreateNewUserTask(newId);
 
-            await query.CreateAsync(expected);
+            await repository.CreateAsync(expected);
             Context.SaveChanges();
-            var actual = await query.GetByIdAsync(newId);
+            var actual = await repository.GetByIdAsync(newId);
 
             Assert.That(actual, Is.Null);
         }
@@ -104,9 +110,9 @@ namespace DIMS_Core.Tests.DataAccessLayer.Repositories
             var updateUserTask = Context.UserTask.Find(updateId);
             updateUserTask.State = expected;
 
-            query.Update(updateUserTask);
+            repository.Update(updateUserTask);
             Context.SaveChanges();
-            var actual = await query.GetByIdAsync(updateId);
+            var actual = await repository.GetByIdAsync(updateId);
 
             Assert.That(expected, Is.EqualTo(actual.State));
         }
@@ -120,9 +126,9 @@ namespace DIMS_Core.Tests.DataAccessLayer.Repositories
             var updateUserTask = Context.UserTask.Find(getId);
             updateUserTask.State = expected;
 
-            query.Update(updateUserTask);
+            repository.Update(updateUserTask);
             Context.SaveChanges();
-            var actual = await query.GetByIdAsync(updateId);
+            var actual = await repository.GetByIdAsync(updateId);
 
             Assert.That(actual, Is.Null);
         }
@@ -136,9 +142,9 @@ namespace DIMS_Core.Tests.DataAccessLayer.Repositories
             var updateUserTask = Context.UserTask.Find(getId);
             updateUserTask.State = expected;
 
-            query.Update(updateUserTask);
+            repository.Update(updateUserTask);
             Context.SaveChanges();
-            var actual = await query.GetByIdAsync(updateId);
+            var actual = await repository.GetByIdAsync(updateId);
 
             Assert.That(actual, Is.Null);
         }
@@ -148,9 +154,9 @@ namespace DIMS_Core.Tests.DataAccessLayer.Repositories
         {
             int deleteId = 3;
 
-            await query.DeleteAsync(deleteId);
+            await repository.DeleteAsync(deleteId);
             Context.SaveChanges();
-            var actual = await query.GetByIdAsync(deleteId);
+            var actual = await repository.GetByIdAsync(deleteId);
 
             Assert.That(actual, Is.Null);
         }
@@ -160,9 +166,9 @@ namespace DIMS_Core.Tests.DataAccessLayer.Repositories
         {
             int deleteId = 5;
 
-            await query.DeleteAsync(deleteId);
+            await repository.DeleteAsync(deleteId);
             Context.SaveChanges();
-            var actual = await query.GetByIdAsync(deleteId);
+            var actual = await repository.GetByIdAsync(deleteId);
 
             Assert.That(actual, Is.Null);
         }
@@ -172,18 +178,11 @@ namespace DIMS_Core.Tests.DataAccessLayer.Repositories
         {
             int deleteId = -1;
 
-            await query.DeleteAsync(deleteId);
+            await repository.DeleteAsync(deleteId);
             Context.SaveChanges();
-            var actual = await query.GetByIdAsync(deleteId);
+            var actual = await repository.GetByIdAsync(deleteId);
 
             Assert.That(actual, Is.Null);
         }
-
-        [OneTimeTearDown]
-        public void CleanupQuery()
-        {
-            query.Dispose();
-        }
-
     }
 }

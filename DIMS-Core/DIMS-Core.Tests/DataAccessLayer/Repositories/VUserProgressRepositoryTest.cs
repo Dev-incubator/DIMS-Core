@@ -12,12 +12,18 @@ namespace DIMS_Core.Tests.DataAccessLayer.Repositories
     [TestFixture]
     class VUserProgressRepositoryTest : RepositoryTestBase
     {
-        private VUserProgressRepository query;
+        private VUserProgressRepository repository;
 
         [OneTimeSetUp]
-        public void InitQuery()
+        public void InitRepository()
         {
-            query = new VUserProgressRepository(Context);
+            repository = new VUserProgressRepository(Context);
+        }
+
+        [OneTimeTearDown]
+        public void CleanupRepository()
+        {
+            repository.Dispose();
         }
 
         [Test]
@@ -25,18 +31,17 @@ namespace DIMS_Core.Tests.DataAccessLayer.Repositories
         {
             int expected = Context.VUserProgress.Count();
 
-            var actual = query.GetAll();
+            var actual = repository.GetAll();
 
             Assert.That(expected, Is.EqualTo(actual.Count()));
         }
-
 
         [Test]
         public void Search_ActualCount()
         {
             int expected = Context.VUserProgress.Count();
 
-            var actual = query.Search();
+            var actual = repository.Search();
 
             Assert.That(expected, Is.EqualTo(actual.Count()));
         }
@@ -47,7 +52,7 @@ namespace DIMS_Core.Tests.DataAccessLayer.Repositories
             int getId = 1;
             var expected = Context.VUserProgress.Find(getId);
 
-            var actual = await query.GetByIdAsync(getId);
+            var actual = await repository.GetByIdAsync(getId);
 
             Assert.That(expected, Is.EqualTo(actual));
         }
@@ -57,7 +62,7 @@ namespace DIMS_Core.Tests.DataAccessLayer.Repositories
         {
             int getId = 5;
 
-            var actual = await query.GetByIdAsync(getId);
+            var actual = await repository.GetByIdAsync(getId);
 
             Assert.That(actual, Is.Null);
         }
@@ -67,7 +72,7 @@ namespace DIMS_Core.Tests.DataAccessLayer.Repositories
         {
             int getId = -1;
 
-            var actual = await query.GetByIdAsync(getId);
+            var actual = await repository.GetByIdAsync(getId);
 
             Assert.That(actual, Is.Null);
         }
