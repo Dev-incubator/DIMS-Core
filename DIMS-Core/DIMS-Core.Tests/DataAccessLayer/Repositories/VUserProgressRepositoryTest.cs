@@ -23,13 +23,10 @@ namespace DIMS_Core.Tests.DataAccessLayer.Repositories
         [Test]
         public void GetAll_ActualCount()
         {
-            // Arrange
             int expected = Context.VUserProgress.Count();
 
-            // Act
             var actual = query.GetAll();
 
-            // Assert
             Assert.That(expected, Is.EqualTo(actual.Count()));
         }
 
@@ -37,53 +34,41 @@ namespace DIMS_Core.Tests.DataAccessLayer.Repositories
         [Test]
         public void Search_ActualCount()
         {
-            // Arrange
             int expected = Context.VUserProgress.Count();
 
-            // Act
             var actual = query.Search();
 
-            // Assert
             Assert.That(expected, Is.EqualTo(actual.Count()));
         }
 
         [Test]
         public async Task GetByIdAsync_Id1_VUserProgress()
         {
-            // Arrange
             int getId = 1;
             var expected = Context.VUserProgress.Find(getId);
 
-            // Act
             var actual = await query.GetByIdAsync(getId);
 
-            // Assert
             Assert.That(expected, Is.EqualTo(actual));
         }
 
         [Test]
         public async Task GetByIdAsync_Id5_IsNull()
         {
-            // Arrange
             int getId = 5;
 
-            // Act
             var actual = await query.GetByIdAsync(getId);
 
-            // Assert
             Assert.IsNull(actual);
         }
 
         [Test]
         public async Task GetByIdAsync_IdNegative_IsNull()
         {
-            // Arrange
             int getId = -1;
 
-            // Act
             var actual = await query.GetByIdAsync(getId);
 
-            // Assert
             Assert.IsNull(actual);
         }
     }
