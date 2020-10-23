@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using DIMS_Core.BusinessLayer.Interfaces;
 using DIMS_Core.BusinessLayer.Models.Task;
+using DIMS_Core.Models.Member;
 using DIMS_Core.Models.Task;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
@@ -12,11 +13,13 @@ namespace DIMS_Core.Controllers
     public class TaskController : Controller
     {
         private readonly ITaskService taskService;
+        private readonly IMemberService memberService;
         private readonly IMapper mapper;
 
-        public TaskController(ITaskService taskService, IMapper mapper)
+        public TaskController(ITaskService taskService, IMemberService memberService, IMapper mapper)
         {
             this.taskService = taskService;
+            this.memberService = memberService;
             this.mapper = mapper;
         }
 
@@ -30,14 +33,20 @@ namespace DIMS_Core.Controllers
         }
 
         [HttpGet("create")]
-        public IActionResult Create()
+        public async Task<IActionResult> Create()
         {
-            return View();
+            var members = await memberService.SearchAsync();
+
+            var model = new AddTaskViewModel(){
+                Members = mapper.Map<IEnumerable<SelectMemberViewModel>>(members)
+            };
+
+            return View(model);
         }
 
         [HttpPost("create")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([FromForm] TaskViewModel model)
+        public async Task<IActionResult> Create([FromForm] AddTaskViewModel model)
         {
             if (!ModelState.IsValid)
             {

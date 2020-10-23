@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using DIMS_Core.BusinessLayer.Models.Members;
 using DIMS_Core.BusinessLayer.Models.Task;
 using DIMS_Core.DataAccessLayer.Entities;
 using System;

@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using DIMS_Core.BusinessLayer.Interfaces;
+using DIMS_Core.BusinessLayer.Models.Members;
 using DIMS_Core.BusinessLayer.Models.Task;
 using DIMS_Core.DataAccessLayer.Interfaces;
 using Microsoft.EntityFrameworkCore;
