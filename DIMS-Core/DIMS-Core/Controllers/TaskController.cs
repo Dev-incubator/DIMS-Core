@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using DIMS_Core.BusinessLayer.Interfaces;
 using DIMS_Core.BusinessLayer.Models.Task;
+using DIMS_Core.BusinessLayer.Models.UserTask;
 using DIMS_Core.Models.Member;
 using DIMS_Core.Models.Task;
 using Microsoft.AspNetCore.Mvc;
@@ -14,12 +15,15 @@ namespace DIMS_Core.Controllers
     {
         private readonly ITaskService taskService;
         private readonly IMemberService memberService;
+        private readonly IUserTaskService userTaskService;
         private readonly IMapper mapper;
 
-        public TaskController(ITaskService taskService, IMemberService memberService, IMapper mapper)
+        public TaskController(ITaskService taskService, IMemberService memberService, 
+            IUserTaskService userTaskService, IMapper mapper)
         {
             this.taskService = taskService;
             this.memberService = memberService;
+            this.userTaskService = userTaskService;
             this.mapper = mapper;
         }
 
@@ -38,7 +42,7 @@ namespace DIMS_Core.Controllers
             var members = await memberService.SearchAsync();
 
             var model = new AddTaskViewModel(){
-                Members = mapper.Map<IEnumerable<SelectMemberViewModel>>(members)
+                Members = mapper.Map<List<SelectMemberViewModel>>(members)
             };
 
             return View(model);
@@ -53,9 +57,27 @@ namespace DIMS_Core.Controllers
                 return View(model);
             }
 
-            var dto = mapper.Map<TaskModel>(model);
+            var dtoTask = mapper.Map<TaskModel>(model);
 
-            await taskService.CreateAsync(dto);
+            await taskService.CreateAsync(dtoTask);
+
+            if (model.Members != null)
+            {
+                foreach (var member in model.Members)
+                {
+                    if (member.Selected)
+                    {
+                        var dtoUserTask = new UserTaskModel()
+                        {
+                            TaskId = dtoTask.TaskId,
+                            UserId = member.UserId,
+                            StateId = 1
+                        };
+
+                        await userTaskService.CreateAsync(dtoUserTask);
+                    }
+                }
+            }
 
             return RedirectToAction("Index");
         }
