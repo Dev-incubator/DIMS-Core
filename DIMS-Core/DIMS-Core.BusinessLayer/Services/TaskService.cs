@@ -29,15 +29,15 @@ namespace DIMS_Core.BusinessLayer.Services
 
         public async Task<IEnumerable<TaskModel>> SearchAsync()
         {
-            var query = unitOfWork.VTaskRepository.Search();
-            var mappedQuery = mapper.ProjectTo<TaskModel>(query);
+            var vTasks = unitOfWork.VTaskRepository.Search();
+            var mappedQuery = mapper.ProjectTo<TaskModel>(vTasks);
 
             return await mappedQuery.ToListAsync();
         }
 
         public async Task<IEnumerable<MemberForTaskModel>> GetMembersAsync()
         {
-            var query = from u in unitOfWork.VUserProfileRepository.GetAll()
+            var members = from u in unitOfWork.VUserProfileRepository.GetAll()
                         select new MemberForTaskModel()
                         {
                             UserTaskId = 0,
@@ -45,12 +45,12 @@ namespace DIMS_Core.BusinessLayer.Services
                             FullName = u.FullName
                         };
 
-            return await query.ToListAsync();
+            return await members.ToListAsync();
         }
 
         public async Task<IEnumerable<MemberForTaskModel>> GetMembersForTaskAsync(int id)
         {
-            var query = from u in unitOfWork.VUserProfileRepository.GetAll()
+            var members = from u in unitOfWork.VUserProfileRepository.GetAll()
                          join ut_in in unitOfWork.UserTaskRepository.GetAll().Where(x => x.TaskId == id)
                          on u.UserId equals ut_in.UserId into ut_out
                          from ut in ut_out.DefaultIfEmpty()
@@ -62,7 +62,7 @@ namespace DIMS_Core.BusinessLayer.Services
                              FullName = u.FullName,
                          };
 
-            return await query.ToListAsync();
+            return await members.ToListAsync();
         }
 
         public async Task<TaskModel> GetTaskAsync(int id)
@@ -72,8 +72,8 @@ namespace DIMS_Core.BusinessLayer.Services
                 return null;
             }
 
-            var entity = await unitOfWork.TaskRepository.GetByIdAsync(id);
-            var model = mapper.Map<TaskModel>(entity);
+            var task = await unitOfWork.TaskRepository.GetByIdAsync(id);
+            var model = mapper.Map<TaskModel>(task);
 
             return model;
         }
@@ -85,8 +85,10 @@ namespace DIMS_Core.BusinessLayer.Services
                 return;
             }
 
-            var entity = mapper.Map<TaskEntities>(model);
-            await unitOfWork.TaskRepository.CreateAsync(entity);
+            var task = mapper.Map<TaskEntities>(model);
+            await unitOfWork.TaskRepository.CreateAsync(task);
+
+            await unitOfWork.SaveAsync();
 
             if (members != null)
             {
@@ -96,7 +98,7 @@ namespace DIMS_Core.BusinessLayer.Services
                     {
                         var userTask = new UserTaskModel()
                         {
-                            TaskId = model.TaskId,
+                            TaskId = task.TaskId,
                             UserId = member.UserId,
                             StateId = 1,
                         };
@@ -105,9 +107,9 @@ namespace DIMS_Core.BusinessLayer.Services
                         await unitOfWork.UserTaskRepository.CreateAsync(mappedUserTask);
                     }
                 }
-            }
 
-            await unitOfWork.SaveAsync();
+                await unitOfWork.SaveAsync();
+            }
         }
 
         public async Task UpdateAsync(TaskModel model, List<MemberForTaskModel> members)
@@ -117,14 +119,14 @@ namespace DIMS_Core.BusinessLayer.Services
                 return;
             }
 
-            var entity = await unitOfWork.TaskRepository.GetByIdAsync(model.TaskId);
+            var task = await unitOfWork.TaskRepository.GetByIdAsync(model.TaskId);
 
-            if (entity is null)
+            if (task is null)
             {
                 return;
             }
 
-            var mappedEntity = mapper.Map(model, entity);
+            var mappedEntity = mapper.Map(model, task);
             unitOfWork.TaskRepository.Update(mappedEntity);
 
             if (members != null)
