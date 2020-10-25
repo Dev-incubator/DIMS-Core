@@ -30,13 +30,13 @@
             @Html.DisplayNameFor(model => model.StartDate)
         </dt>
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.StartDate)
+            @Convert.ToDateTime(item.StartDate).ToString("MM/dd/yyyy")
         </dd>
         <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.DeadlineDate)
         </dt>
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.DeadlineDate)
+            @Convert.ToDateTime(item.DeadlineDate).ToString("MM/dd/yyyy")
         </dd>
         <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.Members)
