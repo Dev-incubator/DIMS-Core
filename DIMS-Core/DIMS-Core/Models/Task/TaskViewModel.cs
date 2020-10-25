@@ -13,11 +13,11 @@ namespace DIMS_Core.Models.Task
         [Required(ErrorMessage = "Name is required")]
         public string Name { get; set; }
         public string Description { get; set; }
+
         [Required(ErrorMessage = "Start date is required")]
-        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd.MM.yyyy}")]
         public DateTime StartDate { get; set; }
+
         [Required(ErrorMessage = "Deadline date is required")]
-        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd.MM.yyyy}")]
         public DateTime DeadlineDate { get; set; }
     }
 }

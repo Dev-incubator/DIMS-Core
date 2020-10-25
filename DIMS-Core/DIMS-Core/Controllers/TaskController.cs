@@ -5,6 +5,7 @@ using DIMS_Core.BusinessLayer.Models.UserTask;
 using DIMS_Core.Models.Member;
 using DIMS_Core.Models.Task;
 using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -41,8 +42,10 @@ namespace DIMS_Core.Controllers
         {
             var members = await memberService.SearchAsync();
 
-            var model = new AddTaskViewModel(){
-                Members = mapper.Map<List<SelectMemberViewModel>>(members)
+            var model = new TaskWithMembersViewModel(){
+                StartDate = DateTime.Now,
+                DeadlineDate = DateTime.Now,
+                Members = mapper.Map<List<SelectMember>>(members)
             };
 
             return View(model);
@@ -50,7 +53,7 @@ namespace DIMS_Core.Controllers
 
         [HttpPost("create")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([FromForm] AddTaskViewModel model)
+        public async Task<IActionResult> Create([FromForm] TaskWithMembersViewModel model)
         {
             if (!ModelState.IsValid)
             {
@@ -81,6 +84,46 @@ namespace DIMS_Core.Controllers
 
             return RedirectToAction("Index");
         }
+
+        [HttpGet("edit/{id}")]
+        public async Task<IActionResult> Edit(int id)
+        {
+            if (id <= 0)
+            {
+                return BadRequest();
+            }
+
+            var dto = await taskService.GetTaskAsync(id);
+            var model = mapper.Map<TaskWithMembersViewModel>(dto);
+            model.Members = mapper.Map<List<SelectMember>>(
+                await memberService.SearchAsync());
+
+            return View(model);
+        }
+
+        [HttpPost("edit")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Edit([FromForm] TaskWithMembersViewModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
+
+            if (model.TaskId <= 0)
+            {
+                ModelState.AddModelError("", "Incorrect identifier.");
+
+                return View(model);
+            }
+
+            var dto = mapper.Map<TaskModel>(model);
+
+            await taskService.UpdateAsync(dto);
+
+            return RedirectToAction("Index");
+        }
+
 
         [HttpGet("delete/{id}")]
         public async Task<IActionResult> Delete(int id)

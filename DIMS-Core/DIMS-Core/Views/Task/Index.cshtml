@@ -47,10 +47,10 @@
                         @Html.DisplayFor(modelItem => item.Name)
                     </td>
                     <td>
-                        @Html.DisplayFor(modelItem => item.StartDate)
+                        @Convert.ToDateTime(item.StartDate).ToString("MM/dd/yyyy")
                     </td>
                     <td>
-                        @Html.DisplayFor(modelItem => item.DeadlineDate)
+                        @Convert.ToDateTime(item.DeadlineDate).ToString("MM/dd/yyyy")
                     </td>
                     <td align="center">
                         <div class="btn-group">
