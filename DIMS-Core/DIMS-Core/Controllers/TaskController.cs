@@ -47,7 +47,7 @@ namespace DIMS_Core.Controllers
             var members = await taskService.GetMembersForTaskAsync(id);
 
             var model = mapper.Map<TaskWithMembersViewModel>(task);
-            model.Members = mapper.Map<List<MemberForTaskViewModel>>(members);
+            model.Members = mapper.Map<List<MemberForTaskViewModel>>(members.Where(x => x.Selected));
 
             return View(model);
         }
