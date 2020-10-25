@@ -26,51 +26,77 @@
                 <input asp-for="Email" class="form-control" />
                 <span asp-validation-for="Email" class="text-danger"></span>
             </div>
+            
             <div class="form-group">
-                <label asp-for="Direction" class="control-label"></label>
-                <input asp-for="Direction" class="form-control" />
-                <span asp-validation-for="Direction" class="text-danger"></span>
+                <label class="control-label"></label>
+                <select asp-for="DirectionId">
+                    @foreach (var direction in ViewBag.Directions)
+                    {
+                        <option value="@direction.DirectionId">@direction.Name</option>
+                    }
+                </select>
+                <span asp-validation-for="DirectionId" class="text-danger"></span>
             </div>
+
             <div class="form-group">
                 <label asp-for="Sex" class="control-label"></label>
-                <input asp-for="Sex" class="form-control" />
+                <select asp-for="Sex">
+                    <option value="0">Undefined</option>
+                    <option value="1">Male</option>
+                    <option value="2">Female</option>
+                    <option value="9">NotApplicable</option>
+                </select>
                 <span asp-validation-for="Sex" class="text-danger"></span>
             </div>
+
             <div class="form-group">
                 <label asp-for="Education" class="control-label"></label>
                 <input asp-for="Education" class="form-control" />
                 <span asp-validation-for="Education" class="text-danger"></span>
             </div>
+
             <div class="form-group">
-                <label asp-for="Birthday" class="control-label"></label>
-                <input asp-for="Birthday" class="form-control" />
-                <span asp-validation-for="Birthday" class="text-danger"></span>
+                <label asp-for="BirthOfDate" class="control-label"></label>
+                <input asp-for="BirthOfDate" class="form-control" />
+                <span asp-validation-for="BirthOfDate" class="text-danger"></span>
             </div>
+
             <div class="form-group">
                 <label asp-for="UniversityAverageScore" class="control-label"></label>
                 <input asp-for="UniversityAverageScore" class="form-control" />
                 <span asp-validation-for="UniversityAverageScore" class="text-danger"></span>
             </div>
+
             <div class="form-group">
                 <label asp-for="MathScore" class="control-label"></label>
                 <input asp-for="MathScore" class="form-control" />
                 <span asp-validation-for="MathScore" class="text-danger"></span>
             </div>
+
             <div class="form-group">
                 <label asp-for="Address" class="control-label"></label>
                 <input asp-for="Address" class="form-control" />
                 <span asp-validation-for="Address" class="text-danger"></span>
             </div>
+
             <div class="form-group">
                 <label asp-for="MobilePhone" class="control-label"></label>
                 <input asp-for="MobilePhone" class="form-control" />
                 <span asp-validation-for="MobilePhone" class="text-danger"></span>
             </div>
+
             <div class="form-group">
                 <label asp-for="Skype" class="control-label"></label>
                 <input asp-for="Skype" class="form-control" />
                 <span asp-validation-for="Skype" class="text-danger"></span>
             </div>
+
+            <div class="form-group">
+                <label asp-for="StartDate" class="control-label"></label>
+                <input asp-for="StartDate" class="form-control" />
+                <span asp-validation-for="StartDate" class="text-danger"></span>
+            </div>
+
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />
             </div>

@@ -15,10 +15,12 @@ namespace DIMS_Core.Controllers
     {
         private readonly IMemberService memberService;
         private readonly IMapper mapper;
+        private readonly IDirectionService directionService;
 
-        public MemberController(IMemberService memberService, IMapper mapper)
+        public MemberController(IMemberService memberService, IDirectionService directionService, IMapper mapper)
         {
             this.memberService = memberService;
+            this.directionService = directionService;
             this.mapper = mapper;
         }
 
@@ -32,8 +34,9 @@ namespace DIMS_Core.Controllers
         }
 
         [HttpGet("create")]
-        public IActionResult Create()
+        public async Task<IActionResult> CreateAsync()
         {
+            ViewBag.Directions = await directionService.GetAll();
             return View();
         }
 
@@ -43,6 +46,7 @@ namespace DIMS_Core.Controllers
         {
             if (!ModelState.IsValid)
             {
+                ViewBag.Directions = await directionService.GetAll();
                 return View(model);
             }
 
