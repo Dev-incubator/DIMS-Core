@@ -1,7 +1,7 @@
-﻿@model TaskViewModel
+﻿@model TaskWithMembersViewModel
 
 @{
-    ViewData["Title"] = "Delete task";
+    ViewData["Title"] = "Delete task #" + Model.TaskId;
 }
 
 <h1>Delete Task</h1>
@@ -19,7 +19,24 @@
             @Html.DisplayNameFor(model => model.Description)
         </dt>
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Description)
+            @if (Model.Description is null) { <div>-</div> }
+            else @Html.DisplayFor(model => model.Description)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Members)
+        </dt>
+        <dd class="col-sm-10">
+            @if (Model.Members is null || !Model.Members.Any())
+            {
+                <div>-</div>
+            }
+            else
+            {
+                @for (var i = 0; i < Model.Members.Count; i++)
+                {
+                    <div>@Html.DisplayTextFor(model => model.Members[i].FullName)</div>
+                }         
+            }
         </dd>
     </dl>
 

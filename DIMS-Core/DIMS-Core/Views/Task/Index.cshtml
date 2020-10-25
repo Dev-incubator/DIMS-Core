@@ -41,10 +41,10 @@
             {
                 <tr>
                     <td>
-                        @Html.DisplayFor(modelItem => item.TaskId)
+                        @Html.ActionLink(item.TaskId.ToString(), "Details", new { id = item.TaskId })
                     </td>
                     <td>
-                        @Html.DisplayFor(modelItem => item.Name)
+                        @Html.ActionLink(item.Name, "Details", new { id = item.TaskId })
                     </td>
                     <td>
                         @Convert.ToDateTime(item.StartDate).ToString("MM/dd/yyyy")

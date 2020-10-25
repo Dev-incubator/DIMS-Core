@@ -11,12 +11,16 @@ namespace DIMS_Core.BusinessLayer.Interfaces
     {
         Task<IEnumerable<TaskModel>> SearchAsync();
 
+        Task<IEnumerable<MemberForTaskModel>> GetMembersAsync();
+
+        Task<IEnumerable<MemberForTaskModel>> GetMembersForTaskAsync(int id);
+
         Task<TaskModel> GetTaskAsync(int id);
 
-        Task CreateAsync(TaskModel model);
+        Task CreateAsync(TaskModel model, List<MemberForTaskModel> members);
 
         Task DeleteAsync(int id);
 
-        Task UpdateAsync(TaskModel model);
+        Task UpdateAsync(TaskModel model, List<MemberForTaskModel> members);
     }
 }

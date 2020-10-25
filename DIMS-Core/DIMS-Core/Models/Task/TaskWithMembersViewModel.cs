@@ -8,8 +8,8 @@ using System.Threading.Tasks;
 
 namespace DIMS_Core.Models.Task
 {
-    public class AddTaskViewModel : TaskViewModel
+    public class TaskWithMembersViewModel : TaskViewModel
     {
-        public List<SelectMemberViewModel> Members { get; set; }
+        public List<MemberForTaskViewModel> Members { get; set; }
     }
 }
