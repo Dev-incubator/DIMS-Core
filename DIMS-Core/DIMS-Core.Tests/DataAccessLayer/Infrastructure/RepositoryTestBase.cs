@@ -4,8 +4,6 @@ using DIMS_Core.DataAccessLayer.Entities;
 using Microsoft.EntityFrameworkCore;
 using NUnit.Framework;
 using System;
-using System.Collections.Generic;
-using System.Text;
 using EntityTask = DIMS_Core.DataAccessLayer.Entities.Task;
 
 namespace DIMS_Core.Tests.Infrastructure
@@ -13,7 +11,7 @@ namespace DIMS_Core.Tests.Infrastructure
     [TestFixture]
     public class RepositoryTestBase : IDisposable
     {
-        protected DIMSCoreDatabaseContext Context;
+        protected DIMSCoreDatabaseContext context;
 
         [OneTimeSetUp]
         public void Init()
@@ -22,10 +20,10 @@ namespace DIMS_Core.Tests.Infrastructure
                        .UseInMemoryDatabase(databaseName: Guid.NewGuid().ToString())
                        .Options;
 
-            Context = new DIMSCoreDatabaseContext(options);
-            Context.Database.EnsureCreated();
+            context = new DIMSCoreDatabaseContext(options);
+            context.Database.EnsureCreated();
 
-            Seed(Context);
+            Seed(context);
         }
 
 
@@ -326,8 +324,8 @@ namespace DIMS_Core.Tests.Infrastructure
         [OneTimeTearDown]
         public void Dispose()
         {
-            Context.Database.EnsureDeleted();
-            Context.Dispose();
+            context.Database.EnsureDeleted();
+            context.Dispose();
         }
     }
 }

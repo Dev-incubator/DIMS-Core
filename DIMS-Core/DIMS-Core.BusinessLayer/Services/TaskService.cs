@@ -26,10 +26,10 @@ namespace DIMS_Core.BusinessLayer.Services
 
         public async Task<IEnumerable<TaskModel>> SearchAsync()
         {
-            var query = unitOfWork.VTaskRepository.GetAll();
-            var mappedQuery = mapper.ProjectTo<TaskModel>(query);
+            var vTasks = unitOfWork.VTaskRepository.GetAll();
+            var mappedVTasks = mapper.ProjectTo<TaskModel>(vTasks);
 
-            return await mappedQuery.ToListAsync();
+            return await mappedVTasks.ToListAsync();
         }
 
         public async Task<TaskModel> GetTaskAsync(int id)

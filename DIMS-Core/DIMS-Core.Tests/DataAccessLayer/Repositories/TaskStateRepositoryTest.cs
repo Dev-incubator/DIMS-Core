@@ -17,13 +17,13 @@ namespace DIMS_Core.Tests.Repositories
         [OneTimeSetUp]
         public void InitRepository()
         {
-            repository = new TaskStateRepository(Context);
+            repository = new TaskStateRepository(context);
         }
 
         [Test]
         public void GetAll_ShouldReturn_AllTaskStates()
         {
-            int countTasksStates = Context.TaskState.Count();
+            int countTasksStates = context.TaskState.Count();
             var result = repository.GetAll();
             Assert.That(countTasksStates, Is.EqualTo(result.Count()));
         }
@@ -47,7 +47,7 @@ namespace DIMS_Core.Tests.Repositories
                 StateName = "On check",
             };
             await repository.Create(newTaskState);          
-            Context.SaveChanges();
+            context.SaveChanges();
             var result = await repository.GetById(newId);             
             Assert.That(newTaskState, Is.EqualTo(result));
         }
@@ -60,7 +60,7 @@ namespace DIMS_Core.Tests.Repositories
             var updateTask = await repository.GetById(updateId);  
             updateTask.StateName = newName;
             repository.Update(updateTask);                          
-            Context.SaveChanges();
+            context.SaveChanges();
             var result = await repository.GetById(updateId);        
             Assert.That(newName, Is.EqualTo(result.StateName));
         }
@@ -70,7 +70,7 @@ namespace DIMS_Core.Tests.Repositories
         {
             int deleteId = 3;
             await repository.Delete(deleteId);                          
-            Context.SaveChanges();
+            context.SaveChanges();
             TaskState result = await repository.GetById(deleteId);     
             Assert.That(result, Is.Null);
         }

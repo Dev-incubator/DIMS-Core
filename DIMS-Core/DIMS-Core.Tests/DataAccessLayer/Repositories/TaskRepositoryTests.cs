@@ -19,13 +19,13 @@ namespace DIMS_Core.Tests.Repositories
         [OneTimeSetUp]
         public void InitRepository()
         {
-            repository = new TaskRepository(Context);
+            repository = new TaskRepository(context);
         }
 
         [Test]
         public void GetAll_ShouldReturn_AllTasks()
         {
-            int countTasks = Context.Task.Count();
+            int countTasks = context.Task.Count();
             var result = repository.GetAll();
             Assert.That(countTasks, Is.EqualTo(result.Count()));
         }
@@ -52,7 +52,7 @@ namespace DIMS_Core.Tests.Repositories
                 DeadlineDate = new DateTime(2020, 12, 04)
             };
             await repository.Create(newTask);
-            Context.SaveChanges();
+            context.SaveChanges();
             var result = await repository.GetById(newId);         
             Assert.That(newTask, Is.EqualTo(result));
         }
@@ -65,7 +65,7 @@ namespace DIMS_Core.Tests.Repositories
             var updateTask = await repository.GetById(updateId);  
             updateTask.Name = newName;
             repository.Update(updateTask);                            
-            Context.SaveChanges();
+            context.SaveChanges();
             var result = await repository.GetById(updateId);            
             Assert.That(newName, Is.EqualTo(result.Name));
         }
@@ -75,7 +75,7 @@ namespace DIMS_Core.Tests.Repositories
         {
             int deleteId = 3;
             await repository.Delete(deleteId);                          
-            Context.SaveChanges();
+            context.SaveChanges();
             var result = await repository.GetById(deleteId);   
             Assert.That(result, Is.Null);
         }

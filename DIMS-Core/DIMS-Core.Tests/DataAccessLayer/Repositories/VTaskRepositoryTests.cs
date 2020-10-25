@@ -14,13 +14,13 @@ namespace DIMS_Core.Tests.Repositories
         [OneTimeSetUp]
         public void InitRepository()
         {
-            repository = new VTaskRepository(Context);
+            repository = new VTaskRepository(context);
         }
 
         [Test]
         public void GetAll_ShouldReturn_AllVTasks()
         {
-            int countTasks = Context.VTask.Count();
+            int countTasks = context.VTask.Count();
             var result = repository.GetAll();
             Assert.That(countTasks, Is.EqualTo(result.Count()));
         }

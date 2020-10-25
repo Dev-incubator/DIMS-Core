@@ -14,7 +14,7 @@ namespace DIMS_Core.Tests.Repositories
         [OneTimeSetUp]
         public void InitRepository()
         {
-            repository = new VUserTrackRepository(Context);
+            repository = new VUserTrackRepository(context);
         }
 
         [Test]

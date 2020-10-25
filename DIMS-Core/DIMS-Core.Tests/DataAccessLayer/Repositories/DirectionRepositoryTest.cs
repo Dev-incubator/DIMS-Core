@@ -16,13 +16,13 @@ namespace DIMS_Core.Tests.Repositories
         [OneTimeSetUp]
         public void InitRepository()
         {
-            repository = new DirectionRepository(Context);
+            repository = new DirectionRepository(context);
         }
 
         [Test]
         public void GetAll_ShouldReturn_AllDirections()
         {
-            int countDirections = Context.Direction.Count();
+            int countDirections = context.Direction.Count();
             var result = repository.GetAll();
             Assert.That(countDirections, Is.EqualTo(result.Count()));
         }
@@ -47,7 +47,7 @@ namespace DIMS_Core.Tests.Repositories
                 Description = "1+'0' = 10",
             };
             await repository.Create(newDirection);                      
-            Context.SaveChanges();
+            context.SaveChanges();
             var result = await repository.GetById(newId);               
             Assert.That(newDirection, Is.EqualTo(result));
         }
@@ -60,7 +60,7 @@ namespace DIMS_Core.Tests.Repositories
             var updateDirection = await repository.GetById(updateId);  
             updateDirection.Name = newName;
             repository.Update(updateDirection);                            
-            Context.SaveChanges();
+            context.SaveChanges();
             var result = await repository.GetById(updateId);        
             Assert.That(newName, Is.EqualTo(result.Name));
         }
@@ -70,7 +70,7 @@ namespace DIMS_Core.Tests.Repositories
         {
             int deleteId = 3;
             await repository.Delete(deleteId);                     
-            Context.SaveChanges();
+            context.SaveChanges();
             Direction result = await repository.GetById(deleteId);    
             Assert.That(result, Is.Null);
         }
