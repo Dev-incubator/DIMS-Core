@@ -12,18 +12,18 @@ namespace DIMS_Core.Tests.Repositories
     [TestFixture]
     public class DirectionRepositoryTest : RepositoryTestBase
     {
-        private readonly DirectionRepository query;
+        private readonly DirectionRepository repository;
 
         private DirectionRepositoryTest()
         {
-            query = new DirectionRepository(Context);
+            repository = new DirectionRepository(Context);
         }
 
         [Test]
         public void GetAll_GetAllItems_GetActualCountOfItems()
         {
             int countDirections = Context.Direction.Count();
-            var result = query.GetAll();
+            var result = repository.GetAll();
             Assert.That(countDirections, Is.EqualTo(result.Count()));
         }
 
@@ -32,7 +32,7 @@ namespace DIMS_Core.Tests.Repositories
         {
             int getId = 2;
             const string returnName = "FRONTEND";
-            var result = await query.GetByIdAsync(getId);
+            var result = await repository.GetByIdAsync(getId);
             Assert.That(returnName, Is.EqualTo(result.Name));
         }
 
@@ -40,7 +40,7 @@ namespace DIMS_Core.Tests.Repositories
         public async TaskThread GetByIdAsync_GetItemByNegativeId_ValueIsNull()
         {
             int getId = -1;
-            var result = await query.GetByIdAsync(getId);
+            var result = await repository.GetByIdAsync(getId);
             Assert.IsNull(result);
         }
 
@@ -54,9 +54,9 @@ namespace DIMS_Core.Tests.Repositories
                 Name = "Javascript",
                 Description = "1+'0' = 10",
             };
-            await query.CreateAsync(newDirection);                      
+            await repository.CreateAsync(newDirection);                      
             Context.SaveChanges();
-            var result = await query.GetByIdAsync(newId);               
+            var result = await repository.GetByIdAsync(newId);               
             Assert.That(newDirection, Is.EqualTo(result));
         }
 
@@ -64,7 +64,7 @@ namespace DIMS_Core.Tests.Repositories
         public async TaskThread CreateAsync_TryAddNull_NothingCreated()
         {
             int countDirectionsBeforeAdding = Context.Direction.Count();
-            await query.CreateAsync(null);
+            await repository.CreateAsync(null);
             Context.SaveChanges();
             Assert.That(countDirectionsBeforeAdding, Is.EqualTo(Context.Direction.Count()));
         }
@@ -74,11 +74,11 @@ namespace DIMS_Core.Tests.Repositories
         {
             int updateId = 1;
             const string newName = "---";
-            var updateDirection = await query.GetByIdAsync(updateId);  
+            var updateDirection = await repository.GetByIdAsync(updateId);  
             updateDirection.Name = newName;
-            query.Update(updateDirection);                            
+            repository.Update(updateDirection);                            
             Context.SaveChanges();
-            var result = await query.GetByIdAsync(updateId);        
+            var result = await repository.GetByIdAsync(updateId);        
             Assert.That(newName, Is.EqualTo(result.Name));
         }
 
@@ -86,9 +86,9 @@ namespace DIMS_Core.Tests.Repositories
         public async TaskThread DeleteAsync_DeleteByExistingId_DeletedItemEqualsNull()
         {
             int deleteId = 3;
-            await query.DeleteAsync(deleteId);                     
+            await repository.DeleteAsync(deleteId);                     
             Context.SaveChanges();
-            Direction result = await query.GetByIdAsync(deleteId);    
+            Direction result = await repository.GetByIdAsync(deleteId);    
             Assert.That(result, Is.Null);
         }
 
@@ -96,16 +96,16 @@ namespace DIMS_Core.Tests.Repositories
         public async TaskThread Delete_WithNegativeExistingIdShouldNo_ThrowError()
         {
             int deleteId = -3;
-            await query.DeleteAsync(deleteId);
-            Assert.That(query.DeleteAsync(deleteId),Throws.Nothing);
+            await repository.DeleteAsync(deleteId);
+            Assert.That(repository.DeleteAsync(deleteId),Throws.Nothing);
         }
 
         [Test]
         public async TaskThread Delete_WithNotExistingIdShouldNo_ThrowError()
         {
             int deleteId = 33;
-            await query.DeleteAsync(deleteId);
-            Assert.That(query.DeleteAsync(deleteId), Throws.Nothing);
+            await repository.DeleteAsync(deleteId);
+            Assert.That(repository.DeleteAsync(deleteId), Throws.Nothing);
         }
     }
 }

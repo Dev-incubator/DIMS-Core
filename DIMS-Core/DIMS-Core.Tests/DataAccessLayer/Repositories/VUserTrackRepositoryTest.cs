@@ -10,18 +10,18 @@ namespace DIMS_Core.Tests.Repositories
     [TestFixture]
     public class VUserTrackRepositoryTest : RepositoryTestBase
     {
-        private readonly VUserTrackRepository query;
+        private readonly VUserTrackRepository repository;
 
         private VUserTrackRepositoryTest()
         {
-            query = new VUserTrackRepository(Context);
+            repository = new VUserTrackRepository(Context);
         }
 
         [Test]
         public void Search_SearchAllItems_GetActualCountOfItems()
         {
             int countUserTracks = 3;
-            var result = query.Search();
+            var result = repository.Search();
             Assert.That(countUserTracks, Is.EqualTo(result.Count()));
         }
 
@@ -29,7 +29,7 @@ namespace DIMS_Core.Tests.Repositories
         public void GetAll_GetAllItems_GetActualCountOfItems()
         {
             int countUserTracks = 3;
-            var result = query.GetAll();
+            var result = repository.GetAll();
             Assert.That(countUserTracks, Is.EqualTo(result.Count()));
         }
 
@@ -38,7 +38,7 @@ namespace DIMS_Core.Tests.Repositories
         {
             int getId = 1;
             const string returnTrackNote = "Create table UserProfile";
-            var result = query.GetByIdAsync(getId);
+            var result = repository.GetByIdAsync(getId);
             Assert.That(returnTrackNote, Is.EqualTo(result.Result.TrackNote));
         }
 
@@ -46,7 +46,7 @@ namespace DIMS_Core.Tests.Repositories
         public async Task GetById_WithNegativeIdShouldReturn_Null()
         {
             int getId = -1;
-            var result = await query.GetByIdAsync(getId);
+            var result = await repository.GetByIdAsync(getId);
             Assert.That(result, Is.Null);
         }
     } 

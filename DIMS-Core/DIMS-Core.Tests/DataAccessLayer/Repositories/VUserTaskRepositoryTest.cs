@@ -10,18 +10,18 @@ namespace DIMS_Core.Tests.Repositories
     [TestFixture]
     public class VUserTaskRepositoryTest : RepositoryTestBase
     {
-        private readonly VUserTaskRepository query;
+        private readonly VUserTaskRepository repository;
 
         private VUserTaskRepositoryTest()
         {
-            query = new VUserTaskRepository(Context);
+            repository = new VUserTaskRepository(Context);
         }
 
         [Test]
         public void Search_SearchAllItems_GetActualCountOfItems()
         {
             int countUserTasks = Context.VUserTask.Count();
-            var result = query.Search();
+            var result = repository.Search();
             Assert.That(countUserTasks, Is.EqualTo(result.Count()));
         }
 
@@ -29,7 +29,7 @@ namespace DIMS_Core.Tests.Repositories
         public void GetAll_GetAllItems_GetActualCountOfItems()
         {
             int countUserTasks = Context.VUserTask.Count();
-            var result = query.GetAll();
+            var result = repository.GetAll();
             Assert.That(countUserTasks, Is.EqualTo(result.Count()));
         }
 
@@ -38,7 +38,7 @@ namespace DIMS_Core.Tests.Repositories
         {
             int getId = 1;
             const string returnTaskName = "Create database";
-            var result = await query.GetByIdAsync(getId);
+            var result = await repository.GetByIdAsync(getId);
             Assert.That(returnTaskName, Is.EqualTo(result.TaskName));
         }
 
@@ -46,7 +46,7 @@ namespace DIMS_Core.Tests.Repositories
         public async Task GetById_WithNegativeIdShouldReturn_Null()
         {
             int getId = -1;
-            var result = await query.GetByIdAsync(getId);
+            var result = await repository.GetByIdAsync(getId);
             Assert.That(result, Is.Null);
         }
     }
