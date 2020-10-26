@@ -62,10 +62,10 @@ namespace DIMS_Core.Tests.Repositories
         [Test]
         public async TaskThread CreateAsync_TryAddNull_NothingCreated()
         {
-            int countDirectionsBeforeAdding = Context.TaskState.Count();
+            int countTaskStatesBeforeAdding = 6;
             await repository.CreateAsync(null);
             Context.SaveChanges();
-            Assert.That(countDirectionsBeforeAdding, Is.EqualTo(Context.TaskState.Count()));
+            Assert.That(countTaskStatesBeforeAdding, Is.EqualTo(Context.TaskState.Count()));
         }
 
         [Test]
