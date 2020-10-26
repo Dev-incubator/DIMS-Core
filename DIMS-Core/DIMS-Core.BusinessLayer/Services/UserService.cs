@@ -19,14 +19,14 @@ namespace DIMS_Core.BusinessLayer.Services
             this.mapper = mapper;
         }
 
-        public async Task<SignInResult> SignInAsync(SignInModel model)
+        public async Task<SignInResult> SignIn(SignInModel model)
         {
             var result = await unitOfWork.SignInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, false);
 
             return result;
         }
 
-        public async Task<IdentityResult> SignUpAsync(SignUpModel model)
+        public async Task<IdentityResult> SignUp(SignUpModel model)
         {
             var mappedEntity = mapper.Map<User>(model);
 
@@ -35,7 +35,7 @@ namespace DIMS_Core.BusinessLayer.Services
             return result;
         }
 
-        public Task SignOutAsync()
+        public Task SignOut()
         {
             return unitOfWork.SignInManager.SignOutAsync();
         }

@@ -24,7 +24,7 @@ namespace DIMS_Core.BusinessLayer.Services
             this.mapper = mapper;
         }
 
-        public async Task<IEnumerable<VUserProfileModel>> SearchAsync()
+        public async Task<IEnumerable<VUserProfileModel>> Search()
         {
             var query = unitOfWork.VUserProfileRepository.Search();
             var mappedQuery = mapper.ProjectTo<VUserProfileModel>(query);
@@ -32,20 +32,20 @@ namespace DIMS_Core.BusinessLayer.Services
             return await mappedQuery.ToListAsync();
         }
 
-        public async Task<UserProfileModel> GetMemberAsync(int id)
+        public async Task<UserProfileModel> GetMember(int id)
         {
             if (id <= 0)
             {
                 return null;
             }
 
-            var entity = await unitOfWork.UserProfileRepository.GetByIdAsync(id);
+            var entity = await unitOfWork.UserProfileRepository.GetById(id);
             var model = mapper.Map<UserProfileModel>(entity);
 
             return model;
         }
 
-        public async Task CreateAsync(UserProfileModel model)
+        public async Task Create(UserProfileModel model)
         {
             if (model is null || model.UserId != 0)
             {
@@ -54,19 +54,19 @@ namespace DIMS_Core.BusinessLayer.Services
 
             var entity = mapper.Map<EntityUserProfile>(model);
 
-            await unitOfWork.UserProfileRepository.CreateAsync(entity);
+            await unitOfWork.UserProfileRepository.Create(entity);
 
-            await unitOfWork.SaveAsync();
+            await unitOfWork.Save();
         }
 
-        public async Task UpdateAsync(UserProfileModel model)
+        public async Task Update(UserProfileModel model)
         {
             if (model is null || model.UserId <= 0)
             {
                 return;
             }
 
-            var entity = await unitOfWork.UserProfileRepository.GetByIdAsync(model.UserId);
+            var entity = await unitOfWork.UserProfileRepository.GetById(model.UserId);
 
             if (entity is null)
             {
@@ -77,19 +77,19 @@ namespace DIMS_Core.BusinessLayer.Services
 
             unitOfWork.UserProfileRepository.Update(mappedEntity);
 
-            await unitOfWork.SaveAsync();
+            await unitOfWork.Save();
         }
 
-        public async Task DeleteAsync(int id)
+        public async Task Delete(int id)
         {
             if (id <= 0)
             {
                 return;
             }
 
-            await unitOfWork.UserProfileRepository.DeleteAsync(id);
+            await unitOfWork.UserProfileRepository.Delete(id);
 
-            await unitOfWork.SaveAsync();
+            await unitOfWork.Save();
         }
 
     }
