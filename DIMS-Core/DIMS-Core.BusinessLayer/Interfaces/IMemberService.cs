@@ -9,14 +9,14 @@ namespace DIMS_Core.BusinessLayer.Interfaces
 {
     public interface IMemberService
     {
-        Task<IEnumerable<VUserProfileModel>> SearchAsync();
+        Task<IEnumerable<VUserProfileModel>> Search();
 
-        Task<UserProfileModel> GetMemberAsync(int id);
+        Task<UserProfileModel> GetMember(int id);
 
-        Task CreateAsync(UserProfileModel model);
+        Task Create(UserProfileModel model);
 
-        Task DeleteAsync(int id);
+        Task Delete(int id);
 
-        Task UpdateAsync(UserProfileModel model);
+        Task Update(UserProfileModel model);
     }
 }

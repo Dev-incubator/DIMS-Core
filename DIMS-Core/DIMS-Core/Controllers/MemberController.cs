@@ -27,7 +27,7 @@ namespace DIMS_Core.Controllers
         [HttpGet("")]
         public async Task<IActionResult> Index()
         {
-            var searchResult = await memberService.SearchAsync();
+            var searchResult = await memberService.Search();
             var model = mapper.Map<IEnumerable<MemberViewModel>>(searchResult);
 
             return View(model);
@@ -52,7 +52,7 @@ namespace DIMS_Core.Controllers
 
             var dto = mapper.Map<UserProfileModel>(model);
 
-            await memberService.CreateAsync(dto);
+            await memberService.Create(dto);
 
             return RedirectToAction("Index");
         }
@@ -65,7 +65,7 @@ namespace DIMS_Core.Controllers
                 return BadRequest();
             }
 
-            var dto = await memberService.GetMemberAsync(id);
+            var dto = await memberService.GetMember(id);
             var model = mapper.Map<EditMemberViewModel>(dto);
 
             return View(model);
@@ -89,7 +89,7 @@ namespace DIMS_Core.Controllers
 
             var dto = mapper.Map<UserProfileModel>(model);
 
-            await memberService.UpdateAsync(dto);
+            await memberService.Update(dto);
 
             return RedirectToAction("Index");
         }
@@ -102,7 +102,7 @@ namespace DIMS_Core.Controllers
                 return BadRequest();
             }
 
-            var dto = await memberService.GetMemberAsync(id);
+            var dto = await memberService.GetMember(id);
             var model = mapper.Map<MemberViewModel>(dto);
 
             return View(model);
@@ -117,7 +117,7 @@ namespace DIMS_Core.Controllers
                 return BadRequest();
             }
 
-            await memberService.DeleteAsync(id);
+            await memberService.Delete(id);
 
             return RedirectToAction("Index");
         }
