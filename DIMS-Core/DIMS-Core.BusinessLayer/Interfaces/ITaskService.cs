@@ -9,18 +9,18 @@ namespace DIMS_Core.BusinessLayer.Interfaces
 {
     public interface ITaskService
     {
-        Task<IEnumerable<TaskModel>> SearchAsync();
+        Task<IEnumerable<TaskModel>> Search();
 
-        Task<IEnumerable<MemberForTaskModel>> GetMembersAsync();
+        Task<IEnumerable<MemberForTaskModel>> GetMembers();
 
-        Task<IEnumerable<MemberForTaskModel>> GetMembersForTaskAsync(int id);
+        Task<IEnumerable<MemberForTaskModel>> GetMembersForTask(int id);
 
-        Task<TaskModel> GetTaskAsync(int id);
+        Task<TaskModel> GetTask(int id);
 
-        Task CreateAsync(TaskModel model, List<MemberForTaskModel> members);
+        Task Create(TaskModel model, List<MemberForTaskModel> members);
 
-        Task DeleteAsync(int id);
+        Task Delete(int id);
 
-        Task UpdateAsync(TaskModel model, List<MemberForTaskModel> members);
+        Task Update(TaskModel model, List<MemberForTaskModel> members);
     }
 }

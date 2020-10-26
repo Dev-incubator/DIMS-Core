@@ -29,7 +29,7 @@ namespace DIMS_Core.Controllers
         [HttpGet("")]
         public async Task<IActionResult> Index()
         {
-            var searchResult = await taskService.SearchAsync();
+            var searchResult = await taskService.Search();
             var model = mapper.Map<IEnumerable<TaskViewModel>>(searchResult);
 
             return View(model);
@@ -43,8 +43,8 @@ namespace DIMS_Core.Controllers
                 return BadRequest();
             }
 
-            var task = await taskService.GetTaskAsync(id);
-            var members = await taskService.GetMembersForTaskAsync(id);
+            var task = await taskService.GetTask(id);
+            var members = await taskService.GetMembersForTask(id);
 
             var model = mapper.Map<TaskWithMembersViewModel>(task);
             model.Members = mapper.Map<List<MemberForTaskViewModel>>(members.Where(x => x.Selected));
@@ -55,7 +55,7 @@ namespace DIMS_Core.Controllers
         [HttpGet("create")]
         public async Task<IActionResult> Create()
         {
-            var members = await taskService.GetMembersAsync();
+            var members = await taskService.GetMembers();
 
             var model = new TaskWithMembersViewModel(){
                 StartDate = DateTime.Now,
@@ -78,7 +78,7 @@ namespace DIMS_Core.Controllers
             var task = mapper.Map<TaskModel>(model);
             var members = mapper.Map<List<MemberForTaskModel>>(model.Members);
 
-            await taskService.CreateAsync(task, members);
+            await taskService.Create(task, members);
 
             return RedirectToAction("Index");
         }
@@ -91,8 +91,8 @@ namespace DIMS_Core.Controllers
                 return BadRequest();
             }
 
-            var task = await taskService.GetTaskAsync(id);
-            var members = await taskService.GetMembersForTaskAsync(id);
+            var task = await taskService.GetTask(id);
+            var members = await taskService.GetMembersForTask(id);
 
             var model = mapper.Map<TaskWithMembersViewModel>(task);
             model.Members = mapper.Map<List<MemberForTaskViewModel>>(members);
@@ -118,7 +118,7 @@ namespace DIMS_Core.Controllers
             var task = mapper.Map<TaskModel>(model);
             var members = mapper.Map<List<MemberForTaskModel>>(model.Members);
 
-            await taskService.UpdateAsync(task, members);
+            await taskService.Update(task, members);
 
             return RedirectToAction("Index");
         }
@@ -132,8 +132,8 @@ namespace DIMS_Core.Controllers
                 return BadRequest();
             }
 
-            var task = await taskService.GetTaskAsync(id);
-            var members = await taskService.GetMembersForTaskAsync(id);
+            var task = await taskService.GetTask(id);
+            var members = await taskService.GetMembersForTask(id);
 
             var model = mapper.Map<TaskWithMembersViewModel>(task);
             model.Members = mapper.Map<List<MemberForTaskViewModel>>(members.Where(x => x.Selected));
@@ -150,7 +150,7 @@ namespace DIMS_Core.Controllers
                 return BadRequest();
             }
 
-            await taskService.DeleteAsync(id);
+            await taskService.Delete(id);
 
             return RedirectToAction("Index");
         }

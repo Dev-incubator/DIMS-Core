@@ -7,14 +7,14 @@ namespace DIMS_Core.BusinessLayer.Interfaces
 {
     public interface ISampleService
     {
-        Task<IEnumerable<SampleModel>> SearchAsync(SampleFilter searchFilter);
+        Task<IEnumerable<SampleModel>> Search(SampleFilter searchFilter);
 
-        Task<SampleModel> GetSampleAsync(int id);
+        Task<SampleModel> GetSample(int id);
 
-        Task CreateAsync(SampleModel model);
+        Task Create(SampleModel model);
 
-        Task DeleteAsync(int id);
+        Task Delete(int id);
 
-        Task UpdateAsync(SampleModel model);
+        Task Update(SampleModel model);
     }
 }

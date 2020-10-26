@@ -27,7 +27,7 @@ namespace DIMS_Core.BusinessLayer.Services
             this.mapper = mapper;
         }
 
-        public async Task<IEnumerable<TaskModel>> SearchAsync()
+        public async Task<IEnumerable<TaskModel>> Search()
         {
             var vTasks = unitOfWork.VTaskRepository.Search();
             var mappedQuery = mapper.ProjectTo<TaskModel>(vTasks);
@@ -35,7 +35,7 @@ namespace DIMS_Core.BusinessLayer.Services
             return await mappedQuery.ToListAsync();
         }
 
-        public async Task<IEnumerable<MemberForTaskModel>> GetMembersAsync()
+        public async Task<IEnumerable<MemberForTaskModel>> GetMembers()
         {
             var members = from u in unitOfWork.VUserProfileRepository.GetAll()
                         select new MemberForTaskModel()
@@ -48,7 +48,7 @@ namespace DIMS_Core.BusinessLayer.Services
             return await members.ToListAsync();
         }
 
-        public async Task<IEnumerable<MemberForTaskModel>> GetMembersForTaskAsync(int id)
+        public async Task<IEnumerable<MemberForTaskModel>> GetMembersForTask(int id)
         {
             var members = from u in unitOfWork.VUserProfileRepository.GetAll()
                          join ut_in in unitOfWork.UserTaskRepository.GetAll().Where(x => x.TaskId == id)
@@ -65,20 +65,20 @@ namespace DIMS_Core.BusinessLayer.Services
             return await members.ToListAsync();
         }
 
-        public async Task<TaskModel> GetTaskAsync(int id)
+        public async Task<TaskModel> GetTask(int id)
         {
             if (id <= 0)
             {
                 return null;
             }
 
-            var task = await unitOfWork.TaskRepository.GetByIdAsync(id);
+            var task = await unitOfWork.TaskRepository.GetById(id);
             var model = mapper.Map<TaskModel>(task);
 
             return model;
         }
 
-        public async Task CreateAsync(TaskModel model, List<MemberForTaskModel> members)
+        public async Task Create(TaskModel model, List<MemberForTaskModel> members)
         {
             if (model is null || model.TaskId != 0)
             {
@@ -86,9 +86,9 @@ namespace DIMS_Core.BusinessLayer.Services
             }
 
             var task = mapper.Map<TaskEntities>(model);
-            await unitOfWork.TaskRepository.CreateAsync(task);
+            await unitOfWork.TaskRepository.Create(task);
 
-            await unitOfWork.SaveAsync();
+            await unitOfWork.Save();
 
             if (members != null)
             {
@@ -104,22 +104,22 @@ namespace DIMS_Core.BusinessLayer.Services
                         };
 
                         var mappedUserTask = mapper.Map<UserTask>(userTask);
-                        await unitOfWork.UserTaskRepository.CreateAsync(mappedUserTask);
+                        await unitOfWork.UserTaskRepository.Create(mappedUserTask);
                     }
                 }
 
-                await unitOfWork.SaveAsync();
+                await unitOfWork.Save();
             }
         }
 
-        public async Task UpdateAsync(TaskModel model, List<MemberForTaskModel> members)
+        public async Task Update(TaskModel model, List<MemberForTaskModel> members)
         {
             if (model is null || model.TaskId <= 0)
             {
                 return;
             }
 
-            var task = await unitOfWork.TaskRepository.GetByIdAsync(model.TaskId);
+            var task = await unitOfWork.TaskRepository.GetById(model.TaskId);
 
             if (task is null)
             {
@@ -143,27 +143,27 @@ namespace DIMS_Core.BusinessLayer.Services
                         };
 
                         var mappedUserTask = mapper.Map<UserTask>(userTask);
-                        await unitOfWork.UserTaskRepository.CreateAsync(mappedUserTask);
+                        await unitOfWork.UserTaskRepository.Create(mappedUserTask);
                     }
                     else if (!member.Selected && member.UserTaskId > 0)
                     {
-                        await unitOfWork.UserTaskRepository.DeleteAsync(member.UserTaskId);
+                        await unitOfWork.UserTaskRepository.Delete(member.UserTaskId);
                     }
                 }
             }
 
-            await unitOfWork.SaveAsync();
+            await unitOfWork.Save();
         }
 
-        public async Task DeleteAsync(int id)
+        public async Task Delete(int id)
         {
             if (id <= 0)
             {
                 return;
             }
 
-            await unitOfWork.TaskRepository.DeleteAsync(id);
-            await unitOfWork.SaveAsync();
+            await unitOfWork.TaskRepository.Delete(id);
+            await unitOfWork.Save();
         }
 
     }
