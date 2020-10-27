@@ -14,7 +14,7 @@ namespace DIMS_Core.MappingProfiles
                     x => x.MapFrom(m => m.Name + " " + m.LastName));
             CreateMap<VUserProfileModel, MemberViewModel>().ReverseMap();
             CreateMap<UserProfileModel, AddMemberViewModel>().ReverseMap();
-            CreateMap<UserProfileModel, EditMemberViewModel>();
+            CreateMap<UserProfileModel, EditMemberViewModel>().ReverseMap();
         }
     }
 }
