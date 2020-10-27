@@ -35,12 +35,12 @@ namespace DIMS_Core.Tests.Repositories
         }
 
         [Test]
-        public void GetByIdAsync_GetItemByExistingId_ItemFound()
+        public async Task GetByIdAsync_GetItemByExistingId_ItemFound()
         {
             int getId = 1;
             const string returnTrackNote = "Create table UserProfile";
-            var result = repository.GetByIdAsync(getId);
-            Assert.That(returnTrackNote, Is.EqualTo(result.Result.TrackNote));
+            var result = await repository.GetByIdAsync(getId);
+            Assert.That(returnTrackNote, Is.EqualTo(result.TrackNote));
         }
 
         [Test]
