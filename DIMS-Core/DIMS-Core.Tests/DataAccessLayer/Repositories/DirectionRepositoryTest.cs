@@ -12,9 +12,10 @@ namespace DIMS_Core.Tests.Repositories
     [TestFixture]
     public class DirectionRepositoryTest : RepositoryTestBase
     {
-        private readonly DirectionRepository repository;
+        private DirectionRepository repository;
 
-        private DirectionRepositoryTest()
+        [OneTimeSetUp]
+        public void InitQuery()
         {
             repository = new DirectionRepository(Context);
         }
@@ -106,6 +107,12 @@ namespace DIMS_Core.Tests.Repositories
             int deleteId = 33;
             await repository.DeleteAsync(deleteId);
             Assert.That(repository.DeleteAsync(deleteId), Throws.Nothing);
+        }
+
+        [OneTimeTearDown]
+        public void ClearRepository()
+        {
+            repository.Dispose();
         }
     }
 }

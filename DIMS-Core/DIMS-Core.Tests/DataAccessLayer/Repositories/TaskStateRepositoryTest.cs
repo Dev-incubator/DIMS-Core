@@ -12,9 +12,10 @@ namespace DIMS_Core.Tests.Repositories
     [TestFixture]
     public class TaskStateRepositoryTest : RepositoryTestBase
     {
-        private readonly TaskStateRepository repository;
+        private TaskStateRepository repository;
 
-        private TaskStateRepositoryTest()
+        [OneTimeSetUp]
+        public void InitQuery()
         {
             repository = new TaskStateRepository(Context);
         }
@@ -105,6 +106,12 @@ namespace DIMS_Core.Tests.Repositories
             int deleteId = 33;
             await repository.DeleteAsync(deleteId);
             Assert.That(repository.DeleteAsync(deleteId), Throws.Nothing);
+        }
+
+        [OneTimeTearDown]
+        public void ClearRepository()
+        {
+            repository.Dispose();
         }
     }
 }

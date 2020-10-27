@@ -10,9 +10,10 @@ namespace DIMS_Core.Tests.Repositories
     [TestFixture]
     public class VTaskRepositoryTests : RepositoryTestBase
     {
-        private readonly VTaskRepository repository;
+        private VTaskRepository repository;
 
-        private VTaskRepositoryTests()
+        [OneTimeSetUp]
+        public void InitQuery()
         {
             repository = new VTaskRepository(Context);
         }
@@ -48,6 +49,12 @@ namespace DIMS_Core.Tests.Repositories
             int getId = -1;
             var result = await repository.GetByIdAsync(getId);
             Assert.That(result, Is.Null);
+        }
+
+        [OneTimeTearDown]
+        public void ClearRepository()
+        {
+            repository.Dispose();
         }
     }
 }

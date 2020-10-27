@@ -112,5 +112,11 @@ namespace DIMS_Core.Tests.Repositories
             await repository.DeleteAsync(deleteId);
             Assert.That(repository.DeleteAsync(deleteId), Throws.Nothing);
         }
+
+        [OneTimeTearDown]
+        public void ClearRepository()
+        {
+            repository.Dispose();
+        }
     }
 }
