@@ -132,7 +132,7 @@ namespace DIMS_Core.BusinessLayer.Services
                 StateId = 1
             };
 
-            var mappedUserTask = mapper.Map<UserTaskEntities>(userTask);
+            var mappedUserTask = mapper.Map<UserTaskEntity>(userTask);
             await unitOfWork.UserTaskRepository.Create(mappedUserTask);
         }
 
