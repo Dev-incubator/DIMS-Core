@@ -1,19 +1,13 @@
 ﻿using AutoMapper;
-using DIMS_Core.BusinessLayer.Interfaces;
-using DIMS_Core.DataAccessLayer.Filters;
-using DIMS_Core.DataAccessLayer.Interfaces;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Internal;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using TaskModel = DIMS_Core.BusinessLayer.Models.Task.TaskModel;
-using MemberForTaskModel = DIMS_Core.BusinessLayer.Models.Task.MemberForTaskModel;
-using TaskEntities = DIMS_Core.DataAccessLayer.Entities.Task;
-using UserTask = DIMS_Core.DataAccessLayer.Entities.UserTask;
-using System.Linq;
-using System.Linq.Dynamic.Core;
+using DIMS_Core.BusinessLayer.Interfaces;
+using DIMS_Core.DataAccessLayer.Interfaces;
+using DIMS_Core.BusinessLayer.Models.Task;
 using DIMS_Core.BusinessLayer.Models.UserTask;
-using Org.BouncyCastle.Bcpg;
+using TaskEntity = DIMS_Core.DataAccessLayer.Entities.Task;
+using UserTaskEntity = DIMS_Core.DataAccessLayer.Entities.UserTask;
 
 namespace DIMS_Core.BusinessLayer.Services
 {
@@ -56,7 +50,7 @@ namespace DIMS_Core.BusinessLayer.Services
                 return;
             }
 
-            var task = mapper.Map<TaskEntities>(model);
+            var task = mapper.Map<TaskEntity>(model);
             await unitOfWork.TaskRepository.Create(task);
 
             await unitOfWork.Save();
@@ -74,7 +68,7 @@ namespace DIMS_Core.BusinessLayer.Services
                             StateId = 1,
                         };
 
-                        var mappedUserTask = mapper.Map<UserTask>(userTask);
+                        var mappedUserTask = mapper.Map<UserTaskEntity>(userTask);
                         await unitOfWork.UserTaskRepository.Create(mappedUserTask);
                     }
                 }
@@ -138,7 +132,7 @@ namespace DIMS_Core.BusinessLayer.Services
                 StateId = 1
             };
 
-            var mappedUserTask = mapper.Map<UserTask>(userTask);
+            var mappedUserTask = mapper.Map<UserTaskEntities>(userTask);
             await unitOfWork.UserTaskRepository.Create(mappedUserTask);
         }
 

@@ -1,12 +1,10 @@
-﻿using DIMS_Core.DataAccessLayer.Entities;
+﻿using TaskEntity = DIMS_Core.DataAccessLayer.Entities.Task;
 using System.Threading.Tasks;
-using TaskEntities = DIMS_Core.DataAccessLayer.Entities.Task;
-
 
 namespace DIMS_Core.DataAccessLayer.Interfaces
 {
-    public interface ITaskRepository : IRepository<TaskEntities>
+    public interface ITaskRepository : IRepository<TaskEntity>
     {
-        Task<TaskEntities> GetWithIncludeById(int id);
+        Task<TaskEntity> GetWithIncludeById(int id);
     }
 }

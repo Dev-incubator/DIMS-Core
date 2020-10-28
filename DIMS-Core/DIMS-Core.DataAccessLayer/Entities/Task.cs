@@ -7,7 +7,7 @@ namespace DIMS_Core.DataAccessLayer.Entities
     {
         public Task()
         {
-            UserTask = new List<UserTask>();
+            UserTask = new HashSet<UserTask>();
         }
 
         public int TaskId { get; set; }
