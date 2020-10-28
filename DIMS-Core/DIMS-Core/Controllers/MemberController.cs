@@ -16,10 +16,12 @@ namespace DIMS_Core.Controllers
         private readonly IMemberService memberService;
         private readonly IMapper mapper;
         private readonly IDirectionService directionService;
+        private readonly IUserService userService;
 
         public MemberController(IMemberService memberService,
                                 IDirectionService directionService,
-                                IMapper mapper)
+                                IMapper mapper,
+                                IUserService userService)
         {
             this.memberService = memberService;
             this.directionService = directionService;
