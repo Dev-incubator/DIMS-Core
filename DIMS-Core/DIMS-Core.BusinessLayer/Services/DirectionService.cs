@@ -31,9 +31,9 @@ namespace DIMS_Core.BusinessLayer.Services
 
             var entity = mapper.Map<Direction>(model);
 
-            await unitOfWork.DirectionRepository.CreateAsync(entity);
+            await unitOfWork.DirectionRepository.Create(entity);
 
-            await unitOfWork.SaveAsync();
+            await unitOfWork.Save();
         }
 
         public async TaskThread Delete(int id)
@@ -43,9 +43,9 @@ namespace DIMS_Core.BusinessLayer.Services
                 return;
             }
 
-            await unitOfWork.DirectionRepository.DeleteAsync(id);
+            await unitOfWork.DirectionRepository.Delete(id);
 
-            await unitOfWork.SaveAsync();
+            await unitOfWork.Save();
         }
 
         public async Task<IEnumerable<DirectionModel>> GetAll()
@@ -63,7 +63,7 @@ namespace DIMS_Core.BusinessLayer.Services
                 return null;
             }
 
-            var entity = await unitOfWork.DirectionRepository.GetByIdAsync(id);
+            var entity = await unitOfWork.DirectionRepository.GetById(id);
             var model = mapper.Map<DirectionModel>(entity);
 
             return model;
@@ -76,7 +76,7 @@ namespace DIMS_Core.BusinessLayer.Services
                 return;
             }
 
-            var entity = await unitOfWork.DirectionRepository.GetByIdAsync(model.DirectionId);
+            var entity = await unitOfWork.DirectionRepository.GetById(model.DirectionId);
 
             if (entity is null)
             {
@@ -87,7 +87,7 @@ namespace DIMS_Core.BusinessLayer.Services
 
             unitOfWork.DirectionRepository.Update(mappedEntity);
 
-            await unitOfWork.SaveAsync();
+            await unitOfWork.Save();
         }
     }
 }
