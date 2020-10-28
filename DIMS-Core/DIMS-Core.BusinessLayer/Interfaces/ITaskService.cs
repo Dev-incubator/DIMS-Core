@@ -11,10 +11,6 @@ namespace DIMS_Core.BusinessLayer.Interfaces
     {
         Task<IEnumerable<TaskModel>> Search();
 
-        Task<IEnumerable<MemberForTaskModel>> GetMembers();
-
-        Task<IEnumerable<MemberForTaskModel>> GetMembersForTask(int id);
-
         Task<TaskModel> GetTask(int id);
 
         Task Create(TaskModel model, List<MemberForTaskModel> members);

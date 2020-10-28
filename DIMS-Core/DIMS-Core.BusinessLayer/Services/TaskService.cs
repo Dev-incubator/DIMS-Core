@@ -13,6 +13,7 @@ using UserTask = DIMS_Core.DataAccessLayer.Entities.UserTask;
 using System.Linq;
 using System.Linq.Dynamic.Core;
 using DIMS_Core.BusinessLayer.Models.UserTask;
+using Org.BouncyCastle.Bcpg;
 
 namespace DIMS_Core.BusinessLayer.Services
 {
@@ -29,40 +30,10 @@ namespace DIMS_Core.BusinessLayer.Services
 
         public async Task<IEnumerable<TaskModel>> Search()
         {
-            var vTasks = unitOfWork.VTaskRepository.Search();
-            var mappedQuery = mapper.ProjectTo<TaskModel>(vTasks);
+            var tasks = unitOfWork.TaskRepository.GetAll();
+            var mappedQuery = mapper.ProjectTo<TaskModel>(tasks);
 
             return await mappedQuery.ToListAsync();
-        }
-
-        public async Task<IEnumerable<MemberForTaskModel>> GetMembers()
-        {
-            var members = from u in unitOfWork.VUserProfileRepository.GetAll()
-                        select new MemberForTaskModel()
-                        {
-                            UserTaskId = 0,
-                            UserId = u.UserId,
-                            FullName = u.FullName
-                        };
-
-            return await members.ToListAsync();
-        }
-
-        public async Task<IEnumerable<MemberForTaskModel>> GetMembersForTask(int id)
-        {
-            var members = from u in unitOfWork.VUserProfileRepository.GetAll()
-                         join ut_in in unitOfWork.UserTaskRepository.GetAll().Where(x => x.TaskId == id)
-                         on u.UserId equals ut_in.UserId into ut_out
-                         from ut in ut_out.DefaultIfEmpty()
-                         select new MemberForTaskModel()
-                         {
-                             UserTaskId = ut != null ? ut.UserTaskId : 0,
-                             Selected = ut != null,
-                             UserId = u.UserId,
-                             FullName = u.FullName,
-                         };
-
-            return await members.ToListAsync();
         }
 
         public async Task<TaskModel> GetTask(int id)
@@ -72,7 +43,7 @@ namespace DIMS_Core.BusinessLayer.Services
                 return null;
             }
 
-            var task = await unitOfWork.TaskRepository.GetById(id);
+            var task = await unitOfWork.TaskRepository.GetWithIncludeById(id);
             var model = mapper.Map<TaskModel>(task);
 
             return model;
@@ -135,19 +106,11 @@ namespace DIMS_Core.BusinessLayer.Services
                 {
                     if (member.Selected && member.UserTaskId == 0)
                     {
-                        var userTask = new UserTaskModel()
-                        {
-                            TaskId = model.TaskId,
-                            UserId = member.UserId,
-                            StateId = 1
-                        };
-
-                        var mappedUserTask = mapper.Map<UserTask>(userTask);
-                        await unitOfWork.UserTaskRepository.Create(mappedUserTask);
+                        await CreateUserTask(model.TaskId, member.UserId);
                     }
                     else if (!member.Selected && member.UserTaskId > 0)
                     {
-                        await unitOfWork.UserTaskRepository.Delete(member.UserTaskId);
+                        await DeleteUserTask(member.UserTaskId);
                     }
                 }
             }
@@ -164,6 +127,24 @@ namespace DIMS_Core.BusinessLayer.Services
 
             await unitOfWork.TaskRepository.Delete(id);
             await unitOfWork.Save();
+        }
+
+        private async Task CreateUserTask(int taskId, int userId)
+        {
+            var userTask = new UserTaskModel()
+            {
+                TaskId = taskId,
+                UserId = userId,
+                StateId = 1
+            };
+
+            var mappedUserTask = mapper.Map<UserTask>(userTask);
+            await unitOfWork.UserTaskRepository.Create(mappedUserTask);
+        }
+
+        private async Task DeleteUserTask(int userTaskId)
+        {
+            await unitOfWork.UserTaskRepository.Delete(userTaskId);
         }
 
     }

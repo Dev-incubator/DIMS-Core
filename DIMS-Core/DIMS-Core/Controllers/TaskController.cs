@@ -1,12 +1,9 @@
 ﻿using AutoMapper;
 using DIMS_Core.BusinessLayer.Interfaces;
 using DIMS_Core.BusinessLayer.Models.Task;
-using DIMS_Core.BusinessLayer.Models.UserTask;
-using DIMS_Core.DataAccessLayer.Filters;
-using DIMS_Core.Models.Member;
+using DIMS_Core.Helpers;
 using DIMS_Core.Models.Task;
 using Microsoft.AspNetCore.Mvc;
-using Org.BouncyCastle.Math.EC.Rfc7748;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,11 +15,13 @@ namespace DIMS_Core.Controllers
     public class TaskController : Controller
     {
         private readonly ITaskService taskService;
+        private readonly IMemberService memberService;
         private readonly IMapper mapper;
 
-        public TaskController(ITaskService taskService, IMapper mapper)
+        public TaskController(ITaskService taskService, IMemberService memberService, IMapper mapper)
         {
             this.taskService = taskService;
+            this.memberService = memberService;
             this.mapper = mapper;
         }
 
@@ -44,10 +43,8 @@ namespace DIMS_Core.Controllers
             }
 
             var task = await taskService.GetTask(id);
-            var members = await taskService.GetMembersForTask(id);
-
             var model = mapper.Map<TaskWithMembersViewModel>(task);
-            model.Members = mapper.Map<List<MemberForTaskViewModel>>(members.Where(x => x.Selected));
+            model.Members.GetMembersForTask(task.UserTask);
 
             return View(model);
         }
@@ -55,13 +52,8 @@ namespace DIMS_Core.Controllers
         [HttpGet("create")]
         public async Task<IActionResult> Create()
         {
-            var members = await taskService.GetMembers();
-
-            var model = new TaskWithMembersViewModel(){
-                StartDate = DateTime.Now,
-                DeadlineDate = DateTime.Now,
-                Members = mapper.Map<List<MemberForTaskViewModel>>(members)
-            };
+            var allMembers = mapper.Map<List<MemberForTaskModel>>(await memberService.Search());
+            var model = new TaskWithMembersViewModel(allMembers);
 
             return View(model);
         }
@@ -76,9 +68,8 @@ namespace DIMS_Core.Controllers
             }
 
             var task = mapper.Map<TaskModel>(model);
-            var members = mapper.Map<List<MemberForTaskModel>>(model.Members);
-
-            await taskService.Create(task, members);
+            var allMembers = mapper.Map<List<MemberForTaskModel>>(model.Members);
+            await taskService.Create(task, allMembers);
 
             return RedirectToAction("Index");
         }
@@ -92,10 +83,9 @@ namespace DIMS_Core.Controllers
             }
 
             var task = await taskService.GetTask(id);
-            var members = await taskService.GetMembersForTask(id);
-
             var model = mapper.Map<TaskWithMembersViewModel>(task);
-            model.Members = mapper.Map<List<MemberForTaskViewModel>>(members);
+            model.Members = mapper.Map<List<MemberForTaskModel>>(await memberService.Search()); 
+            model.Members.MarkSelectedMembersForTask(task.UserTask);
 
             return View(model);
         }
@@ -116,9 +106,8 @@ namespace DIMS_Core.Controllers
             }
 
             var task = mapper.Map<TaskModel>(model);
-            var members = mapper.Map<List<MemberForTaskModel>>(model.Members);
-
-            await taskService.Update(task, members);
+            var allMembers = mapper.Map<List<MemberForTaskModel>>(model.Members);
+            await taskService.Update(task, allMembers);
 
             return RedirectToAction("Index");
         }
@@ -133,10 +122,8 @@ namespace DIMS_Core.Controllers
             }
 
             var task = await taskService.GetTask(id);
-            var members = await taskService.GetMembersForTask(id);
-
             var model = mapper.Map<TaskWithMembersViewModel>(task);
-            model.Members = mapper.Map<List<MemberForTaskViewModel>>(members.Where(x => x.Selected));
+            model.Members.GetMembersForTask(task.UserTask);
 
             return View(model);
         }
