@@ -5,7 +5,6 @@ using System.Threading.Tasks;
 using DIMS_Core.BusinessLayer.Interfaces;
 using DIMS_Core.DataAccessLayer.Interfaces;
 using DIMS_Core.BusinessLayer.Models.Task;
-using DIMS_Core.BusinessLayer.Models.UserTask;
 using TaskEntity = DIMS_Core.DataAccessLayer.Entities.Task;
 using UserTaskEntity = DIMS_Core.DataAccessLayer.Entities.UserTask;
 
@@ -61,15 +60,14 @@ namespace DIMS_Core.BusinessLayer.Services
                 {
                     if (member.Selected)
                     {
-                        var userTask = new UserTaskModel()
+                        var userTask = new UserTaskEntity()
                         {
                             TaskId = task.TaskId,
                             UserId = member.UserId,
                             StateId = 1,
                         };
 
-                        var mappedUserTask = mapper.Map<UserTaskEntity>(userTask);
-                        await unitOfWork.UserTaskRepository.Create(mappedUserTask);
+                        await unitOfWork.UserTaskRepository.Create(userTask);
                     }
                 }
 
@@ -125,15 +123,14 @@ namespace DIMS_Core.BusinessLayer.Services
 
         private async Task CreateUserTask(int taskId, int userId)
         {
-            var userTask = new UserTaskModel()
+            var userTask = new UserTaskEntity()
             {
                 TaskId = taskId,
                 UserId = userId,
                 StateId = 1
             };
 
-            var mappedUserTask = mapper.Map<UserTaskEntity>(userTask);
-            await unitOfWork.UserTaskRepository.Create(mappedUserTask);
+            await unitOfWork.UserTaskRepository.Create(userTask);
         }
 
         private async Task DeleteUserTask(int userTaskId)
