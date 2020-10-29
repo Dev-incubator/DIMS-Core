@@ -28,9 +28,9 @@ namespace DIMS_Core.BusinessLayer.Services
 
         public async Task<IdentityResult> SignUp(SignUpModel model)
         {
-            var mappedEntity = mapper.Map<User>(model);
+            var user = mapper.Map<User>(model);
 
-            var result = await unitOfWork.UserManager.CreateAsync(mappedEntity, model.Password);
+            var result = await unitOfWork.UserManager.CreateAsync(user, model.Password);
 
             return result;
         }

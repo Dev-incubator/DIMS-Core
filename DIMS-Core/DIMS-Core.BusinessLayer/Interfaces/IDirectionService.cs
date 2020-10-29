@@ -10,7 +10,7 @@ namespace DIMS_Core.BusinessLayer.Interfaces
     {
         Task<IEnumerable<DirectionModel>> GetAll();
 
-        Task<DirectionModel> GetMember(int id);
+        Task<DirectionModel> GetDirection(int id);
 
         Task Create(DirectionModel model);
 
