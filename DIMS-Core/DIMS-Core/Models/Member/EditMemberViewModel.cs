@@ -17,6 +17,8 @@ namespace DIMS_Core.Models.Member
         [Required(ErrorMessage = "LastName is required")]
         public string LastName { get; set; }
         [Required(ErrorMessage = "Email is required")]
+        [EmailAddress]
+        [DataType(DataType.EmailAddress)]
         public string Email { get; set; }
         [Required(ErrorMessage = "Sex is required")]
         public Sex Sex { get; set; }
