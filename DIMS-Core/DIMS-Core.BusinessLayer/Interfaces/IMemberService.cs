@@ -9,7 +9,7 @@ namespace DIMS_Core.BusinessLayer.Interfaces
 {
     public interface IMemberService
     {
-        Task<IEnumerable<VUserProfileModel>> Search();
+        Task<IEnumerable<VUserProfileModel>> GetAll();
 
         Task<UserProfileModel> GetMember(int id);
 

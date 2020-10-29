@@ -29,9 +29,9 @@ namespace DIMS_Core.BusinessLayer.Services
                 return;
             }
 
-            var entity = mapper.Map<Direction>(model);
+            var direction = mapper.Map<Direction>(model);
 
-            await unitOfWork.DirectionRepository.Create(entity);
+            await unitOfWork.DirectionRepository.Create(direction);
 
             await unitOfWork.Save();
         }
@@ -50,23 +50,23 @@ namespace DIMS_Core.BusinessLayer.Services
 
         public async Task<IEnumerable<DirectionModel>> GetAll()
         {
-            var query = unitOfWork.DirectionRepository.GetAll();
-            var mappedQuery = mapper.ProjectTo<DirectionModel>(query);
+            var directions = unitOfWork.DirectionRepository.GetAll();
+            var directionModels = mapper.ProjectTo<DirectionModel>(directions);
 
-            return await mappedQuery.ToListAsync();
+            return await directionModels.ToListAsync();
         }
 
-        public async Task<DirectionModel> GetMember(int id)
+        public async Task<DirectionModel> GetDirection(int id)
         {
             if (id <= 0)
             {
                 return null;
             }
 
-            var entity = await unitOfWork.DirectionRepository.GetById(id);
-            var model = mapper.Map<DirectionModel>(entity);
+            var direction = await unitOfWork.DirectionRepository.GetById(id);
+            var directionModel = mapper.Map<DirectionModel>(direction);
 
-            return model;
+            return directionModel;
         }
 
         public async TaskThread Update(DirectionModel model)
@@ -76,16 +76,16 @@ namespace DIMS_Core.BusinessLayer.Services
                 return;
             }
 
-            var entity = await unitOfWork.DirectionRepository.GetById(model.DirectionId);
+            var direction = await unitOfWork.DirectionRepository.GetById(model.DirectionId);
 
-            if (entity is null)
+            if (direction is null)
             {
                 return;
             }
 
-            var mappedEntity = mapper.Map(model, entity);
+            var mappedDirection = mapper.Map(model, direction);
 
-            unitOfWork.DirectionRepository.Update(mappedEntity);
+            unitOfWork.DirectionRepository.Update(mappedDirection);
 
             await unitOfWork.Save();
         }
