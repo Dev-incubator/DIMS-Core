@@ -16,6 +16,8 @@ namespace DIMS_Core.Models.Member
         [Required(ErrorMessage = "LastName is required")]
         public string LastName { get; set; }
         [Required(ErrorMessage = "Email is required")]
+        [EmailAddress]
+        [DataType(DataType.EmailAddress)]
         public string Email { get; set; }
         [Required(ErrorMessage = "Sex is required")]
         public Sex Sex { get; set; }
@@ -27,7 +29,12 @@ namespace DIMS_Core.Models.Member
         public string MobilePhone { get; set; }
         public string Skype { get; set; }
         public DateTime? StartDate { get; set; }
+        [MinLength(5)]
+        [DataType(DataType.Password)]
         public string Password { get; set; }
+        [Compare("Password")]
+        [DataType(DataType.Password)]
+        [MinLength(5)]
         public string ConfirmPassword { get; set; }
     }
 }
