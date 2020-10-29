@@ -9,6 +9,6 @@ namespace DIMS_Core.DataAccessLayer.Interfaces
 {
     public interface IUserTaskRepository : IRepository<UserTask>
     {
-        IQueryable<UserTask> Search(UserTaskFilter filter);
+
     }
 }

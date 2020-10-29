@@ -26,7 +26,7 @@ namespace DIMS_Core.BusinessLayer.Services
 
         public async Task<IEnumerable<VUserProfileModel>> Search()
         {
-            var query = unitOfWork.VUserProfileRepository.Search();
+            var query = unitOfWork.VUserProfileRepository.GetAll();
             var mappedQuery = mapper.ProjectTo<VUserProfileModel>(query);
 
             return await mappedQuery.ToListAsync();
