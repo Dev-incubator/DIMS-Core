@@ -44,7 +44,7 @@ namespace DIMS_Core.Controllers
 
             var task = await taskService.GetTask(id);
             var model = mapper.Map<TaskWithMembersViewModel>(task);
-            model.Members.GetMembersForTask(task.UserTask);
+            model.Members.GetMembersForTask(task.UserTask);                                         // Get list of members who participates in this task  
 
             return View(model);
         }
@@ -52,7 +52,7 @@ namespace DIMS_Core.Controllers
         [HttpGet("create")]
         public async Task<IActionResult> Create()
         {
-            var allMembers = mapper.Map<List<MemberForTaskModel>>(await memberService.Search());
+            var allMembers = mapper.Map<List<MemberForTaskModel>>(await memberService.Search());    // Get list of all members
             var model = new TaskWithMembersViewModel(allMembers);
 
             return View(model);
@@ -68,7 +68,7 @@ namespace DIMS_Core.Controllers
             }
 
             var task = mapper.Map<TaskModel>(model);
-            await taskService.Create(task, model.Members);
+            await taskService.Create(task, AllMembers: model.Members);
 
             return RedirectToAction("Index");
         }
@@ -83,8 +83,8 @@ namespace DIMS_Core.Controllers
 
             var task = await taskService.GetTask(id);
             var model = mapper.Map<TaskWithMembersViewModel>(task);
-            model.Members = mapper.Map<List<MemberForTaskModel>>(await memberService.Search()); 
-            model.Members.MarkSelectedMembersForTask(task.UserTask);
+            model.Members = mapper.Map<List<MemberForTaskModel>>(await memberService.Search());     // Get list of all members
+            model.Members.MarkSelectedMembersForTask(task.UserTask);                                // Mark members who participates in this task
 
             return View(model);
         }
@@ -105,7 +105,7 @@ namespace DIMS_Core.Controllers
             }
 
             var task = mapper.Map<TaskModel>(model);
-            await taskService.Update(task, model.Members);
+            await taskService.Update(task, AllMembers: model.Members);
 
             return RedirectToAction("Index");
         }
@@ -121,7 +121,7 @@ namespace DIMS_Core.Controllers
 
             var task = await taskService.GetTask(id);
             var model = mapper.Map<TaskWithMembersViewModel>(task);
-            model.Members.GetMembersForTask(task.UserTask);
+            model.Members.GetMembersForTask(task.UserTask);                                         // Get list of members who participates in this task  
 
             return View(model);
         }
