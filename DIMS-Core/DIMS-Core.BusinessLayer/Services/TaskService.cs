@@ -20,7 +20,7 @@ namespace DIMS_Core.BusinessLayer.Services
             this.mapper = mapper;
         }
 
-        public async Task<IEnumerable<TaskModel>> SearchAsync()
+        public async Task<IEnumerable<TaskModel>> GetAll()
         {
             var query = unitOfWork.VTaskRepository.Search();
             var mappedQuery = mapper.ProjectTo<TaskModel>(query);
@@ -28,20 +28,20 @@ namespace DIMS_Core.BusinessLayer.Services
             return await mappedQuery.ToListAsync();
         }
 
-        public async Task<TaskModel> GetTaskAsync(int id)
+        public async Task<TaskModel> GetTask(int id)
         {
             if (id <= 0)
             {
                 return null;
             }
 
-            var entity = await unitOfWork.TaskRepository.GetByIdAsync(id);
+            var entity = await unitOfWork.TaskRepository.GetById(id);
             var model = mapper.Map<TaskModel>(entity);
 
             return model;
         }
 
-        public async Task CreateAsync(TaskModel model)
+        public async Task Create(TaskModel model)
         {
             if (model is null || model.TaskId != 0)
             {
@@ -50,19 +50,19 @@ namespace DIMS_Core.BusinessLayer.Services
 
             var entity = mapper.Map<TaskEntities>(model);
 
-            await unitOfWork.TaskRepository.CreateAsync(entity);
+            await unitOfWork.TaskRepository.Create(entity);
 
-            await unitOfWork.SaveAsync();
+            await unitOfWork.Save();
         }
 
-        public async Task UpdateAsync(TaskModel model)
+        public async Task Update(TaskModel model)
         {
             if (model is null || model.TaskId <= 0)
             {
                 return;
             }
 
-            var entity = await unitOfWork.TaskRepository.GetByIdAsync(model.TaskId);
+            var entity = await unitOfWork.TaskRepository.GetById(model.TaskId);
 
             if (entity is null)
             {
@@ -73,19 +73,19 @@ namespace DIMS_Core.BusinessLayer.Services
 
             unitOfWork.TaskRepository.Update(mappedEntity);
 
-            await unitOfWork.SaveAsync();
+            await unitOfWork.Save();
         }
 
-        public async Task DeleteAsync(int id)
+        public async Task Delete(int id)
         {
             if (id <= 0)
             {
                 return;
             }
 
-            await unitOfWork.TaskRepository.DeleteAsync(id);
+            await unitOfWork.TaskRepository.Delete(id);
 
-            await unitOfWork.SaveAsync();
+            await unitOfWork.Save();
         }
 
     }
