@@ -9,7 +9,7 @@ namespace DIMS_Core.BusinessLayer.Interfaces
 {
     public interface ITaskService
     {
-        Task<IEnumerable<TaskModel>> Search();
+        Task<IEnumerable<TaskModel>> GetAll();
 
         Task<TaskModel> GetTask(int id);
 

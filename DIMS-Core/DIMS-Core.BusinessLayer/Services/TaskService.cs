@@ -21,7 +21,7 @@ namespace DIMS_Core.BusinessLayer.Services
             this.mapper = mapper;
         }
 
-        public async Task<IEnumerable<TaskModel>> Search()
+        public async Task<IEnumerable<TaskModel>> GetAll()
         {
             var tasks = unitOfWork.TaskRepository.GetAll();
             var mappedQuery = mapper.ProjectTo<TaskModel>(tasks);
