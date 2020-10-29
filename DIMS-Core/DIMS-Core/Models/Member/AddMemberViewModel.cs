@@ -27,5 +27,7 @@ namespace DIMS_Core.Models.Member
         public string MobilePhone { get; set; }
         public string Skype { get; set; }
         public DateTime? StartDate { get; set; }
+        public string Password { get; set; }
+        public string ConfirmPassword { get; set; }
     }
 }
