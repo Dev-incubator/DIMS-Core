@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using DIMS_Core.BusinessLayer.Interfaces;
 using DIMS_Core.DataAccessLayer.Interfaces;
 using DIMS_Core.BusinessLayer.Models.TaskTracks;
+using System.Linq;
 
 namespace DIMS_Core.BusinessLayer.Services
 {
@@ -19,9 +20,9 @@ namespace DIMS_Core.BusinessLayer.Services
             this.mapper = mapper;
         }
 
-        public async Task<IEnumerable<VUserTrackModel>> GetAll()
+        public async Task<IEnumerable<VUserTrackModel>> GetAllForMember(int userId)
         {
-            var taskTracks = unitOfWork.VUserTrackRepository.GetAll();
+            var taskTracks = unitOfWork.VUserTrackRepository.GetAll().Where(x => x.UserId == userId);
             var mappedQuery = mapper.ProjectTo<VUserTrackModel>(taskTracks);
 
             return await mappedQuery.ToListAsync();

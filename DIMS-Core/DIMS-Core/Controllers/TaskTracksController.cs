@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using DIMS_Core.BusinessLayer.Interfaces;
 using DIMS_Core.Models.TaskTracks;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -22,7 +23,10 @@ namespace DIMS_Core.Controllers
         [HttpGet("")]
         public async Task<IActionResult> Index()
         {
-            var searchResult = await taskTracksService.GetAll();
+            // To Do - Get the id of the current user
+            int userId = 3;
+
+            var searchResult = await taskTracksService.GetAllForMember(UserId: userId);
             var model = mapper.Map<IEnumerable<TaskTracksViewModel>>(searchResult);
 
             return View(model);
