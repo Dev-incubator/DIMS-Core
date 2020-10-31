@@ -29,6 +29,22 @@ namespace DIMS_Core.Controllers
             return View(model);
         }
 
+        [HttpGet("details/{id}")]
+        public async Task<IActionResult> Details(int id, string back = null)
+        {
+            if (id <= 0)
+            {
+                return BadRequest();
+            }
+
+            var task = await taskService.GetTask(id);
+            var model = mapper.Map<TaskWithMembersViewModel>(task);
+            model.Members.GetMembersForTask(task.UserTask);                                         // Get list of members who participates in this task  
+
+            ViewBag.backController = back;
+            return View(model);
+        }
+
         [HttpGet("create")]
         public IActionResult Create()
         {
@@ -46,7 +62,43 @@ namespace DIMS_Core.Controllers
 
             var dto = mapper.Map<TaskModel>(model);
 
-            await taskService.CreateAsync(dto);
+            return RedirectToAction("Index");
+        }
+
+        [HttpGet("edit/{id}")]
+        public async Task<IActionResult> Edit(int id, string back = null)
+        {
+            if (id <= 0)
+            {
+                return BadRequest();
+            }
+
+            var task = await taskService.GetTask(id);
+            var model = mapper.Map<TaskWithMembersViewModel>(task);
+            model.Members = mapper.Map<List<MemberForTaskModel>>(await memberService.Search());     // Get list of all members
+            model.Members.MarkSelectedMembersForTask(task.UserTask);                                // Mark members who participates in this task
+
+            ViewBag.backController = back;
+            return View(model);
+        }
+
+        [HttpPost("edit")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Edit([FromForm] TaskWithMembersViewModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
+
+            if (model.TaskId <= 0)
+            {
+                ModelState.AddModelError("", "Incorrect identifier.");
+                return View(model);
+            }
+
+            var task = mapper.Map<TaskModel>(model);
+            await taskService.Update(task, AllMembers: model.Members);
 
             return RedirectToAction("Index");
         }
