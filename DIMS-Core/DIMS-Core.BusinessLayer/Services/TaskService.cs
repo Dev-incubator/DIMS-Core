@@ -100,7 +100,7 @@ namespace DIMS_Core.BusinessLayer.Services
                     {
                         await CreateUserTask(model.TaskId, member.UserId);
                     }
-                    else if (!member.Selected && member.UserTaskId > 0)
+                    else if (!member.Selected && member.UserTaskId != 0)
                     {
                         await DeleteUserTask(member.UserTaskId);
                     }
