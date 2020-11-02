@@ -10,11 +10,7 @@ namespace DIMS_Core.Helpers
         public static HtmlString CreateMembersList(this IHtmlHelper html, List<MemberForTaskModel> members)
         {
             string result = "<div class=\"form-control checkbox-list\">\n";
-            if (members is null || members.Count == 0)
-            {
-
-            }
-            else
+            if (members != null && members.Count > 0)
             {
                 for (int i = 0; i < members.Count; i++)
                 {
