@@ -68,7 +68,7 @@ namespace DIMS_Core.Controllers
             }
 
             var task = mapper.Map<TaskModel>(model);
-            await taskService.Create(task, AllMembers: model.Members);
+            await taskService.Create(task, allMembers: model.Members);
 
             return RedirectToAction("Index");
         }
@@ -105,7 +105,7 @@ namespace DIMS_Core.Controllers
             }
 
             var task = mapper.Map<TaskModel>(model);
-            await taskService.Update(task, AllMembers: model.Members);
+            await taskService.Update(task, allMembers: model.Members);
 
             return RedirectToAction("Index");
         }
