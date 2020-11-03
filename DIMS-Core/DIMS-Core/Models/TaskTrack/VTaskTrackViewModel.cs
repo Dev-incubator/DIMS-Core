@@ -1,9 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
 
-namespace DIMS_Core.BusinessLayer.Models.TaskTracks
+namespace DIMS_Core.Models.TaskTrack
 {
-    public class VUserTrackModel
+    public class VTaskTrackViewModel
     {
         public int UserId { get; set; }
         public int TaskId { get; set; }
