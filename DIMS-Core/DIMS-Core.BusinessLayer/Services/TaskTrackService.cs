@@ -31,6 +31,22 @@ namespace DIMS_Core.BusinessLayer.Services
             return await mappedQuery.ToListAsync();
         }
 
+        public VTaskTrackModel GetVTaskTrack(int id)
+        {
+            if (id <= 0)
+            {
+                return null;
+            }
+
+            var entity = unitOfWork.VUserTrackRepository.GetAll()
+                .Where(vUserTrack => vUserTrack.TaskTrackId == id)
+                .FirstOrDefault();
+
+            var model = mapper.Map<VTaskTrackModel>(entity);
+
+            return model;
+        }
+
         public async Task Create(TaskTrackModel model)
         {
             if (model is null || model.TaskTrackId != 0)
@@ -42,7 +58,19 @@ namespace DIMS_Core.BusinessLayer.Services
 
             await unitOfWork.TaskTrackRepository.Create(entity);
 
-            await unitOfWork.SaveAsync();
+            await unitOfWork.Save();
+        }
+
+        public async Task Delete(int id)
+        {
+            if (id <= 0)
+            {
+                return;
+            }
+
+            await unitOfWork.TaskTrackRepository.Delete(id);
+
+            await unitOfWork.Save();
         }
     }
 }
