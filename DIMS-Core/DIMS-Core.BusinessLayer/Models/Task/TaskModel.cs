@@ -12,6 +12,6 @@ namespace DIMS_Core.BusinessLayer.Models.Task
         public DateTime StartDate { get; set; }
         public DateTime DeadlineDate { get; set; }
 
-        public virtual ICollection<UserTaskModel> UserTask { get; set; }
+        public ICollection<UserTaskModel> UserTask { get; set; }
     }
 }
