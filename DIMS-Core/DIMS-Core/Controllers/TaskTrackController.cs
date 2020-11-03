@@ -13,13 +13,13 @@ namespace DIMS_Core.Controllers
     [Route("task-tracks")]
     public class TaskTrackController : Controller
     {
-        private readonly ITaskTrackService taskTracksService;
+        private readonly ITaskTrackService taskTrackService;
         private readonly IUserTaskService userTaskService;
         private readonly IMapper mapper;
 
-        public TaskTrackController(ITaskTrackService taskTracksService, IUserTaskService userTaskService, IMapper mapper)
+        public TaskTrackController(ITaskTrackService taskTrackService, IUserTaskService userTaskService, IMapper mapper)
         {
-            this.taskTracksService = taskTracksService;
+            this.taskTrackService = taskTrackService;
             this.userTaskService = userTaskService;
             this.mapper = mapper;
         }
@@ -30,8 +30,8 @@ namespace DIMS_Core.Controllers
             // To Do - Get the id of the current user
             int userId = 3;
 
-            var searchResult = await taskTracksService.GetAllForMember(UserId: userId);
-            var model = mapper.Map<IEnumerable<VTaskTrackViewModel>>(searchResult);
+            var taskTracks = await taskTrackService.GetAllForMember(UserId: userId);
+            var model = mapper.Map<IEnumerable<VTaskTrackViewModel>>(taskTracks);
 
             return View(model);
         }
@@ -43,11 +43,8 @@ namespace DIMS_Core.Controllers
             int userId = 3;
 
             ViewBag.BackController = back;
-            if (userTaskId == 0)
-            {
-                var userTasks = await userTaskService.GetAllForMember(UserId: userId);
-                ViewBag.SelectListUserTasks = new SelectList(userTasks, "UserTaskId", "Task.Name");
-            }
+            var userTasks = await userTaskService.GetAllForMember(UserId: userId);
+            ViewBag.SelectListUserTasks = new SelectList(userTasks, "UserTaskId", "Task.Name");
 
             var model = new TaskTrackViewModel
             {
