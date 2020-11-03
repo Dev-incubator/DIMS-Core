@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 
 namespace DIMS_Core.BusinessLayer.Interfaces
 {
-    public interface ITaskTracksService
+    public interface ITaskTrackService
     {
         Task<IEnumerable<VUserTrackModel>> GetAllForMember(int UserId);
     }

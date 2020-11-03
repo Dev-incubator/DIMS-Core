@@ -9,12 +9,12 @@ using System.Linq;
 
 namespace DIMS_Core.BusinessLayer.Services
 {
-    internal class TaskTracksService : ITaskTracksService
+    internal class TaskTrackService : ITaskTrackService
     {
         private readonly IUnitOfWork unitOfWork;
         private readonly IMapper mapper;
 
-        public TaskTracksService(IUnitOfWork unitOfWork, IMapper mapper)
+        public TaskTrackService(IUnitOfWork unitOfWork, IMapper mapper)
         {
             this.unitOfWork = unitOfWork;
             this.mapper = mapper;

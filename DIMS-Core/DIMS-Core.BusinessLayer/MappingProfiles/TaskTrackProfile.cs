@@ -4,9 +4,9 @@ using DIMS_Core.DataAccessLayer.Entities;
 
 namespace DIMS_Core.BusinessLayer.MappingProfiles
 {
-    internal class TaskTracksProfile : Profile
+    internal class TaskTrackProfile : Profile
     {
-        public TaskTracksProfile()
+        public TaskTrackProfile()
         {
             CreateMap<VUserTrack, VUserTrackModel>().ReverseMap();
         }

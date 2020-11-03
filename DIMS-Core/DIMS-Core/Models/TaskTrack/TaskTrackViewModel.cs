@@ -1,8 +1,8 @@
 ﻿using System;
 
-namespace DIMS_Core.Models.TaskTracks
+namespace DIMS_Core.Models.TaskTrack
 {
-    public class TaskTracksViewModel
+    public class TaskTrackViewModel
     {
         public int UserId { get; set; }
         public int TaskId { get; set; }

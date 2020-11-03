@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using DIMS_Core.BusinessLayer.Interfaces;
-using DIMS_Core.Models.TaskTracks;
+using DIMS_Core.Models.TaskTrack;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
@@ -9,12 +9,12 @@ using System.Threading.Tasks;
 namespace DIMS_Core.Controllers
 {
     [Route("task-tracks")]
-    public class TaskTracksController : Controller
+    public class TaskTrackController : Controller
     {
-        private readonly ITaskTracksService taskTracksService;
+        private readonly ITaskTrackService taskTracksService;
         private readonly IMapper mapper;
 
-        public TaskTracksController(ITaskTracksService taskTracksService, IMapper mapper)
+        public TaskTrackController(ITaskTrackService taskTracksService, IMapper mapper)
         {
             this.taskTracksService = taskTracksService;
             this.mapper = mapper;
@@ -27,7 +27,7 @@ namespace DIMS_Core.Controllers
             int userId = 3;
 
             var searchResult = await taskTracksService.GetAllForMember(UserId: userId);
-            var model = mapper.Map<IEnumerable<TaskTracksViewModel>>(searchResult);
+            var model = mapper.Map<IEnumerable<TaskTrackViewModel>>(searchResult);
 
             return View(model);
         }
