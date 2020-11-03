@@ -58,5 +58,5 @@
 </div>
 <div>
     @Html.ActionLink("Edit", "Edit", new { id = Model.TaskId, back = ViewBag.backController }) |
-    @await Html.PartialAsync("_BackToList", new BackToListViewModel { Controller = ViewBag.backController ?? "tasks" })
+    @await Html.PartialAsync("_BackToList", new BackToListViewModel { Controller = ViewBag.BackController ?? "tasks" })
 </div>

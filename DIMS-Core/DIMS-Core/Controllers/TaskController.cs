@@ -37,11 +37,12 @@ namespace DIMS_Core.Controllers
                 return BadRequest();
             }
 
+            ViewBag.BackController = back;
+
             var task = await taskService.GetTask(id);
             var model = mapper.Map<TaskWithMembersViewModel>(task);
             model.Members.GetMembersForTask(task.UserTask);                                         // Get list of members who participates in this task  
 
-            ViewBag.backController = back;
             return View(model);
         }
 
@@ -73,12 +74,13 @@ namespace DIMS_Core.Controllers
                 return BadRequest();
             }
 
+            ViewBag.BackController = back;
+
             var task = await taskService.GetTask(id);
             var model = mapper.Map<TaskWithMembersViewModel>(task);
             model.Members = mapper.Map<List<MemberForTaskModel>>(await memberService.Search());     // Get list of all members
             model.Members.MarkSelectedMembersForTask(task.UserTask);                                // Mark members who participates in this task
 
-            ViewBag.backController = back;
             return View(model);
         }
 
