@@ -13,10 +13,10 @@ namespace DIMS_Core.BusinessLayer.Interfaces
 
         Task<TaskModel> GetTask(int id);
 
-        Task Create(TaskModel model, List<MemberForTaskModel> AllMembers);
+        Task Create(TaskModel model, List<MemberForTaskModel> allMembers);
 
         Task Delete(int id);
 
-        Task Update(TaskModel model, List<MemberForTaskModel> AllMembers);
+        Task Update(TaskModel model, List<MemberForTaskModel> allMembers);
     }
 }

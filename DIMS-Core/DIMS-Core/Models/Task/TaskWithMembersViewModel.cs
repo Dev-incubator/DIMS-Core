@@ -22,11 +22,11 @@ namespace DIMS_Core.Models.Task
 
         public TaskWithMembersViewModel() { }
 
-        public TaskWithMembersViewModel(List <MemberForTaskModel> Members)
+        public TaskWithMembersViewModel(List <MemberForTaskModel> members)
         {
             StartDate = DateTime.Now;
             DeadlineDate = DateTime.Now;
-            this.Members = Members;
+            Members = members;
         }
     }
 }
