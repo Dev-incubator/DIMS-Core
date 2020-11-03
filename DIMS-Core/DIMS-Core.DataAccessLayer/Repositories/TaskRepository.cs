@@ -9,20 +9,5 @@ namespace DIMS_Core.DataAccessLayer.Repositories
     public class TaskRepository : Repository<TaskEntity>, ITaskRepository
     {
         public TaskRepository(DIMSCoreDatabaseContext dbContext) : base(dbContext) { }
-
-        public async Task<TaskEntity> GetWithIncludeById(int id)
-        {
-            if (id <= 0)
-            {
-                return null;
-            }
-
-            var entity = await currentSet
-                .Include(task => task.UserTask)
-                .ThenInclude(userTask => userTask.User)
-                .FirstOrDefaultAsync(x => x.TaskId == id);
-
-            return entity;
-        }
     }
 }

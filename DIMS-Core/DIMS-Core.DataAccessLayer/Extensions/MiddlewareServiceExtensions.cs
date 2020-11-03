@@ -32,7 +32,9 @@ namespace DIMS_Core.DataAccessLayer.Extensions
         {
             services.AddDbContext<DIMSCoreDatabaseContext>(options =>
             {
-                options.UseSqlServer(configuration.GetConnectionString("DIMSDatabase"));
+                options
+                    .UseLazyLoadingProxies()
+                    .UseSqlServer(configuration.GetConnectionString("DIMSDatabase"));
             });
 
             return services;

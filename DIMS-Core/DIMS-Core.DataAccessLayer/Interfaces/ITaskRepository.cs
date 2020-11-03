@@ -5,6 +5,6 @@ namespace DIMS_Core.DataAccessLayer.Interfaces
 {
     public interface ITaskRepository : IRepository<TaskEntity>
     {
-        Task<TaskEntity> GetWithIncludeById(int id);
+
     }
 }

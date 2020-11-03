@@ -36,7 +36,7 @@ namespace DIMS_Core.BusinessLayer.Services
                 return null;
             }
 
-            var task = await unitOfWork.TaskRepository.GetWithIncludeById(id);
+            var task = await unitOfWork.TaskRepository.GetById(id);
             var model = mapper.Map<TaskModel>(task);
 
             return model;
