@@ -7,8 +7,8 @@ namespace DIMS_Core.BusinessLayer.Interfaces
 {
     public interface IUserService : IDisposable
     {
-        Task<SignInResult> SignInAsync(SignInModel model);
-        Task SignOutAsync();
-        Task<IdentityResult> SignUpAsync(SignUpModel model);
+        Task<SignInResult> SignIn(SignInModel model);
+        Task SignOut();
+        Task<IdentityResult> SignUp(SignUpModel model);
     }
 }

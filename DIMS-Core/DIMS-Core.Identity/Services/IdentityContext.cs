@@ -7,7 +7,7 @@ namespace DIMS_Core.Identity.Services
 {
     public class IdentityContext : IdentityDbContext<User, Role, int>
     {
-        public IdentityContext(DbContextOptions options) : base(options)
+        public IdentityContext(DbContextOptions<IdentityContext> options) : base(options)
         {
         }
 
