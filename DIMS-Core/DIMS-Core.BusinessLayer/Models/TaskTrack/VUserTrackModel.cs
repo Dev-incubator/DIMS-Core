@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace DIMS_Core.BusinessLayer.Models.TaskTracks
+namespace DIMS_Core.BusinessLayer.Models.TaskTrack
 {
     public class VUserTrackModel
     {

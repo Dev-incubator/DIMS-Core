@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using DIMS_Core.BusinessLayer.Models.TaskTracks;
+using DIMS_Core.BusinessLayer.Models.TaskTrack;
 using DIMS_Core.Models.TaskTrack;
 
 namespace DIMS_Core.MappingProfiles
