@@ -25,7 +25,7 @@ namespace DIMS_Core.Controllers
         [HttpGet("")]
         public async Task<IActionResult> Index()
         {
-            var searchResult = await memberService.Search();
+            var searchResult = await memberService.GetAll();
             var model = mapper.Map<IEnumerable<MemberViewModel>>(searchResult);
 
             return View(model);

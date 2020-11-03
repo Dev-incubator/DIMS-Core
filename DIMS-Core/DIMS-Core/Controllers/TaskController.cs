@@ -52,7 +52,7 @@ namespace DIMS_Core.Controllers
         [HttpGet("create")]
         public async Task<IActionResult> Create()
         {
-            var allMembers = mapper.Map<List<MemberForTaskModel>>(await memberService.Search());    // Get list of all members
+            var allMembers = mapper.Map<List<MemberForTaskModel>>(await memberService.GetAll());    // Get list of all members
             var model = new TaskWithMembersViewModel(allMembers);
 
             return View(model);
@@ -83,7 +83,7 @@ namespace DIMS_Core.Controllers
 
             var task = await taskService.GetTask(id);
             var model = mapper.Map<TaskWithMembersViewModel>(task);
-            model.Members = mapper.Map<List<MemberForTaskModel>>(await memberService.Search());     // Get list of all members
+            model.Members = mapper.Map<List<MemberForTaskModel>>(await memberService.GetAll());     // Get list of all members
             model.Members.MarkSelectedMembersForTask(task.UserTask);                                // Mark members who participates in this task
 
             return View(model);
