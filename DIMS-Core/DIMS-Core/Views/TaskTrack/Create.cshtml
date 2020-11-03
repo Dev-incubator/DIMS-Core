@@ -34,4 +34,4 @@
     </div>
 </div>
 
-@await Html.PartialAsync("_BackToList", new BackToListViewModel { Controller = "task-tracks" })
+@await Html.PartialAsync("_BackToList", new BackToListViewModel { Controller = ViewBag.BackController ?? "task-tracks" })
