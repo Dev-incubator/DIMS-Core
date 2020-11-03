@@ -68,21 +68,21 @@ namespace DIMS_Core.Controllers
 
             var taskTrack = mapper.Map<TaskTrackModel>(model);
 
-            await taskTracksService.Create(taskTrack);
+            await taskTrackService.Create(taskTrack);
 
             return RedirectToAction("Index");
         }
 
         [HttpGet("delete/{id}")]
-        public async Task<IActionResult> Delete(int id)
+        public IActionResult Delete(int id)
         {
             if (id <= 0)
             {
                 return BadRequest();
             }
 
-            var taskTrack = await taskTracksService.GetTask(id);
-            var model = mapper.Map<TaskTrackViewModel>(taskTrack);
+            var taskTrack = taskTrackService.GetVTaskTrack(id);
+            var model = mapper.Map<VTaskTrackViewModel>(taskTrack);
 
             return View(model);
         }
@@ -96,7 +96,7 @@ namespace DIMS_Core.Controllers
                 return BadRequest();
             }
 
-            await taskTracksService.Delete(id);
+            await taskTrackService.Delete(id);
 
             return RedirectToAction("Index");
         }
