@@ -23,7 +23,7 @@ namespace DIMS_Core.Controllers
         [HttpGet("")]
         public async Task<IActionResult> Index()
         {
-            var searchResult = await taskService.SearchAsync();
+            var searchResult = await taskService.GetAll();
             var model = mapper.Map<IEnumerable<TaskViewModel>>(searchResult);
 
             return View(model);
@@ -46,7 +46,7 @@ namespace DIMS_Core.Controllers
 
             var dto = mapper.Map<TaskModel>(model);
 
-            await taskService.CreateAsync(dto);
+            await taskService.Create(dto);
 
             return RedirectToAction("Index");
         }
@@ -59,7 +59,7 @@ namespace DIMS_Core.Controllers
                 return BadRequest();
             }
 
-            var dto = await taskService.GetTaskAsync(id);
+            var dto = await taskService.GetTask(id);
             var model = mapper.Map<TaskViewModel>(dto);
 
             return View(model);
@@ -74,7 +74,7 @@ namespace DIMS_Core.Controllers
                 return BadRequest();
             }
 
-            await taskService.DeleteAsync(id);
+            await taskService.Delete(id);
 
             return RedirectToAction("Index");
         }

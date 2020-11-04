@@ -24,72 +24,72 @@ namespace DIMS_Core.BusinessLayer.Services
             this.mapper = mapper;
         }
 
-        public async Task<IEnumerable<VUserProfileModel>> SearchAsync()
+        public async Task<IEnumerable<VUserProfileModel>> GetAll()
         {
-            var query = unitOfWork.VUserProfileRepository.Search();
-            var mappedQuery = mapper.ProjectTo<VUserProfileModel>(query);
+            var vUserProfiles = unitOfWork.VUserProfileRepository.GetAll();
+            var vUserProfileModels = mapper.ProjectTo<VUserProfileModel>(vUserProfiles);
 
-            return await mappedQuery.ToListAsync();
+            return await vUserProfileModels.ToListAsync();
         }
 
-        public async Task<UserProfileModel> GetMemberAsync(int id)
+        public async Task<UserProfileModel> GetMember(int id)
         {
             if (id <= 0)
             {
                 return null;
             }
 
-            var entity = await unitOfWork.UserProfileRepository.GetByIdAsync(id);
-            var model = mapper.Map<UserProfileModel>(entity);
+            var userProfile = await unitOfWork.UserProfileRepository.GetById(id);
+            var userProfileModel = mapper.Map<UserProfileModel>(userProfile);
 
-            return model;
+            return userProfileModel;
         }
 
-        public async Task CreateAsync(UserProfileModel model)
+        public async Task Create(UserProfileModel model)
         {
             if (model is null || model.UserId != 0)
             {
                 return;
             }
 
-            var entity = mapper.Map<EntityUserProfile>(model);
+            var userProfile = mapper.Map<EntityUserProfile>(model);
 
-            await unitOfWork.UserProfileRepository.CreateAsync(entity);
+            await unitOfWork.UserProfileRepository.Create(userProfile);
 
-            await unitOfWork.SaveAsync();
+            await unitOfWork.Save();
         }
 
-        public async Task UpdateAsync(UserProfileModel model)
+        public async Task Update(UserProfileModel model)
         {
             if (model is null || model.UserId <= 0)
             {
                 return;
             }
 
-            var entity = await unitOfWork.UserProfileRepository.GetByIdAsync(model.UserId);
+            var userProfile = await unitOfWork.UserProfileRepository.GetById(model.UserId);
 
-            if (entity is null)
+            if (userProfile is null)
             {
                 return;
             }
 
-            var mappedEntity = mapper.Map(model, entity);
+            var userProfileModel = mapper.Map(model, userProfile);
 
-            unitOfWork.UserProfileRepository.Update(mappedEntity);
+            unitOfWork.UserProfileRepository.Update(userProfileModel);
 
-            await unitOfWork.SaveAsync();
+            await unitOfWork.Save();
         }
 
-        public async Task DeleteAsync(int id)
+        public async Task Delete(int id)
         {
             if (id <= 0)
             {
                 return;
             }
 
-            await unitOfWork.UserProfileRepository.DeleteAsync(id);
+            await unitOfWork.UserProfileRepository.Delete(id);
 
-            await unitOfWork.SaveAsync();
+            await unitOfWork.Save();
         }
 
     }
