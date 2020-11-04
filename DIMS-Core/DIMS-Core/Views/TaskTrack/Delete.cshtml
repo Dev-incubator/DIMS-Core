@@ -10,6 +10,12 @@
 <div>
     <dl class="row">
         <dt class="col-sm-2">
+            @Html.DisplayName("Track id")
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.TaskTrackId)
+        </dd>
+        <dt class="col-sm-2">
             @Html.DisplayName("Task")
         </dt>
         <dd class="col-sm-10">
@@ -26,12 +32,6 @@
         </dt>
         <dd class="col-sm-10">
             @Html.DisplayFor(model => model.TrackDate)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayName("Track id")
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.TaskTrackId)
         </dd>
     </dl>
 
