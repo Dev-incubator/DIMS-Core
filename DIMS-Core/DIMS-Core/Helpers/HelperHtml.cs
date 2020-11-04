@@ -1,4 +1,6 @@
 ﻿using DIMS_Core.BusinessLayer.Models.Task;
+using DIMS_Core.DataAccessLayer.Entities;
+using DIMS_Core.Models.Member;
 using Microsoft.AspNetCore.Html;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System.Collections.Generic;
@@ -7,22 +9,22 @@ namespace DIMS_Core.Helpers
 {
     public static class HelperHtml
     {
-        public static HtmlString CreateMembersList(this IHtmlHelper html, List<MemberForTaskModel> members)
+        public static HtmlString CreateCheckListMembers(this IHtmlHelper html, 
+            List<int> selectedMembers, List<MemberViewModel> allMembers)
         {
             string result = "<div class=\"form-control checkbox-list\">\n";
-            if (members != null && members.Count > 0)
+            if (allMembers != null && allMembers.Count > 0)
             {
-                for (int i = 0; i < members.Count; i++)
+                for (int i = 0; i < allMembers.Count; i++)
                 {
                     result +=
                         "<div class=\"item\">"
-                            + $"<input type=\"hidden\" name=\"Members[{i}].UserTaskId\" value=\"{members[i].UserTaskId}\">"
-                            + $"<input type=\"hidden\" name=\"Members[{i}].UserId\" value=\"{members[i].UserId}\">"
-                            + $"<input type=\"hidden\" name=\"Members[{i}].FullName\" value=\"{members[i].FullName}\">"
+                            + $"<input type=\"hidden\" name=\"SelectedMembers\" value=\"{allMembers[i].UserId}\" data-val=\"true\" disabled>"
                             + "<label>"
-                                + $"<input type=\"checkbox\" name=\"Members[{i}].Selected\" value=\"true\""
-                                + $"{(members[i].Selected ? "checked= \"checked\"" : null)}>"
-                                + $"<span>{members[i].FullName}</span>"
+                                + $"<input type=\"checkbox\""
+                                    + $"{(selectedMembers.Contains(allMembers[i].UserId) ? " checked=\"checked\"" : null)}" 
+                                + $">"
+                                + $"<span>{allMembers[i].FullName}</span>"
                             + "</label>"
                         + "</div>";
                 }
@@ -31,21 +33,27 @@ namespace DIMS_Core.Helpers
             return new HtmlString(result);
         }
 
-        public static HtmlString CreateMembersSimpleList(this IHtmlHelper html, List<MemberForTaskModel> members)
+        public static HtmlString CreateSimpleListMembers(this IHtmlHelper html,
+            List<int> selectedMembers, List<MemberViewModel> allMembers)
         {
-            if (members is null || members.Count == 0)
+            if (selectedMembers is null || selectedMembers.Count == 0)
             {
                 return new HtmlString("<div>-</div>");
             }
             else
             {
                 string result = string.Empty;
-                foreach (var member in members)
+                foreach (var selectedMember in selectedMembers)
                 {
-                    result += $"<div>{member.FullName}</div>";
+                    result += $"<div>{allMembers.Find(x => x.UserId == selectedMember).FullName}</div>";
                 }
                 return new HtmlString(result);
             }
+        }
+
+        public static HtmlString DisplayStringOrNull(this IHtmlHelper html, string value)
+        {
+            return new HtmlString(value ?? "-");
         }
     }
 }
