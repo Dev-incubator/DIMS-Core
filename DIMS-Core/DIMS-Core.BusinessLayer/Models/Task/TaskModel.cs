@@ -12,6 +12,11 @@ namespace DIMS_Core.BusinessLayer.Models.Task
         public DateTime StartDate { get; set; }
         public DateTime DeadlineDate { get; set; }
 
-        public ICollection<UserTaskModel> UserTask { get; set; }
+        public List<int> SelectedMembers { get; set; }
+
+        public TaskModel()
+        {
+            SelectedMembers = new List<int>();
+        }
     }
 }
