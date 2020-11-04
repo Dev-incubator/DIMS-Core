@@ -7,6 +7,7 @@ using DIMS_Core.DataAccessLayer.Interfaces;
 using DIMS_Core.BusinessLayer.Models.Task;
 using TaskEntity = DIMS_Core.DataAccessLayer.Entities.Task;
 using UserTaskEntity = DIMS_Core.DataAccessLayer.Entities.UserTask;
+using System.Linq;
 
 namespace DIMS_Core.BusinessLayer.Services
 {
@@ -42,7 +43,7 @@ namespace DIMS_Core.BusinessLayer.Services
             return model;
         }
 
-        public async Task Create(TaskModel model, List<MemberForTaskModel> members)
+        public async Task Create(TaskModel model)
         {
             if (model is null || model.TaskId != 0)
             {
@@ -54,28 +55,18 @@ namespace DIMS_Core.BusinessLayer.Services
 
             await unitOfWork.Save();
 
-            if (members != null)
+            if (model.SelectedMembers != null)
             {
-                foreach (var member in members)
+                foreach (var userId in model.SelectedMembers)
                 {
-                    if (member.Selected)
-                    {
-                        var userTask = new UserTaskEntity()
-                        {
-                            TaskId = task.TaskId,
-                            UserId = member.UserId,
-                            StateId = 1,
-                        };
-
-                        await unitOfWork.UserTaskRepository.Create(userTask);
-                    }
+                    await CreateUserTask(task.TaskId, userId);
                 }
 
                 await unitOfWork.Save();
             }
         }
 
-        public async Task Update(TaskModel model, List<MemberForTaskModel> members)
+        public async Task Update(TaskModel model)
         {
             if (model is null || model.TaskId <= 0)
             {
@@ -92,22 +83,32 @@ namespace DIMS_Core.BusinessLayer.Services
             var mappedEntity = mapper.Map(model, task);
             unitOfWork.TaskRepository.Update(mappedEntity);
 
-            if (members != null)
+            if (model.SelectedMembers != null)
             {
-                foreach (var member in members)
+                var selectedUserIds = model.SelectedMembers;
+                var currentUserIds = task.UserTask.Select(q => q.UserId).ToArray();
+
+                var intersectedUserIds = currentUserIds.Intersect(selectedUserIds);
+                var creatingUserIds = selectedUserIds.Except(intersectedUserIds);
+                var deletingUserIds = currentUserIds.Except(intersectedUserIds);
+
+                foreach (var item in creatingUserIds)
                 {
-                    if (member.Selected && member.UserTaskId == 0)
+                    await CreateUserTask(task.TaskId, item);
+                }
+
+                foreach (var item in deletingUserIds)
+                {
+                    var userTask = task.UserTask.FirstOrDefault(q => q.UserId == item);
+
+                    if (userTask != null)
                     {
-                        await CreateUserTask(model.TaskId, member.UserId);
-                    }
-                    else if (!member.Selected && member.UserTaskId != 0)
-                    {
-                        await DeleteUserTask(member.UserTaskId);
+                        await DeleteUserTask(userTask.UserTaskId);
                     }
                 }
-            }
 
-            await unitOfWork.Save();
+                await unitOfWork.Save();
+            }
         }
 
         public async Task Delete(int id)
