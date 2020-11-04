@@ -4,9 +4,7 @@ using DIMS_Core.BusinessLayer.Models.Task;
 using DIMS_Core.Helpers;
 using DIMS_Core.Models.Task;
 using Microsoft.AspNetCore.Mvc;
-using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace DIMS_Core.Controllers
@@ -18,7 +16,8 @@ namespace DIMS_Core.Controllers
         private readonly IMemberService memberService;
         private readonly IMapper mapper;
 
-        public TaskController(ITaskService taskService, IMemberService memberService, IMapper mapper)
+        public TaskController(ITaskService taskService, 
+            IMemberService memberService, IMapper mapper)
         {
             this.taskService = taskService;
             this.memberService = memberService;
@@ -28,8 +27,8 @@ namespace DIMS_Core.Controllers
         [HttpGet("")]
         public async Task<IActionResult> Index()
         {
-            var searchResult = await taskService.GetAll();
-            var model = mapper.Map<IEnumerable<TaskViewModel>>(searchResult);
+            var tasks = await taskService.GetAll();
+            var model = mapper.Map<IEnumerable<TaskViewModel>>(tasks);
 
             return View(model);
         }
@@ -43,32 +42,31 @@ namespace DIMS_Core.Controllers
             }
 
             var task = await taskService.GetTask(id);
-            var model = mapper.Map<TaskWithMembersViewModel>(task);
-            model.Members.GetMembersForTask(task.UserTask);                                         // Get list of members who participates in this task  
+            var model = mapper.Map<TaskViewModel>(task);
 
+            ViewBag.AllMembers = await memberService.GetMembersViewModel(mapper);
             return View(model);
         }
 
         [HttpGet("create")]
         public async Task<IActionResult> Create()
         {
-            var allMembers = mapper.Map<List<MemberForTaskModel>>(await memberService.GetAll());    // Get list of all members
-            var model = new TaskWithMembersViewModel(allMembers);
-
-            return View(model);
+            ViewBag.AllMembers = await memberService.GetMembersViewModel(mapper);
+            return View(new TaskViewModel());
         }
 
         [HttpPost("create")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([FromForm] TaskWithMembersViewModel model)
+        public async Task<IActionResult> Create([FromForm] TaskViewModel model)
         {
             if (!ModelState.IsValid)
             {
+                ViewBag.AllMembers = await memberService.GetMembersViewModel(mapper);
                 return View(model);
             }
 
             var task = mapper.Map<TaskModel>(model);
-            await taskService.Create(task, allMembers: model.Members);
+            await taskService.Create(task);
 
             return RedirectToAction("Index");
         }
@@ -82,30 +80,31 @@ namespace DIMS_Core.Controllers
             }
 
             var task = await taskService.GetTask(id);
-            var model = mapper.Map<TaskWithMembersViewModel>(task);
-            model.Members = mapper.Map<List<MemberForTaskModel>>(await memberService.GetAll());     // Get list of all members
-            model.Members.MarkSelectedMembersForTask(task.UserTask);                                // Mark members who participates in this task
+            var model = mapper.Map<TaskViewModel>(task);
 
+            ViewBag.AllMembers = await memberService.GetMembersViewModel(mapper);
             return View(model);
         }
 
         [HttpPost("edit")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit([FromForm] TaskWithMembersViewModel model)
+        public async Task<IActionResult> Edit([FromForm] TaskViewModel model)
         {
             if (!ModelState.IsValid)
             {
+                ViewBag.AllMembers = await memberService.GetMembersViewModel(mapper);
                 return View(model);
             }
 
             if (model.TaskId <= 0)
             {
                 ModelState.AddModelError("", "Incorrect identifier.");
+                ViewBag.AllMembers = await memberService.GetMembersViewModel(mapper);
                 return View(model);
             }
 
             var task = mapper.Map<TaskModel>(model);
-            await taskService.Update(task, allMembers: model.Members);
+            await taskService.Update(task);
 
             return RedirectToAction("Index");
         }
@@ -120,9 +119,9 @@ namespace DIMS_Core.Controllers
             }
 
             var task = await taskService.GetTask(id);
-            var model = mapper.Map<TaskWithMembersViewModel>(task);
-            model.Members.GetMembersForTask(task.UserTask);                                         // Get list of members who participates in this task  
+            var model = mapper.Map<TaskViewModel>(task);
 
+            ViewBag.AllMembers = await memberService.GetMembersViewModel(mapper);
             return View(model);
         }
 
