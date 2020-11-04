@@ -20,7 +20,7 @@ namespace DIMS_Core.BusinessLayer.Services
             this.mapper = mapper;
         }
 
-        public async Task<IEnumerable<UserTaskModel>> GetAllForMember(int userId)
+        public async Task<IEnumerable<UserTaskModel>> GetAllByUserId(int userId)
         {
             var query = unitOfWork.UserTaskRepository.GetAll()
                 .Where(userTask => userTask.UserId == userId);
