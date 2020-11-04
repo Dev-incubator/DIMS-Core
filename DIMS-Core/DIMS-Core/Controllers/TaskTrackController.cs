@@ -26,7 +26,7 @@ namespace DIMS_Core.Controllers
             // To Do - Get the id of the current user
             int userId = 3;
 
-            var searchResult = await taskTracksService.GetAllForMember(UserId: userId);
+            var searchResult = await taskTracksService.GetAllByUserId(userId: userId);
             var model = mapper.Map<IEnumerable<TaskTrackViewModel>>(searchResult);
 
             return View(model);
