@@ -30,7 +30,7 @@ namespace DIMS_Core.Controllers
                 return View(model);
             }
 
-            var result = await userService.SignInAsync(model);
+            var result = await userService.SignIn(model);
 
             if (result.Succeeded)
             {
@@ -59,7 +59,7 @@ namespace DIMS_Core.Controllers
                 return View(model);
             }
 
-            var result = await userService.SignUpAsync(model);
+            var result = await userService.SignUp(model);
 
             if (result.Succeeded)
             {
@@ -79,7 +79,7 @@ namespace DIMS_Core.Controllers
         [HttpGet("logout")]
         public async Task<IActionResult> LogOut()
         {
-            await userService.SignOutAsync();
+            await userService.SignOut();
 
             return RedirectToAction("Index", "Home");
         }

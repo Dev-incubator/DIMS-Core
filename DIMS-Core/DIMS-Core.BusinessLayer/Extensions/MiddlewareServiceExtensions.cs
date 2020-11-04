@@ -21,6 +21,7 @@ namespace DIMS_Core.BusinessLayer.Extensions
             services.AddTransient<ITaskService, TaskService>();
             services.AddTransient<ITaskTrackService, TaskTrackService>();
             services.AddTransient<IUserTaskService, UserTaskService>();
+            services.AddTransient<IDirectionService, DirectionService>();
 
             services.AddDatabaseDependencies()
                 .AddIndentityDependencies()

@@ -21,7 +21,7 @@ namespace DIMS_Core.DataAccessLayer.Repositories
             currentSet = context.Set<TEntity>();
         }
 
-        public async Task CreateAsync(TEntity entity)
+        public async Task Create(TEntity entity)
         {
             if (entity is null)
             {
@@ -31,14 +31,14 @@ namespace DIMS_Core.DataAccessLayer.Repositories
             await currentSet.AddAsync(entity);
         }
 
-        public async Task DeleteAsync(int id)
+        public async Task Delete(int id)
         {
             if (id <= 0)
             {
                 return;
             }
 
-            var entity = await GetByIdAsync(id);
+            var entity = await GetById(id);
 
             if (entity is null)
             {
@@ -53,7 +53,7 @@ namespace DIMS_Core.DataAccessLayer.Repositories
             return currentSet.AsNoTracking();
         }
 
-        public async Task<TEntity> GetByIdAsync(int id)
+        public async Task<TEntity> GetById(int id)
         {
             if (id <= 0)
             {

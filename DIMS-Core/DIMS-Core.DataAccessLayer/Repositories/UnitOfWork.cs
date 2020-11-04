@@ -38,7 +38,7 @@ namespace DIMS_Core.DataAccessLayer.Repositories
             _context = context;
         }
 
-        public Task SaveAsync()
+        public Task Save()
         {
             return _context.SaveChangesAsync();
         }
