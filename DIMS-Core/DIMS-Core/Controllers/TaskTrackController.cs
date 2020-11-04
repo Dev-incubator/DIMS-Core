@@ -30,7 +30,7 @@ namespace DIMS_Core.Controllers
             // To Do - Get the id of the current user
             int userId = 3;
 
-            var searchResult = await taskTracksService.GetAllForMember(UserId: userId);
+            var searchResult = await taskTracksService.GetAllByUserId(userId);
             var model = mapper.Map<IEnumerable<VTaskTrackViewModel>>(searchResult);
 
             return View(model);
@@ -45,7 +45,7 @@ namespace DIMS_Core.Controllers
             ViewBag.BackController = back;
             if (userTaskId == 0)
             {
-                var userTasks = await userTaskService.GetAllForMember(UserId: userId);
+                var userTasks = await userTaskService.GetAllByUserId(userId);
                 ViewBag.SelectListUserTasks = new SelectList(userTasks, "UserTaskId", "Task.Name");
             }
 
