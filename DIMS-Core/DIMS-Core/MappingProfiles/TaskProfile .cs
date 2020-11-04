@@ -12,8 +12,7 @@ namespace DIMS_Core.MappingProfiles
         public TaskProfile()
         {
             CreateMap<TaskModel, TaskViewModel>().ReverseMap();
-            CreateMap<VUserProfileModel, MemberForTaskModel>().ReverseMap();
-            CreateMap<TaskWithMembersViewModel, TaskModel>().ReverseMap();
+            CreateMap<VUserProfileModel, MemberViewModel>().ReverseMap();
         }
     }
 }
