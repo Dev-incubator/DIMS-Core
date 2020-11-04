@@ -20,7 +20,7 @@ namespace DIMS_Core.BusinessLayer.Services
             this.unitOfWork = unitOfWork;
             this.mapper = mapper;
         }
-        public async Task<IEnumerable<VUserTrackModel>> GetAllByUserId(int userId)
+        public async Task<IEnumerable<VTaskTrackModel>> GetAllByUserId(int userId)
         {
             var taskTracks = unitOfWork.VUserTrackRepository.GetAll()
                 .Where(vUserTrack => vUserTrack.UserId == userId);

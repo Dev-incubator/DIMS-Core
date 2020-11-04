@@ -6,6 +6,6 @@ namespace DIMS_Core.BusinessLayer.Interfaces
 {
     public interface IUserTaskService
     {
-        Task<IEnumerable<UserTaskModel>> GetAllForMember(int UserId);
+        Task<IEnumerable<UserTaskModel>> GetAllByUserId(int userId);
     }
 }
