@@ -17,7 +17,8 @@ namespace DIMS_Core.Controllers
         private readonly IUserTaskService userTaskService;
         private readonly IMapper mapper;
 
-        public TaskTrackController(ITaskTrackService taskTrackService, IUserTaskService userTaskService, IMapper mapper)
+        public TaskTrackController(ITaskTrackService taskTrackService, 
+            IUserTaskService userTaskService, IMapper mapper)
         {
             this.taskTrackService = taskTrackService;
             this.userTaskService = userTaskService;
@@ -30,7 +31,7 @@ namespace DIMS_Core.Controllers
             // To Do - Get the id of the current user
             int userId = 3;
 
-            var taskTracks = await taskTrackService.GetAllForMember(UserId: userId);
+            var taskTracks = await taskTrackService.GetAllByUserId(userId);
             var model = mapper.Map<IEnumerable<VTaskTrackViewModel>>(taskTracks);
 
             return View(model);
@@ -43,7 +44,7 @@ namespace DIMS_Core.Controllers
             int userId = 3;
 
             ViewBag.BackController = back;
-            var userTasks = await userTaskService.GetAllForMember(UserId: userId);
+            var userTasks = await userTaskService.GetAllByUserId(userId);
             ViewBag.SelectListUserTasks = new SelectList(userTasks, "UserTaskId", "Task.Name");
 
             var model = new TaskTrackViewModel
