@@ -6,6 +6,6 @@ namespace DIMS_Core.BusinessLayer.Interfaces
 {
     public interface ITaskTrackService
     {
-        Task<IEnumerable<VUserTrackModel>> GetAllForMember(int UserId);
+        Task<IEnumerable<VUserTrackModel>> GetAllByUserId(int userId);
     }
 }
