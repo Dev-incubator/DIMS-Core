@@ -21,7 +21,7 @@ namespace DIMS_Core.BusinessLayer.Services
             this.mapper = mapper;
         }
 
-        public async Task<IEnumerable<SampleModel>> SearchAsync(SampleFilter searchFilter)
+        public async Task<IEnumerable<SampleModel>> Search(SampleFilter searchFilter)
         {
             var query = unitOfWork.SampleRepository.Search(searchFilter);
             var mappedQuery = mapper.ProjectTo<SampleModel>(query);
@@ -29,20 +29,20 @@ namespace DIMS_Core.BusinessLayer.Services
             return await mappedQuery.ToListAsync();
         }
 
-        public async Task<SampleModel> GetSampleAsync(int id)
+        public async Task<SampleModel> GetSample(int id)
         {
             if (id <= 0)
             {
                 return null;
             }
 
-            var entity = await unitOfWork.SampleRepository.GetByIdAsync(id);
+            var entity = await unitOfWork.SampleRepository.GetById(id);
             var model = mapper.Map<SampleModel>(entity);
 
             return model;
         }
 
-        public async Task CreateAsync(SampleModel model)
+        public async Task Create(SampleModel model)
         {
             if (model is null || model.SampleId != 0)
             {
@@ -51,19 +51,19 @@ namespace DIMS_Core.BusinessLayer.Services
 
             var entity = mapper.Map<Sample>(model);
 
-            await unitOfWork.SampleRepository.CreateAsync(entity);
+            await unitOfWork.SampleRepository.Create(entity);
 
-            await unitOfWork.SaveAsync();
+            await unitOfWork.Save();
         }
 
-        public async Task UpdateAsync(SampleModel model)
+        public async Task Update(SampleModel model)
         {
             if (model is null || model.SampleId <= 0)
             {
                 return;
             }
 
-            var entity = await unitOfWork.SampleRepository.GetByIdAsync(model.SampleId);
+            var entity = await unitOfWork.SampleRepository.GetById(model.SampleId);
 
             if (entity is null)
             {
@@ -74,19 +74,19 @@ namespace DIMS_Core.BusinessLayer.Services
 
             unitOfWork.SampleRepository.Update(mappedEntity);
 
-            await unitOfWork.SaveAsync();
+            await unitOfWork.Save();
         }
 
-        public async Task DeleteAsync(int id)
+        public async Task Delete(int id)
         {
             if (id <= 0)
             {
                 return;
             }
 
-            await unitOfWork.SampleRepository.DeleteAsync(id);
+            await unitOfWork.SampleRepository.Delete(id);
 
-            await unitOfWork.SaveAsync();
+            await unitOfWork.Save();
         }
     }
 }

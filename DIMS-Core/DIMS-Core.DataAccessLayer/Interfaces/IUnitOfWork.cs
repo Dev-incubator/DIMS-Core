@@ -17,6 +17,6 @@ namespace DIMS_Core.DataAccessLayer.Interfaces
         IVUserProgressRepository VUserProgressRepository { get; }
         IVUserTaskRepository VUserTaskRepository { get; }
         IVUserTrackRepository VUserTrackRepository { get; }
-        Task SaveAsync();
+        Task Save();
     }
 }
