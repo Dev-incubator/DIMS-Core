@@ -1,4 +1,4 @@
-﻿@model TaskWithMembersViewModel
+﻿@model TaskViewModel
 
 @{
     ViewData["Title"] = "Delete task #" + Model.TaskId;
@@ -10,29 +10,40 @@
 <div>
     <dl class="row">
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Name)
+            @Html.DisplayName("Id")
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.TaskId)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayName("Name")
         </dt>
         <dd class="col-sm-10">
             @Html.DisplayFor(model => model.Name)
         </dd>
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Description)
+            @Html.DisplayName("Description")
         </dt>
         <dd class="col-sm-10">
-            @if (Model.Description is null)
-            {
-                <div>-</div> 
-            }
-            else
-            {
-                @Html.DisplayFor(model => model.Description)
-            }
+            @Html.DisplayStringOrNull(Model.Description)
         </dd>
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Members)
+            @Html.DisplayName("Start date")
         </dt>
         <dd class="col-sm-10">
-            @Html.CreateMembersSimpleList(Model.Members)
+            @Convert.ToDateTime(Model.StartDate).ToString("MM/dd/yyyy")
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayName("Deadline")
+        </dt>
+        <dd class="col-sm-10">
+            @Convert.ToDateTime(Model.DeadlineDate).ToString("MM/dd/yyyy")
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayName("Members")
+        </dt>
+        <dd class="col-sm-10">
+            @Html.CreateSimpleListMembers(Model.SelectedMembers, (List<MemberViewModel>)ViewBag.AllMembers)
         </dd>
     </dl>
 
