@@ -23,7 +23,7 @@ namespace DIMS_Core.Controllers
         [HttpGet("")]
         public async Task<IActionResult> Index()
         {
-            var searchResult = await sampleService.SearchAsync(null);
+            var searchResult = await sampleService.Search(null);
             var model = mapper.Map<IEnumerable<SampleViewModel>>(searchResult);
 
             return View(model);
@@ -37,7 +37,7 @@ namespace DIMS_Core.Controllers
                 return BadRequest();
             }
 
-            var dto = await sampleService.GetSampleAsync(id);
+            var dto = await sampleService.GetSample(id);
             var model = mapper.Map<SampleViewModel>(dto);
 
             return View(model);
@@ -60,7 +60,7 @@ namespace DIMS_Core.Controllers
 
             var dto = mapper.Map<SampleModel>(model);
 
-            await sampleService.CreateAsync(dto);
+            await sampleService.Create(dto);
 
             return RedirectToAction("Index");
         }
@@ -73,7 +73,7 @@ namespace DIMS_Core.Controllers
                 return BadRequest();
             }
 
-            var dto = await sampleService.GetSampleAsync(id);
+            var dto = await sampleService.GetSample(id);
             var model = mapper.Map<SampleViewModel>(dto);
 
             return View(model);
@@ -97,7 +97,7 @@ namespace DIMS_Core.Controllers
 
             var dto = mapper.Map<SampleModel>(model);
 
-            await sampleService.UpdateAsync(dto);
+            await sampleService.Update(dto);
 
             return RedirectToAction("Index");
         }
@@ -110,7 +110,7 @@ namespace DIMS_Core.Controllers
                 return BadRequest();
             }
 
-            var dto = await sampleService.GetSampleAsync(id);
+            var dto = await sampleService.GetSample(id);
             var model = mapper.Map<SampleViewModel>(dto);
 
             return View(model);
@@ -125,7 +125,7 @@ namespace DIMS_Core.Controllers
                 return BadRequest();
             }
 
-            await sampleService.DeleteAsync(id);
+            await sampleService.Delete(id);
 
             return RedirectToAction("Index");
         }

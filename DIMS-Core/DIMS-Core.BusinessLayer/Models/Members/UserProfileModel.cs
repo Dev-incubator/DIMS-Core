@@ -8,10 +8,10 @@ namespace DIMS_Core.BusinessLayer.Models.Members
     public class UserProfileModel
     {
         public int UserId { get; set; }
-        public string Direction { get; set; }
+        public int DirectionId { get; set; }
         public string Name { get; set; }
-        public string Email { get; set; }
         public string LastName { get; set; }
+        public string Email { get; set; }
         public Sex Sex { get; set; }
         public string Education { get; set; }
         public DateTime? BirthOfDate { get; set; }
