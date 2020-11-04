@@ -7,5 +7,7 @@ namespace DIMS_Core.BusinessLayer.Interfaces
     public interface ITaskTrackService
     {
         Task<IEnumerable<VUserTrackModel>> GetAllByUserId(int userId);
+
+        Task Create(TaskTrackModel model);
     }
 }
