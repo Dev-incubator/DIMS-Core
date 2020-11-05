@@ -9,6 +9,6 @@ namespace DIMS_Core.BusinessLayer.Models.UserTask
         public int UserId { get; set; }
         public int StateId { get; set; }
 
-        public virtual TaskModel Task { get; set; }
+        public TaskModel Task { get; set; }
     }
 }
