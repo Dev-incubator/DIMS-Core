@@ -29,9 +29,11 @@ namespace DIMS_Core.Models.Member
         public string MobilePhone { get; set; }
         public string Skype { get; set; }
         public DateTime? StartDate { get; set; }
+      
         [MinLength(5)]
         [DataType(DataType.Password)]
         public string Password { get; set; }
+      
         [Compare("Password")]
         [DataType(DataType.Password)]
         [MinLength(5)]

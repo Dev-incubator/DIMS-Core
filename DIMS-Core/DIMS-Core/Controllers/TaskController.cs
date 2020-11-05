@@ -34,7 +34,7 @@ namespace DIMS_Core.Controllers
         }
 
         [HttpGet("details/{id}")]
-        public async Task<IActionResult> Details(int id)
+        public async Task<IActionResult> Details(int id, string back = null)
         {
             if (id <= 0)
             {
@@ -43,7 +43,8 @@ namespace DIMS_Core.Controllers
 
             var task = await taskService.GetTask(id);
             var model = mapper.Map<TaskViewModel>(task);
-
+            
+            ViewBag.BackController = back;
             ViewBag.AllMembers = await memberService.GetMembersViewModel(mapper);
             return View(model);
         }
@@ -72,7 +73,7 @@ namespace DIMS_Core.Controllers
         }
 
         [HttpGet("edit/{id}")]
-        public async Task<IActionResult> Edit(int id)
+        public async Task<IActionResult> Edit(int id, string back = null)
         {
             if (id <= 0)
             {
@@ -83,6 +84,7 @@ namespace DIMS_Core.Controllers
             var model = mapper.Map<TaskViewModel>(task);
 
             ViewBag.AllMembers = await memberService.GetMembersViewModel(mapper);
+            ViewBag.BackController = back;
             return View(model);
         }
 

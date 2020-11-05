@@ -1,0 +1,60 @@
+﻿@model IEnumerable<TaskTrackViewModel>
+@{
+    ViewData["Title"] = "My task traks";
+}
+
+<h1>My task traks</h1>
+
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayName("#")
+            </th>
+            <th>
+                @Html.DisplayName("Task")
+            </th>
+            <th>
+                @Html.DisplayName("Note")
+            </th>
+            <th>
+                @Html.DisplayName("Date")
+            </th>
+            <th width="300px"></th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (Model is null || !Model.Any())
+        {
+            <tr>
+                <td colspan="5" class="text-center">There aren't items.</td>
+            </tr>
+        }
+        else
+        {
+            foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(i => item.TaskId)
+                    </td>
+                    <td>
+                        @Html.ActionLink(item.TaskName, "details", "tasks", new { id = item.TaskId, back = "task-tracks" })
+                    </td>
+                    <td>
+                        @Html.ActionLink(item.TrackNote, "details", new { id = item.TaskTrackId })
+                    </td>
+                    <td>
+                        @Convert.ToDateTime(item.TrackDate).ToString("MM/dd/yyyy")
+                    </td>
+                    <td align="center">
+                        <div class="btn-group">
+                            @Html.ActionLink("Edit", "Edit", new { id = item.TaskTrackId }, new { @class = "btn btn-warning" })
+                            @Html.ActionLink("Delete", "Delete", new { id = item.TaskTrackId }, new { @class = "btn btn-danger" })
+                        </div>
+                    </td>
+                </tr>
+            }
+        }
+    </tbody>
+</table>

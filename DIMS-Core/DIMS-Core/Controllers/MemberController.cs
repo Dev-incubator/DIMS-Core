@@ -59,7 +59,7 @@ namespace DIMS_Core.Controllers
             var dto = mapper.Map<UserProfileModel>(model);
 
             await memberService.Create(dto);
-
+            
             var signUpModel = mapper.Map<SignUpModel>(model);
 
             await userService.SignUp(signUpModel);
@@ -78,6 +78,7 @@ namespace DIMS_Core.Controllers
             var dto = await memberService.GetMember(id);
             var model = mapper.Map<EditMemberViewModel>(dto);
 
+            ViewBag.Directions = await directionService.GetAll();
             return View(model);
         }
 
@@ -87,6 +88,7 @@ namespace DIMS_Core.Controllers
         {
             if (!ModelState.IsValid)
             {
+                ViewBag.Directions = await directionService.GetAll();
                 return View(model);
             }
 
