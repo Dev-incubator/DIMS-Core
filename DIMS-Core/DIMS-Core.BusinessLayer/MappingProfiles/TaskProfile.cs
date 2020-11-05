@@ -1,12 +1,7 @@
 ﻿using AutoMapper;
-using DIMS_Core.BusinessLayer.Models.Members;
 using DIMS_Core.BusinessLayer.Models.Task;
 using DIMS_Core.BusinessLayer.Models.UserTask;
 using DIMS_Core.DataAccessLayer.Entities;
-using Org.BouncyCastle.Math.EC.Rfc7748;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace DIMS_Core.BusinessLayer.MappingProfiles
 {
