@@ -22,10 +22,10 @@ namespace DIMS_Core.BusinessLayer.Services
 
         public async Task<IEnumerable<TaskModel>> GetAll()
         {
-            var query = unitOfWork.VTaskRepository.Search();
-            var mappedQuery = mapper.ProjectTo<TaskModel>(query);
+            var vTasks = unitOfWork.VTaskRepository.GetAll();
+            var taskModels = mapper.ProjectTo<TaskModel>(vTasks);
 
-            return await mappedQuery.ToListAsync();
+            return await taskModels.ToListAsync();
         }
 
         public async Task<TaskModel> GetTask(int id)
@@ -35,10 +35,10 @@ namespace DIMS_Core.BusinessLayer.Services
                 return null;
             }
 
-            var entity = await unitOfWork.TaskRepository.GetById(id);
-            var model = mapper.Map<TaskModel>(entity);
+            var task = await unitOfWork.TaskRepository.GetById(id);
+            var taskModel = mapper.Map<TaskModel>(task);
 
-            return model;
+            return taskModel;
         }
 
         public async Task Create(TaskModel model)
@@ -48,9 +48,9 @@ namespace DIMS_Core.BusinessLayer.Services
                 return;
             }
 
-            var entity = mapper.Map<TaskEntities>(model);
+            var task = mapper.Map<TaskEntities>(model);
 
-            await unitOfWork.TaskRepository.Create(entity);
+            await unitOfWork.TaskRepository.Create(task);
 
             await unitOfWork.Save();
         }
@@ -62,16 +62,16 @@ namespace DIMS_Core.BusinessLayer.Services
                 return;
             }
 
-            var entity = await unitOfWork.TaskRepository.GetById(model.TaskId);
+            var task = await unitOfWork.TaskRepository.GetById(model.TaskId);
 
-            if (entity is null)
+            if (task is null)
             {
                 return;
             }
 
-            var mappedEntity = mapper.Map(model, entity);
+            var mappedTask = mapper.Map(model, task);
 
-            unitOfWork.TaskRepository.Update(mappedEntity);
+            unitOfWork.TaskRepository.Update(mappedTask);
 
             await unitOfWork.Save();
         }

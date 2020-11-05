@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using DIMS_Core.BusinessLayer.Interfaces;
+using DIMS_Core.BusinessLayer.Models.Account;
 using DIMS_Core.BusinessLayer.Models.Members;
 using DIMS_Core.BusinessLayer.Models.Samples;
 using DIMS_Core.Models.Member;
@@ -16,12 +17,17 @@ namespace DIMS_Core.Controllers
         private readonly IMemberService memberService;
         private readonly IMapper mapper;
         private readonly IDirectionService directionService;
+        private readonly IUserService userService;
 
-        public MemberController(IMemberService memberService, IDirectionService directionService, IMapper mapper)
+        public MemberController(IMemberService memberService,
+                                IDirectionService directionService,
+                                IMapper mapper,
+                                IUserService userService)
         {
             this.memberService = memberService;
             this.directionService = directionService;
             this.mapper = mapper;
+            this.userService = userService;
         }
 
         [HttpGet("")]
@@ -53,6 +59,10 @@ namespace DIMS_Core.Controllers
             var dto = mapper.Map<UserProfileModel>(model);
 
             await memberService.Create(dto);
+            
+            var signUpModel = mapper.Map<SignUpModel>(model);
+
+            await userService.SignUp(signUpModel);
 
             return RedirectToAction("Index");
         }
