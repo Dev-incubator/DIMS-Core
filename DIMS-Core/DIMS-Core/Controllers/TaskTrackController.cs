@@ -17,8 +17,10 @@ namespace DIMS_Core.Controllers
         private readonly IUserTaskService userTaskService;
         private readonly IMapper mapper;
 
-        public TaskTrackController(ITaskTrackService taskTrackService, 
-            IUserTaskService userTaskService, IMapper mapper)
+        public TaskTrackController(
+            ITaskTrackService taskTrackService, 
+            IUserTaskService userTaskService, 
+            IMapper mapper)
         {
             this.taskTrackService = taskTrackService;
             this.userTaskService = userTaskService;
