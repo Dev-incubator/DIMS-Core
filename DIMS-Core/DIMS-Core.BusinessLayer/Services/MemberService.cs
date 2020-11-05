@@ -26,10 +26,10 @@ namespace DIMS_Core.BusinessLayer.Services
 
         public async Task<IEnumerable<VUserProfileModel>> GetAll()
         {
-            var query = unitOfWork.VUserProfileRepository.GetAll();
-            var mappedQuery = mapper.ProjectTo<VUserProfileModel>(query);
+            var vUserProfiles = unitOfWork.VUserProfileRepository.GetAll();
+            var vUserProfileModels = mapper.ProjectTo<VUserProfileModel>(vUserProfiles);
 
-            return await mappedQuery.ToListAsync();
+            return await vUserProfileModels.ToListAsync();
         }
 
         public async Task<UserProfileModel> GetMember(int id)
@@ -39,10 +39,10 @@ namespace DIMS_Core.BusinessLayer.Services
                 return null;
             }
 
-            var entity = await unitOfWork.UserProfileRepository.GetById(id);
-            var model = mapper.Map<UserProfileModel>(entity);
+            var userProfile = await unitOfWork.UserProfileRepository.GetById(id);
+            var userProfileModel = mapper.Map<UserProfileModel>(userProfile);
 
-            return model;
+            return userProfileModel;
         }
 
         public async Task Create(UserProfileModel model)
@@ -52,9 +52,9 @@ namespace DIMS_Core.BusinessLayer.Services
                 return;
             }
 
-            var entity = mapper.Map<EntityUserProfile>(model);
+            var userProfile = mapper.Map<EntityUserProfile>(model);
 
-            await unitOfWork.UserProfileRepository.Create(entity);
+            await unitOfWork.UserProfileRepository.Create(userProfile);
 
             await unitOfWork.Save();
         }
@@ -66,16 +66,16 @@ namespace DIMS_Core.BusinessLayer.Services
                 return;
             }
 
-            var entity = await unitOfWork.UserProfileRepository.GetById(model.UserId);
+            var userProfile = await unitOfWork.UserProfileRepository.GetById(model.UserId);
 
-            if (entity is null)
+            if (userProfile is null)
             {
                 return;
             }
 
-            var mappedEntity = mapper.Map(model, entity);
+            var userProfileModel = mapper.Map(model, userProfile);
 
-            unitOfWork.UserProfileRepository.Update(mappedEntity);
+            unitOfWork.UserProfileRepository.Update(userProfileModel);
 
             await unitOfWork.Save();
         }

@@ -1,4 +1,4 @@
-﻿using AutoMapper;
+using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -138,6 +138,5 @@ namespace DIMS_Core.BusinessLayer.Services
         {
             await unitOfWork.UserTaskRepository.Delete(userTaskId);
         }
-
     }
 }
