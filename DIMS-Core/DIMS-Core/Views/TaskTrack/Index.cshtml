@@ -8,6 +8,7 @@
 <p class="float-lg-right">
     <a class="btn btn-primary" asp-action="create" asp-controller="task-tracks">Create</a>
 </p>
+
 <table class="table table-bordered">
     <thead>
         <tr>
@@ -39,7 +40,7 @@
             {
                 <tr>
                     <td>
-                        @Html.DisplayForModel(item.TaskTrackId)
+                        @Html.DisplayFor(i => item.TaskId)
                     </td>
                     <td>
                         @Html.ActionLink(item.TaskName, "details", "tasks", new { id = item.TaskId, back = "task-tracks" })

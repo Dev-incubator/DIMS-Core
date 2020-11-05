@@ -13,14 +13,12 @@ namespace DIMS_Core.Controllers
     [Route("task-tracks")]
     public class TaskTrackController : Controller
     {
-        private readonly ITaskTrackService taskTracksService;
-        private readonly IUserTaskService userTaskService;
-        private readonly IMapper mapper;
-
-        public TaskTrackController(ITaskTrackService taskTracksService, 
-            IUserTaskService userTaskService, IMapper mapper)
+        public TaskTrackController(
+            ITaskTrackService taskTrackService, 
+            IUserTaskService userTaskService, 
+            IMapper mapper)
         {
-            this.taskTracksService = taskTracksService;
+            this.taskTrackService = taskTrackService;
             this.userTaskService = userTaskService;
             this.mapper = mapper;
         }
@@ -31,7 +29,7 @@ namespace DIMS_Core.Controllers
             // To Do - Get the id of the current user
             int userId = 3;
 
-            var taskTracks = await taskTracksService.GetAllByUserId(userId);
+            var taskTracks = await taskTrackService.GetAllByUserId(userId);
             var model = mapper.Map<IEnumerable<VTaskTrackViewModel>>(taskTracks);
 
             return View(model);
@@ -43,7 +41,6 @@ namespace DIMS_Core.Controllers
             // To Do - Get the id of the current user
             int userId = 3;
 
-            ViewBag.BackController = back;
             if (userTaskId == 0)
             {
                 var userTasks = await userTaskService.GetAllByUserId(userId);
@@ -55,6 +52,7 @@ namespace DIMS_Core.Controllers
                 UserTaskId = userTaskId
             };            
 
+            ViewBag.BackController = back;
             return View(model);
         }
 
@@ -69,7 +67,35 @@ namespace DIMS_Core.Controllers
 
             var taskTrack = mapper.Map<TaskTrackModel>(model);
 
-            await taskTracksService.Create(taskTrack);
+            await taskTrackService.Create(taskTrack);
+
+            return RedirectToAction("Index");
+        }
+
+        [HttpGet("delete/{id}")]
+        public IActionResult Delete(int id)
+        {
+            if (id <= 0)
+            {
+                return BadRequest();
+            }
+
+            var taskTrack = taskTrackService.GetVTaskTrack(id);
+            var model = mapper.Map<VTaskTrackViewModel>(taskTrack);
+
+            return View(model);
+        }
+
+        [HttpPost("delete/{id}")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeletePost(int id)
+        {
+            if (id <= 0)
+            {
+                return BadRequest();
+            }
+
+            await taskTrackService.Delete(id);
 
             return RedirectToAction("Index");
         }

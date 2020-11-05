@@ -20,6 +20,7 @@ namespace DIMS_Core.BusinessLayer.Services
             this.unitOfWork = unitOfWork;
             this.mapper = mapper;
         }
+
         public async Task<IEnumerable<VTaskTrackModel>> GetAllByUserId(int userId)
         {
             var taskTracks = unitOfWork.VUserTrackRepository.GetAll()
@@ -28,6 +29,22 @@ namespace DIMS_Core.BusinessLayer.Services
             var mappedQuery = mapper.ProjectTo<VTaskTrackModel>(taskTracks);
 
             return await mappedQuery.ToListAsync();
+        }
+
+        public VTaskTrackModel GetVTaskTrack(int id)
+        {
+            if (id <= 0)
+            {
+                return null;
+            }
+
+            var entity = unitOfWork.VUserTrackRepository.GetAll()
+                .Where(vUserTrack => vUserTrack.TaskTrackId == id)
+                .FirstOrDefault();
+
+            var model = mapper.Map<VTaskTrackModel>(entity);
+
+            return model;
         }
 
         public async Task Create(TaskTrackModel model)
@@ -41,7 +58,19 @@ namespace DIMS_Core.BusinessLayer.Services
 
             await unitOfWork.TaskTrackRepository.Create(entity);
 
-            await unitOfWork.SaveAsync();
+            await unitOfWork.Save();
+        }
+
+        public async Task Delete(int id)
+        {
+            if (id <= 0)
+            {
+                return;
+            }
+
+            await unitOfWork.TaskTrackRepository.Delete(id);
+
+            await unitOfWork.Save();
         }
     }
 }

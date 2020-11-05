@@ -8,6 +8,10 @@ namespace DIMS_Core.BusinessLayer.Interfaces
     {
         Task<IEnumerable<VTaskTrackModel>> GetAllByUserId(int userId);
 
+        VTaskTrackModel GetVTaskTrack(int id);
+
         Task Create(TaskTrackModel model);
+
+        Task Delete(int id);
     }
 }

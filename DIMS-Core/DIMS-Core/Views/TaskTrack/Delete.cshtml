@@ -1,0 +1,43 @@
+﻿@model VTaskTrackViewModel
+
+@{
+    ViewData["Title"] = "Delete task track #" + Model.TaskTrackId;
+}
+
+<h1>Delete task track</h1>
+<h3>Are you sure you want to delete this?</h3>
+<hr />
+<div>
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayName("Track id")
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.TaskTrackId)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayName("Task")
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.TaskName)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayName("Note")
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.TrackNote)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayName("Date")
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.TrackDate)
+        </dd>
+    </dl>
+
+    <form asp-action="Delete" asp-controller="task-tracks" asp-route-id="@Model.TaskTrackId">
+        <input type="submit" value="Delete" class="btn btn-danger" />
+    </form>
+</div>
+
+@await Html.PartialAsync("_BackToList", new BackToListViewModel { Controller = "task-tracks" })
