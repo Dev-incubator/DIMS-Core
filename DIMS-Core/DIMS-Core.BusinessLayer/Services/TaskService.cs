@@ -106,9 +106,9 @@ namespace DIMS_Core.BusinessLayer.Services
                         await DeleteUserTask(userTask.UserTaskId);
                     }
                 }
-
-                await unitOfWork.Save();
             }
+
+            await unitOfWork.Save();
         }
 
         public async Task Delete(int id)
