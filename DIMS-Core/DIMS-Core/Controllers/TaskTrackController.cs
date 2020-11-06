@@ -40,6 +40,21 @@ namespace DIMS_Core.Controllers
             return View(model);
         }
 
+        [HttpGet("details/{id}")]
+        public async Task<IActionResult> Details(int id, string back = null)
+        {
+            if (id <= 0)
+            {
+                return BadRequest();
+            }
+
+            var taskTrack = taskTrackService.GetVTaskTrack(id);
+            var model = mapper.Map<VTaskTrackViewModel>(taskTrack);
+
+            ViewBag.BackController = back;
+            return View(model);
+        }
+
         [HttpGet("create")]
         public async Task<IActionResult> Create(int userTaskId = 0, string back = null)
         {
