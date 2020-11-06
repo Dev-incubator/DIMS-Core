@@ -1,8 +1,8 @@
-﻿@model TaskWithMembersViewModel
+﻿@model TaskViewModel
 
 @{
-    ViewData["Title"] = "Edit #" + Model.TaskId;
-}
+    ViewData["Title"] = "Edit task #" + Model.TaskId;
+} 
 
 <h1>Edit Task</h1>
 
@@ -13,42 +13,29 @@
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             @Html.HiddenFor(q => q.TaskId)
             <div class="form-group">
-                <label asp-for="Name" class="control-label"></label>
+                @Html.DisplayName("Name")
                 <input asp-for="Name" class="form-control" />
                 <span asp-validation-for="Name" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Description" class="control-label"></label>
+                @Html.DisplayName("Description")
                 <input asp-for="Description" class="form-control" />
                 <span asp-validation-for="Description" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="StartDate" class="control-label"></label>
+                @Html.DisplayName("Start date")
                 <input asp-for="StartDate" type="date" class="form-control" />
                 <span asp-validation-for="StartDate" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="DeadlineDate" class="control-label"></label>
+                @Html.DisplayName("Deadline")
                 <input asp-for="DeadlineDate" type="date" class="form-control" />
                 <span asp-validation-for="DeadlineDate" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Members" class="control-label"></label>
-                <div class="form-control checkbox-list">
-                    @for (var i = 0; i < Model.Members.Count; i++)
-                    {
-                        <div>
-                            @Html.HiddenFor(model => model.Members[i].UserTaskId)
-                            @Html.HiddenFor(model => model.Members[i].UserId)
-                            @Html.HiddenFor(model => model.Members[i].FullName)
-                            <label>
-                                @Html.CheckBoxFor(model => model.Members[i].Selected)
-                                @Html.DisplayTextFor(model => model.Members[i].FullName)
-                            </label>
-                        </div>
-                    }
-                </div>
-                <span asp-validation-for="Members" class="text-danger"></span>
+                @Html.DisplayName("Members")
+                @Html.CreateCheckListMembers(Model.SelectedMembers, (List<MemberViewModel>)ViewBag.AllMembers)
+                <span asp-validation-for="SelectedMembers" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-primary" />

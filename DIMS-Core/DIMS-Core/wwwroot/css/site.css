@@ -89,3 +89,24 @@ body {
     content: '';
     z-index: -1;
 }
+
+/* Checkbox list styles
+-------------------------------------------------- */
+.checkbox-list {
+    height: 170px;
+    overflow-y: scroll;
+    padding: 7px 10px;
+}
+
+.checkbox-list label {
+    cursor: pointer;
+    margin-bottom: 6px;
+}
+
+.checkbox-list .item:last-child label {
+    margin-bottom: 0;
+}
+
+.checkbox-list label input {
+    margin-right: 5px;
+}

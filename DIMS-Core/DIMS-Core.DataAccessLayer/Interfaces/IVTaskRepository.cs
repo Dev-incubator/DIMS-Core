@@ -8,6 +8,6 @@ namespace DIMS_Core.DataAccessLayer.Interfaces
 {
     public interface IVTaskRepository : IRepository<VTask>
     {
-        IQueryable<VTask> Search();
+
     }
 }

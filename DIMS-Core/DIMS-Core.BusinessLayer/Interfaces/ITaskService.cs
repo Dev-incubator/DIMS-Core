@@ -1,8 +1,5 @@
 ﻿using DIMS_Core.BusinessLayer.Models.Task;
-using DIMS_Core.DataAccessLayer.Filters;
-using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace DIMS_Core.BusinessLayer.Interfaces

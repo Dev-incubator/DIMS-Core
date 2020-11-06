@@ -12,27 +12,25 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.TaskId)
+                @Html.DisplayName("Id")
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Name)
+                @Html.DisplayName("Name")
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.StartDate)
+                @Html.DisplayName("Start date")
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.DeadlineDate)
+                @Html.DisplayName("Deadline")
             </th>
-            <th width="300px">Actions</th>
+            <th width="300px"></th>
         </tr>
     </thead>
     <tbody>
         @if (Model is null || !Model.Any())
         {
             <tr>
-                <td colspan="4" class="text-center">
-                    <strong>There aren't items.</strong>
-                </td>
+                <td colspan="5" class="text-center">There aren't items.</td>
             </tr>
         }
         else
@@ -41,16 +39,16 @@
             {
                 <tr>
                     <td>
-                        @Html.DisplayFor(modelItem => item.TaskId)
+                        @Html.ActionLink(item.TaskId.ToString(), "Details", new { id = item.TaskId })
                     </td>
                     <td>
-                        @Html.DisplayFor(modelItem => item.Name)
+                        @Html.ActionLink(item.Name, "Details", new { id = item.TaskId })
                     </td>
                     <td>
-                        @Html.DisplayFor(modelItem => item.StartDate)
+                        @Convert.ToDateTime(item.StartDate).ToString("MM/dd/yyyy")
                     </td>
                     <td>
-                        @Html.DisplayFor(modelItem => item.DeadlineDate)
+                        @Convert.ToDateTime(item.DeadlineDate).ToString("MM/dd/yyyy")
                     </td>
                     <td align="center">
                         <div class="btn-group">
