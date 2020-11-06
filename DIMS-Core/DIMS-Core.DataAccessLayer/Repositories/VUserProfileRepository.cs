@@ -13,10 +13,5 @@ namespace DIMS_Core.DataAccessLayer.Repositories
     public class VUserProfileRepository : Repository<VUserProfile>, IVUserProfileRepository
     {
         public VUserProfileRepository(DIMSCoreDatabaseContext dbContext) : base(dbContext) { }
-
-        public IQueryable<VUserProfile> Search()
-        {
-            return GetAll();
-        }
     }
 }

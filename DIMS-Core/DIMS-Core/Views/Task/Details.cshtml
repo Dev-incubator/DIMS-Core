@@ -1,4 +1,4 @@
-﻿@model TaskWithMembersViewModel
+﻿@model TaskViewModel
 
 @{
     ViewData["Title"] = "Task Details #" + Model.TaskId;
@@ -9,50 +9,40 @@
 <div>
     <dl class="row">
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.TaskId)
+            @Html.DisplayName("Id")
         </dt>
         <dd class="col-sm-10">
             @Html.DisplayFor(model => model.TaskId)
         </dd>
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Name)
+            @Html.DisplayName("Name")
         </dt>
         <dd class="col-sm-10">
             @Html.DisplayFor(model => model.Name)
         </dd>
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Description)
+            @Html.DisplayName("Description")
         </dt>
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Description)
+            @Html.DisplayStringOrNull(Model.Description)
         </dd>
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.StartDate)
+            @Html.DisplayName("Start date")
         </dt>
         <dd class="col-sm-10">
             @Convert.ToDateTime(Model.StartDate).ToString("MM/dd/yyyy")
         </dd>
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.DeadlineDate)
+            @Html.DisplayName("Deadline")
         </dt>
         <dd class="col-sm-10">
             @Convert.ToDateTime(Model.DeadlineDate).ToString("MM/dd/yyyy")
         </dd>
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Members)
+            @Html.DisplayName("Members")
         </dt>
         <dd class="col-sm-10">
-            @if (Model.Members is null || !Model.Members.Any())
-            {
-                <div>-</div>
-            }
-            else
-            {
-                @for (var i = 0; i < Model.Members.Count; i++)
-                {
-                    <div>@Html.DisplayTextFor(model => model.Members[i].FullName)</div>
-                }
-            }
+            @Html.CreateSimpleListMembers(Model.SelectedMembers, (List<MemberViewModel>)ViewBag.AllMembers)
         </dd>
     </dl>
 </div>

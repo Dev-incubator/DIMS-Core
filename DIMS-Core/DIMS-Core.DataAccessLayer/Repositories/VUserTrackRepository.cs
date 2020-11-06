@@ -11,10 +11,5 @@ namespace DIMS_Core.DataAccessLayer.Repositories
     public class VUserTrackRepository : Repository<VUserTrack>, IVUserTrackRepository
     {
         public VUserTrackRepository(DIMSCoreDatabaseContext dbContext) : base(dbContext) { }
-
-        public IQueryable<VUserTrack> Search()
-        {
-            return GetAll();
-        }
     }
 }
