@@ -1,7 +1,5 @@
 ﻿using DIMS_Core.BusinessLayer.Models.Members;
-using System;
-using System.Collections.Generic;
-using System.Text;
+using TaskEntity = DIMS_Core.DataAccessLayer.Entities.Task;
 
 namespace DIMS_Core.BusinessLayer.Models.UserTask
 {
@@ -13,5 +11,6 @@ namespace DIMS_Core.BusinessLayer.Models.UserTask
         public int StateId { get; set; }
 
         public UserProfileModel User { get; set; }
+        public TaskEntity Task { get; set; }
     }
 }

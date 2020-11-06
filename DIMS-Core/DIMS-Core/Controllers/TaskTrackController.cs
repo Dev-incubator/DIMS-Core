@@ -1,4 +1,5 @@
-﻿using AutoMapper;
+﻿using System;
+using AutoMapper;
 using DIMS_Core.BusinessLayer.Interfaces;
 using DIMS_Core.BusinessLayer.Models.TaskTrack;
 using DIMS_Core.BusinessLayer.Models.UserTask;
@@ -13,6 +14,10 @@ namespace DIMS_Core.Controllers
     [Route("task-tracks")]
     public class TaskTrackController : Controller
     {
+        private readonly ITaskTrackService taskTrackService;
+        private readonly IUserTaskService userTaskService;
+        private readonly IMapper mapper;
+
         public TaskTrackController(
             ITaskTrackService taskTrackService, 
             IUserTaskService userTaskService, 
@@ -41,17 +46,14 @@ namespace DIMS_Core.Controllers
             // To Do - Get the id of the current user
             int userId = 3;
 
-            if (userTaskId == 0)
-            {
-                var userTasks = await userTaskService.GetAllByUserId(userId);
-                ViewBag.SelectListUserTasks = new SelectList(userTasks, "UserTaskId", "Task.Name");
-            }
-
             var model = new TaskTrackViewModel
             {
-                UserTaskId = userTaskId
-            };            
+                UserTaskId = userTaskId,
+                TrackDate = DateTime.Now
+            };
 
+            var userTasks = await userTaskService.GetAllByUserId(userId);
+            ViewBag.SelectListUserTasks = new SelectList(userTasks, "UserTaskId", "Task.Name");
             ViewBag.BackController = back;
             return View(model);
         }
