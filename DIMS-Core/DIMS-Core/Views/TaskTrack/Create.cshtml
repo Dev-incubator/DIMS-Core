@@ -1,0 +1,37 @@
+﻿@model TaskTrackViewModel
+
+@{
+    ViewData["Title"] = "Create task track";
+}
+
+<h1>Create Task Track</h1>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="create" asp-controller="task-tracks" asp-antiforgery="true">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label class="control-label">Select task</label>
+                <select asp-for="UserTaskId" asp-items="ViewBag.SelectListUserTasks" class="form-control" required>
+                    @Model.UserTaskId != 0 ? Model.UserTaskId : null;
+                </select>
+                <span asp-validation-for="UserTaskId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="TrackDate" class="control-label"></label>
+                <input asp-for="TrackDate" type="date" class="form-control" />
+                <span asp-validation-for="TrackDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="TrackNote" class="control-label"></label>
+                <input asp-for="TrackNote" class="form-control" />
+                <span asp-validation-for="TrackNote" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+@await Html.PartialAsync("_BackToList", new BackToListViewModel { Controller = ViewBag.BackController ?? "task-tracks" })

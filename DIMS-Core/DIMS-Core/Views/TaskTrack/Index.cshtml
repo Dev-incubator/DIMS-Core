@@ -1,9 +1,13 @@
-﻿@model IEnumerable<TaskTrackViewModel>
+﻿@model IEnumerable<VTaskTrackViewModel>
 @{
-    ViewData["Title"] = "My task traks";
+    ViewData["Title"] = "My task tracks";
 }
 
 <h1>My task traks</h1>
+
+<p class="float-lg-right">
+    <a class="btn btn-primary" asp-action="create" asp-controller="task-tracks">Create</a>
+</p>
 
 <table class="table table-bordered">
     <thead>
