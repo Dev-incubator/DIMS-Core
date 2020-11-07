@@ -33,8 +33,20 @@ namespace DIMS_Core.Controllers
             return View(model);
         }
 
+        [HttpGet("my-tasks")]
+        public async Task<IActionResult> MyTasks()
+        {
+            // To Do - Get the id of the current user
+            int userId = 3;
+
+            var myTask = await taskService.GetAllMyTask(userId);
+            var model = mapper.Map<IEnumerable<MyTaskViewModel>>(myTask);
+
+            return View(model);
+        }
+
         [HttpGet("details/{id}")]
-        public async Task<IActionResult> Details(int id, string back = null)
+        public async Task<IActionResult> Details(int id, string back = null, string backAction = null)
         {
             if (id <= 0)
             {
@@ -45,6 +57,7 @@ namespace DIMS_Core.Controllers
             var model = mapper.Map<TaskViewModel>(task);
             
             ViewBag.BackController = back;
+            ViewBag.BackAction = backAction;
             ViewBag.AllMembers = await memberService.GetMembersViewModel(mapper);
             return View(model);
         }
@@ -139,6 +152,62 @@ namespace DIMS_Core.Controllers
             await taskService.Delete(id);
 
             return RedirectToAction("Index");
+        }
+
+        [HttpPost("task-active/{id}")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> TaskActive(int id)
+        {
+            if (id <= 0)
+            {
+                return BadRequest();
+            }
+
+            await taskService.SetTaskActive(id);
+
+            return RedirectToAction("MyTasks");
+        }
+
+        [HttpPost("task-pause/{id}")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> TaskPause(int id)
+        {
+            if (id <= 0)
+            {
+                return BadRequest();
+            }
+
+            await taskService.SetTaskPause(id);
+
+            return RedirectToAction("MyTasks");
+        }
+
+        [HttpPost("task-success/{id}")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> TaskSuccess(int id)
+        {
+            if (id <= 0)
+            {
+                return BadRequest();
+            }
+
+            await taskService.SetTaskSuccess(id);
+
+            return RedirectToAction("MyTasks");
+        }
+
+        [HttpPost("task-fail/{id}")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> TaskFail(int id)
+        {
+            if (id <= 0)
+            {
+                return BadRequest();
+            }
+
+            await taskService.SetTaskFail(id);
+
+            return RedirectToAction("MyTasks");
         }
     }
 }
