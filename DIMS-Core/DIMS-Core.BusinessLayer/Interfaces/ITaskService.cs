@@ -17,7 +17,9 @@ namespace DIMS_Core.BusinessLayer.Interfaces
         Task Delete(int id);
 
         Task Update(TaskModel model);
+
         Task SetTaskActive(int userTaskId);
+
         Task SetTaskPause(int userTaskId);
 
         Task SetTaskSuccess(int userTaskId);
