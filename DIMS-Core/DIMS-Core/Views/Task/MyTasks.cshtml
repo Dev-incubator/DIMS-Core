@@ -1,0 +1,104 @@
+﻿@model IEnumerable<MyTaskViewModel>
+@{
+    ViewData["Title"] = "My tasks";
+}
+
+<h1>My tasks</h1>
+
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayName("Id")
+            </th>
+            <th>
+                @Html.DisplayName("Name")
+            </th>
+            <th>
+                @Html.DisplayName("Start date")
+            </th>
+            <th>
+                @Html.DisplayName("Deadline")
+            </th>
+            <th>
+                @Html.DisplayName("Status")
+            </th>
+            <th width="150px"></th>
+            <th width="300px">(Only for Admin)</th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (Model is null || !Model.Any())
+        {
+            <tr>
+                <td colspan="7" class="text-center">There aren't items.</td>
+            </tr>
+        }
+        else
+        {
+            foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(i => item.TaskId)
+                    </td>
+                    <td>
+                        @Html.ActionLink(item.Name, "Details", new { id = item.TaskId, back = "tasks", backAction = "my-tasks" })
+                    </td>
+                    <td>
+                        @Convert.ToDateTime(item.StartDate).ToString("MM/dd/yyyy")
+                    </td>
+                    <td>
+                        @Convert.ToDateTime(item.DeadlineDate).ToString("MM/dd/yyyy")
+                    </td>
+                    <td>
+                        @{ 
+                            var statusColor = string.Empty;
+                            switch (item.Status)
+                            {
+                                case "Active": statusColor = "text-info"; break;
+                                case "Pause": statusColor = "text-warning"; break;
+                                case "Success": statusColor = "text-success"; break;
+                                default: statusColor = "text-danger"; break;
+                            }
+                        }
+                        <span class="@statusColor">@Html.DisplayFor(i => item.Status)</span>
+                    </td>
+                    <td align="center">
+                        <div class="btn-group">
+                            @Html.ActionLink("New Track", "Create", "TaskTrack", new { userTaskId = item.UserTaskId, back = "tasks", backAction = "my-tasks" }, new { @class = "btn btn-primary" })
+                        </div>
+                    </td>
+                    <td align="center">
+                        <div class="btn-group">
+                            @if (item.Status != "Active")
+                            {
+                                <form asp-action="task-active" asp-controller="tasks" asp-route-id="@item.UserTaskId" asp-antiforgery="true">
+                                    <input type="submit" value="Active" class="btn btn-info" />
+                                </form>
+                            }
+                            @if (item.Status != "Pause")
+                            {
+                                <form asp-action="task-pause" asp-controller="tasks" asp-route-id="@item.UserTaskId" asp-antiforgery="true">
+                                    <input type="submit" value="Pause" class="btn btn-warning" />
+                                </form>
+                            }
+                            @if (item.Status != "Success")
+                            {
+                                <form asp-action="task-success" asp-controller="tasks" asp-route-id="@item.UserTaskId" asp-antiforgery="true">
+                                    <input type="submit" value="Success" class="btn btn-success"/>
+                                </form>
+                            }
+                            @if (item.Status != "Fail")
+                            {
+                                <form asp-action="task-fail" asp-controller="tasks" asp-route-id="@item.UserTaskId" asp-antiforgery="true">
+                                    <input type="submit" value="Fail" class="btn btn-danger"/>
+                                </form>
+                            }
+                        </div>
+                    </td>
+                </tr>
+            }
+        }
+    </tbody>
+</table>
