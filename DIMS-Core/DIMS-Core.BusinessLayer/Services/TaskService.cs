@@ -30,6 +30,15 @@ namespace DIMS_Core.BusinessLayer.Services
             return await mappedQuery.ToListAsync();
         }
 
+        public async Task<IEnumerable<MyTaskModel>> GetAllMyTask(int userId)
+        {
+            var userTasks = unitOfWork.UserTaskRepository.GetAll()
+                .Where(userTask => userTask.UserId == userId);
+            var mappedQuery = mapper.ProjectTo<MyTaskModel>(userTasks);
+
+            return await mappedQuery.ToListAsync();
+        }
+
         public async Task<TaskModel> GetTask(int id)
         {
             if (id <= 0)
@@ -137,6 +146,54 @@ namespace DIMS_Core.BusinessLayer.Services
         private async Task DeleteUserTask(int userTaskId)
         {
             await unitOfWork.UserTaskRepository.Delete(userTaskId);
+        }
+
+        public async Task SetTaskActive(int userTaskId)
+        {
+            if (userTaskId <= 0)
+            {
+                return;
+            }
+
+            var userTask = await unitOfWork.UserTaskRepository.GetById(userTaskId);
+            unitOfWork.TaskStateRepository.SetActive(userTask.UserId, userTask.TaskId);
+            await unitOfWork.Save();
+        }
+
+        public async Task SetTaskPause(int userTaskId)
+        {
+            if (userTaskId <= 0)
+            {
+                return;
+            }
+
+            var userTask = await unitOfWork.UserTaskRepository.GetById(userTaskId);
+            unitOfWork.TaskStateRepository.SetPause(userTask.UserId, userTask.TaskId);
+            await unitOfWork.Save();
+        }
+
+        public async Task SetTaskSuccess(int userTaskId)
+        {
+            if (userTaskId <= 0)
+            {
+                return;
+            }
+
+            var userTask = await unitOfWork.UserTaskRepository.GetById(userTaskId);
+            unitOfWork.TaskStateRepository.SetSuccess(userTask.UserId, userTask.TaskId);
+            await unitOfWork.Save();
+        }
+
+        public async Task SetTaskFail(int userTaskId)
+        {
+            if (userTaskId <= 0)
+            {
+                return;
+            }
+
+            var userTask = await unitOfWork.UserTaskRepository.GetById(userTaskId);
+            unitOfWork.TaskStateRepository.SetFail(userTask.UserId, userTask.TaskId);
+            await unitOfWork.Save();
         }
     }
 }

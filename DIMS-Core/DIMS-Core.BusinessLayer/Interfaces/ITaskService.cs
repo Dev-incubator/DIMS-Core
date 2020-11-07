@@ -8,6 +8,8 @@ namespace DIMS_Core.BusinessLayer.Interfaces
     {
         Task<IEnumerable<TaskModel>> GetAll();
 
+        Task<IEnumerable<MyTaskModel>> GetAllMyTask(int userId);
+
         Task<TaskModel> GetTask(int id);
 
         Task Create(TaskModel model);
@@ -15,5 +17,11 @@ namespace DIMS_Core.BusinessLayer.Interfaces
         Task Delete(int id);
 
         Task Update(TaskModel model);
+        Task SetTaskActive(int userTaskId);
+        Task SetTaskPause(int userTaskId);
+
+        Task SetTaskSuccess(int userTaskId);
+
+        Task SetTaskFail(int userTaskId);
     }
 }
