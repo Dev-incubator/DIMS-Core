@@ -41,7 +41,7 @@ namespace DIMS_Core.Controllers
         }
 
         [HttpGet("create")]
-        public async Task<IActionResult> Create(int userTaskId = 0, string back = null)
+        public async Task<IActionResult> Create(int userTaskId = 0, string back = null, string backAction = null)
         {
             // To Do - Get the id of the current user
             int userId = 3;
@@ -55,6 +55,7 @@ namespace DIMS_Core.Controllers
             var userTasks = await userTaskService.GetAllByUserId(userId);
             ViewBag.SelectListUserTasks = new SelectList(userTasks, "UserTaskId", "Task.Name");
             ViewBag.BackController = back;
+            ViewBag.BackAction = backAction;
             return View(model);
         }
 
