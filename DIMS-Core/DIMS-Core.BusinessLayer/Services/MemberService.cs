@@ -10,6 +10,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 using EntityUserProfile = DIMS_Core.DataAccessLayer.Entities.UserProfile;
+using UserTask = DIMS_Core.DataAccessLayer.Entities.Task;
 
 namespace DIMS_Core.BusinessLayer.Services
 {
@@ -92,5 +93,17 @@ namespace DIMS_Core.BusinessLayer.Services
             await unitOfWork.Save();
         }
 
+        public async Task<IEnumerable<UserTask>> GetTasksByUserId(int userId)
+        {
+            var user = await unitOfWork.UserProfileRepository.GetById(userId);
+            var result = new List<UserTask>();
+
+            foreach(var userTask in user.UserTask)
+            {
+                result.Add(userTask.Task);
+            }
+
+            return result;
+        }
     }
 }

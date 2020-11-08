@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
+using UserTask = DIMS_Core.DataAccessLayer.Entities.Task;
 
 namespace DIMS_Core.BusinessLayer.Interfaces
 {
@@ -18,5 +19,7 @@ namespace DIMS_Core.BusinessLayer.Interfaces
         Task Delete(int id);
 
         Task Update(UserProfileModel model);
+
+        Task<IEnumerable<UserTask>> GetTasksByUserId(int userId);
     }
 }

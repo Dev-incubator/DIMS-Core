@@ -142,10 +142,17 @@ namespace DIMS_Core.Controllers
         {
             var vTaskTracks = await taskTrackService.GetAllByUserId(id);
 
-            var member = await memberService.GetMember(id);
-            ViewBag.Member = member;
+            ViewBag.Member = await memberService.GetMember(id);
 
             return View(vTaskTracks);
+        }
+
+        [HttpGet("userTasks/{id}")]
+        public async Task<IActionResult> UserTasks(int id)
+        {
+            var tasks = await memberService.GetTasksByUserId(id);
+            ViewBag.Member = await memberService.GetMember(id);
+            return View(tasks);
         }
     }
 }
