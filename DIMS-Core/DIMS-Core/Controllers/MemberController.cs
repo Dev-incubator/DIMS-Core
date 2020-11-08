@@ -18,16 +18,19 @@ namespace DIMS_Core.Controllers
         private readonly IMapper mapper;
         private readonly IDirectionService directionService;
         private readonly IUserService userService;
+        private readonly ITaskTrackService taskTrackService;
 
         public MemberController(IMemberService memberService,
                                 IDirectionService directionService,
                                 IMapper mapper,
-                                IUserService userService)
+                                IUserService userService,
+                                ITaskTrackService taskTrackService)
         {
             this.memberService = memberService;
             this.directionService = directionService;
             this.mapper = mapper;
             this.userService = userService;
+            this.taskTrackService = taskTrackService;
         }
 
         [HttpGet("")]
@@ -132,6 +135,17 @@ namespace DIMS_Core.Controllers
             await memberService.Delete(id);
 
             return RedirectToAction("Index");
+        }
+
+        [HttpGet("progress/{id}")]
+        public async Task<IActionResult> Progress(int id)
+        {
+            var vTaskTracks = await taskTrackService.GetAllByUserId(id);
+
+            var member = await memberService.GetMember(id);
+            ViewBag.Member = member;
+
+            return View(vTaskTracks);
         }
     }
 }
