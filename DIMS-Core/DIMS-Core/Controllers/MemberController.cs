@@ -70,15 +70,15 @@ namespace DIMS_Core.Controllers
             return RedirectToAction("Index");
         }
 
-        [HttpGet("edit/{id}")]
-        public async Task<IActionResult> Edit(int id)
+        [HttpGet("edit/{userId}")]
+        public async Task<IActionResult> Edit(int userId)
         {
-            if (id <= 0)
+            if (userId <= 0)
             {
                 return BadRequest();
             }
 
-            var dto = await memberService.GetMember(id);
+            var dto = await memberService.GetMember(userId);
             var model = mapper.Map<EditMemberViewModel>(dto);
 
             ViewBag.Directions = await directionService.GetAll();
@@ -109,49 +109,49 @@ namespace DIMS_Core.Controllers
             return RedirectToAction("Index");
         }
 
-        [HttpGet("delete/{id}")]
-        public async Task<IActionResult> Delete(int id)
+        [HttpGet("delete/{userId}")]
+        public async Task<IActionResult> Delete(int userId)
         {
-            if (id <= 0)
+            if (userId <= 0)
             {
                 return BadRequest();
             }
 
-            var dto = await memberService.GetMember(id);
+            var dto = await memberService.GetMember(userId);
             var model = mapper.Map<MemberViewModel>(dto);
 
             return View(model);
         }
 
-        [HttpPost("delete/{id}")]
+        [HttpPost("delete/{userId}")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeletePost(int id)
+        public async Task<IActionResult> DeletePost(int userId)
         {
-            if (id <= 0)
+            if (userId <= 0)
             {
                 return BadRequest();
             }
 
-            await memberService.Delete(id);
+            await memberService.Delete(userId);
 
             return RedirectToAction("Index");
         }
 
-        [HttpGet("progress/{id}")]
-        public async Task<IActionResult> Progress(int id)
+        [HttpGet("progress/{userId}")]
+        public async Task<IActionResult> Progress(int userId)
         {
-            var vTaskTracks = await taskTrackService.GetAllByUserId(id);
+            var vTaskTracks = await taskTrackService.GetAllByUserId(userId);
 
-            ViewBag.Member = await memberService.GetMember(id);
+            ViewBag.Member = await memberService.GetMember(userId);
 
             return View(vTaskTracks);
         }
 
-        [HttpGet("userTasks/{id}")]
-        public async Task<IActionResult> UserTasks(int id)
+        [HttpGet("userTasks/{userId}")]
+        public async Task<IActionResult> UserTasks(int userId)
         {
-            var tasks = await memberService.GetTasksByUserId(id);
-            ViewBag.Member = await memberService.GetMember(id);
+            var tasks = await memberService.GetTasksByUserId(userId);
+            ViewBag.Member = await memberService.GetMember(userId);
             return View(tasks);
         }
     }

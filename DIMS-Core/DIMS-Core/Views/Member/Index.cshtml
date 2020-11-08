@@ -62,12 +62,12 @@
                         <div class="btn-group container">
                             <div class="row">
                                 <div class="col">
-                                    @Html.ActionLink("Progress", "Progress", new { id = item.UserId }, new { @class = "btn btn-primary w-100 m-2" })
-                                    @Html.ActionLink("Edit", "Edit", new { id = item.UserId }, new { @class = "btn btn-warning w-100 m-2" })
+                                    @Html.ActionLink("Progress", "Progress", new { userId = item.UserId }, new { @class = "btn btn-primary w-100 m-2" })
+                                    @Html.ActionLink("Edit", "Edit", new { userId = item.UserId }, new { @class = "btn btn-warning w-100 m-2" })
                                 </div>
                                 <div class="col">
-                                    @Html.ActionLink("UserTasks", "UserTasks", new { id = item.UserId }, new { @class = "btn btn-primary w-100 m-2" })
-                                    @Html.ActionLink("Delete", "Delete", new { id = item.UserId }, new { @class = "btn btn-danger w-100 m-2" })
+                                    @Html.ActionLink("UserTasks", "UserTasks", new { userId = item.UserId }, new { @class = "btn btn-primary w-100 m-2" })
+                                    @Html.ActionLink("Delete", "Delete", new { userId = item.UserId }, new { @class = "btn btn-danger w-100 m-2" })
                                 </div>   
                             </div>
                         </div>
