@@ -6,6 +6,7 @@ using DIMS_Core.Models.Task;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using TaskStateEnum = DIMS_Core.DataAccessLayer.Enums.TaskState;
 
 namespace DIMS_Core.Controllers
 {
@@ -156,14 +157,14 @@ namespace DIMS_Core.Controllers
 
         [HttpPost("task-status")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> TaskStatusPost(int id, int status)
+        public async Task<IActionResult> TaskStatePost(int id, TaskStateEnum status)
         {
             if (id <= 0 || status <= 0)
             {
                 return BadRequest();
             }
 
-            await taskService.SetTaskStatus(id, status);
+            await taskService.SetTaskState(id, status);
 
             return RedirectToAction("CurrentTasks");
         }

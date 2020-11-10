@@ -1,13 +1,14 @@
 using AutoMapper;
+using DIMS_Core.BusinessLayer.Interfaces;
+using DIMS_Core.BusinessLayer.Models.Task;
+using DIMS_Core.DataAccessLayer.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
-using DIMS_Core.BusinessLayer.Interfaces;
-using DIMS_Core.DataAccessLayer.Interfaces;
-using DIMS_Core.BusinessLayer.Models.Task;
 using TaskEntity = DIMS_Core.DataAccessLayer.Entities.Task;
 using UserTaskEntity = DIMS_Core.DataAccessLayer.Entities.UserTask;
-using System.Linq;
+using TaskStateEnum = DIMS_Core.DataAccessLayer.Enums.TaskState;
 
 namespace DIMS_Core.BusinessLayer.Services
 {
@@ -148,7 +149,7 @@ namespace DIMS_Core.BusinessLayer.Services
             await unitOfWork.UserTaskRepository.Delete(userTaskId);
         }
 
-        public async Task SetTaskStatus(int id, int status)
+        public async Task SetTaskState(int id, TaskStateEnum status)
         {
             if (id <= 0 || status <= 0)
             {
@@ -156,7 +157,7 @@ namespace DIMS_Core.BusinessLayer.Services
             }
 
             var userTask = await unitOfWork.UserTaskRepository.GetById(id);
-            unitOfWork.TaskStateRepository.SetStatus(userTask.UserId, userTask.TaskId, status);
+            unitOfWork.TaskStateRepository.SetState(userTask.UserId, userTask.TaskId, status);
             await unitOfWork.Save();
         }
     }

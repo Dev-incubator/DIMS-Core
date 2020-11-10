@@ -1,6 +1,7 @@
 ﻿using DIMS_Core.BusinessLayer.Models.Task;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using TaskStateEnums = DIMS_Core.DataAccessLayer.Enums.TaskState;
 
 namespace DIMS_Core.BusinessLayer.Interfaces
 {
@@ -18,6 +19,6 @@ namespace DIMS_Core.BusinessLayer.Interfaces
 
         Task Update(TaskModel model);
 
-        Task SetTaskStatus(int userTaskId, int status);
+        Task SetTaskState(int userTaskId, TaskStateEnums status);
     }
 }
