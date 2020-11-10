@@ -18,12 +18,6 @@ namespace DIMS_Core.BusinessLayer.Interfaces
 
         Task Update(TaskModel model);
 
-        Task SetTaskActive(int userTaskId);
-
-        Task SetTaskPause(int userTaskId);
-
-        Task SetTaskSuccess(int userTaskId);
-
-        Task SetTaskFail(int userTaskId);
+        Task SetTaskStatus(int userTaskId, int status);
     }
 }

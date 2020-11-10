@@ -9,24 +9,17 @@ namespace DIMS_Core.DataAccessLayer.Repositories
     {
         public TaskStateRepository(DIMSCoreDatabaseContext dbContext) : base(dbContext) { }
 
-        public void SetActive(int userId, int taskId)
+        public void SetStatus(int userId, int taskId, int status)
         {
-            databaseContext.Database.ExecuteSqlRaw($"SetUserTaskAsActive {userId},{taskId}");
-        }
-
-        public void SetPause(int userId, int taskId)
-        {
-            databaseContext.Database.ExecuteSqlRaw($"SetUserTaskAsPause {userId},{taskId}");
-        }
-
-        public void SetSuccess(int userId, int taskId)
-        {
-            databaseContext.Database.ExecuteSqlRaw($"SetUserTaskAsSuccess {userId},{taskId}");
-        }
-
-        public void SetFail(int userId, int taskId)
-        {
-            databaseContext.Database.ExecuteSqlRaw($"SetUserTaskAsFail {userId},{taskId}");
+            string sql = string.Empty;
+            switch (status)
+            {
+                case 1: sql = $"SetUserTaskAsActive {userId},{taskId}"; break;
+                case 2: sql = $"SetUserTaskAsPause {userId},{taskId}"; break;
+                case 3: sql = $"SetUserTaskAsSuccess {userId},{taskId}"; break;
+                default: sql = $"SetUserTaskAsFail {userId},{taskId}"; break;
+            }
+            databaseContext.Database.ExecuteSqlRaw(sql);
         }
     }
 }

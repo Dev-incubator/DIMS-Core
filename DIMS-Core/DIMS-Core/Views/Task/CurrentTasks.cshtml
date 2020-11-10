@@ -70,31 +70,26 @@
                         </div>
                     </td>
                     <td align="center">
-                        <div class="btn-group">
-                            @if (item.Status != "Active")
-                            {
-                                <form asp-action="task-active" asp-controller="tasks" asp-route-id="@item.UserTaskId" asp-antiforgery="true">
-                                    <input type="submit" value="Active" class="btn btn-info" />
-                                </form>
-                            }
-                            @if (item.Status != "Pause")
-                            {
-                                <form asp-action="task-pause" asp-controller="tasks" asp-route-id="@item.UserTaskId" asp-antiforgery="true">
-                                    <input type="submit" value="Pause" class="btn btn-warning" />
-                                </form>
-                            }
-                            @if (item.Status != "Success")
-                            {
-                                <form asp-action="task-success" asp-controller="tasks" asp-route-id="@item.UserTaskId" asp-antiforgery="true">
-                                    <input type="submit" value="Success" class="btn btn-success"/>
-                                </form>
-                            }
-                            @if (item.Status != "Fail")
-                            {
-                                <form asp-action="task-fail" asp-controller="tasks" asp-route-id="@item.UserTaskId" asp-antiforgery="true">
-                                    <input type="submit" value="Fail" class="btn btn-danger"/>
-                                </form>
-                            }
+                        <div class="btn-group btn-3">
+                            <form asp-action="task-status" asp-controller="tasks" asp-antiforgery="true">
+                                <input type="hidden" name="id" value="@item.UserTaskId" />
+                                @if (item.Status != "Active")
+                                {
+                                    <button type="submit" name="status" value="1" class="btn btn-info">Active</button>
+                                }
+                                @if (item.Status != "Pause")
+                                {
+                                    <button type="submit" name="status" value="2" class="btn btn-warning">Pause</button>
+                                }
+                                @if (item.Status != "Success")
+                                {
+                                    <button type="submit" name="status" value="3" class="btn btn-success">Success</button>
+                                }
+                                @if (item.Status != "Fail")
+                                {
+                                    <button type="submit" name="status" value="4" class="btn btn-danger">Fail</button>
+                                }
+                            </form>
                         </div>
                     </td>
                 </tr>

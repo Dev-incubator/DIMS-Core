@@ -154,60 +154,18 @@ namespace DIMS_Core.Controllers
             return RedirectToAction("Index");
         }
 
-        [HttpPost("task-active/{id}")]
+        [HttpPost("task-status")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> TaskActive(int id)
+        public async Task<IActionResult> TaskStatusPost(int id, int status)
         {
-            if (id <= 0)
+            if (id <= 0 || status <= 0)
             {
                 return BadRequest();
             }
 
-            await taskService.SetTaskActive(id);
+            await taskService.SetTaskStatus(id, status);
 
-            return RedirectToAction("MyTasks");
-        }
-
-        [HttpPost("task-pause/{id}")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> TaskPause(int id)
-        {
-            if (id <= 0)
-            {
-                return BadRequest();
-            }
-
-            await taskService.SetTaskPause(id);
-
-            return RedirectToAction("MyTasks");
-        }
-
-        [HttpPost("task-success/{id}")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> TaskSuccess(int id)
-        {
-            if (id <= 0)
-            {
-                return BadRequest();
-            }
-
-            await taskService.SetTaskSuccess(id);
-
-            return RedirectToAction("MyTasks");
-        }
-
-        [HttpPost("task-fail/{id}")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> TaskFail(int id)
-        {
-            if (id <= 0)
-            {
-                return BadRequest();
-            }
-
-            await taskService.SetTaskFail(id);
-
-            return RedirectToAction("MyTasks");
+            return RedirectToAction("CurrentTasks");
         }
     }
 }

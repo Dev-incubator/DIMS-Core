@@ -148,51 +148,15 @@ namespace DIMS_Core.BusinessLayer.Services
             await unitOfWork.UserTaskRepository.Delete(userTaskId);
         }
 
-        public async Task SetTaskActive(int userTaskId)
+        public async Task SetTaskStatus(int id, int status)
         {
-            if (userTaskId <= 0)
+            if (id <= 0 || status <= 0)
             {
                 return;
             }
 
-            var userTask = await unitOfWork.UserTaskRepository.GetById(userTaskId);
-            unitOfWork.TaskStateRepository.SetActive(userTask.UserId, userTask.TaskId);
-            await unitOfWork.Save();
-        }
-
-        public async Task SetTaskPause(int userTaskId)
-        {
-            if (userTaskId <= 0)
-            {
-                return;
-            }
-
-            var userTask = await unitOfWork.UserTaskRepository.GetById(userTaskId);
-            unitOfWork.TaskStateRepository.SetPause(userTask.UserId, userTask.TaskId);
-            await unitOfWork.Save();
-        }
-
-        public async Task SetTaskSuccess(int userTaskId)
-        {
-            if (userTaskId <= 0)
-            {
-                return;
-            }
-
-            var userTask = await unitOfWork.UserTaskRepository.GetById(userTaskId);
-            unitOfWork.TaskStateRepository.SetSuccess(userTask.UserId, userTask.TaskId);
-            await unitOfWork.Save();
-        }
-
-        public async Task SetTaskFail(int userTaskId)
-        {
-            if (userTaskId <= 0)
-            {
-                return;
-            }
-
-            var userTask = await unitOfWork.UserTaskRepository.GetById(userTaskId);
-            unitOfWork.TaskStateRepository.SetFail(userTask.UserId, userTask.TaskId);
+            var userTask = await unitOfWork.UserTaskRepository.GetById(id);
+            unitOfWork.TaskStateRepository.SetStatus(userTask.UserId, userTask.TaskId, status);
             await unitOfWork.Save();
         }
     }
