@@ -33,6 +33,7 @@ namespace DIMS_Core.Controllers
         [HttpGet("")]
         public async Task<IActionResult> Index()
         {
+            var member = await memberService.GetMemberByEmail("KaterinaGorbach@gmail.com");
             var searchResult = await memberService.GetAll();
             var model = mapper.Map<IEnumerable<MemberViewModel>>(searchResult);
 

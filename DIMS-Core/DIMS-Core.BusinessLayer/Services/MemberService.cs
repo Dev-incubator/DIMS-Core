@@ -45,6 +45,14 @@ namespace DIMS_Core.BusinessLayer.Services
             return userProfileModel;
         }
 
+        public async Task<UserProfileModel> GetMemberByEmail(string email)
+        {
+            var userProfile = await unitOfWork.UserProfileRepository.GetMemberByEmail(email);
+            var userProfileModel = mapper.Map<UserProfileModel>(userProfile);
+            return userProfileModel;
+
+        }
+
         public async Task Create(UserProfileModel model)
         {
             if (model is null || model.UserId != 0)
