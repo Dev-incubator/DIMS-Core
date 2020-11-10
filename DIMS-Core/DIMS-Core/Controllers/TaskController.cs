@@ -33,14 +33,14 @@ namespace DIMS_Core.Controllers
             return View(model);
         }
 
-        [HttpGet("my-tasks")]
-        public async Task<IActionResult> MyTasks()
+        [HttpGet("current-tasks")]
+        public async Task<IActionResult> CurrentTasks()
         {
             // To Do - Get the id of the current user
             int userId = 3;
 
-            var myTask = await taskService.GetAllMyTask(userId);
-            var model = mapper.Map<IEnumerable<MyTaskViewModel>>(myTask);
+            var currentTask = await taskService.GetAllMyTask(userId);
+            var model = mapper.Map<IEnumerable<CurrentTaskViewModel>>(currentTask);
 
             return View(model);
         }

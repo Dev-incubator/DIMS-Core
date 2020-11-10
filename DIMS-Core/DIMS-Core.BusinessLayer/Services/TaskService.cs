@@ -30,11 +30,11 @@ namespace DIMS_Core.BusinessLayer.Services
             return await mappedQuery.ToListAsync();
         }
 
-        public async Task<IEnumerable<MyTaskModel>> GetAllMyTask(int userId)
+        public async Task<IEnumerable<CurrentTaskModel>> GetAllMyTask(int userId)
         {
             var userTasks = unitOfWork.UserTaskRepository.GetAll()
                 .Where(userTask => userTask.UserId == userId);
-            var mappedQuery = mapper.ProjectTo<MyTaskModel>(userTasks);
+            var mappedQuery = mapper.ProjectTo<CurrentTaskModel>(userTasks);
 
             return await mappedQuery.ToListAsync();
         }

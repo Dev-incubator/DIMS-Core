@@ -1,9 +1,9 @@
-﻿@model IEnumerable<MyTaskViewModel>
+﻿@model IEnumerable<CurrentTaskViewModel>
 @{
-    ViewData["Title"] = "My tasks";
+    ViewData["Title"] = "Current tasks";
 }
 
-<h1>My tasks</h1>
+<h1>Current tasks</h1>
 
 <table class="table table-bordered">
     <thead>
@@ -43,7 +43,7 @@
                         @Html.DisplayFor(i => item.TaskId)
                     </td>
                     <td>
-                        @Html.ActionLink(item.Name, "Details", new { id = item.TaskId, back = "tasks", backAction = "my-tasks" })
+                        @Html.ActionLink(item.Name, "Details", new { id = item.TaskId, back = "tasks", backAction = "current-tasks" })
                     </td>
                     <td>
                         @Convert.ToDateTime(item.StartDate).ToString("MM/dd/yyyy")
@@ -66,7 +66,7 @@
                     </td>
                     <td align="center">
                         <div class="btn-group">
-                            @Html.ActionLink("New Track", "Create", "TaskTrack", new { userTaskId = item.UserTaskId, back = "tasks", backAction = "my-tasks" }, new { @class = "btn btn-primary" })
+                            @Html.ActionLink("New Track", "Create", "TaskTrack", new { userTaskId = item.UserTaskId, back = "tasks", backAction = "current-tasks" }, new { @class = "btn btn-primary" })
                         </div>
                     </td>
                     <td align="center">

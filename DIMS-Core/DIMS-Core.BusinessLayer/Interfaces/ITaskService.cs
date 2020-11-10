@@ -8,7 +8,7 @@ namespace DIMS_Core.BusinessLayer.Interfaces
     {
         Task<IEnumerable<TaskModel>> GetAll();
 
-        Task<IEnumerable<MyTaskModel>> GetAllMyTask(int userId);
+        Task<IEnumerable<CurrentTaskModel>> GetAllMyTask(int userId);
 
         Task<TaskModel> GetTask(int id);
 

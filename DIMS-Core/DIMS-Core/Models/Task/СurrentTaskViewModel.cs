@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace DIMS_Core.Models.Task
 {
-    public class MyTaskViewModel
+    public class CurrentTaskViewModel
     {
         public int TaskId { get; set; }
         public int UserTaskId { get; set; }

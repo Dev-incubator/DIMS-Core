@@ -2,7 +2,7 @@
 
 namespace DIMS_Core.BusinessLayer.Models.Task
 {
-    public class MyTaskModel
+    public class CurrentTaskModel
     {
         public int TaskId { get; set; }
         public int UserTaskId { get; set; }

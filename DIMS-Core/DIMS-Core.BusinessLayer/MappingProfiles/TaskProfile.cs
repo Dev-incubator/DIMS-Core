@@ -19,7 +19,7 @@ namespace DIMS_Core.BusinessLayer.MappingProfiles
             CreateMap<TaskModel, Task>()
                 .ForMember(x => x.UserTask, x => x.Ignore());
 
-            CreateMap<UserTask, MyTaskModel>()
+            CreateMap<UserTask, CurrentTaskModel>()
                 .ForMember(x => x.Status, x => x.MapFrom(y => y.State.StateName))
                 .ForMember(x => x.Name, x => x.MapFrom(y => y.Task.Name))
                 .ForMember(x => x.StartDate, x => x.MapFrom(y => y.Task.StartDate))
