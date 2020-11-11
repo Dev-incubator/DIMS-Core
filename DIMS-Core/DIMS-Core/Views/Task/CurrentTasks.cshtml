@@ -5,26 +5,16 @@
 
 <h1>Current tasks</h1>
 
-<table class="table table-bordered">
+<table class="table table-bordered table-index">
     <thead>
         <tr>
-            <th>
-                @Html.DisplayName("Id")
-            </th>
-            <th>
-                @Html.DisplayName("Name")
-            </th>
-            <th>
-                @Html.DisplayName("Start date")
-            </th>
-            <th>
-                @Html.DisplayName("Deadline")
-            </th>
-            <th>
-                @Html.DisplayName("Status")
-            </th>
+            <th>@Html.DisplayName("#")</th>
+            <th class="min-130">@Html.DisplayName("Name")</th>
+            <th>@Html.DisplayName("Start date")</th>
+            <th>@Html.DisplayName("Deadline")</th>
+            <th>@Html.DisplayName("Status")</th>
             <th width="150px"></th>
-            <th width="300px">(Only for Admin)</th>
+            <th width="280px">(Only for Admin)</th>
         </tr>
     </thead>
     <tbody>
@@ -39,18 +29,10 @@
             foreach (var item in Model)
             {
                 <tr>
-                    <td>
-                        @Html.DisplayFor(i => item.TaskId)
-                    </td>
-                    <td>
-                        @Html.ActionLink(item.Name, "Details", new { id = item.TaskId, back = "tasks", backAction = "current-tasks" })
-                    </td>
-                    <td>
-                        @Convert.ToDateTime(item.StartDate).ToString("MM/dd/yyyy")
-                    </td>
-                    <td>
-                        @Convert.ToDateTime(item.DeadlineDate).ToString("MM/dd/yyyy")
-                    </td>
+                    <td>@Html.DisplayFor(i => item.TaskId)</td>
+                    <td class="text-left">@Html.ActionLink(item.Name, "Details", new { id = item.TaskId, back = "tasks", backAction = "current-tasks" })</td>
+                    <td>@Convert.ToDateTime(item.StartDate).ToString("MM/dd/yyyy")</td>
+                    <td>@Convert.ToDateTime(item.DeadlineDate).ToString("MM/dd/yyyy")</td>
                     <td>
                         @{ 
                             var statusColor = string.Empty;
@@ -64,13 +46,13 @@
                         }
                         <span class="@statusColor">@Html.DisplayFor(i => item.Status)</span>
                     </td>
-                    <td align="center">
+                    <td>
                         <div class="btn-group">
                             @Html.ActionLink("New Track", "Create", "TaskTrack", new { userTaskId = item.UserTaskId, back = "tasks", backAction = "current-tasks" }, new { @class = "btn btn-primary" })
                         </div>
                     </td>
-                    <td align="center">
-                        <div class="btn-group btn-3">
+                    <td>
+                        <div class="btn-group btn-80">
                             <form asp-action="task-status" asp-controller="tasks" asp-antiforgery="true">
                                 <input type="hidden" name="id" value="@item.UserTaskId" />
                                 @if (item.Status != "Active")
@@ -87,7 +69,7 @@
                                 }
                                 @if (item.Status != "Fail")
                                 {
-                                    <button type="submit" name="status" value="4" class="btn btn-danger">Fail</button>
+                                    <button type="submit" name="status" value="4" class="btn btn-danger last">Fail</button>
                                 }
                             </form>
                         </div>
