@@ -40,7 +40,7 @@
             {
                 <tr>
                     <td>
-                        @Html.DisplayFor(i => item.TaskId)
+                        @Html.DisplayFor(i => item.TaskTrackId)
                     </td>
                     <td>
                         @Html.ActionLink(item.TaskName, "details", "tasks", new { id = item.TaskId, back = "task-tracks" })

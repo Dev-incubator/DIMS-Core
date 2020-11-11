@@ -88,6 +88,53 @@ namespace DIMS_Core.Controllers
             return RedirectToAction("Index");
         }
 
+        [HttpGet("edit/{id}")]
+        public async Task<IActionResult> Edit(int id, string back = null)
+        {
+            if (id <= 0)
+            {
+                return BadRequest();
+            }
+
+            // To Do - Get the id of the current user
+            int userId = 3;
+
+            var taskTrack = await taskTrackService.GetTaskTrack(id);
+            var model = mapper.Map<TaskTrackViewModel>(taskTrack);
+
+            var userTasks = await userTaskService.GetAllByUserId(userId);
+            ViewBag.SelectListUserTasks = new SelectList(userTasks, "UserTaskId", "Task.Name");
+            ViewBag.BackController = back;
+            return View(model);
+        }
+
+        [HttpPost("edit")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Edit([FromForm] TaskTrackViewModel model)
+        {
+            // To Do - Get the id of the current user
+            int userId = 3;
+
+            if (!ModelState.IsValid)
+            {
+                var userTasks = await userTaskService.GetAllByUserId(userId);
+                ViewBag.SelectListUserTasks = new SelectList(userTasks, "UserTaskId", "Task.Name");
+                return View(model);
+            }
+
+            if (model.TaskTrackId <= 0)
+            {
+                var userTasks = await userTaskService.GetAllByUserId(userId);
+                ViewBag.SelectListUserTasks = new SelectList(userTasks, "UserTaskId", "Task.Name");
+                return View(model);
+            }
+
+            var taskTrack = mapper.Map<TaskTrackModel>(model);
+            await taskTrackService.Update(taskTrack);
+
+            return RedirectToAction("Index");
+        }
+
         [HttpGet("delete/{id}")]
         public IActionResult Delete(int id)
         {

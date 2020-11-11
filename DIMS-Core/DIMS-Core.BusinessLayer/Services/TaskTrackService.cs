@@ -31,6 +31,19 @@ namespace DIMS_Core.BusinessLayer.Services
             return await mappedQuery.ToListAsync();
         }
 
+        public async Task<TaskTrackModel> GetTaskTrack(int id)
+        {
+            if (id <= 0)
+            {
+                return null;
+            }
+
+            var taskTrack = await unitOfWork.TaskTrackRepository.GetById(id);
+            var model = mapper.Map<TaskTrackModel>(taskTrack);
+
+            return model;
+        }
+
         public VTaskTrackModel GetVTaskTrack(int id)
         {
             if (id <= 0)
@@ -39,8 +52,7 @@ namespace DIMS_Core.BusinessLayer.Services
             }
 
             var entity = unitOfWork.VUserTrackRepository.GetAll()
-                .Where(vUserTrack => vUserTrack.TaskTrackId == id)
-                .FirstOrDefault();
+                .FirstOrDefault(vUserTrack => vUserTrack.TaskTrackId == id);
 
             var model = mapper.Map<VTaskTrackModel>(entity);
 
@@ -55,8 +67,27 @@ namespace DIMS_Core.BusinessLayer.Services
             }
 
             var entity = mapper.Map<TaskTrackEntity>(model);
-
             await unitOfWork.TaskTrackRepository.Create(entity);
+
+            await unitOfWork.Save();
+        }
+
+        public async Task Update(TaskTrackModel model)
+        {
+            if (model is null || model.TaskTrackId <= 0)
+            {
+                return;
+            }
+
+            var taskTrack = await unitOfWork.TaskTrackRepository.GetById(model.TaskTrackId);
+
+            if (taskTrack is null)
+            {
+                return;
+            }
+
+            var entity = mapper.Map(model, taskTrack);
+            unitOfWork.TaskTrackRepository.Update(entity);
 
             await unitOfWork.Save();
         }
