@@ -1,11 +1,10 @@
-﻿using System;
-using AutoMapper;
+﻿using AutoMapper;
 using DIMS_Core.BusinessLayer.Interfaces;
 using DIMS_Core.BusinessLayer.Models.TaskTrack;
-using DIMS_Core.BusinessLayer.Models.UserTask;
 using DIMS_Core.Models.TaskTrack;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -37,6 +36,21 @@ namespace DIMS_Core.Controllers
             var taskTracks = await taskTrackService.GetAllByUserId(userId);
             var model = mapper.Map<IEnumerable<VTaskTrackViewModel>>(taskTracks);
 
+            return View(model);
+        }
+
+        [HttpGet("details/{id}")]
+        public IActionResult Details(int id, string back = null)
+        {
+            if (id <= 0)
+            {
+                return BadRequest();
+            }
+
+            var taskTrack = taskTrackService.GetVTaskTrack(id);
+            var model = mapper.Map<VTaskTrackViewModel>(taskTrack);
+
+            ViewBag.BackController = back;
             return View(model);
         }
 
