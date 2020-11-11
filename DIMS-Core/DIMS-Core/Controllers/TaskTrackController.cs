@@ -1,11 +1,10 @@
-﻿using System;
-using AutoMapper;
+﻿using AutoMapper;
 using DIMS_Core.BusinessLayer.Interfaces;
 using DIMS_Core.BusinessLayer.Models.TaskTrack;
-using DIMS_Core.BusinessLayer.Models.UserTask;
 using DIMS_Core.Models.TaskTrack;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -41,7 +40,7 @@ namespace DIMS_Core.Controllers
         }
 
         [HttpGet("details/{id}")]
-        public async Task<IActionResult> Details(int id, string back = null)
+        public IActionResult Details(int id, string back = null)
         {
             if (id <= 0)
             {
