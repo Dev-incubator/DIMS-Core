@@ -13,6 +13,8 @@ namespace DIMS_Core.BusinessLayer.Interfaces
 
         Task<UserProfileModel> GetMember(int id);
 
+        Task<UserProfileModel> GetMemberByEmail(string email);
+
         Task Create(UserProfileModel model);
 
         Task Delete(int id);
