@@ -78,10 +78,7 @@
     <Build Include="Views\vUserTrack.sql" />
     <Build Include="Procedures\DeleteUser.sql" />
     <Build Include="Functions\CalcFullAge.sql" />
-    <Build Include="Procedures\SetUserTaskAsFail.sql" />
-    <Build Include="Procedures\SetUserTaskAsSuccess.sql" />
-    <Build Include="Procedures\SetUserTaskAsPause.sql" />
-    <Build Include="Procedures\SetUserTaskAsActive.sql" />
+    <Build Include="Procedures\SetUserTaskState.sql" />
   </ItemGroup>
   <ItemGroup>
     <RefactorLog Include="DIMS-Core.Database.refactorlog" />
