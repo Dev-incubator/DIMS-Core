@@ -42,14 +42,14 @@ namespace DIMS_Core.Controllers
                 return RedirectToAction("Index", "Home", new { });
             }
 
-            var currentUser = memberService.GetMemberByEmail(User.Identity.Name);
+            var currentUser = memberService.GetMemberByEmail(User.Identity.Name).Result;
 
             if (currentUser is null)
             {
                 return RedirectToAction("Index", "Home", new { });
             }
 
-            var currentTask = await taskService.GetAllMyTask(currentUser.Result.UserId);
+            var currentTask = await taskService.GetAllMyTask(currentUser.UserId);
             var model = mapper.Map<IEnumerable<CurrentTaskViewModel>>(currentTask);
 
             return View(model);
