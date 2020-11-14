@@ -15,25 +15,37 @@ namespace DIMS_Core.Controllers
     {
         private readonly ITaskTrackService taskTrackService;
         private readonly IUserTaskService userTaskService;
+        private readonly IMemberService memberService;
         private readonly IMapper mapper;
 
         public TaskTrackController(
             ITaskTrackService taskTrackService, 
-            IUserTaskService userTaskService, 
+            IUserTaskService userTaskService,
+            IMemberService memberService,
             IMapper mapper)
         {
             this.taskTrackService = taskTrackService;
             this.userTaskService = userTaskService;
+            this.memberService = memberService;
             this.mapper = mapper;
         }
 
         [HttpGet("")]
         public async Task<IActionResult> Index()
         {
-            // To Do - Get the id of the current user
-            int userId = 3;
+            if (!User.Identity.IsAuthenticated)
+            {
+                return RedirectToAction("Index", "Home", new { });
+            }
 
-            var taskTracks = await taskTrackService.GetAllByUserId(userId);
+            var currentUser = memberService.GetMemberByEmail(User.Identity.Name);
+
+            if (currentUser is null)
+            {
+                return RedirectToAction("Index", "Home", new { });
+            }
+
+            var taskTracks = await taskTrackService.GetAllByUserId(currentUser.Result.UserId);
             var model = mapper.Map<IEnumerable<VTaskTrackViewModel>>(taskTracks);
 
             return View(model);
@@ -42,8 +54,17 @@ namespace DIMS_Core.Controllers
         [HttpGet("create")]
         public async Task<IActionResult> Create(int userTaskId = 0, string back = null, string backAction = null)
         {
-            // To Do - Get the id of the current user
-            int userId = 3;
+            if (!User.Identity.IsAuthenticated)
+            {
+                return RedirectToAction("Index", "Home", new { });
+            }
+
+            var currentUser = memberService.GetMemberByEmail(User.Identity.Name);
+
+            if (currentUser is null)
+            {
+                return RedirectToAction("Index", "Home", new { });
+            }
 
             var model = new TaskTrackViewModel
             {
@@ -51,7 +72,7 @@ namespace DIMS_Core.Controllers
                 TrackDate = DateTime.Now
             };
 
-            var userTasks = await userTaskService.GetAllByUserId(userId);
+            var userTasks = await userTaskService.GetAllByUserId(currentUser.Result.UserId);
             ViewBag.SelectListUserTasks = new SelectList(userTasks, "UserTaskId", "Task.Name");
             ViewBag.BackController = back;
             ViewBag.BackAction = backAction;
