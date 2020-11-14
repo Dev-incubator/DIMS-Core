@@ -39,14 +39,14 @@ namespace DIMS_Core.Controllers
                 return RedirectToAction("Index", "Home", new { });
             }
 
-            var currentUser = memberService.GetMemberByEmail(User.Identity.Name);
+            var currentUser = memberService.GetMemberByEmail(User.Identity.Name).Result;
 
             if (currentUser is null)
             {
                 return RedirectToAction("Index", "Home", new { });
             }
 
-            var taskTracks = await taskTrackService.GetAllByUserId(currentUser.Result.UserId);
+            var taskTracks = await taskTrackService.GetAllByUserId(currentUser.UserId);
             var model = mapper.Map<IEnumerable<VTaskTrackViewModel>>(taskTracks);
 
             return View(model);
@@ -60,7 +60,7 @@ namespace DIMS_Core.Controllers
                 return RedirectToAction("Index", "Home", new { });
             }
 
-            var currentUser = memberService.GetMemberByEmail(User.Identity.Name);
+            var currentUser = memberService.GetMemberByEmail(User.Identity.Name).Result;
 
             if (currentUser is null)
             {
@@ -73,7 +73,7 @@ namespace DIMS_Core.Controllers
                 TrackDate = DateTime.Now
             };
 
-            var userTasks = await userTaskService.GetAllByUserId(currentUser.Result.UserId);
+            var userTasks = await userTaskService.GetAllByUserId(currentUser.UserId);
             ViewBag.SelectListUserTasks = new SelectList(userTasks, "UserTaskId", "Task.Name");
             ViewBag.BackController = back;
             return View(model);
@@ -108,7 +108,7 @@ namespace DIMS_Core.Controllers
                 return RedirectToAction("Index", "Home", new { });
             }
 
-            var currentUser = memberService.GetMemberByEmail(User.Identity.Name);
+            var currentUser = memberService.GetMemberByEmail(User.Identity.Name).Result;
 
             if (currentUser is null)
             {
@@ -118,7 +118,7 @@ namespace DIMS_Core.Controllers
             var taskTrack = await taskTrackService.GetTaskTrack(id);
             var model = mapper.Map<TaskTrackViewModel>(taskTrack);
 
-            var userTasks = await userTaskService.GetAllByUserId(currentUser.Result.UserId);
+            var userTasks = await userTaskService.GetAllByUserId(currentUser.UserId);
             ViewBag.SelectListUserTasks = new SelectList(userTasks, "UserTaskId", "Task.Name");
             ViewBag.BackController = back;
             return View(model);
@@ -133,7 +133,7 @@ namespace DIMS_Core.Controllers
                 return RedirectToAction("Index", "Home", new { });
             }
 
-            var currentUser = memberService.GetMemberByEmail(User.Identity.Name);
+            var currentUser = memberService.GetMemberByEmail(User.Identity.Name).Result;
 
             if (currentUser is null)
             {
@@ -142,14 +142,14 @@ namespace DIMS_Core.Controllers
 
             if (!ModelState.IsValid)
             {
-                var userTasks = await userTaskService.GetAllByUserId(currentUser.Result.UserId);
+                var userTasks = await userTaskService.GetAllByUserId(currentUser.UserId);
                 ViewBag.SelectListUserTasks = new SelectList(userTasks, "UserTaskId", "Task.Name");
                 return View(model);
             }
 
             if (model.TaskTrackId <= 0)
             {
-                var userTasks = await userTaskService.GetAllByUserId(currentUser.Result.UserId);
+                var userTasks = await userTaskService.GetAllByUserId(currentUser.UserId);
                 ViewBag.SelectListUserTasks = new SelectList(userTasks, "UserTaskId", "Task.Name");
                 return View(model);
             }
