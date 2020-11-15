@@ -7,6 +7,7 @@ using DIMS_Core.Models.Member;
 using DIMS_Core.Models.Sample;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace DIMS_Core.Controllers
@@ -152,7 +153,8 @@ namespace DIMS_Core.Controllers
         {
             var tasks = await memberService.GetTasksByUserId(userId);
             ViewBag.Member = await memberService.GetMember(userId);
-            return View(tasks);
+            var userTasksModel = mapper.Map<IEnumerable<UserTasksModel>>(tasks);
+            return View(userTasksModel);
         }
     }
 }
