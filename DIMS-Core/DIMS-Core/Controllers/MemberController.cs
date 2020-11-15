@@ -141,11 +141,11 @@ namespace DIMS_Core.Controllers
         [HttpGet("progress/{userId}")]
         public async Task<IActionResult> Progress(int userId)
         {
-            var vTaskTracks = await taskTrackService.GetAllByUserId(userId);
-
             ViewBag.Member = await memberService.GetMember(userId);
+            var vTaskTracks = await taskTrackService.GetAllByUserId(userId);
+            var progressModels = mapper.Map<IEnumerable<ProgressModel>>(vTaskTracks);
 
-            return View(vTaskTracks);
+            return View(progressModels);
         }
 
         [HttpGet("userTasks/{userId}")]

@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using DIMS_Core.BusinessLayer.Models.TaskTrack;
+using DIMS_Core.Models.Member;
 using DIMS_Core.Models.TaskTrack;
 
 namespace DIMS_Core.MappingProfiles
@@ -11,6 +12,7 @@ namespace DIMS_Core.MappingProfiles
             CreateMap<VTaskTrackModel, VTaskTrackViewModel>().ReverseMap();
             CreateMap<TaskTrackViewModel, TaskTrackModel>().ReverseMap();
             CreateMap<VUserTrackModel, TaskTrackViewModel>().ReverseMap();
+            CreateMap<VTaskTrackModel, ProgressModel>().ReverseMap();
         }
     }
 }
