@@ -42,7 +42,7 @@ namespace DIMS_Core.Controllers
                 return RedirectToAction("Index", "Home", new { });
             }
 
-            var currentUser = memberService.GetMemberByEmail(User.Identity.Name).Result;
+            var currentUser = await memberService.GetMemberByEmail(User.Identity.Name);
 
             if (currentUser is null)
             {
