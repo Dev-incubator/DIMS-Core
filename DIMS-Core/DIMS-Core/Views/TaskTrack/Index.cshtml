@@ -34,7 +34,7 @@
                     <td>@Html.DisplayFor(i => item.TaskTrackId)</td>
                     <td class="text-left">@Html.ActionLink(item.TaskName, "details", "tasks", new { id = item.TaskId, back = "task-tracks" })</td>
                     <td class="text-left">@Html.ActionLink(item.TrackNote, "details", new { id = item.TaskTrackId })</td>
-                    <td>@Convert.ToDateTime(item.TrackDate).ToString("MM/dd/yyyy")</td>
+                    <td>@item.TrackDate.ToString("dd.MM.yyyy")</td>
                     <td>
                         <div class="btn-group btn-80">
                             @Html.ActionLink("Edit", "Edit", new { id = item.TaskTrackId }, new { @class = "btn btn-warning" })

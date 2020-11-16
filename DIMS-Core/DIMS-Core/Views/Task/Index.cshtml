@@ -33,8 +33,8 @@
                 <tr>
                     <td>@Html.DisplayFor(i => item.TaskId)</td>
                     <td class="text-left">@Html.ActionLink(item.Name, "Details", new { id = item.TaskId })</td>
-                    <td>@Convert.ToDateTime(item.StartDate).ToString("MM/dd/yyyy")</td>
-                    <td>@Convert.ToDateTime(item.DeadlineDate).ToString("MM/dd/yyyy")</td>
+                    <td>@item.StartDate.ToString("dd.MM.yyyy")</td>
+                    <td>@item.DeadlineDate.ToString("dd.MM.yyyy")</td>
                     <td>
                         <div class="btn-group btn-80">
                             @Html.ActionLink("Edit", "Edit", new { id = item.TaskId }, new { @class = "btn btn-warning" })
