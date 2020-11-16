@@ -6,7 +6,6 @@
 
 <h1>Edit task track</h1>
 
-<hr />
 <div class="row">
     <div class="col-md-4">
         <form asp-action="edit" asp-controller="task-tracks" asp-antiforgery="true">
@@ -29,11 +28,16 @@
                 <input asp-for="TrackNote" class="form-control" />
                 <span asp-validation-for="TrackNote" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
+            <div class="details-controls">
+                <div class="form-group">
+                    <input type="submit" value="Save" class="btn btn-primary" />
+                </div>
+                @await Html.PartialAsync("_BackToList", new BackToListViewModel
+                {
+                    Controller = ViewBag.BackController ?? "task-tracks",
+                    Action = ViewBag.BackAction
+                })
             </div>
         </form>
     </div>
 </div>
-
-@await Html.PartialAsync("_BackToList", new BackToListViewModel { Controller = ViewBag.BackController ?? "task-tracks" })
