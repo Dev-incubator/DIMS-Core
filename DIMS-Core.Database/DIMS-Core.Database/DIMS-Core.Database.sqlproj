@@ -78,11 +78,13 @@
     <Build Include="Views\vUserTrack.sql" />
     <Build Include="Procedures\DeleteUser.sql" />
     <Build Include="Functions\CalcFullAge.sql" />
+    <None Include="SeedData\dbo.Direction.Table.sql" />
+    <None Include="SeedData\dbo.TaskState.Table.sql" />
   </ItemGroup>
   <ItemGroup>
     <RefactorLog Include="DIMS-Core.Database.refactorlog" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="SeedData\SeedData.sql" />
+    <PostDeploy Include="SeedData\PostDeploy.sql" />
   </ItemGroup>
 </Project>
