@@ -3,15 +3,15 @@
     ViewData["Title"] = "Current tasks";
 }
 
-<h1>Current tasks</h1>
+<h1 class="float-left">Current tasks</h1>
 
 <table class="table table-bordered table-index">
     <thead>
         <tr>
-            <th>@Html.DisplayName("#")</th>
+            <th class="col-id">@Html.DisplayName("#")</th>
             <th class="min-130">@Html.DisplayName("Name")</th>
-            <th>@Html.DisplayName("Start date")</th>
-            <th>@Html.DisplayName("Deadline")</th>
+            <th class="col-short-date">@Html.DisplayName("Start date")</th>
+            <th class="col-short-date">@Html.DisplayName("Deadline")</th>
             <th>@Html.DisplayName("Status")</th>
             <th width="150px"></th>
             <th width="280px">(Only for Admin)</th>
@@ -54,7 +54,6 @@
                     <td>
                         <div class="btn-group btn-80">
                             <form asp-action="task-status" asp-controller="tasks" asp-antiforgery="true">
-                                <input type="hidden" name="id" value="@item.UserTaskId" />
                                 @if (item.Status != "Active")
                                 {
                                     <button type="submit" name="status" value="1" class="btn btn-info">Active</button>
@@ -69,8 +68,9 @@
                                 }
                                 @if (item.Status != "Fail")
                                 {
-                                    <button type="submit" name="status" value="4" class="btn btn-danger last">Fail</button>
+                                    <button type="submit" name="status" value="4" class="btn btn-danger">Fail</button>
                                 }
+                                <input type="hidden" name="id" value="@item.UserTaskId" />
                             </form>
                         </div>
                     </td>
