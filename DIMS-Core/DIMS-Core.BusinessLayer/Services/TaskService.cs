@@ -1,13 +1,14 @@
 using AutoMapper;
+using DIMS_Core.BusinessLayer.Interfaces;
+using DIMS_Core.BusinessLayer.Models.Task;
+using DIMS_Core.DataAccessLayer.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
-using DIMS_Core.BusinessLayer.Interfaces;
-using DIMS_Core.DataAccessLayer.Interfaces;
-using DIMS_Core.BusinessLayer.Models.Task;
 using TaskEntity = DIMS_Core.DataAccessLayer.Entities.Task;
 using UserTaskEntity = DIMS_Core.DataAccessLayer.Entities.UserTask;
-using System.Linq;
+using TaskStateEnum = DIMS_Core.DataAccessLayer.Enums.TaskState;
 
 namespace DIMS_Core.BusinessLayer.Services
 {
@@ -26,6 +27,15 @@ namespace DIMS_Core.BusinessLayer.Services
         {
             var tasks = unitOfWork.TaskRepository.GetAll();
             var mappedQuery = mapper.ProjectTo<TaskModel>(tasks);
+
+            return await mappedQuery.ToListAsync();
+        }
+
+        public async Task<IEnumerable<CurrentTaskModel>> GetAllMyTask(int userId)
+        {
+            var userTasks = unitOfWork.UserTaskRepository.GetAll()
+                .Where(userTask => userTask.UserId == userId);
+            var mappedQuery = mapper.ProjectTo<CurrentTaskModel>(userTasks);
 
             return await mappedQuery.ToListAsync();
         }
@@ -137,6 +147,18 @@ namespace DIMS_Core.BusinessLayer.Services
         private async Task DeleteUserTask(int userTaskId)
         {
             await unitOfWork.UserTaskRepository.Delete(userTaskId);
+        }
+
+        public async Task SetTaskState(int id, TaskStateEnum status)
+        {
+            if (id <= 0 || status <= 0)
+            {
+                return;
+            }
+
+            var userTask = await unitOfWork.UserTaskRepository.GetById(id);
+            unitOfWork.TaskStateRepository.SetState(userTask.UserId, userTask.TaskId, status);
+            await unitOfWork.Save();
         }
     }
 }
