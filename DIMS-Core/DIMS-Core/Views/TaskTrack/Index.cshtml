@@ -3,28 +3,20 @@
     ViewData["Title"] = "Task tracks";
 }
 
-<h1>Task tracks</h1>
+<h1 class="float-left">Task tracks</h1>
 
-<p class="float-lg-right">
+<p class="float-lg-right btn-create">
     <a class="btn btn-primary" asp-action="create" asp-controller="task-tracks">Create</a>
 </p>
 
-<table class="table table-bordered">
+<table class="table table-bordered table-index">
     <thead>
         <tr>
-            <th>
-                @Html.DisplayName("#")
-            </th>
-            <th>
-                @Html.DisplayName("Task")
-            </th>
-            <th>
-                @Html.DisplayName("Note")
-            </th>
-            <th>
-                @Html.DisplayName("Date")
-            </th>
-            <th width="300px"></th>
+            <th class="col-id">@Html.DisplayName("#")</th>
+            <th>@Html.DisplayName("Task")</th>
+            <th>@Html.DisplayName("Note")</th>
+            <th class="col-short-date">@Html.DisplayName("Date")</th>
+            <th width="200px"></th>
         </tr>
     </thead>
     <tbody>
@@ -39,20 +31,12 @@
             foreach (var item in Model)
             {
                 <tr>
+                    <td>@Html.DisplayFor(i => item.TaskTrackId)</td>
+                    <td class="text-left">@Html.ActionLink(item.TaskName, "details", "tasks", new { id = item.TaskId, back = "task-tracks" })</td>
+                    <td class="text-left">@Html.ActionLink(item.TrackNote, "details", new { id = item.TaskTrackId })</td>
+                    <td>@Convert.ToDateTime(item.TrackDate).ToString("MM/dd/yyyy")</td>
                     <td>
-                        @Html.DisplayFor(i => item.TaskTrackId)
-                    </td>
-                    <td>
-                        @Html.ActionLink(item.TaskName, "details", "tasks", new { id = item.TaskId, back = "task-tracks" })
-                    </td>
-                    <td>
-                        @Html.ActionLink(item.TrackNote, "details", new { id = item.TaskTrackId })
-                    </td>
-                    <td>
-                        @Convert.ToDateTime(item.TrackDate).ToString("MM/dd/yyyy")
-                    </td>
-                    <td align="center">
-                        <div class="btn-group">
+                        <div class="btn-group btn-80">
                             @Html.ActionLink("Edit", "Edit", new { id = item.TaskTrackId }, new { @class = "btn btn-warning" })
                             @Html.ActionLink("Delete", "Delete", new { id = item.TaskTrackId }, new { @class = "btn btn-danger" })
                         </div>
