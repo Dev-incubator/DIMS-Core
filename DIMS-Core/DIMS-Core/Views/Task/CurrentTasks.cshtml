@@ -14,7 +14,7 @@
             <th>@Html.DisplayName("Deadline")</th>
             <th>@Html.DisplayName("Status")</th>
             <th width="150px"></th>
-            @if (User.IsInRole("Admin") || User.IsInRole("Mentor"))
+            @if (User.IsInRole("admin") || User.IsInRole("mentor"))
             {
                 <th width="280px"></th>
             }
@@ -24,7 +24,7 @@
         @if (Model is null || !Model.Any())
         {
         <tr>
-            @if (User.IsInRole("Admin") || User.IsInRole("Mentor"))
+            @if (User.IsInRole("admin") || User.IsInRole("mentor"))
             {
                 <td colspan="7" class="text-center">There aren't items.</td>
             }
@@ -61,7 +61,7 @@
                             @Html.ActionLink("New Track", "Create", "TaskTrack", new { userTaskId = item.UserTaskId, back = "tasks", backAction = "current-tasks" }, new { @class = "btn btn-primary" })
                         </div>
                     </td>
-                    @if (User.IsInRole("Admin") || User.IsInRole("Mentor"))
+                    @if (User.IsInRole("admin") || User.IsInRole("mentor"))
                     {
                         <td>
                             <div class="btn-group btn-80">
