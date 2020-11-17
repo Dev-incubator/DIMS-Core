@@ -37,21 +37,16 @@ namespace DIMS_Core.Controllers
         }
 
         [HttpGet("current-tasks")]
-        public async Task<IActionResult> CurrentTasks(int userId = 0)
+        [HttpGet("current-tasks/{id}")]
+        public async Task<IActionResult> CurrentTasks(int id)
         {
-            if (userId == 0)
+            if (id == 0)
             {
                 var currentUser = await memberService.GetMemberByEmail(User.Identity.Name);
-
-                if (currentUser is null)
-                {
-                    return RedirectToAction("Index", "Home", new { });
-                }
-
-                userId = currentUser.UserId;
+                id = currentUser.UserId;
             }
 
-            var currentTask = await taskService.GetAllMyTask(userId);
+            var currentTask = await taskService.GetAllMyTask(id);
             var model = mapper.Map<IEnumerable<CurrentTaskViewModel>>(currentTask);
 
             return View(model);
