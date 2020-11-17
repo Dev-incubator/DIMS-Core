@@ -2,9 +2,8 @@ using AutoMapper;
 using DIMS_Core.BusinessLayer.Interfaces;
 using DIMS_Core.BusinessLayer.Models.Account;
 using DIMS_Core.BusinessLayer.Models.Members;
-using DIMS_Core.BusinessLayer.Models.Samples;
 using DIMS_Core.Models.Member;
-using DIMS_Core.Models.Sample;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -12,6 +11,7 @@ using System.Threading.Tasks;
 namespace DIMS_Core.Controllers
 {
     [Route("members")]
+    [Authorize]
     public class MemberController : Controller
     {
         private readonly IMemberService memberService;
@@ -40,6 +40,7 @@ namespace DIMS_Core.Controllers
         }
 
         [HttpGet("create")]
+        [Authorize(Roles = "admin")]
         public async Task<IActionResult> CreateAsync()
         {
             ViewBag.Directions = await directionService.GetAll();
@@ -47,6 +48,7 @@ namespace DIMS_Core.Controllers
         }
 
         [HttpPost("create")]
+        [Authorize(Roles = "admin")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([FromForm]AddMemberViewModel model)
         {
@@ -68,6 +70,7 @@ namespace DIMS_Core.Controllers
         }
 
         [HttpGet("edit/{id}")]
+        [Authorize(Roles = "admin")]
         public async Task<IActionResult> Edit(int id)
         {
             if (id <= 0)
@@ -83,6 +86,7 @@ namespace DIMS_Core.Controllers
         }
 
         [HttpPost("edit")]
+        [Authorize(Roles = "admin")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit([FromForm]EditMemberViewModel model)
         {
@@ -107,6 +111,7 @@ namespace DIMS_Core.Controllers
         }
 
         [HttpGet("delete/{id}")]
+        [Authorize(Roles = "admin")]
         public async Task<IActionResult> Delete(int id)
         {
             if (id <= 0)
@@ -121,6 +126,7 @@ namespace DIMS_Core.Controllers
         }
 
         [HttpPost("delete/{id}")]
+        [Authorize(Roles = "admin")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeletePost(int id)
         {
