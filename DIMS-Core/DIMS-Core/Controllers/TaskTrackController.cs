@@ -2,6 +2,7 @@
 using DIMS_Core.BusinessLayer.Interfaces;
 using DIMS_Core.BusinessLayer.Models.TaskTrack;
 using DIMS_Core.Models.TaskTrack;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System;
@@ -11,6 +12,7 @@ using System.Threading.Tasks;
 namespace DIMS_Core.Controllers
 {
     [Route("task-tracks")]
+    [Authorize(Roles = "member")]
     public class TaskTrackController : Controller
     {
         private readonly ITaskTrackService taskTrackService;
@@ -33,11 +35,6 @@ namespace DIMS_Core.Controllers
         [HttpGet("")]
         public async Task<IActionResult> Index()
         {
-            if (!User.Identity.IsAuthenticated)
-            {
-                return RedirectToAction("Index", "Home", new { });
-            }
-
             var currentUser = await memberService.GetMemberByEmail(User.Identity.Name);
 
             if (currentUser is null)
