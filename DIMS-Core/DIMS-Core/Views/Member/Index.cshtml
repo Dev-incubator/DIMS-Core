@@ -5,9 +5,13 @@
 
 <h1>Members</h1>
 
-<p class="float-lg-right">
-    <a class="btn btn-primary" asp-action="create" asp-controller="members">Create</a>
-</p>
+@if (User.IsInRole("admin"))
+{
+    <p class="float-lg-right">
+        <a class="btn btn-primary" asp-action="create" asp-controller="members">Create</a>
+    </p>
+}
+
 <table class="table table-bordered">
     <thead>
         <tr>
@@ -26,16 +30,28 @@
             <th>
                 @Html.DisplayNameFor(model => model.Age)
             </th>
-            <th width="300px">Actions</th>
+            @if (User.IsInRole("admin"))
+            {
+                <th width="300px">Actions</th>
+            }
         </tr>
     </thead>
     <tbody>
         @if (Model is null || !Model.Any())
         {
             <tr>
-                <td colspan="4" class="text-center">
-                    <strong>There aren't items.</strong>
-                </td>
+                @if (User.IsInRole("admin"))
+                {
+                    <td colspan="7" class="text-center">
+                        <strong>There aren't items.</strong>
+                    </td>
+                }
+                else
+                {
+                    <td colspan="6" class="text-center">
+                        <strong>There aren't items.</strong>
+                    </td>
+                }
             </tr>
         }
         else
@@ -58,20 +74,23 @@
                     <td>
                         @Html.DisplayFor(modelItem => item.Age)
                     </td>
-                    <td>
-                        <div class="btn-group container">
-                            <div class="row">
-                                <div class="col">
-                                    @Html.ActionLink("Progress", "Progress", new { id = item.UserId }, new { @class = "btn btn-primary w-100 m-2" })
-                                    @Html.ActionLink("Edit", "Edit", new { id = item.UserId }, new { @class = "btn btn-warning w-100 m-2" })
+                    @if (User.IsInRole("admin"))
+                    {
+                        <td>
+                            <div class="btn-group container">
+                                <div class="row">
+                                    <div class="col">
+                                        @Html.ActionLink("Progress", "Progress", new { id = item.UserId }, new { @class = "btn btn-primary w-100 m-2" })
+                                        @Html.ActionLink("Edit", "Edit", new { id = item.UserId }, new { @class = "btn btn-warning w-100 m-2" })
+                                    </div>
+                                    <div class="col">
+                                        @Html.ActionLink("Tasks", "Tasks", new { id = item.UserId }, new { @class = "btn btn-primary w-100 m-2" })
+                                        @Html.ActionLink("Delete", "Delete", new { id = item.UserId }, new { @class = "btn btn-danger w-100 m-2" })
+                                    </div>
                                 </div>
-                                <div class="col">
-                                    @Html.ActionLink("Tasks", "Tasks", new { id = item.UserId }, new { @class = "btn btn-primary w-100 m-2" })
-                                    @Html.ActionLink("Delete", "Delete", new { id = item.UserId }, new { @class = "btn btn-danger w-100 m-2" })
-                                </div>   
                             </div>
-                        </div>
-                    </td>
+                        </td>
+                    }
                 </tr>
             }
         }
