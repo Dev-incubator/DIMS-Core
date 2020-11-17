@@ -36,14 +36,14 @@
                 <span asp-validation-for="SelectedMembers" class="text-danger"></span>
             </div>
             <div class="details-controls">
+                <div class="form-group">
+                    <input type="submit" value="Create" class="btn btn-primary" />
+                </div>
                 @await Html.PartialAsync("_BackToList", new BackToListViewModel
                 {
                     Controller = ViewBag.BackController ?? "tasks",
                     Action = ViewBag.BackAction
                 })
-                <div class="form-group">
-                    <input type="submit" value="Create" class="btn btn-primary" />
-                </div>
             </div>
         </form>
     </div>
