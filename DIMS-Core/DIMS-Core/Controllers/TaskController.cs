@@ -6,6 +6,7 @@ using DIMS_Core.Models.Task;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using TaskStateEnum = DIMS_Core.DataAccessLayer.Enums.TaskState;
 
 namespace DIMS_Core.Controllers
 {
@@ -33,8 +34,29 @@ namespace DIMS_Core.Controllers
             return View(model);
         }
 
+        [HttpGet("current-tasks")]
+        public async Task<IActionResult> CurrentTasks()
+        {
+            if (!User.Identity.IsAuthenticated)
+            {
+                return RedirectToAction("Index", "Home", new { });
+            }
+
+            var currentUser = await memberService.GetMemberByEmail(User.Identity.Name);
+
+            if (currentUser is null)
+            {
+                return RedirectToAction("Index", "Home", new { });
+            }
+
+            var currentTask = await taskService.GetAllMyTask(currentUser.UserId);
+            var model = mapper.Map<IEnumerable<CurrentTaskViewModel>>(currentTask);
+
+            return View(model);
+        }
+
         [HttpGet("details/{id}")]
-        public async Task<IActionResult> Details(int id, string back = null)
+        public async Task<IActionResult> Details(int id, string back = null, string backAction = null)
         {
             if (id <= 0)
             {
@@ -45,6 +67,7 @@ namespace DIMS_Core.Controllers
             var model = mapper.Map<TaskViewModel>(task);
             
             ViewBag.BackController = back;
+            ViewBag.BackAction = backAction;
             ViewBag.AllMembers = await memberService.GetMembersViewModel(mapper);
             return View(model);
         }
@@ -139,6 +162,20 @@ namespace DIMS_Core.Controllers
             await taskService.Delete(id);
 
             return RedirectToAction("Index");
+        }
+
+        [HttpPost("task-status")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> TaskStatePost(int id, TaskStateEnum status)
+        {
+            if (id <= 0 || status <= 0)
+            {
+                return BadRequest();
+            }
+
+            await taskService.SetTaskState(id, status);
+
+            return RedirectToAction("CurrentTasks");
         }
     }
 }

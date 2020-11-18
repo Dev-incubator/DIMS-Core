@@ -56,7 +56,7 @@ namespace DIMS_Core.Controllers
         }
 
         [HttpGet("create")]
-        public async Task<IActionResult> Create(int userTaskId = 0, string back = null)
+        public async Task<IActionResult> Create(int userTaskId = 0, string back = null, string backAction = null)
         {
             var model = new TaskTrackViewModel
             {
@@ -68,6 +68,7 @@ namespace DIMS_Core.Controllers
             var userTasks = await userTaskService.GetAllByUserId(currentUser.UserId);
             ViewBag.SelectListUserTasks = new SelectList(userTasks, "UserTaskId", "Task.Name");
             ViewBag.BackController = back;
+            ViewBag.BackAction = backAction;
             return View(model);
         }
 

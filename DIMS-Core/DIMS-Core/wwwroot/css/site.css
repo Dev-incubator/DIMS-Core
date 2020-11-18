@@ -90,7 +90,7 @@ body {
     z-index: -1;
 }
 
-/* Checkbox list styles
+/* CheckBox list styles
 -------------------------------------------------- */
 .checkbox-list {
     height: 170px;
@@ -109,4 +109,38 @@ body {
 
 .checkbox-list label input {
     margin-right: 5px;
+}
+
+/* Button custom styles
+-------------------------------------------------- */
+.btn-group.btn-80 .btn {
+    width: 80px;
+}
+
+.btn-group.btn-80 .btn:nth-child(3) {
+    margin: 3px 0 3px 0;
+}
+
+/* Table-Index custom styles
+-------------------------------------------------- */
+.table-index td, .table-index thead th {
+    vertical-align: middle;
+    text-align: center;
+}
+
+.table-index thead th {
+    background-color: #f4f4f4;
+    font-weight: normal;
+}
+
+.table-index .min-130 {
+    min-width: 130px;
+}
+
+.table-index a {
+    color: #1b6ec2;
+}
+
+.table-index .btn, .table-index .btn-warning {
+    color: white;
 }

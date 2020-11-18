@@ -13,11 +13,17 @@ namespace DIMS_Core.BusinessLayer.MappingProfiles
             CreateMap<UserTaskModel, UserTask>().ReverseMap();
 
             CreateMap<Task, TaskModel>()
-                .ForMember(x => x.SelectedMembers, x => x.MapFrom(x => x.UserTask));
+                .ForMember(x => x.SelectedMembers, x => x.MapFrom(y => y.UserTask));
             CreateMap<UserTask, int>().ConvertUsing(x => x.UserId);
 
             CreateMap<TaskModel, Task>()
-                .ForMember(x => x.UserTask, x => x.Ignore());            
+                .ForMember(x => x.UserTask, x => x.Ignore());
+
+            CreateMap<UserTask, CurrentTaskModel>()
+                .ForMember(x => x.Status, x => x.MapFrom(y => y.State.StateName))
+                .ForMember(x => x.Name, x => x.MapFrom(y => y.Task.Name))
+                .ForMember(x => x.StartDate, x => x.MapFrom(y => y.Task.StartDate))
+                .ForMember(x => x.DeadlineDate, x => x.MapFrom(y => y.Task.DeadlineDate));
         }
     }
 }
