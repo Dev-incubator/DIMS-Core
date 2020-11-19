@@ -1,12 +1,13 @@
 ﻿@model IEnumerable<VTaskTrackViewModel>
 @{
     ViewData["Title"] = "Task tracks";
+    var controller = "task-tracks";
 }
 
 <h1 class="float-left">Task tracks</h1>
 
 <p class="float-lg-right btn-create">
-    <a class="btn btn-primary" asp-action="create" asp-controller="task-tracks">Create</a>
+    <a class="btn btn-primary" asp-action="create" asp-controller="@controller">Create</a>
 </p>
 
 <table class="table table-bordered table-index">
@@ -32,7 +33,7 @@
             {
                 <tr>
                     <td>@Html.DisplayFor(i => item.TaskTrackId)</td>
-                    <td class="text-left">@Html.ActionLink(item.TaskName, "details", "tasks", new { id = item.TaskId, back = "task-tracks" })</td>
+                    <td class="text-left">@Html.ActionLink(item.TaskName, "details", "tasks", new { id = item.TaskId, back = controller })</td>
                     <td class="text-left">@Html.ActionLink(item.TrackNote, "details", new { id = item.TaskTrackId })</td>
                     <td>@item.TrackDate.ToString("dd.MM.yyyy")</td>
                     <td>
