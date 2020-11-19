@@ -2,13 +2,14 @@
 
 @{
     ViewData["Title"] = "Edit task #" + Model.TaskId;
+    var controller = "tasks";
 } 
 
 <h1>Edit Task</h1>
 
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="edit" asp-controller="tasks" asp-antiforgery="true">
+        <form asp-action="edit" asp-controller="@controller" asp-antiforgery="true">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             @Html.HiddenFor(q => q.TaskId)
             <div class="form-group">
@@ -36,16 +37,11 @@
                 @Html.CreateCheckListMembers(Model.SelectedMembers, (List<MemberViewModel>)ViewBag.AllMembers)
                 <span asp-validation-for="SelectedMembers" class="text-danger"></span>
             </div>
-            <div class="details-controls">
-                <div class="form-group">
-                    <input type="submit" value="Save" class="btn btn-primary" />
-                </div>
-                @await Html.PartialAsync("_BackToList", new BackToListViewModel
-                {
-                    Controller = ViewBag.BackController ?? "tasks",
-                    Action = ViewBag.BackAction
-                })
-            </div>
+            @await Html.PartialAsync("_BottomSave", new BottomButtonsViewModel()
+            {
+                BackController = ViewBag.BackController ??= controller,
+                BackAction = ViewBag.BackAction
+            })
         </form>
     </div>
 </div>

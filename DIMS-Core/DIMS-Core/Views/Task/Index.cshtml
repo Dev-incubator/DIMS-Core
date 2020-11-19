@@ -1,12 +1,13 @@
 ﻿@model IEnumerable<TaskViewModel>
 @{
     ViewData["Title"] = "Tasks";
+    var controller = "tasks";
 }
 
 <h1 class="float-left">Tasks</h1>
 
 <p class="float-lg-right btn-create">
-    <a class="btn btn-primary" asp-action="create" asp-controller="tasks">Create</a>
+    <a class="btn btn-primary" asp-action="create" asp-controller="@controller">Create</a>
 </p>
 
 <table class="table table-bordered table-index">

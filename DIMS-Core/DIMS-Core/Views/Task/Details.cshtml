@@ -2,6 +2,7 @@
 
 @{
     ViewData["Title"] = "Task details #" + Model.TaskId;
+    var controller = "tasks";
 }
 
 <h1>Task details</h1>
@@ -23,16 +24,10 @@
     </dl>
 </div>
 
-<div class="details-controls">
-    @Html.ActionLink("Edit", "Edit", new
-    {
-        id = Model.TaskId,
-        back = ViewBag.BackController ?? "tasks"
-    }, new { @class = "btn btn-warning" })
-
-    @await Html.PartialAsync("_BackToList", new BackToListViewModel
-    {
-        Controller = ViewBag.BackController ?? "tasks",
-        Action = ViewBag.BackAction
-    })
-</div>
+@await Html.PartialAsync("_BottomDetails", new BottomButtonsViewModel()
+{
+    Id = Model.TaskId,
+    Controller = controller,
+    BackAction = ViewBag.BackAction,
+    BackController = ViewBag.BackController ??= controller
+})
