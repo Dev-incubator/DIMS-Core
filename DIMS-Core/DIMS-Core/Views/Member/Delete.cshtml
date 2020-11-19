@@ -2,6 +2,7 @@
 
 @{
     ViewData["Title"] = "Delete member";
+    var controller = "members";
 }
 
 <h1>Delete member</h1>
@@ -21,13 +22,10 @@
 
 <h3>Are you sure you want to delete this member?</h3>
 
-<div class="details-controls">
-    <form asp-action="Delete" asp-controller="members" asp-route-id="@Model.UserId">
-        <input type="submit" value="Delete" class="btn btn-danger" />
-    </form>
-    @await Html.PartialAsync("_BackToList", new BackToListViewModel
-    {
-        Controller = ViewBag.BackController ?? "members",
-        Action = ViewBag.BackAction
-    })
-</div>
+@await Html.PartialAsync("_BottomDelete", new BottomButtonsViewModel()
+{
+    Id = Model.UserId,
+    Controller = controller,
+    BackAction = ViewBag.BackAction,
+    BackController = ViewBag.BackController ??= controller
+})

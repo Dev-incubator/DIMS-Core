@@ -1,12 +1,13 @@
 ﻿@model IEnumerable<MemberViewModel>
 @{
     ViewData["Title"] = "Members";
+    var controller = "members";
 }
 
 <h1 class="float-left">Members</h1>
 
 <p class="float-lg-right btn-create">
-    <a class="btn btn-primary" asp-action="create" asp-controller="members">Create</a>
+    <a class="btn btn-primary" asp-action="create" asp-controller="@controller">Create</a>
 </p>
 
 <table class="table table-bordered table-index">
