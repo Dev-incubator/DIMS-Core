@@ -148,11 +148,11 @@ body {
 }
 
 .table-index .col-id {
-    width: 70px;
+    width: 4rem;
 }
 
 .table-index .col-short-date {
-    width: 100px;
+    width: 6rem;
 }
 
 .table-index a {
