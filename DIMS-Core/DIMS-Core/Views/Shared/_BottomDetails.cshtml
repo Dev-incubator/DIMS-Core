@@ -1,0 +1,6 @@
+﻿@model BottomButtonsViewModel
+
+<div class="details-controls">
+    <a class="btn btn-warning" asp-action="Edit" asp-controller="@Model.Controller" asp-route-id="@Model.Id">Edit</a>
+    <a class="btn btn-secondary" asp-action="@ViewBag.BackAction" asp-controller="@ViewBag.BackController">Back To List</a>
+</div>
