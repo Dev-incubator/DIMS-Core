@@ -1,0 +1,81 @@
+﻿@model IEnumerable<CurrentTaskViewModel>
+@{
+    ViewData["Title"] = "Current tasks";
+}
+
+<h1>Current tasks</h1>
+
+<table class="table table-bordered table-index">
+    <thead>
+        <tr>
+            <th>@Html.DisplayName("#")</th>
+            <th class="min-130">@Html.DisplayName("Name")</th>
+            <th>@Html.DisplayName("Start date")</th>
+            <th>@Html.DisplayName("Deadline")</th>
+            <th>@Html.DisplayName("Status")</th>
+            <th width="150px"></th>
+            <th width="280px">(Only for Admin)</th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (Model is null || !Model.Any())
+        {
+            <tr>
+                <td colspan="7" class="text-center">There aren't items.</td>
+            </tr>
+        }
+        else
+        {
+            foreach (var item in Model)
+            {
+                <tr>
+                    <td>@Html.DisplayFor(i => item.TaskId)</td>
+                    <td class="text-left">@Html.ActionLink(item.Name, "Details", new { id = item.TaskId, back = "tasks", backAction = "current-tasks" })</td>
+                    <td>@Convert.ToDateTime(item.StartDate).ToString("MM/dd/yyyy")</td>
+                    <td>@Convert.ToDateTime(item.DeadlineDate).ToString("MM/dd/yyyy")</td>
+                    <td>
+                        @{ 
+                            var statusColor = string.Empty;
+                            switch (item.Status)
+                            {
+                                case "Active": statusColor = "text-info"; break;
+                                case "Pause": statusColor = "text-warning"; break;
+                                case "Success": statusColor = "text-success"; break;
+                                default: statusColor = "text-danger"; break;
+                            }
+                        }
+                        <span class="@statusColor">@Html.DisplayFor(i => item.Status)</span>
+                    </td>
+                    <td>
+                        <div class="btn-group">
+                            @Html.ActionLink("New Track", "Create", "TaskTrack", new { userTaskId = item.UserTaskId, back = "tasks", backAction = "current-tasks" }, new { @class = "btn btn-primary" })
+                        </div>
+                    </td>
+                    <td>
+                        <div class="btn-group btn-80">
+                            <form asp-action="task-status" asp-controller="tasks" asp-antiforgery="true">
+                                <input type="hidden" name="id" value="@item.UserTaskId" />
+                                @if (item.Status != "Active")
+                                {
+                                    <button type="submit" name="status" value="1" class="btn btn-info">Active</button>
+                                }
+                                @if (item.Status != "Pause")
+                                {
+                                    <button type="submit" name="status" value="2" class="btn btn-warning">Pause</button>
+                                }
+                                @if (item.Status != "Success")
+                                {
+                                    <button type="submit" name="status" value="3" class="btn btn-success">Success</button>
+                                }
+                                @if (item.Status != "Fail")
+                                {
+                                    <button type="submit" name="status" value="4" class="btn btn-danger last">Fail</button>
+                                }
+                            </form>
+                        </div>
+                    </td>
+                </tr>
+            }
+        }
+    </tbody>
+</table>
