@@ -2,9 +2,8 @@ using AutoMapper;
 using DIMS_Core.BusinessLayer.Interfaces;
 using DIMS_Core.BusinessLayer.Models.Account;
 using DIMS_Core.BusinessLayer.Models.Members;
-using DIMS_Core.BusinessLayer.Models.Samples;
 using DIMS_Core.Models.Member;
-using DIMS_Core.Models.Sample;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,6 +12,7 @@ using System.Threading.Tasks;
 namespace DIMS_Core.Controllers
 {
     [Route("members")]
+    [Authorize(Roles = "admin")]
     public class MemberController : Controller
     {
         private readonly IMemberService memberService;
@@ -35,6 +35,7 @@ namespace DIMS_Core.Controllers
         }
 
         [HttpGet("")]
+        [Authorize]
         public async Task<IActionResult> Index()
         {
             var searchResult = await memberService.GetAll();
