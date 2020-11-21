@@ -16,46 +16,39 @@ namespace DIMS_Core.Identity.Initialize
             await CheckAndCreateRole(roleManager, "member");
 
             #region Test users
-            const string defaultAdminMail = "admin@gmail.com";
-            const string defaultAdminPassword = "test123";
-
-            const string defaultMentorMail = "mentor@gmail.com";
-            const string defaultMentorPassword = "test123";
-
-            if (await userManager.FindByNameAsync(defaultAdminMail) is null)
-            {
-                var admin = new User
-                {
-                    Email = defaultAdminMail, 
-                    UserName = defaultAdminMail
-                };
-                var result = await userManager.CreateAsync(admin, defaultAdminPassword);
-                if (result.Succeeded)
-                {
-                    await userManager.AddToRoleAsync(admin, "admin");
-                }
-            }
-            if (await userManager.FindByNameAsync(defaultMentorMail) is null)
-            {
-                var mentor = new User
-                {
-                    Email = defaultMentorMail, 
-                    UserName = defaultMentorMail
-                };
-                var result = await userManager.CreateAsync(mentor, defaultMentorPassword);
-                if (result.Succeeded)
-                {
-                    await userManager.AddToRoleAsync(mentor, "mentor");
-                }
-            }
+            await CheckAndCreateUser(userManager, "admin@gmail.com", "test123", "admin");
+            await CheckAndCreateUser(userManager, "mentor@gmail.com", "test123", "mentor");
             #endregion
         }
 
-        private static async Task CheckAndCreateRole(RoleManager<Role> roleManager, string name)
+        private static async Task CheckAndCreateRole(
+            RoleManager<Role> roleManager, 
+            string name)
         {
             if (await roleManager.FindByNameAsync(name) is null)
             {
                 await roleManager.CreateAsync(new Role(name));
+            }
+        }
+
+        private static async Task CheckAndCreateUser(
+            UserManager<User> userManager, 
+            string email, 
+            string password, 
+            string role)
+        {
+            if (await userManager.FindByNameAsync(email) is null)
+            {
+                var user = new User()
+                {
+                    Email = email,
+                    UserName = email
+                };
+                var result = await userManager.CreateAsync(user, password);
+                if (result.Succeeded)
+                {
+                    await userManager.AddToRoleAsync(user, role);
+                }
             }
         }
     }
