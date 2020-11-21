@@ -11,18 +11,9 @@ namespace DIMS_Core.Identity.Initialize
     {
         public static async Task Initialize(UserManager<User> userManager, RoleManager<Role> roleManager)
         {
-            if (await roleManager.FindByNameAsync("admin") is null)
-            {
-                await roleManager.CreateAsync(new Role("admin"));
-            }
-            if (await roleManager.FindByNameAsync("mentor") is null)
-            {
-                await roleManager.CreateAsync(new Role("mentor"));
-            }
-            if (await roleManager.FindByNameAsync("member") is null)
-            {
-                await roleManager.CreateAsync(new Role("member"));
-            }
+            await CheckAndCreateRole(roleManager, "admin");
+            await CheckAndCreateRole(roleManager, "mentor");
+            await CheckAndCreateRole(roleManager, "member");
 
             #region Test users
             const string defaultAdminMail = "admin@gmail.com";
@@ -58,6 +49,14 @@ namespace DIMS_Core.Identity.Initialize
                 }
             }
             #endregion
+        }
+
+        private static async Task CheckAndCreateRole(RoleManager<Role> roleManager, string name)
+        {
+            if (await roleManager.FindByNameAsync(name) is null)
+            {
+                await roleManager.CreateAsync(new Role(name));
+            }
         }
     }
 }
