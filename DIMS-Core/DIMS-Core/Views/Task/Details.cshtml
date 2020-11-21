@@ -24,10 +24,13 @@
     </dl>
 </div>
 
-@await Html.PartialAsync("_BottomDetails", new BottomButtonsViewModel()
+@if (User.IsInRole("admin") || User.IsInRole("mentor"))
 {
-    Id = Model.TaskId,
-    Controller = controller,
-    BackAction = ViewBag.BackAction,
-    BackController = ViewBag.BackController ??= controller
-})
+  @await Html.PartialAsync("_BottomDetails", new BottomButtonsViewModel()
+  {
+      Id = Model.TaskId,
+      Controller = controller,
+      BackAction = ViewBag.BackAction,
+      BackController = ViewBag.BackController ??= controller
+  })
+}

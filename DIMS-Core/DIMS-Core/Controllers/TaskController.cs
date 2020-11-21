@@ -4,6 +4,7 @@ using DIMS_Core.BusinessLayer.Interfaces;
 using DIMS_Core.BusinessLayer.Models.Task;
 using DIMS_Core.Helpers;
 using DIMS_Core.Models.Task;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -12,6 +13,7 @@ using TaskStateEnum = DIMS_Core.DataAccessLayer.Enums.TaskState;
 namespace DIMS_Core.Controllers
 {
     [Route("tasks")]
+    [Authorize]
     public class TaskController : Controller
     {
         private readonly ITaskService taskService;
@@ -36,21 +38,16 @@ namespace DIMS_Core.Controllers
         }
 
         [HttpGet("current-tasks")]
-        public async Task<IActionResult> CurrentTasks()
+        [HttpGet("current-tasks/{id}")]
+        public async Task<IActionResult> CurrentTasks(int id)
         {
-            if (!User.Identity.IsAuthenticated)
+            if (id == 0)
             {
-                return RedirectToAction("Index", "Home", new { });
+                var currentUser = await memberService.GetMemberByEmail(User.Identity.Name);
+                id = currentUser.UserId;
             }
 
-            var currentUser = await memberService.GetMemberByEmail(User.Identity.Name);
-
-            if (currentUser is null)
-            {
-                return RedirectToAction("Index", "Home", new { });
-            }
-
-            var currentTask = await taskService.GetAllMyTask(currentUser.UserId);
+            var currentTask = await taskService.GetAllMyTask(id);
             var model = mapper.Map<IEnumerable<CurrentTaskViewModel>>(currentTask);
 
             return View(model);

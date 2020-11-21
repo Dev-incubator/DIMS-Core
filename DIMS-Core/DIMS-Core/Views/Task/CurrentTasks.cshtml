@@ -16,15 +16,25 @@
             <th class="col-short-date">@Html.DisplayName("Deadline")</th>
             <th>@Html.DisplayName("Status")</th>
             <th width="150px"></th>
-            <th width="280px">(Only for Admin)</th>
+            @if (User.IsInRole("admin") || User.IsInRole("mentor"))
+            {
+                <th width="280px"></th>
+            }
         </tr>
     </thead>
     <tbody>
         @if (Model is null || !Model.Any())
         {
-            <tr>
+        <tr>
+            @if (User.IsInRole("admin") || User.IsInRole("mentor"))
+            {
                 <td colspan="7" class="text-center">There aren't items.</td>
-            </tr>
+            }
+            else
+            {
+                <td colspan="6" class="text-center">There aren't items.</td>
+            }
+        </tr>
         }
         else
         {
@@ -53,29 +63,32 @@
                             @Html.ActionLink("New Track", "Create", "TaskTrack", new { userTaskId = item.UserTaskId, back = controller, backAction = action }, new { @class = "btn btn-primary" })
                         </div>
                     </td>
-                    <td>
-                        <div class="btn-group btn-80">
-                            <form asp-action="task-status" asp-controller="@controller" asp-antiforgery="true">
-                                @if (item.Status != "Active")
-                                {
-                                    <button type="submit" name="status" value="1" class="btn btn-info">Active</button>
-                                }
-                                @if (item.Status != "Pause")
-                                {
-                                    <button type="submit" name="status" value="2" class="btn btn-warning">Pause</button>
-                                }
-                                @if (item.Status != "Success")
-                                {
-                                    <button type="submit" name="status" value="3" class="btn btn-success">Success</button>
-                                }
-                                @if (item.Status != "Fail")
-                                {
-                                    <button type="submit" name="status" value="4" class="btn btn-danger">Fail</button>
-                                }
-                                <input type="hidden" name="id" value="@item.UserTaskId" />
-                            </form>
-                        </div>
-                    </td>
+                    @if (User.IsInRole("admin") || User.IsInRole("mentor"))
+                    {
+                        <td>
+                            <div class="btn-group btn-80">
+                                <form asp-action="task-status" asp-controller="tasks" asp-antiforgery="true">
+                                    @if (item.Status != "Active")
+                                    {
+                                        <button type="submit" name="status" value="1" class="btn btn-info">Active</button>
+                                    }
+                                    @if (item.Status != "Pause")
+                                    {
+                                        <button type="submit" name="status" value="2" class="btn btn-warning">Pause</button>
+                                    }
+                                    @if (item.Status != "Success")
+                                    {
+                                        <button type="submit" name="status" value="3" class="btn btn-success">Success</button>
+                                    }
+                                    @if (item.Status != "Fail")
+                                    {
+                                        <button type="submit" name="status" value="4" class="btn btn-danger last">Fail</button>
+                                    }
+                                    <input type="hidden" name="id" value="@item.UserTaskId" />
+                                </form>
+                            </div>
+                        </td>
+                    }
                 </tr>
             }
         }

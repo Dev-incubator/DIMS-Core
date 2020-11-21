@@ -1,4 +1,5 @@
 ﻿using DIMS_Core.BusinessLayer.Models.Members;
+using DIMS_Core.BusinessLayer.Models.Task;
 using DIMS_Core.DataAccessLayer.Filters;
 using System;
 using System.Collections.Generic;
@@ -20,5 +21,7 @@ namespace DIMS_Core.BusinessLayer.Interfaces
         Task Delete(int id);
 
         Task Update(UserProfileModel model);
+
+        Task<IEnumerable<TaskModel>> GetTasksByUserId(int userId);
     }
 }

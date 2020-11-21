@@ -2,6 +2,7 @@
 using DIMS_Core.BusinessLayer.Interfaces;
 using DIMS_Core.BusinessLayer.MappingProfiles;
 using DIMS_Core.BusinessLayer.Models.Members;
+using DIMS_Core.BusinessLayer.Models.Task;
 using DIMS_Core.DataAccessLayer.Filters;
 using DIMS_Core.DataAccessLayer.Interfaces;
 using Microsoft.EntityFrameworkCore;
@@ -100,5 +101,18 @@ namespace DIMS_Core.BusinessLayer.Services
             await unitOfWork.Save();
         }
 
+        public async Task<IEnumerable<TaskModel>> GetTasksByUserId(int userId)
+        {
+            var user = await unitOfWork.UserProfileRepository.GetById(userId);
+            var result = new List<TaskModel>();
+
+            foreach(var userTask in user.UserTask)
+            {
+                var taskModel = mapper.Map<TaskModel>(userTask.Task);
+                result.Add(taskModel);
+            }
+
+            return result;
+        }
     }
 }
