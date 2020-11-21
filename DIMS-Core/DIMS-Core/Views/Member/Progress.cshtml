@@ -1,0 +1,55 @@
+﻿@model IEnumerable<ProgressModel>
+@{
+    ViewData["Title"] = @ViewBag.Member.Name+"s Progress";
+}
+
+<h1>@ViewBag.Member.Name's Progress</h1>
+
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.TaskTrackId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TaskName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TrackNote)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TrackDate)
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (Model is null || !Model.Any())
+        {
+            <tr>
+                <td colspan="4" class="text-center">
+                    <strong>There aren't items.</strong>
+                </td>
+            </tr>
+        }
+        else
+        {
+            foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.TaskTrackId)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.TaskName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.TrackNote)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.TrackDate)
+                    </td>
+                </tr>
+            }
+        }
+    </tbody>
+</table>

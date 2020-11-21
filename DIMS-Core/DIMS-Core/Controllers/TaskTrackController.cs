@@ -2,6 +2,7 @@
 using DIMS_Core.BusinessLayer.Interfaces;
 using DIMS_Core.BusinessLayer.Models.TaskTrack;
 using DIMS_Core.Models.TaskTrack;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System;
@@ -11,6 +12,7 @@ using System.Threading.Tasks;
 namespace DIMS_Core.Controllers
 {
     [Route("task-tracks")]
+    [Authorize(Roles = "member")]
     public class TaskTrackController : Controller
     {
         private readonly ITaskTrackService taskTrackService;
@@ -34,6 +36,7 @@ namespace DIMS_Core.Controllers
         public async Task<IActionResult> Index()
         {
             var currentUser = await memberService.GetMemberByEmail(User.Identity.Name);
+
             var taskTracks = await taskTrackService.GetAllByUserId(currentUser.UserId);
             var model = mapper.Map<IEnumerable<VTaskTrackViewModel>>(taskTracks);
 
@@ -66,6 +69,7 @@ namespace DIMS_Core.Controllers
 
             var currentUser = await memberService.GetMemberByEmail(User.Identity.Name);
             var userTasks = await userTaskService.GetAllByUserId(currentUser.UserId);
+
             ViewBag.SelectListUserTasks = new SelectList(userTasks, "UserTaskId", "Task.Name");
             ViewBag.BackController = back;
             ViewBag.BackAction = backAction;
@@ -101,6 +105,7 @@ namespace DIMS_Core.Controllers
 
             var currentUser = await memberService.GetMemberByEmail(User.Identity.Name);
             var userTasks = await userTaskService.GetAllByUserId(currentUser.UserId);
+
             ViewBag.SelectListUserTasks = new SelectList(userTasks, "UserTaskId", "Task.Name");
             ViewBag.BackController = back;
             return View(model);

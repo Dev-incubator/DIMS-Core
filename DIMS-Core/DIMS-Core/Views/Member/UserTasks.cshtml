@@ -1,0 +1,61 @@
+﻿@model IEnumerable<UserTasksModel>
+@{
+    ViewData["Title"] = @ViewBag.Member.Name + "s tasks";
+}
+
+<h1>@ViewBag.Member.Name's tasks</h1>
+
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.TaskId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Description)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.StartDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DeadlineDate)
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (Model is null || !Model.Any())
+        {
+            <tr>
+                <td colspan="5" class="text-center">
+                    <strong>There aren't items.</strong>
+                </td>
+            </tr>
+        }
+        else
+        {
+            foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.ActionLink(item.TaskId.ToString(), "Details", "Task", new { id = item.TaskId })
+                    </td>
+                    <td>
+                        @Html.ActionLink(item.Name, "Details", "Task", new { id = item.TaskId })
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Description)
+                    </td>
+                     <td>
+                        @Convert.ToDateTime(item.StartDate).ToString("MM/dd/yyyy")
+                    </td>
+                    <td>
+                        @Convert.ToDateTime(item.DeadlineDate).ToString("MM/dd/yyyy")
+                    </td>
+                </tr>
+            }
+        }
+    </tbody>
+</table>

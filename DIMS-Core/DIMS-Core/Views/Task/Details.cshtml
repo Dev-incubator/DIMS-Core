@@ -47,10 +47,14 @@
     </dl>
 </div>
 <div>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.TaskId, back = ViewBag.BackController }) |
+    @if (User.IsInRole("admin") || User.IsInRole("mentor"))
+    {
+        @Html.ActionLink("Edit", "Edit", new {id = Model.TaskId, back = ViewBag.BackController})
+        <span>|</span>
+    }
     @await Html.PartialAsync("_BackToList", new BackToListViewModel
     {
-        Controller = ViewBag.BackController ?? "tasks", 
+        Controller = ViewBag.BackController ?? "tasks",
         Action = ViewBag.BackAction
     })
 </div>
