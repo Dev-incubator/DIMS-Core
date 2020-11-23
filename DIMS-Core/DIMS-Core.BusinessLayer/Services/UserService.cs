@@ -1,10 +1,13 @@
-﻿using AutoMapper;
+﻿using System.Collections.Generic;
+using System.Linq;
+using AutoMapper;
 using DIMS_Core.BusinessLayer.Interfaces;
 using DIMS_Core.BusinessLayer.Models.Account;
 using DIMS_Core.Identity.Entities;
 using DIMS_Core.Identity.Services;
 using Microsoft.AspNetCore.Identity;
 using System.Threading.Tasks;
+using DIMS_Core.BusinessLayer.Models.Direction;
 
 namespace DIMS_Core.BusinessLayer.Services
 {
@@ -38,6 +41,11 @@ namespace DIMS_Core.BusinessLayer.Services
         public Task SignOut()
         {
             return unitOfWork.SignInManager.SignOutAsync();
+        }
+
+        public IEnumerable<Role> GetAll()
+        {
+            return unitOfWork.RoleManager.Roles;
         }
 
         #region Disposable
