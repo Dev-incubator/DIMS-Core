@@ -2,39 +2,28 @@
 
 @{
     ViewData["Title"] = "Task track details #" + Model.TaskTrackId;
+    var controller = "task-tracks";
 }
 
 <h1>Task track details</h1>
 
-<div>
+<div class="details">
     <dl class="row">
-        <dt class="col-sm-2">
-            @Html.DisplayName("Track id")
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.TaskTrackId)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayName("Task")
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.TaskName)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayName("Note")
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.TrackNote)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayName("Date")
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.TrackDate)
-        </dd>
+        <dt class="col-sm-2">@Html.DisplayName("Track id")</dt>
+        <dd class="col-sm-10">@Html.DisplayFor(model => model.TaskTrackId)</dd>
+        <dt class="col-sm-2">@Html.DisplayName("Task")</dt>
+        <dd class="col-sm-10">@Html.DisplayFor(model => model.TaskName)</dd>
+        <dt class="col-sm-2">@Html.DisplayName("Note")</dt>
+        <dd class="col-sm-10">@Html.DisplayFor(model => model.TrackNote)</dd>
+        <dt class="col-sm-2">@Html.DisplayName("Date")</dt>
+        <dd class="col-sm-10">@Model.TrackDate.ToString("dd.MM.yyyy")</dd>
     </dl>
 </div>
-<div>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.TaskTrackId, back = ViewBag.BackController }) |
-    @await Html.PartialAsync("_BackToList", new BackToListViewModel { Controller = ViewBag.BackController ?? "task-tracks" })
-</div>
+
+@await Html.PartialAsync("_BottomDetails", new BottomButtonsViewModel()
+{
+    Id = Model.TaskTrackId,
+    Controller = controller,
+    BackAction = ViewBag.BackAction,
+    BackController = ViewBag.BackController ??= controller
+})

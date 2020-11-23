@@ -113,12 +113,22 @@ body {
 
 /* Button custom styles
 -------------------------------------------------- */
+.btn-group {
+    display: block;
+}
+
 .btn-group.btn-80 .btn {
     width: 80px;
 }
 
-.btn-group.btn-80 .btn:nth-child(3) {
+.btn-group .btn:nth-child(even) {
     margin: 3px 0 3px 0;
+}
+
+/*Reset bootstrap style*/
+.btn-group > .btn-group:not(:first-child) > .btn, .btn-group > .btn:not(:first-child),
+.btn-group > .btn-group:not(:last-child) > .btn, .btn-group > .btn:not(:last-child):not(.dropdown-toggle) {
+    border-radius: 0.25rem;
 }
 
 /* Table-Index custom styles
@@ -137,10 +147,41 @@ body {
     min-width: 130px;
 }
 
+.table-index .col-id {
+    width: 4rem;
+}
+
+.table-index .col-short-date {
+    width: 6rem;
+}
+
 .table-index a {
     color: #1b6ec2;
 }
 
 .table-index .btn, .table-index .btn-warning {
     color: white;
+}
+
+.btn-create {
+    margin-top: 5px;
+    margin-bottom: 10px;
+}
+
+/* Details custom styles
+-------------------------------------------------- */
+.details {
+    margin-top: 20px;
+}
+
+.details-controls .btn-warning {
+    color: white;
+}
+
+.details-controls * {
+    float: left;
+}
+
+.details-controls *:nth-child(even) {
+    margin-left: 5px;
 }

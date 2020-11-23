@@ -1,4 +1,5 @@
-﻿using AutoMapper;
+﻿using System;
+using AutoMapper;
 using DIMS_Core.BusinessLayer.Interfaces;
 using DIMS_Core.BusinessLayer.Models.Task;
 using DIMS_Core.Helpers;
@@ -72,8 +73,14 @@ namespace DIMS_Core.Controllers
         [HttpGet("create")]
         public async Task<IActionResult> Create()
         {
+            var model = new TaskViewModel()
+            {
+                StartDate = DateTime.Now,
+                DeadlineDate = DateTime.Now
+            };
+
             ViewBag.AllMembers = await memberService.GetMembersViewModel(mapper);
-            return View(new TaskViewModel());
+            return View(model);
         }
 
         [HttpPost("create")]
