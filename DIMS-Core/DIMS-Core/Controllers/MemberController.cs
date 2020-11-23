@@ -45,7 +45,7 @@ namespace DIMS_Core.Controllers
         }
 
         [HttpGet("create")]
-        public async Task<IActionResult> CreateAsync()
+        public async Task<IActionResult> Create()
         {
             ViewBag.Directions = await directionService.GetAll();
             ViewBag.AllRoles = userService.GetAll();
