@@ -8,5 +8,6 @@ namespace DIMS_Core.Identity.Services
     {
         SignInManager<User> SignInManager { get; }
         UserManager<User> UserManager { get; }
+        RoleManager<Role> RoleManager { get; }
     }
 }
