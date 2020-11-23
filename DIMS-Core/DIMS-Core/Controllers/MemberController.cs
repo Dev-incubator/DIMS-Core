@@ -48,6 +48,7 @@ namespace DIMS_Core.Controllers
         public async Task<IActionResult> CreateAsync()
         {
             ViewBag.Directions = await directionService.GetAll();
+            ViewBag.AllRoles = userService.GetAll();
             return View();
         }
 
