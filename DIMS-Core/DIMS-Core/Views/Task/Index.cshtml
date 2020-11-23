@@ -1,29 +1,23 @@
 ﻿@model IEnumerable<TaskViewModel>
 @{
     ViewData["Title"] = "Tasks";
+    var controller = "tasks";
 }
 
-<h1>Tasks</h1>
+<h1 class="float-left">Tasks</h1>
 
-<p class="float-lg-right">
-    <a class="btn btn-primary" asp-action="create" asp-controller="tasks">Create</a>
+<p class="float-lg-right btn-create">
+    <a class="btn btn-primary" asp-action="create" asp-controller="@controller">Create</a>
 </p>
-<table class="table table-bordered">
+
+<table class="table table-bordered table-index">
     <thead>
         <tr>
-            <th>
-                @Html.DisplayName("Id")
-            </th>
-            <th>
-                @Html.DisplayName("Name")
-            </th>
-            <th>
-                @Html.DisplayName("Start date")
-            </th>
-            <th>
-                @Html.DisplayName("Deadline")
-            </th>
-            <th width="300px"></th>
+            <th class="col-id">@Html.DisplayName("#")</th>
+            <th>@Html.DisplayName("Name")</th>
+            <th class="col-short-date">@Html.DisplayName("Start date")</th>
+            <th class="col-short-date">@Html.DisplayName("Deadline")</th>
+            <th width="200px"></th>
         </tr>
     </thead>
     <tbody>
@@ -38,20 +32,12 @@
             foreach (var item in Model)
             {
                 <tr>
+                    <td>@Html.DisplayFor(i => item.TaskId)</td>
+                    <td class="text-left">@Html.ActionLink(item.Name, "Details", new { id = item.TaskId })</td>
+                    <td>@item.StartDate.ToString("dd.MM.yyyy")</td>
+                    <td>@item.DeadlineDate.ToString("dd.MM.yyyy")</td>
                     <td>
-                        @Html.ActionLink(item.TaskId.ToString(), "Details", new { id = item.TaskId })
-                    </td>
-                    <td>
-                        @Html.ActionLink(item.Name, "Details", new { id = item.TaskId })
-                    </td>
-                    <td>
-                        @Convert.ToDateTime(item.StartDate).ToString("MM/dd/yyyy")
-                    </td>
-                    <td>
-                        @Convert.ToDateTime(item.DeadlineDate).ToString("MM/dd/yyyy")
-                    </td>
-                    <td align="center">
-                        <div class="btn-group">
+                        <div class="btn-group btn-80">
                             @Html.ActionLink("Edit", "Edit", new { id = item.TaskId }, new { @class = "btn btn-warning" })
                             @Html.ActionLink("Delete", "Delete", new { id = item.TaskId }, new { @class = "btn btn-danger" })
                         </div>

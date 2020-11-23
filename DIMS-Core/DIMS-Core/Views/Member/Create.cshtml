@@ -2,14 +2,14 @@
 
 @{
     ViewData["Title"] = "Adding member";
+    var controller = "members";
 }
 
 <h1>Adding member</h1>
 
-<hr />
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="create" asp-controller="member" asp-antiforgery="true">
+        <form asp-action="create" asp-controller="@controller" asp-antiforgery="true">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="Name" class="control-label"></label>
@@ -17,7 +17,7 @@
                 <span asp-validation-for="Name" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="LastName" class="control-label"></label>
+                <label asp-for="LastName" class="control-label">Last name</label>
                 <input asp-for="LastName" class="form-control" />
                 <span asp-validation-for="LastName" class="text-danger"></span>
             </div>
@@ -28,8 +28,8 @@
             </div>
 
             <div class="form-group">
-                <label class="control-label"></label>
-                <select asp-for="DirectionId">
+                <label class="control-label">Direction</label>
+                <select asp-for="DirectionId" class="form-control">
                     @foreach (var direction in ViewBag.Directions)
                     {
                         <option value="@direction.DirectionId">@direction.Name</option>
@@ -40,7 +40,7 @@
 
             <div class="form-group">
                 <label asp-for="Sex" class="control-label"></label>
-                <select asp-for="Sex">
+                <select asp-for="Sex" class="form-control">
                     <option value="0">Undefined</option>
                     <option value="1">Male</option>
                     <option value="2">Female</option>
@@ -56,19 +56,19 @@
             </div>
 
             <div class="form-group">
-                <label asp-for="BirthOfDate" class="control-label"></label>
-                <input asp-for="BirthOfDate" class="form-control" />
+                <label asp-for="BirthOfDate" class="control-label">Date of Birth</label>
+                <input asp-for="BirthOfDate" type="date" class="form-control" />
                 <span asp-validation-for="BirthOfDate" class="text-danger"></span>
             </div>
 
             <div class="form-group">
-                <label asp-for="UniversityAverageScore" class="control-label"></label>
+                <label asp-for="UniversityAverageScore" class="control-label">University average score</label>
                 <input asp-for="UniversityAverageScore" class="form-control" />
                 <span asp-validation-for="UniversityAverageScore" class="text-danger"></span>
             </div>
 
             <div class="form-group">
-                <label asp-for="MathScore" class="control-label"></label>
+                <label asp-for="MathScore" class="control-label">Math score</label>
                 <input asp-for="MathScore" class="form-control" />
                 <span asp-validation-for="MathScore" class="text-danger"></span>
             </div>
@@ -80,7 +80,7 @@
             </div>
 
             <div class="form-group">
-                <label asp-for="MobilePhone" class="control-label"></label>
+                <label asp-for="MobilePhone" class="control-label">Mobile phone</label>
                 <input asp-for="MobilePhone" class="form-control" />
                 <span asp-validation-for="MobilePhone" class="text-danger"></span>
             </div>
@@ -92,28 +92,28 @@
             </div>
 
             <div class="form-group">
-                <label asp-for="StartDate" class="control-label"></label>
-                <input asp-for="StartDate" class="form-control" />
+                <label asp-for="StartDate" class="control-label">Start</label>
+                <input asp-for="StartDate" type="date" class="form-control" />
                 <span asp-validation-for="StartDate" class="text-danger"></span>
             </div>
 
             <div class="form-group">
                 <label asp-for="Password" class="control-label"></label>
-                <input asp-for="Password" class="form-control" type="password"/>
+                <input asp-for="Password" class="form-control" type="password" />
                 <span asp-validation-for="Password" class="text-danger"></span>
             </div>
 
             <div class="form-group">
-                <label asp-for="ConfirmPassword" class="control-label"></label>
-                <input asp-for="ConfirmPassword" class="form-control" type="password"/>
+                <label asp-for="ConfirmPassword" class="control-label">Confirm password</label>
+                <input asp-for="ConfirmPassword" class="form-control" type="password" />
                 <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
             </div>
 
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
-            </div>
+            @await Html.PartialAsync("_BottomCreate", new BottomButtonsViewModel()
+            {
+                BackAction = ViewBag.BackAction,
+                BackController = ViewBag.BackController ??= controller
+            })
         </form>
     </div>
 </div>
-
-@await Html.PartialAsync("_BackToList", new BackToListViewModel { Controller = "member" })
