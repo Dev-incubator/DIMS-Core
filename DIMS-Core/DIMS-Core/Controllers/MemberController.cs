@@ -13,7 +13,7 @@ using DIMS_Core.Identity.Entities;
 namespace DIMS_Core.Controllers
 {
     [Route("members")]
-    [Authorize(Roles = "admin")]
+    [Authorize(Roles = "admin, mentor")]
     public class MemberController : Controller
     {
         private readonly IMemberService memberService;
@@ -36,7 +36,6 @@ namespace DIMS_Core.Controllers
         }
 
         [HttpGet("")]
-        [Authorize]
         public async Task<IActionResult> Index()
         {
             var searchResult = await memberService.GetAll();
@@ -46,6 +45,7 @@ namespace DIMS_Core.Controllers
         }
 
         [HttpGet("create")]
+        [Authorize(Roles = "admin")]
         public async Task<IActionResult> Create()
         {
             var model = new AddMemberViewModel()
@@ -54,7 +54,7 @@ namespace DIMS_Core.Controllers
             };
             ViewBag.Directions = await directionService.GetAll();
             ViewBag.Roles = userService.GetRoles();
-            return View();
+            return View(model);
         }
 
         [HttpPost("create")]
@@ -64,6 +64,7 @@ namespace DIMS_Core.Controllers
             if (!ModelState.IsValid)
             {
                 ViewBag.Directions = await directionService.GetAll();
+                ViewBag.Roles = userService.GetRoles();
                 return View(model);
             }
 
@@ -82,6 +83,7 @@ namespace DIMS_Core.Controllers
         }
 
         [HttpGet("edit/{userId}")]
+        [Authorize(Roles = "admin")]
         public async Task<IActionResult> Edit(int userId)
         {
             if (userId <= 0)
@@ -127,6 +129,7 @@ namespace DIMS_Core.Controllers
         }
 
         [HttpGet("delete/{userId}")]
+        [Authorize(Roles = "admin")]
         public async Task<IActionResult> Delete(int userId)
         {
             if (userId <= 0)
