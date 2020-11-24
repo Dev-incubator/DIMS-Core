@@ -8,6 +8,7 @@ using DIMS_Core.Identity.Services;
 using Microsoft.AspNetCore.Identity;
 using System.Threading.Tasks;
 using DIMS_Core.BusinessLayer.Models.Direction;
+using Microsoft.EntityFrameworkCore;
 
 namespace DIMS_Core.BusinessLayer.Services
 {
@@ -73,6 +74,10 @@ namespace DIMS_Core.BusinessLayer.Services
             }
         }
 
+        public async Task DeleteUser(User user)
+        {
+            await unitOfWork.UserManager.DeleteAsync(user);
+        }
 
         #region Disposable
 

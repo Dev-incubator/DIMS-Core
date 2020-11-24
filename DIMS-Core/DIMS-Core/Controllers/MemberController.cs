@@ -93,8 +93,7 @@ namespace DIMS_Core.Controllers
             var model = mapper.Map<EditMemberViewModel>(dto);
 
             var user = userService.GetUser(model.Email);
-            var roles = await userService.GetUserRole(user);
-            model.Role = roles.FirstOrDefault();
+            model.Role = (await userService.GetUserRole(user)).FirstOrDefault();
 
             ViewBag.Directions = await directionService.GetAll();
             ViewBag.Roles = userService.GetRoles();
@@ -137,6 +136,12 @@ namespace DIMS_Core.Controllers
 
             var dto = await memberService.GetMember(userId);
             var model = mapper.Map<MemberViewModel>(dto);
+
+            var user = userService.GetUser(dto.Email);
+            if (user != null)
+            {
+                await userService.DeleteUser(user);
+            }
 
             return View(model);
         }
