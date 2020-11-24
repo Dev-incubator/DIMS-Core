@@ -48,6 +48,10 @@ namespace DIMS_Core.Controllers
         [HttpGet("create")]
         public async Task<IActionResult> Create()
         {
+            var model = new AddMemberViewModel()
+            {
+                Role = "member"
+            };
             ViewBag.Directions = await directionService.GetAll();
             ViewBag.Roles = userService.GetRoles();
             return View();
@@ -70,7 +74,7 @@ namespace DIMS_Core.Controllers
             var result = await userService.SignUp(signUpModel);
             if (result.Succeeded)
             {
-                var user = userService.GetUser(signUpModel);
+                var user = userService.GetUser(model.Email);
                 await userService.UpdateRole(user, model.Role);
             }
 
@@ -88,7 +92,12 @@ namespace DIMS_Core.Controllers
             var dto = await memberService.GetMember(userId);
             var model = mapper.Map<EditMemberViewModel>(dto);
 
+            var user = userService.GetUser(model.Email);
+            var roles = await userService.GetUserRole(user);
+            model.Role = roles.FirstOrDefault();
+
             ViewBag.Directions = await directionService.GetAll();
+            ViewBag.Roles = userService.GetRoles();
             return View(model);
         }
 
@@ -112,6 +121,8 @@ namespace DIMS_Core.Controllers
             var dto = mapper.Map<UserProfileModel>(model);
 
             await memberService.Update(dto);
+            var user = userService.GetUser(model.Email);
+            await userService.UpdateRole(user, model.Role);
 
             return RedirectToAction("Index");
         }

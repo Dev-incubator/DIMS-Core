@@ -9,6 +9,8 @@ namespace DIMS_Core.Models.Member
 {
     public class EditMemberViewModel
     {
+        [Required(ErrorMessage = "Role is required")]
+        public string Role { get; set; }
         public int UserId { get; set; }
         [Required(ErrorMessage = "Direction is required")]
         public int DirectionId { get; set; }

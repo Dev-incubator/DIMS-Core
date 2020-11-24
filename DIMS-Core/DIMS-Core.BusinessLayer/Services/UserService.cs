@@ -47,21 +47,25 @@ namespace DIMS_Core.BusinessLayer.Services
         {
             return unitOfWork.RoleManager.Roles;
         }
-
-        public User GetUser(SignUpModel signUpModel)
+        public User GetUser(string email)
         {
-            return unitOfWork.UserManager.Users.FirstOrDefault(x => x.Email == signUpModel.Email);
+            return unitOfWork.UserManager.Users.FirstOrDefault(x => x.Email == email);
+        }
+
+        public async Task<IList<string>> GetUserRole(User user)
+        {
+            return await unitOfWork.UserManager.GetRolesAsync(user);
         }
 
         public async Task UpdateRole(User user, string role)
         {
+
             if (user is null || role is null)
             {
                 return;
             }
 
-
-            var userRoles = await unitOfWork.UserManager.GetRolesAsync(user);
+            var userRoles = await GetUserRole(user);
             if (!userRoles.Contains(role))
             {
                 if (userRoles.Count > 0) userRoles.Clear();

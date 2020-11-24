@@ -13,7 +13,8 @@ namespace DIMS_Core.BusinessLayer.Interfaces
         Task SignOut();
         Task<IdentityResult> SignUp(SignUpModel model);
         IEnumerable<Role> GetRoles();
-        User GetUser(SignUpModel signUpModel);
+        User GetUser(string email);
+        Task<IList<string>> GetUserRole(User user);
         Task UpdateRole(User user, string role);
     }
 }

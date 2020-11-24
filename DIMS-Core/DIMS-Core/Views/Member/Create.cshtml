@@ -17,7 +17,7 @@
                 <select asp-for="Role" class="form-control">
                     @foreach (var role in ViewBag.Roles)
                     {
-                        var selected = role.Name.Equals("member") ? "selected" : null;
+                        var selected = role.Name.Equals(Model.Role) ? "selected" : null;
                         <option value="@role.Name" selected="@selected">@role.Name</option>
                     }
                 </select>
