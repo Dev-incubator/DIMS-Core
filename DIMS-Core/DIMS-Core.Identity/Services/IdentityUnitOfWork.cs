@@ -1,6 +1,7 @@
 ﻿using DIMS_Core.Identity.Entities;
 using Microsoft.AspNetCore.Identity;
 using System;
+using System.Threading.Tasks;
 
 namespace DIMS_Core.Identity.Services
 {
@@ -9,7 +10,6 @@ namespace DIMS_Core.Identity.Services
         public UserManager<User> UserManager { get; }
         public RoleManager<Role> RoleManager { get; }
         public SignInManager<User> SignInManager { get; }
-
 
         public IdentityUnitOfWork(
             UserManager<User> userManager, 

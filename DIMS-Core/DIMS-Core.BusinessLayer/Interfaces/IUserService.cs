@@ -12,6 +12,8 @@ namespace DIMS_Core.BusinessLayer.Interfaces
         Task<SignInResult> SignIn(SignInModel model);
         Task SignOut();
         Task<IdentityResult> SignUp(SignUpModel model);
-        IEnumerable<Role> GetAll();
+        IEnumerable<Role> GetRoles();
+        User GetUser(SignUpModel signUpModel);
+        Task UpdateRole(User user, string role);
     }
 }

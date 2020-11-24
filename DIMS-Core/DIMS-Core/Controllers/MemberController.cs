@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using DIMS_Core.Identity.Entities;
 
 namespace DIMS_Core.Controllers
 {
@@ -48,7 +49,7 @@ namespace DIMS_Core.Controllers
         public async Task<IActionResult> Create()
         {
             ViewBag.Directions = await directionService.GetAll();
-            ViewBag.AllRoles = userService.GetAll();
+            ViewBag.Roles = userService.GetRoles();
             return View();
         }
 
@@ -63,12 +64,15 @@ namespace DIMS_Core.Controllers
             }
 
             var dto = mapper.Map<UserProfileModel>(model);
-
             await memberService.Create(dto);
-            
-            var signUpModel = mapper.Map<SignUpModel>(model);
 
-            await userService.SignUp(signUpModel);
+            var signUpModel = mapper.Map<SignUpModel>(model);
+            var result = await userService.SignUp(signUpModel);
+            if (result.Succeeded)
+            {
+                var user = userService.GetUser(signUpModel);
+                await userService.UpdateRole(user, model.Role);
+            }
 
             return RedirectToAction("Index");
         }

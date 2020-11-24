@@ -43,10 +43,32 @@ namespace DIMS_Core.BusinessLayer.Services
             return unitOfWork.SignInManager.SignOutAsync();
         }
 
-        public IEnumerable<Role> GetAll()
+        public IEnumerable<Role> GetRoles()
         {
             return unitOfWork.RoleManager.Roles;
         }
+
+        public User GetUser(SignUpModel signUpModel)
+        {
+            return unitOfWork.UserManager.Users.FirstOrDefault(x => x.Email == signUpModel.Email);
+        }
+
+        public async Task UpdateRole(User user, string role)
+        {
+            if (user is null || role is null)
+            {
+                return;
+            }
+
+
+            var userRoles = await unitOfWork.UserManager.GetRolesAsync(user);
+            if (!userRoles.Contains(role))
+            {
+                if (userRoles.Count > 0) userRoles.Clear();
+                await unitOfWork.UserManager.AddToRoleAsync(user, role);
+            }
+        }
+
 
         #region Disposable
 
