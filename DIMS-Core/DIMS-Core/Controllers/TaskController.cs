@@ -45,6 +45,11 @@ namespace DIMS_Core.Controllers
             {
                 var currentUser = await memberService.GetMemberByEmail(User.Identity.Name);
                 id = currentUser.UserId;
+                ViewBag.Member = currentUser;
+            }
+            else
+            {
+                ViewBag.Member = await memberService.GetMember(id);
             }
 
             var currentTask = await taskService.GetAllMyTask(id);

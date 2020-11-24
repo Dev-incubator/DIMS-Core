@@ -27,9 +27,9 @@
             {
                 <tr>
                     <td>@Html.DisplayFor(modelItem => item.TaskTrackId)</td>
-                    <td>@Html.DisplayFor(modelItem => item.TaskName)</td>
-                    <td>@Html.DisplayFor(modelItem => item.TrackNote)</td>
-                    <td>@Html.DisplayFor(modelItem => item.TrackDate)</td>
+                    <td class="text-left">@Html.DisplayFor(modelItem => item.TaskName)</td>
+                    <td class="text-left">@Html.DisplayFor(modelItem => item.TrackNote)</td>
+                    <td>@item.TrackDate.ToString("dd.MM.yyyy")</td>
                 </tr>
             }
         }
