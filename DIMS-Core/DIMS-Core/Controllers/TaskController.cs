@@ -38,21 +38,21 @@ namespace DIMS_Core.Controllers
         }
 
         [HttpGet("current-tasks")]
-        [HttpGet("current-tasks/{id}")]
-        public async Task<IActionResult> CurrentTasks(int id)
+        [HttpGet("current-tasks/{userId}")]
+        public async Task<IActionResult> CurrentTasks(int userId)
         {
-            if (id == 0)
+            if (userId == 0)
             {
                 var currentUser = await memberService.GetMemberByEmail(User.Identity.Name);
-                id = currentUser.UserId;
+                userId = currentUser.UserId;
                 ViewBag.Member = currentUser;
             }
             else
             {
-                ViewBag.Member = await memberService.GetMember(id);
+                ViewBag.Member = await memberService.GetMember(userId);
             }
 
-            var currentTask = await taskService.GetAllMyTask(id);
+            var currentTask = await taskService.GetAllMyTask(userId);
             var model = mapper.Map<IEnumerable<CurrentTaskViewModel>>(currentTask);
 
             return View(model);
@@ -175,7 +175,7 @@ namespace DIMS_Core.Controllers
 
         [HttpPost("task-status")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> TaskStatePost(int id, TaskStateEnum status)
+        public async Task<IActionResult> TaskStatePost(int id, TaskStateEnum status, int userId)
         {
             if (id <= 0 || status <= 0)
             {
@@ -184,7 +184,7 @@ namespace DIMS_Core.Controllers
 
             await taskService.SetTaskState(id, status);
 
-            return RedirectToAction("CurrentTasks");
+            return RedirectToAction("CurrentTasks", new { userId });
         }
     }
 }

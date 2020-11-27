@@ -50,7 +50,7 @@
                         <div class="btn-group container">
                             <div class="row">
                                 <div class="col">
-                                    @Html.ActionLink("Tasks", "CurrentTasks", "Task", new { id = item.UserId }, new { @class = "btn btn-primary w-100 m-2" })
+                                    @Html.ActionLink("Tasks", "CurrentTasks", "Task", new { userId = item.UserId }, new { @class = "btn btn-primary w-100 m-2" })
                                 </div>
                                 <div class="col">
                                     @Html.ActionLink("Progress", "Progress", new { userId = item.UserId }, new { @class = "btn btn-primary w-100 m-2" })
