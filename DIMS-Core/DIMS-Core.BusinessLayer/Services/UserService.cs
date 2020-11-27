@@ -48,17 +48,33 @@ namespace DIMS_Core.BusinessLayer.Services
         {
             return unitOfWork.RoleManager.Roles;
         }
+
         public User GetUser(string email)
         {
             return unitOfWork.UserManager.Users.FirstOrDefault(x => x.Email == email);
         }
 
-        public async Task<IList<string>> GetUserRole(User user)
+        public async Task DeleteUser(User user)
         {
-            return await unitOfWork.UserManager.GetRolesAsync(user);
+            await unitOfWork.UserManager.DeleteAsync(user);
         }
 
-        public async Task UpdateRole(User user, string role)
+        public async Task<string> GetUserRole(User user)
+        {
+            return (await unitOfWork.UserManager.GetRolesAsync(user)).FirstOrDefault();
+        }
+
+        public async Task AddUserRole(User user, string role)
+        {
+            if (user is null || role is null)
+            {
+                return;
+            }
+
+            await unitOfWork.UserManager.AddToRoleAsync(user, role);
+        }
+
+        public async Task UpdateUserRole(User user, string role)
         {
 
             if (user is null || role is null)
@@ -66,18 +82,31 @@ namespace DIMS_Core.BusinessLayer.Services
                 return;
             }
 
-            var userRoles = await GetUserRole(user);
-            if (!userRoles.Contains(role))
+            var currentRole = await GetUserRole(user);
+            if (currentRole is null)
             {
-                if (userRoles.Count > 0) userRoles.Clear();
-                await unitOfWork.UserManager.AddToRoleAsync(user, role);
+                await AddUserRole(user, role);
+            }
+            else
+            {
+                if (!currentRole.Equals(role))
+                {
+                    await DeleteUserRole(user, currentRole);
+                    await AddUserRole(user, role);
+                }
             }
         }
 
-        public async Task DeleteUser(User user)
+        public async Task DeleteUserRole(User user, string role)
         {
-            await unitOfWork.UserManager.DeleteAsync(user);
+            if (user is null || role is null)
+            {
+                return;
+            }
+
+            await unitOfWork.UserManager.RemoveFromRoleAsync(user, role);
         }
+
 
         #region Disposable
 

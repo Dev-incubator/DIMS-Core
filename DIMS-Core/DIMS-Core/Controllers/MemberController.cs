@@ -73,10 +73,11 @@ namespace DIMS_Core.Controllers
 
             var signUpModel = mapper.Map<SignUpModel>(model);
             var result = await userService.SignUp(signUpModel);
+
             if (result.Succeeded)
             {
                 var user = userService.GetUser(model.Email);
-                await userService.UpdateRole(user, model.Role);
+                await userService.AddUserRole(user, model.Role);
             }
 
             return RedirectToAction("Index");
@@ -95,7 +96,7 @@ namespace DIMS_Core.Controllers
             var model = mapper.Map<EditMemberViewModel>(dto);
 
             var user = userService.GetUser(model.Email);
-            model.Role = (await userService.GetUserRole(user)).FirstOrDefault();
+            model.Role = await userService.GetUserRole(user);
 
             ViewBag.Directions = await directionService.GetAll();
             ViewBag.Roles = userService.GetRoles();
@@ -115,7 +116,7 @@ namespace DIMS_Core.Controllers
             if (model.UserId <= 0)
             {
                 ModelState.AddModelError("", "Incorrect identifier.");
-
+                ViewBag.Directions = await directionService.GetAll();
                 return View(model);
             }
 
@@ -123,7 +124,7 @@ namespace DIMS_Core.Controllers
 
             await memberService.Update(dto);
             var user = userService.GetUser(model.Email);
-            await userService.UpdateRole(user, model.Role);
+            await userService.UpdateUserRole(user, model.Role);
 
             return RedirectToAction("Index");
         }

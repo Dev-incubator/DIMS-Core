@@ -12,10 +12,12 @@ namespace DIMS_Core.BusinessLayer.Interfaces
         Task<SignInResult> SignIn(SignInModel model);
         Task SignOut();
         Task<IdentityResult> SignUp(SignUpModel model);
-        Task DeleteUser(User user);
         IEnumerable<Role> GetRoles();
         User GetUser(string email);
-        Task<IList<string>> GetUserRole(User user);
-        Task UpdateRole(User user, string role);
+        Task DeleteUser(User user);
+        Task<string> GetUserRole(User user);
+        Task AddUserRole(User user, string role);
+        Task UpdateUserRole(User user, string role);
+        Task DeleteUserRole(User user, string role);
     }
 }
