@@ -5,5 +5,13 @@
     {
         <a class="btn btn-warning" asp-action="Edit" asp-controller="@Model.Controller" asp-route-id="@Model.Id">Edit</a>
     }
-    <a class="btn btn-secondary" asp-action="@ViewBag.BackAction" asp-controller="@ViewBag.BackController">Back To List</a>
+    @if (Model.UserId > 0)
+    {
+        <a class="btn btn-secondary" asp-action="@ViewBag.BackAction" asp-controller="@ViewBag.BackController" asp-route-userId="@Model.UserId">Back To List</a>
+    }
+    else
+    {
+        <a class="btn btn-secondary" asp-action="@ViewBag.BackAction" asp-controller="@ViewBag.BackController">Back To List</a>
+    }
+
 </div>

@@ -5,7 +5,15 @@
     var action = "current-tasks";
 }
 
-<h1 class="float-left">@ViewBag.Member.Name's tasks</h1>
+@if (ViewBag.CurrentUser)
+{
+    <h1 class="float-left">Current tasks</h1>
+}
+else
+{
+    <h1 class="float-left">@ViewBag.Member.Name @ViewBag.Member.LastName's tasks</h1>
+}
+
 
 <table class="table table-bordered table-index">
     <thead>
@@ -38,7 +46,7 @@
             {
                 <tr>
                     <td>@Html.DisplayFor(i => item.TaskId)</td>
-                    <td class="text-left">@Html.ActionLink(item.Name, "Details", new { id = item.TaskId, back = controller, backAction = action })</td>
+                    <td class="text-left">@Html.ActionLink(item.Name, "Details", new { id = item.TaskId, back = controller, backAction = action, userId = ViewBag.Member.UserId })</td>
                     <td>@item.StartDate.ToString("dd.MM.yyyy")</td>
                     <td>@item.DeadlineDate.ToString("dd.MM.yyyy")</td>
                     <td>

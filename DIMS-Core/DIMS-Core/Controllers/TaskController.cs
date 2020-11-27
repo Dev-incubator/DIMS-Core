@@ -46,10 +46,12 @@ namespace DIMS_Core.Controllers
                 var currentUser = await memberService.GetMemberByEmail(User.Identity.Name);
                 userId = currentUser.UserId;
                 ViewBag.Member = currentUser;
+                ViewBag.CurrentUser = true;
             }
             else
             {
                 ViewBag.Member = await memberService.GetMember(userId);
+                ViewBag.CurrentUser = false;
             }
 
             var currentTask = await taskService.GetAllMyTask(userId);
@@ -59,7 +61,7 @@ namespace DIMS_Core.Controllers
         }
 
         [HttpGet("details/{id}")]
-        public async Task<IActionResult> Details(int id, string back = null, string backAction = null)
+        public async Task<IActionResult> Details(int id, string back, string backAction, int userId)
         {
             if (id <= 0)
             {
@@ -71,6 +73,7 @@ namespace DIMS_Core.Controllers
             
             ViewBag.BackController = back;
             ViewBag.BackAction = backAction;
+            ViewBag.BackUserId = userId;
             ViewBag.AllMembers = await memberService.GetMembersViewModel(mapper);
             return View(model);
         }
@@ -105,7 +108,7 @@ namespace DIMS_Core.Controllers
         }
 
         [HttpGet("edit/{id}")]
-        public async Task<IActionResult> Edit(int id, string back = null)
+        public async Task<IActionResult> Edit(int id, string back)
         {
             if (id <= 0)
             {
