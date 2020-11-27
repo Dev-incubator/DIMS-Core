@@ -15,7 +15,10 @@
             <th class="col-short-date">@Html.DisplayName("Start date")</th>
             <th class="col-short-date">@Html.DisplayName("Deadline")</th>
             <th>@Html.DisplayName("Status")</th>
-            <th width="150px"></th>
+            @if (User.IsInRole("member"))
+            {
+                <th width="150px"></th>
+            }
             @if (User.IsInRole("admin") || User.IsInRole("mentor"))
             {
                 <th width="280px"></th>
@@ -25,16 +28,9 @@
     <tbody>
         @if (Model is null || !Model.Any())
         {
-        <tr>
-            @if (User.IsInRole("admin") || User.IsInRole("mentor"))
-            {
-                <td colspan="7" class="text-center">There aren't items.</td>
-            }
-            else
-            {
+            <tr>
                 <td colspan="6" class="text-center">There aren't items.</td>
-            }
-        </tr>
+            </tr>
         }
         else
         {
@@ -46,7 +42,7 @@
                     <td>@item.StartDate.ToString("dd.MM.yyyy")</td>
                     <td>@item.DeadlineDate.ToString("dd.MM.yyyy")</td>
                     <td>
-                        @{ 
+                        @{
                             var statusColor = string.Empty;
                             switch (item.Status)
                             {
@@ -58,16 +54,19 @@
                         }
                         <span class="@statusColor">@Html.DisplayFor(i => item.Status)</span>
                     </td>
-                    <td>
-                        <div class="btn-group">
-                            @Html.ActionLink("New Track", "Create", "TaskTrack", new { userTaskId = item.UserTaskId, back = controller, backAction = action }, new { @class = "btn btn-primary" })
-                        </div>
-                    </td>
+                    @if (User.IsInRole("member"))
+                    {
+                        <td>
+                            <div class="btn-group">
+                                @Html.ActionLink("New Track", "Create", "TaskTrack", new { userTaskId = item.UserTaskId, back = controller, backAction = action }, new { @class = "btn btn-primary" })
+                            </div>
+                        </td>
+                    }
                     @if (User.IsInRole("admin") || User.IsInRole("mentor"))
                     {
                         <td>
                             <div class="btn-group btn-80">
-                                <form asp-action="task-status" asp-controller="tasks" asp-antiforgery="true">
+                                <form asp-action="task-status" asp-controller="tasks" asp-antiforgery="true" asp-route-userId="@ViewBag.Member.UserId">
                                     @if (item.Status != "Active")
                                     {
                                         <button type="submit" name="status" value="1" class="btn btn-info">Active</button>
