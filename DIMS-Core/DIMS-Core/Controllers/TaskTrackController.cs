@@ -8,11 +8,12 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using DIMS_Core.Models.Route;
 
 namespace DIMS_Core.Controllers
 {
     [Route("task-tracks")]
-    [Authorize(Roles = "member")]
+    [Authorize]
     public class TaskTrackController : Controller
     {
         private readonly ITaskTrackService taskTrackService;
@@ -33,6 +34,7 @@ namespace DIMS_Core.Controllers
         }
 
         [HttpGet("")]
+        [Authorize(Roles = "member")]
         public async Task<IActionResult> Index()
         {
             var currentUser = await memberService.GetMemberByEmail(User.Identity.Name);
@@ -40,30 +42,35 @@ namespace DIMS_Core.Controllers
             var taskTracks = await taskTrackService.GetAllByUserId(currentUser.UserId);
             var model = mapper.Map<IEnumerable<VTaskTrackViewModel>>(taskTracks);
 
+            ViewBag.Route = new Route()
+            {
+                Controller = "task-tracks"
+            };
             return View(model);
         }
 
-        [HttpGet("details/{id}")]
-        public IActionResult Details(int id, string back = null)
+        [HttpGet("details")]
+        public IActionResult Details([FromQuery] Route route)
         {
-            if (id <= 0)
+            if (!route.TaskTrackId.HasValue || route.TaskTrackId.Value <= 0)
             {
                 return BadRequest();
             }
 
-            var taskTrack = taskTrackService.GetVTaskTrack(id);
+            var taskTrack = taskTrackService.GetVTaskTrack(route.TaskTrackId.Value);
             var model = mapper.Map<VTaskTrackViewModel>(taskTrack);
 
-            ViewBag.BackController = back;
+            ViewBag.Route = route;
             return View(model);
         }
 
         [HttpGet("create")]
-        public async Task<IActionResult> Create(int userTaskId = 0, string back = null, string backAction = null)
+        [Authorize(Roles = "member")]
+        public async Task<IActionResult> Create([FromQuery] Route route)
         {
             var model = new TaskTrackViewModel
             {
-                UserTaskId = userTaskId,
+                UserTaskId = route.UserTaskId ?? 0,
                 TrackDate = DateTime.Now
             };
 
@@ -71,43 +78,46 @@ namespace DIMS_Core.Controllers
             var userTasks = await userTaskService.GetAllByUserId(currentUser.UserId);
 
             ViewBag.SelectListUserTasks = new SelectList(userTasks, "UserTaskId", "Task.Name");
-            ViewBag.BackController = back;
-            ViewBag.BackAction = backAction;
+            ViewBag.Route = route;
             return View(model);
         }
 
         [HttpPost("create")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([FromForm] TaskTrackViewModel model)
+        public async Task<IActionResult> Create([FromForm] TaskTrackViewModel model, [FromQuery] Route route)
         {
             if (!ModelState.IsValid)
             {
+                var currentUser = await memberService.GetMemberByEmail(User.Identity.Name);
+                var userTasks = await userTaskService.GetAllByUserId(currentUser.UserId);
+                ViewBag.SelectListUserTasks = new SelectList(userTasks, "UserTaskId", "Task.Name");
+                ViewBag.Route = route;
                 return View(model);
             }
 
             var taskTrack = mapper.Map<TaskTrackModel>(model);
-
             await taskTrackService.Create(taskTrack);
 
             return RedirectToAction("Index");
         }
 
-        [HttpGet("edit/{id}")]
-        public async Task<IActionResult> Edit(int id, string back = null)
+        [HttpGet("edit")]
+        [Authorize(Roles = "member")]
+        public async Task<IActionResult> Edit([FromQuery] Route route)
         {
-            if (id <= 0)
+            if (!route.TaskTrackId.HasValue || route.TaskTrackId.Value <= 0)
             {
                 return BadRequest();
             }
 
-            var taskTrack = await taskTrackService.GetTaskTrack(id);
+            var taskTrack = await taskTrackService.GetTaskTrack(route.TaskTrackId.Value);
             var model = mapper.Map<TaskTrackViewModel>(taskTrack);
 
             var currentUser = await memberService.GetMemberByEmail(User.Identity.Name);
             var userTasks = await userTaskService.GetAllByUserId(currentUser.UserId);
 
             ViewBag.SelectListUserTasks = new SelectList(userTasks, "UserTaskId", "Task.Name");
-            ViewBag.BackController = back;
+            ViewBag.Route = route;
             return View(model);
         }
 
@@ -117,14 +127,7 @@ namespace DIMS_Core.Controllers
         {
             var currentUser = await memberService.GetMemberByEmail(User.Identity.Name);
 
-            if (!ModelState.IsValid)
-            {
-                var userTasks = await userTaskService.GetAllByUserId(currentUser.UserId);
-                ViewBag.SelectListUserTasks = new SelectList(userTasks, "UserTaskId", "Task.Name");
-                return View(model);
-            }
-
-            if (model.TaskTrackId <= 0)
+            if (!ModelState.IsValid || model.TaskTrackId <= 0)
             {
                 var userTasks = await userTaskService.GetAllByUserId(currentUser.UserId);
                 ViewBag.SelectListUserTasks = new SelectList(userTasks, "UserTaskId", "Task.Name");
@@ -137,30 +140,32 @@ namespace DIMS_Core.Controllers
             return RedirectToAction("Index");
         }
 
-        [HttpGet("delete/{id}")]
-        public IActionResult Delete(int id)
+        [HttpGet("delete")]
+        [Authorize(Roles = "member")]
+        public IActionResult Delete([FromQuery] Route route)
         {
-            if (id <= 0)
+            if (!route.TaskTrackId.HasValue || route.TaskTrackId.Value <= 0)
             {
                 return BadRequest();
             }
 
-            var taskTrack = taskTrackService.GetVTaskTrack(id);
+            var taskTrack = taskTrackService.GetVTaskTrack(route.TaskTrackId.Value);
             var model = mapper.Map<VTaskTrackViewModel>(taskTrack);
 
+            ViewBag.Route = route;
             return View(model);
         }
 
-        [HttpPost("delete/{id}")]
+        [HttpPost("delete")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeletePost(int id)
+        public async Task<IActionResult> DeletePost([FromQuery] Route route)
         {
-            if (id <= 0)
+            if (!route.TaskTrackId.HasValue || route.TaskTrackId.Value <= 0)
             {
                 return BadRequest();
             }
 
-            await taskTrackService.Delete(id);
+            await taskTrackService.Delete(route.TaskTrackId.Value);
 
             return RedirectToAction("Index");
         }

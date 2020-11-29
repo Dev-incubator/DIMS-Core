@@ -2,23 +2,28 @@
 
 @{
     ViewData["Title"] = "Edit task tracks #" + Model.TaskTrackId;
-    var controller = "task-tracks";
+    var bottomButtons = new BottomButtonsViewModel()
+    {
+        BackId = new IdWithName(ViewBag.Route.TaskTrackId, "TaskTrackId"),
+        BackAction = ViewBag.Route.BackAction,
+        BackController = ViewBag.Route.BackController ??= "task-tracks"
+    };
+    var backRouteData = new Dictionary<string, string>
+    {
+        { "TaskTrackId", bottomButtons.BackId.Value.ToString() },
+        { "BackAction", bottomButtons.BackAction },
+        { "BackController", bottomButtons.BackController }
+    };
 } 
 
 <h1>Edit task track</h1>
 
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="edit" asp-controller="@controller" asp-antiforgery="true">
+        <form asp-action="Edit" asp-controller="TaskTrack" asp-antiforgery="true" asp-all-route-data="@backRouteData">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             @Html.HiddenFor(q => q.TaskTrackId)
-            <div class="form-group">
-                <label class="control-label">Select task</label>
-                <select asp-for="UserTaskId" asp-items="ViewBag.SelectListUserTasks" class="form-control" required>
-                    @Model.UserTaskId != 0 ? Model.UserTaskId : null;
-                </select>
-                <span asp-validation-for="UserTaskId" class="text-danger"></span>
-            </div>
+            @Html.HiddenFor(q => q.UserTaskId)
             <div class="form-group">
                 <label asp-for="TrackDate" class="control-label">Date</label>
                 <input asp-for="TrackDate" type="date" class="form-control" />
@@ -29,11 +34,7 @@
                 <input asp-for="TrackNote" class="form-control" />
                 <span asp-validation-for="TrackNote" class="text-danger"></span>
             </div>
-            @await Html.PartialAsync("_BottomSave", new BottomButtonsViewModel()
-            {
-                BackController = ViewBag.BackController ??= controller,
-                BackAction = ViewBag.BackAction
-            })
+            @await Html.PartialAsync("_BottomSave", bottomButtons)
         </form>
     </div>
 </div>

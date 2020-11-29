@@ -2,7 +2,15 @@
 
 @{
     ViewData["Title"] = "Task track details #" + Model.TaskTrackId;
-    var controller = "task-tracks";
+    var bottomButtons = new BottomButtonsViewModel()
+    {
+        Id = new IdWithName(Model.TaskTrackId, "TaskTrackId"),
+        Action = "details",
+        Controller = "task-tracks",
+        BackId = new IdWithName(Model.UserId, "UserId"),
+        BackAction = ViewBag.Route.BackAction,
+        BackController = ViewBag.Route.BackController ?? "task-tracks",
+    };
 }
 
 <h1>Task track details</h1>
@@ -20,10 +28,4 @@
     </dl>
 </div>
 
-@await Html.PartialAsync("_BottomDetails", new BottomButtonsViewModel()
-{
-    Id = Model.TaskTrackId,
-    Controller = controller,
-    BackAction = ViewBag.BackAction,
-    BackController = ViewBag.BackController ??= controller
-})
+@await Html.PartialAsync("_BottomDetails", bottomButtons)
