@@ -1,17 +1,28 @@
 ﻿@model BottomButtonsViewModel
+@{
+    var editRouteData = new Dictionary<string, string>
+    {
+        { Model.Id.Name, Model.Id.Value.ToString() },
+        { "BackAction", Model.BackAction },
+        { "BackController", Model.BackController }
+    };
+    if (Model.BackId != null)
+    {
+        editRouteData.Add(Model.BackId.Name, Model.BackId.Value.ToString());
+    }
+
+    var backRouteData = new Dictionary<string, string>();
+    if (Model.BackId != null)
+    {
+        backRouteData.Add(Model.BackId.Name, Model.BackId.Value.ToString());
+    }
+}
 
 <div class="details-controls">
-    @if (!(@Model.Controller.Equals("tasks") && User.IsInRole("member")))
+    @if (!(@Model.Controller.Equals("tasks") && User.IsInRole("member"))
+        && !(@Model.Controller.Equals("task-tracks") && !User.IsInRole("member")))
     {
-        <a class="btn btn-warning" asp-action="Edit" asp-controller="@Model.Controller" asp-route-id="@Model.Id">Edit</a>
+        <a class="btn btn-warning" asp-action="Edit" asp-controller="@Model.Controller" asp-all-route-data="@editRouteData">Edit</a>
     }
-    @if (Model.UserId > 0)
-    {
-        <a class="btn btn-secondary" asp-action="@ViewBag.BackAction" asp-controller="@ViewBag.BackController" asp-route-userId="@Model.UserId">Back To List</a>
-    }
-    else
-    {
-        <a class="btn btn-secondary" asp-action="@ViewBag.BackAction" asp-controller="@ViewBag.BackController">Back To List</a>
-    }
-
+    <a class="btn btn-secondary" asp-action="@Model.BackAction" asp-controller="@Model.BackController" asp-all-route-data="@backRouteData">Back</a>
 </div>
