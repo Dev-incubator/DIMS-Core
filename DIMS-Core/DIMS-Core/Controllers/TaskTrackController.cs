@@ -123,7 +123,7 @@ namespace DIMS_Core.Controllers
 
         [HttpPost("edit")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit([FromForm] TaskTrackViewModel model)
+        public async Task<IActionResult> Edit([FromForm] TaskTrackViewModel model, [FromQuery] Route route)
         {
             var currentUser = await memberService.GetMemberByEmail(User.Identity.Name);
 
@@ -131,6 +131,7 @@ namespace DIMS_Core.Controllers
             {
                 var userTasks = await userTaskService.GetAllByUserId(currentUser.UserId);
                 ViewBag.SelectListUserTasks = new SelectList(userTasks, "UserTaskId", "Task.Name");
+                ViewBag.Route = route;
                 return View(model);
             }
 
