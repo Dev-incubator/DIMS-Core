@@ -2,7 +2,13 @@
 
 @{
     ViewData["Title"] = "Details";
-    var controller = "samples";
+    var bottomButtons = new BottomButtonsViewModel()
+    {
+        Id = new IdWithName(Model.SampleId, "SampleId"),
+        Controller = "samples",
+        BackAction = ViewBag.BackAction,
+        BackController = ViewBag.BackController ??= "samples"
+    };
 }
 
 <h1>Details</h1>
@@ -32,10 +38,4 @@
     </dl>
 </div>
 
-@await Html.PartialAsync("_BottomDetails", new BottomButtonsViewModel()
-{
-    Id = Model.SampleId,
-    Controller = controller,
-    BackAction = ViewBag.BackAction,
-    BackController = ViewBag.BackController ??= controller
-})
+@await Html.PartialAsync("_BottomDetails", bottomButtons)

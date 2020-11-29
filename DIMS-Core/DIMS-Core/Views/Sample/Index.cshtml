@@ -1,14 +1,14 @@
 ﻿@model IEnumerable<SampleViewModel>
 @{
     ViewData["Title"] = "Sample";
-    var controller = "samples";
 }
 
-<h1>Samles</h1>
+<h1>Samples</h1>
 
 <p class="float-lg-right">
-    <a class="btn btn-primary" asp-action="create" asp-controller="@controller">Create</a>
+    <a class="btn btn-primary" asp-action="Create" asp-controller="Sample">Create</a>
 </p>
+
 <table class="table table-bordered">
     <thead>
         <tr>
@@ -43,9 +43,9 @@
                     </td>
                     <td align="center">
                         <div class="btn-group">
-                            @Html.ActionLink("Details", "Details", new { id = item.SampleId }, new { @class = "btn btn-info" })
-                            @Html.ActionLink("Edit", "Edit", new { id = item.SampleId }, new { @class = "btn btn-warning" })
-                            @Html.ActionLink("Delete", "Delete", new { id = item.SampleId }, new { @class = "btn btn-danger" })
+                            @Html.ActionLink("Details", "Details", "Sample", new { id = item.SampleId }, new { @class = "btn btn-info" })
+                            @Html.ActionLink("Edit", "Edit", "Sample", new { id = item.SampleId }, new { @class = "btn btn-warning" })
+                            @Html.ActionLink("Delete", "Delete", "Sample", new { id = item.SampleId }, new { @class = "btn btn-danger" })
                         </div>
                     </td>
                 </tr>

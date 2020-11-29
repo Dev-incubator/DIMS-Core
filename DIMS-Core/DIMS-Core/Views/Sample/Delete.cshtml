@@ -2,7 +2,13 @@
 
 @{
     ViewData["Title"] = "Delete";
-    var controller = "samples";
+    var bottomButtons = new BottomButtonsViewModel()
+    {
+        Id = new IdWithName(Model.SampleId, "SampleId"),
+        Controller = "samples",
+        BackAction = ViewBag.Route.BackAction,
+        BackController = ViewBag.Route.BackController ?? "samples"
+    };
 }
 
 <h1>Delete</h1>
@@ -28,10 +34,4 @@
 
 <h3>Are you sure you want to delete this task track?</h3>
 
-@await Html.PartialAsync("_BottomDelete", new BottomButtonsViewModel()
-{
-    Id = Model.SampleId,
-    Controller = controller,
-    BackAction = ViewBag.BackAction,
-    BackController = ViewBag.BackController ??= controller
-}) new BackToListViewModel { Controller = "samples" })
+@await Html.PartialAsync("_BottomDelete", bottomButtons)

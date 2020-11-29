@@ -2,7 +2,11 @@
 
 @{
     ViewData["Title"] = "Edit";
-    var controller = "samples";
+    var bottomButtons = new BottomButtonsViewModel()
+    {
+        BackController = ViewBag.BackController ??= "samples",
+        BackAction = ViewBag.BackAction
+    };
 }
 
 <h1>Edit</h1>
@@ -11,7 +15,7 @@
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="edit" asp-controller="@controller" asp-antiforgery="true">
+        <form asp-action="Edit" asp-controller="Sample" asp-antiforgery="true">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             @Html.HiddenFor(q => q.SampleId)
             <div class="form-group">
@@ -24,11 +28,7 @@
                 <input asp-for="Description" class="form-control" />
                 <span asp-validation-for="Description" class="text-danger"></span>
             </div>
-            @await Html.PartialAsync("_BottomSave", new BottomButtonsViewModel()
-            {
-                BackController = ViewBag.BackController ??= controller,
-                BackAction = ViewBag.BackAction
-            })
+            @await Html.PartialAsync("_BottomSave", bottomButtons)
         </form>
     </div>
 </div>
