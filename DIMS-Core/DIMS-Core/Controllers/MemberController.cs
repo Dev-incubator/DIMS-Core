@@ -6,9 +6,8 @@ using DIMS_Core.Models.Member;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
-using DIMS_Core.Identity.Entities;
+using DIMS_Core.Models.Route;
 
 namespace DIMS_Core.Controllers
 {
@@ -41,12 +40,16 @@ namespace DIMS_Core.Controllers
             var searchResult = await memberService.GetAll();
             var model = mapper.Map<IEnumerable<MemberViewModel>>(searchResult);
 
+            ViewBag.Route = new Route()
+            {
+                Controller = "members"
+            };
             return View(model);
         }
 
         [HttpGet("create")]
         [Authorize(Roles = "admin")]
-        public async Task<IActionResult> Create()
+        public async Task<IActionResult> Create([FromQuery] Route route)
         {
             var model = new AddMemberViewModel()
             {
@@ -54,17 +57,19 @@ namespace DIMS_Core.Controllers
             };
             ViewBag.Directions = await directionService.GetAll();
             ViewBag.Roles = userService.GetRoles();
+            ViewBag.Route = route;
             return View(model);
         }
 
         [HttpPost("create")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([FromForm]AddMemberViewModel model)
+        public async Task<IActionResult> Create([FromForm] AddMemberViewModel model, [FromQuery] Route route)
         {
             if (!ModelState.IsValid)
             {
                 ViewBag.Directions = await directionService.GetAll();
                 ViewBag.Roles = userService.GetRoles();
+                ViewBag.Route = route;
                 return View(model);
             }
 
@@ -83,16 +88,16 @@ namespace DIMS_Core.Controllers
             return RedirectToAction("Index");
         }
 
-        [HttpGet("edit/{userId}")]
+        [HttpGet("edit")]
         [Authorize(Roles = "admin")]
-        public async Task<IActionResult> Edit(int userId)
+        public async Task<IActionResult> Edit([FromQuery] Route route)
         {
-            if (userId <= 0)
+            if (!route.UserId.HasValue || route.UserId.Value <= 0)
             {
                 return BadRequest();
             }
 
-            var dto = await memberService.GetMember(userId);
+            var dto = await memberService.GetMember(route.UserId.Value);
             var model = mapper.Map<EditMemberViewModel>(dto);
 
             var user = userService.GetUser(model.Email);
@@ -100,16 +105,19 @@ namespace DIMS_Core.Controllers
 
             ViewBag.Directions = await directionService.GetAll();
             ViewBag.Roles = userService.GetRoles();
+            ViewBag.Route = route;
             return View(model);
         }
 
         [HttpPost("edit")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit([FromForm]EditMemberViewModel model)
+        public async Task<IActionResult> Edit([FromForm] EditMemberViewModel model, [FromQuery] Route route)
         {
             if (!ModelState.IsValid)
             {
                 ViewBag.Directions = await directionService.GetAll();
+                ViewBag.Roles = userService.GetRoles();
+                ViewBag.Route = route;
                 return View(model);
             }
 
@@ -117,6 +125,8 @@ namespace DIMS_Core.Controllers
             {
                 ModelState.AddModelError("", "Incorrect identifier.");
                 ViewBag.Directions = await directionService.GetAll();
+                ViewBag.Roles = userService.GetRoles();
+                ViewBag.Route = route;
                 return View(model);
             }
 
@@ -129,58 +139,57 @@ namespace DIMS_Core.Controllers
             return RedirectToAction("Index");
         }
 
-        [HttpGet("delete/{userId}")]
+        [HttpGet("delete")]
         [Authorize(Roles = "admin")]
-        public async Task<IActionResult> Delete(int userId)
+        public async Task<IActionResult> Delete([FromQuery] Route route)
         {
-            if (userId <= 0)
+            if (!route.UserId.HasValue || route.UserId.Value <= 0)
             {
                 return BadRequest();
             }
 
-            var dto = await memberService.GetMember(userId);
+            var dto = await memberService.GetMember(route.UserId.Value);
             var model = mapper.Map<MemberViewModel>(dto);
 
-            var user = userService.GetUser(dto.Email);
+            ViewBag.Route = route;
+            return View(model);
+        }
+
+        [HttpPost("delete")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeletePost([FromQuery] Route route)
+        {
+            if (!route.UserId.HasValue || route.UserId.Value <= 0)
+            {
+                return BadRequest();
+            }
+
+            var member = await memberService.GetMember(route.UserId.Value);
+            var user = userService.GetUser(member.Email);
             if (user != null)
             {
                 await userService.DeleteUser(user);
             }
 
-            return View(model);
-        }
-
-        [HttpPost("delete/{userId}")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeletePost(int userId)
-        {
-            if (userId <= 0)
-            {
-                return BadRequest();
-            }
-
-            await memberService.Delete(userId);
+            await memberService.Delete(route.UserId.Value);
 
             return RedirectToAction("Index");
         }
 
-        [HttpGet("progress/{userId}")]
-        public async Task<IActionResult> Progress(int userId)
+        [HttpGet("progress")]
+        public async Task<IActionResult> Progress([FromQuery] Route route)
         {
-            ViewBag.Member = await memberService.GetMember(userId);
-            var vTaskTracks = await taskTrackService.GetAllByUserId(userId);
+            if (!route.UserId.HasValue || route.UserId.Value <= 0)
+            {
+                return BadRequest();
+            }
+
+            var vTaskTracks = await taskTrackService.GetAllByUserId(route.UserId.Value);
             var progressModels = mapper.Map<IEnumerable<ProgressModel>>(vTaskTracks);
 
+            ViewBag.Member = await memberService.GetMember(route.UserId.Value);
+            ViewBag.Route = route;
             return View(progressModels);
-        }
-
-        [HttpGet("userTasks/{userId}")]
-        public async Task<IActionResult> UserTasks(int userId)
-        {
-            var tasks = await memberService.GetTasksByUserId(userId);
-            ViewBag.Member = await memberService.GetMember(userId);
-            var userTasksModel = mapper.Map<IEnumerable<UserTasksModel>>(tasks);
-            return View(userTasksModel);
         }
     }
 }

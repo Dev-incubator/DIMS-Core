@@ -1,9 +1,25 @@
 ﻿@model IEnumerable<ProgressModel>
 @{
-    ViewData["Title"] = @ViewBag.Member.Name+"s progress";
+    ViewData["Title"] = @ViewBag.Member.Name + " " + @ViewBag.Member.LastName + "'s progress";
+    var taskDetailsRoute = new Route()
+    {
+        BackAction = "progress",
+        BackController = "members",
+        UserId = ViewBag.Member.UserId
+    };
+    var tracksDetailsRoute = new Route()
+    {
+        BackAction = "progress",
+        BackController = "members",
+        UserId = ViewBag.Member.UserId
+    };
 }
 
-<h1>@ViewBag.Member.Name's progress</h1>
+<h1 class="float-left">@ViewBag.Member.Name @ViewBag.Member.LastName's progress</h1>
+
+<p class="float-lg-right btn-create">
+    <a class="btn btn-secondary" asp-action="Index" asp-controller="Member">Back</a>
+</p>
 
 <table class="table table-bordered table-index">
     <thead>
@@ -25,10 +41,12 @@
         {
             foreach (var item in Model)
             {
+                taskDetailsRoute.TaskId = item.TaskId;
+                tracksDetailsRoute.TaskTrackId = item.TaskTrackId;
                 <tr>
                     <td>@Html.DisplayFor(modelItem => item.TaskTrackId)</td>
-                    <td class="text-left">@Html.DisplayFor(modelItem => item.TaskName)</td>
-                    <td class="text-left">@Html.DisplayFor(modelItem => item.TrackNote)</td>
+                    <td class="text-left">@Html.ActionLink(item.TaskName,"Details","Task", taskDetailsRoute)</td>
+                    <td class="text-left">@Html.ActionLink(item.TrackNote, "Details", "TaskTrack", tracksDetailsRoute)</td>
                     <td>@item.TrackDate.ToString("dd.MM.yyyy")</td>
                 </tr>
             }

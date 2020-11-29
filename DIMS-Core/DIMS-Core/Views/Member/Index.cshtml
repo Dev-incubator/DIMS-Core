@@ -1,7 +1,10 @@
 ﻿@model IEnumerable<MemberViewModel>
 @{
     ViewData["Title"] = "Members";
-    var controller = "members";
+    var createRouteData = new Dictionary<string, string>
+    {
+        { "BackController", ViewBag.Route.Controller }
+    };
 }
 
 <h1 class="float-left">Members</h1>
@@ -9,7 +12,7 @@
 @if (User.IsInRole("admin"))
 {
     <p class="float-lg-right btn-create">
-        <a class="btn btn-primary" asp-action="create" asp-controller="@controller">Create</a>
+        <a class="btn btn-primary" asp-action="Create" asp-controller="Member" asp-all-route-data="@createRouteData">Create</a>
     </p>
 }
 
@@ -50,20 +53,20 @@
                         <div class="btn-group container">
                             <div class="row">
                                 <div class="col">
-                                    @Html.ActionLink("Tasks", "CurrentTasks", "Task", new { userId = item.UserId }, new { @class = "btn btn-primary w-100 m-2" })
+                                    @Html.ActionLink("Tasks", "CurrentTasks", "Task", new Route() { UserId = item.UserId }, new { @class = "btn btn-primary w-100 m-2" })
                                 </div>
                                 <div class="col">
-                                    @Html.ActionLink("Progress", "Progress", new { userId = item.UserId }, new { @class = "btn btn-primary w-100 m-2" })
+                                    @Html.ActionLink("Progress", "Progress", "Member", new Route() { UserId = item.UserId }, new { @class = "btn btn-primary w-100 m-2" })
                                 </div>
                             </div>
                             @if (User.IsInRole("admin"))
                             {
                                 <div class="row">
                                     <div class="col">
-                                        @Html.ActionLink("Edit", "Edit", new { userId = item.UserId }, new { @class = "btn btn-warning w-100 m-2" })
+                                        @Html.ActionLink("Edit", "Edit", "Member", new Route() { UserId = item.UserId }, new { @class = "btn btn-warning w-100 m-2" })
                                     </div>
                                     <div class="col">
-                                        @Html.ActionLink("Delete", "Delete", new { userId = item.UserId }, new { @class = "btn btn-danger w-100 m-2" })
+                                        @Html.ActionLink("Delete", "Delete", "Member", new Route() { UserId = item.UserId }, new { @class = "btn btn-danger w-100 m-2" })
                                     </div>
                                 </div>
                             }
