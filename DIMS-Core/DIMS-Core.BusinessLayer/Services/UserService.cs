@@ -51,16 +51,31 @@ namespace DIMS_Core.BusinessLayer.Services
 
         public User GetUser(string email)
         {
+            if (email is null)
+            {
+                return null;
+            }
+
             return unitOfWork.UserManager.Users.FirstOrDefault(x => x.Email == email);
         }
 
         public async Task DeleteUser(User user)
         {
+            if (user is null)
+            {
+                return;
+            }
+
             await unitOfWork.UserManager.DeleteAsync(user);
         }
 
         public async Task<string> GetUserRole(User user)
         {
+            if (user is null)
+            {
+                return null;
+            }
+
             return (await unitOfWork.UserManager.GetRolesAsync(user)).FirstOrDefault();
         }
 
