@@ -1,15 +1,21 @@
 ﻿@model TaskViewModel
-
 @{
     ViewData["Title"] = "Create task";
-    var controller = "tasks";
+    var bottomButtons = new BottomButtonsViewModel()
+    {
+        BackController = ViewBag.Route.BackController ??= "tasks"
+    };
+    var backRouteData = new Dictionary<string, string>
+    {
+        { "BackController", bottomButtons.BackController }
+    };
 }
 
 <h1>Create new task</h1>
 
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="create" asp-controller="@controller" asp-antiforgery="true">
+        <form asp-action="Create" asp-controller="Task" asp-antiforgery="true" asp-all-route-data="@backRouteData">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 @Html.DisplayName("Name")
@@ -36,11 +42,7 @@
                 @Html.CreateCheckListMembers(Model.SelectedMembers, (List<MemberViewModel>)ViewBag.AllMembers)
                 <span asp-validation-for="SelectedMembers" class="text-danger"></span>
             </div>
-            @await Html.PartialAsync("_BottomCreate", new BottomButtonsViewModel()
-            {
-                BackAction = ViewBag.BackAction,
-                BackController = ViewBag.BackController ??= controller
-            })
+            @await Html.PartialAsync("_BottomCreate", bottomButtons)
         </form>
     </div>
 </div>

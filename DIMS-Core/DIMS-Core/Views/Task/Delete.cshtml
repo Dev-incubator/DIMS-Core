@@ -2,7 +2,13 @@
 
 @{
     ViewData["Title"] = "Delete task #" + Model.TaskId;
-    var controller = "tasks";
+    var bottomButtons = new BottomButtonsViewModel()
+    {
+        Id = new IdWithName(Model.TaskId, "TaskId"),
+        Controller = "tasks",
+        BackAction = ViewBag.Route.BackAction,
+        BackController = ViewBag.Route.BackController ?? "tasks"
+    };
 }
 
 <h1>Delete task</h1>
@@ -26,10 +32,4 @@
 
 <h3>Are you sure you want to delete this task?</h3>
 
-@await Html.PartialAsync("_BottomDelete", new BottomButtonsViewModel()
-{
-    Id = Model.TaskId,
-    Controller = controller,
-    BackAction = ViewBag.BackAction,
-    BackController = ViewBag.BackController ??= controller
-})
+@await Html.PartialAsync("_BottomDelete", bottomButtons)

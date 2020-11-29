@@ -1,19 +1,20 @@
 ﻿@model IEnumerable<CurrentTaskViewModel>
-@{
-    ViewData["Title"] = "Current tasks";
-    var controller = "tasks";
-    var action = "current-tasks";
-}
 
-@if (ViewBag.CurrentUser)
+@if (User.Identity.Name != null && ViewBag.Member != null
+     && User.Identity.Name.Equals(ViewBag.Member.Email))
 {
+    ViewData["Title"] = "Current tasks";
     <h1 class="float-left">Current tasks</h1>
 }
 else
 {
+    ViewData["Title"] = ViewBag.Member.Name + " " + ViewBag.Member.LastName + "'s tasks";
     <h1 class="float-left">@ViewBag.Member.Name @ViewBag.Member.LastName's tasks</h1>
-}
 
+    <p class="float-lg-right btn-create">
+        <a class="btn btn-secondary" asp-action="Index" asp-controller="Member">Back</a>
+    </p>
+}
 
 <table class="table table-bordered table-index">
     <thead>
@@ -46,7 +47,15 @@ else
             {
                 <tr>
                     <td>@Html.DisplayFor(i => item.TaskId)</td>
-                    <td class="text-left">@Html.ActionLink(item.Name, "Details", new { id = item.TaskId, back = controller, backAction = action, userId = ViewBag.Member.UserId })</td>
+                    <td class="text-left">@Html.ActionLink(item.Name,"Details","Task",
+                        new Route()
+                        {
+                            TaskId = item.TaskId,
+                            BackAction = "current-tasks",
+                            BackController = "tasks",
+                            UserId = ViewBag.Member.UserId
+                        })
+                    </td>
                     <td>@item.StartDate.ToString("dd.MM.yyyy")</td>
                     <td>@item.DeadlineDate.ToString("dd.MM.yyyy")</td>
                     <td>
@@ -66,7 +75,14 @@ else
                     {
                         <td>
                             <div class="btn-group">
-                                @Html.ActionLink("New Track", "Create", "TaskTrack", new { userTaskId = item.UserTaskId, back = controller, backAction = action }, new { @class = "btn btn-primary" })
+                                @Html.ActionLink("New Track", "Create", "TaskTrack",
+                                    new Route()
+                                    {
+                                        UserTaskId = item.UserTaskId,
+                                        BackAction = "current-tasks",
+                                        BackController = "tasks",
+                                        UserId = ViewBag.Member.UserId
+                                    }, new { @class = "btn btn-primary" })
                             </div>
                         </td>
                     }
@@ -74,7 +90,7 @@ else
                     {
                         <td>
                             <div class="btn-group btn-80">
-                                <form asp-action="task-status" asp-controller="tasks" asp-antiforgery="true" asp-route-userId="@ViewBag.Member.UserId">
+                                <form asp-action="TaskStatePost" asp-controller="Task" asp-antiforgery="true" asp-route-UserId="@ViewBag.Member.UserId">
                                     @if (item.Status != "Active")
                                     {
                                         <button type="submit" name="status" value="1" class="btn btn-info">Active</button>
@@ -91,7 +107,7 @@ else
                                     {
                                         <button type="submit" name="status" value="4" class="btn btn-danger last">Fail</button>
                                     }
-                                    <input type="hidden" name="id" value="@item.UserTaskId" />
+                                    <input type="hidden" name="userTaskId" value="@item.UserTaskId" />
                                 </form>
                             </div>
                         </td>

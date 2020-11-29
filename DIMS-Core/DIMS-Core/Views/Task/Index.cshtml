@@ -1,13 +1,16 @@
 ﻿@model IEnumerable<TaskViewModel>
 @{
     ViewData["Title"] = "Tasks";
-    var controller = "tasks";
+    var createRouteData = new Dictionary<string, string>
+    {
+        { "BackController", ViewBag.Route.Controller }
+    };
 }
 
 <h1 class="float-left">Tasks</h1>
 
 <p class="float-lg-right btn-create">
-    <a class="btn btn-primary" asp-action="create" asp-controller="@controller">Create</a>
+    <a class="btn btn-primary" asp-action="Create" asp-controller="Task" asp-all-route-data="@createRouteData">Create</a>
 </p>
 
 <table class="table table-bordered table-index">
@@ -33,13 +36,13 @@
             {
                 <tr>
                     <td>@Html.DisplayFor(i => item.TaskId)</td>
-                    <td class="text-left">@Html.ActionLink(item.Name, "Details", new { id = item.TaskId })</td>
+                    <td class="text-left">@Html.ActionLink(item.Name, "Details", "Task", new Route() { TaskId = item.TaskId })</td>
                     <td>@item.StartDate.ToString("dd.MM.yyyy")</td>
                     <td>@item.DeadlineDate.ToString("dd.MM.yyyy")</td>
                     <td>
                         <div class="btn-group btn-80">
-                            @Html.ActionLink("Edit", "Edit", new { id = item.TaskId }, new { @class = "btn btn-warning" })
-                            @Html.ActionLink("Delete", "Delete", new { id = item.TaskId }, new { @class = "btn btn-danger" })
+                            @Html.ActionLink("Edit", "Edit", "Task", new Route() { TaskId = item.TaskId }, new { @class = "btn btn-warning" })
+                            @Html.ActionLink("Delete", "Delete", "Task", new Route() { TaskId = item.TaskId }, new { @class = "btn btn-danger" })
                         </div>
                     </td>
                 </tr>

@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using DIMS_Core.Models.Route;
 using TaskStateEnum = DIMS_Core.DataAccessLayer.Enums.TaskState;
 
 namespace DIMS_Core.Controllers
@@ -34,52 +35,51 @@ namespace DIMS_Core.Controllers
             var tasks = await taskService.GetAll();
             var model = mapper.Map<IEnumerable<TaskViewModel>>(tasks);
 
+            ViewBag.Route = new Route()
+            {
+                Controller = "tasks"
+            };
             return View(model);
         }
 
         [HttpGet("current-tasks")]
-        [HttpGet("current-tasks/{userId}")]
-        public async Task<IActionResult> CurrentTasks(int userId)
+        public async Task<IActionResult> CurrentTasks([FromQuery] Route route)
         {
-            if (userId == 0)
+            if (!route.UserId.HasValue || route.UserId.Value == 0)
             {
                 var currentUser = await memberService.GetMemberByEmail(User.Identity.Name);
-                userId = currentUser.UserId;
+                route.UserId = currentUser.UserId;
                 ViewBag.Member = currentUser;
-                ViewBag.CurrentUser = true;
             }
             else
             {
-                ViewBag.Member = await memberService.GetMember(userId);
-                ViewBag.CurrentUser = false;
+                ViewBag.Member = await memberService.GetMember(route.UserId.Value);
             }
 
-            var currentTask = await taskService.GetAllMyTask(userId);
+            var currentTask = await taskService.GetAllMyTask(route.UserId.Value);
             var model = mapper.Map<IEnumerable<CurrentTaskViewModel>>(currentTask);
 
             return View(model);
         }
 
-        [HttpGet("details/{id}")]
-        public async Task<IActionResult> Details(int id, string back, string backAction, int userId)
+        [HttpGet("details")]
+        public async Task<IActionResult> Details([FromQuery] Route route)
         {
-            if (id <= 0)
+            if (!route.TaskId.HasValue || route.TaskId.Value <= 0)
             {
                 return BadRequest();
             }
 
-            var task = await taskService.GetTask(id);
+            var task = await taskService.GetTask(route.TaskId.Value);
             var model = mapper.Map<TaskViewModel>(task);
-            
-            ViewBag.BackController = back;
-            ViewBag.BackAction = backAction;
-            ViewBag.BackUserId = userId;
+
             ViewBag.AllMembers = await memberService.GetMembersViewModel(mapper);
+            ViewBag.Route = route;
             return View(model);
         }
 
         [HttpGet("create")]
-        public async Task<IActionResult> Create()
+        public async Task<IActionResult> Create([FromQuery] Route route)
         {
             var model = new TaskViewModel()
             {
@@ -88,16 +88,18 @@ namespace DIMS_Core.Controllers
             };
 
             ViewBag.AllMembers = await memberService.GetMembersViewModel(mapper);
+            ViewBag.Route = route;
             return View(model);
         }
 
         [HttpPost("create")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([FromForm] TaskViewModel model)
+        public async Task<IActionResult> Create([FromForm] TaskViewModel model, [FromQuery] Route route)
         {
             if (!ModelState.IsValid)
             {
                 ViewBag.AllMembers = await memberService.GetMembersViewModel(mapper);
+                ViewBag.Route = route;
                 return View(model);
             }
 
@@ -107,29 +109,30 @@ namespace DIMS_Core.Controllers
             return RedirectToAction("Index");
         }
 
-        [HttpGet("edit/{id}")]
-        public async Task<IActionResult> Edit(int id, string back)
+        [HttpGet("edit")]
+        public async Task<IActionResult> Edit([FromQuery] Route route)
         {
-            if (id <= 0)
+            if (!route.TaskId.HasValue || route.TaskId.Value <= 0)
             {
                 return BadRequest();
             }
 
-            var task = await taskService.GetTask(id);
+            var task = await taskService.GetTask(route.TaskId.Value);
             var model = mapper.Map<TaskViewModel>(task);
 
             ViewBag.AllMembers = await memberService.GetMembersViewModel(mapper);
-            ViewBag.BackController = back;
+            ViewBag.Route = route;
             return View(model);
         }
 
         [HttpPost("edit")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit([FromForm] TaskViewModel model)
+        public async Task<IActionResult> Edit([FromForm] TaskViewModel model, [FromQuery] Route route)
         {
             if (!ModelState.IsValid)
             {
                 ViewBag.AllMembers = await memberService.GetMembersViewModel(mapper);
+                ViewBag.Route = route;
                 return View(model);
             }
 
@@ -137,57 +140,66 @@ namespace DIMS_Core.Controllers
             {
                 ModelState.AddModelError("", "Incorrect identifier.");
                 ViewBag.AllMembers = await memberService.GetMembersViewModel(mapper);
+                ViewBag.Route = route;
                 return View(model);
             }
 
             var task = mapper.Map<TaskModel>(model);
             await taskService.Update(task);
 
-            return RedirectToAction("Index");
+            if (route.UserId.HasValue && route.UserId.Value > 0)
+            {
+                return RedirectToAction(route.BackAction, route.BackController, new Route { UserId = route.UserId });
+            }
+            else
+            {
+                return RedirectToAction("Index");
+            }
         }
 
 
-        [HttpGet("delete/{id}")]
-        public async Task<IActionResult> Delete(int id)
+        [HttpGet("delete")]
+        public async Task<IActionResult> Delete([FromQuery] Route route)
         {
-            if (id <= 0)
+            if (!route.TaskId.HasValue || route.TaskId.Value <= 0)
             {
                 return BadRequest();
             }
 
-            var task = await taskService.GetTask(id);
+            var task = await taskService.GetTask(route.TaskId.Value);
             var model = mapper.Map<TaskViewModel>(task);
 
             ViewBag.AllMembers = await memberService.GetMembersViewModel(mapper);
+            ViewBag.Route = route;
             return View(model);
         }
 
-        [HttpPost("delete/{id}")]
+        [HttpPost("delete")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeletePost(int id)
+        public async Task<IActionResult> DeletePost([FromQuery] Route route)
         {
-            if (id <= 0)
+            if (!route.TaskId.HasValue || route.TaskId.Value <= 0)
             {
                 return BadRequest();
             }
 
-            await taskService.Delete(id);
+            await taskService.Delete(route.TaskId.Value);
 
             return RedirectToAction("Index");
         }
 
-        [HttpPost("task-status")]
+        [HttpPost("task-state")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> TaskStatePost(int id, TaskStateEnum status, int userId)
+        public async Task<IActionResult> TaskStatePost([FromQuery] Route route, int userTaskId, TaskStateEnum status)
         {
-            if (id <= 0 || status <= 0)
+            if (!route.UserId.HasValue || route.UserId.Value <= 0 || userTaskId <= 0 || status <= 0)
             {
                 return BadRequest();
             }
 
-            await taskService.SetTaskState(id, status);
+            await taskService.SetTaskState(userTaskId, status);
 
-            return RedirectToAction("CurrentTasks", new { userId });
+            return RedirectToAction("CurrentTasks", "Task", new Route() { UserId = route.UserId.Value });
         }
     }
 }
