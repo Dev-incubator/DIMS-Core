@@ -23,6 +23,12 @@
                     <li class="nav-item">
                         <a class="nav-link text-dark" asp-controller="task-tracks" asp-action="">Task tracks</a>
                     </li>
+                    @if (User.IsInRole("member"))
+                    {
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-controller="Member" asp-action="Details">My page</a>
+                        </li>
+                    }
                 </ul>
             </div>
             <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
