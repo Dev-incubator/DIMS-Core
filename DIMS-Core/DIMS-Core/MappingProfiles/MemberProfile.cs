@@ -11,12 +11,15 @@ namespace DIMS_Core.MappingProfiles
         public MemberProfile()
         {
             CreateMap<UserProfileModel, MemberViewModel>()
-                .ForMember(x => x.FullName,
-                    x => x.MapFrom(m => m.Name + " " + m.LastName));
+                .ForMember(x => x.FullName, x => x.MapFrom(m => m.Name + " " + m.LastName));
             CreateMap<VUserProfileModel, MemberViewModel>().ReverseMap();
             CreateMap<UserProfileModel, AddMemberViewModel>().ReverseMap();
             CreateMap<UserProfileModel, EditMemberViewModel>().ReverseMap();
             CreateMap<AddMemberViewModel, SignUpModel>();
+            CreateMap<UserProfileModel, DetailsMemberViewModel>()
+                .ForMember(x => x.FullName, x => x.MapFrom(m => m.Name + " " + m.LastName))
+                .ForMember(x => x.Direction, x => x.MapFrom(m => m.Direction.Name));
+
         }
     }
 }

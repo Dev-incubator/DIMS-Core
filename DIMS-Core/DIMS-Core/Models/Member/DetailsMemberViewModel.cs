@@ -1,17 +1,18 @@
 ﻿using DIMS_Core.DataAccessLayer.Enums;
 using System;
-using DirectionEntity = DIMS_Core.DataAccessLayer.Entities.Direction;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.Linq;
+using System.Threading.Tasks;
 
-namespace DIMS_Core.BusinessLayer.Models.Members
+namespace DIMS_Core.Models.Member
 {
-    public class UserProfileModel
+    public class DetailsMemberViewModel
     {
         public int UserId { get; set; }
-        public int DirectionId { get; set; }
-        public string Name { get; set; }
-        public string LastName { get; set; }
+        public string Direction { get; set; }
+        public string FullName { get; set; }
         public string Email { get; set; }
-        public Sex Sex { get; set; }
         public string Education { get; set; }
         public DateTime? BirthOfDate { get; set; }
         public double? UniversityAverageScore { get; set; }
@@ -20,7 +21,5 @@ namespace DIMS_Core.BusinessLayer.Models.Members
         public string MobilePhone { get; set; }
         public string Skype { get; set; }
         public DateTime? StartDate { get; set; }
-
-        public DirectionEntity Direction { get; set; }
     }
 }
