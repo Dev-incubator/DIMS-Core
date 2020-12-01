@@ -8,6 +8,7 @@ using DIMS_Core.Models.Sample;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 
 namespace DIMS_Core.Controllers
 {
@@ -35,6 +36,34 @@ namespace DIMS_Core.Controllers
         {
             var searchResult = await memberService.GetAll();
             var model = mapper.Map<IEnumerable<MemberViewModel>>(searchResult);
+
+            return View(model);
+        }
+
+        [HttpGet("my-page")]
+        [HttpGet("user-page/{id}")]
+        [Authorize]
+        public async Task<IActionResult> Details(int id = 0)
+        {
+            if (id < 0)
+            {
+                return BadRequest();
+            }
+
+            if (id == 0)
+            {
+                var currentUser = await memberService.GetMemberByEmail(User.Identity.Name);
+
+                if (currentUser is null)
+                {
+                    return BadRequest(404);
+                }
+
+                id = currentUser.UserId;
+            }
+
+            var user = await memberService.GetMember(id);
+            var model = mapper.Map<DetailsMemberViewModel>(user);
 
             return View(model);
         }
