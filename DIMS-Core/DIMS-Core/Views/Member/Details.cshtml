@@ -1,0 +1,44 @@
+﻿@model DetailsMemberViewModel
+
+@{
+    ViewData["Title"] = @Html.DisplayFor(model => model.FullName);
+    var bottomButtons = new BottomButtonsViewModel()
+    {
+        Id = new IdWithName(Model.UserId, "UserId"),
+        Controller = "members",
+        BackAction = ViewBag.BackAction,
+        BackController = ViewBag.BackController ??= "members"
+    };
+}
+
+<h1>@Html.DisplayFor(model => model.FullName)</h1>
+
+<div>
+    <dl class="row">
+        <dt class="col-sm-2">@Html.DisplayName("Direction")</dt>
+        <dd class="col-sm-10">@Html.DisplayFor(model => model.Direction)</dd>
+        <dt class="col-sm-2">@Html.DisplayName("Start date")</dt>
+        <dd class="col-sm-10">@Convert.ToDateTime(Model.StartDate).ToString("yyyy MMMM dd")</dd>
+        <dt class="col-sm-2">@Html.DisplayName("Email")</dt>
+        <dd class="col-sm-10">@Html.DisplayFor(model => model.Email)</dd>
+        <dt class="col-sm-2">@Html.DisplayName("Skype")</dt>
+        <dd class="col-sm-10">@Html.DisplayFor(model => model.Skype)</dd>
+        <dt class="col-sm-2">@Html.DisplayName("Phone")</dt>
+        <dd class="col-sm-10">@Html.DisplayFor(model => model.MobilePhone)</dd>
+        <dt class="col-sm-2">@Html.DisplayName("Address")</dt>
+        <dd class="col-sm-10">@Html.DisplayFor(model => model.Address)</dd>
+        <dt class="col-sm-2">@Html.DisplayName("Date of Birth")</dt>
+        <dd class="col-sm-10">@Convert.ToDateTime(Model.StartDate).ToString("dd.MM.yyyy")</dd>
+        <dt class="col-sm-2">@Html.DisplayName("Education")</dt>
+        <dd class="col-sm-10">@Html.DisplayFor(model => model.Education)</dd>
+        <dt class="col-sm-2">@Html.DisplayName("University score")</dt>
+        <dd class="col-sm-10">@Html.DisplayFor(model => model.UniversityAverageScore)</dd>
+        <dt class="col-sm-2">@Html.DisplayName("Math score")</dt>
+        <dd class="col-sm-10">@Html.DisplayFor(model => model.MathScore)</dd>
+    </dl>
+</div>
+
+@if (User.IsInRole("admin") || User.IsInRole("mentor"))
+{
+    @await Html.PartialAsync("_BottomDetails", bottomButtons) 
+}

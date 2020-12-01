@@ -21,7 +21,8 @@
 
 <div class="details-controls">
     @if (!(@Model.Controller.Equals("tasks") && User.IsInRole("member"))
-         && !(@Model.Controller.Equals("task-tracks") && !User.IsInRole("member")))
+         && !(@Model.Controller.Equals("task-tracks") && !User.IsInRole("member"))
+         && !(@Model.Controller.Equals("members") && !User.IsInRole("admin")))
     {
         <a class="btn btn-warning" asp-action="Edit" asp-controller="@Model.Controller" asp-all-route-data="@editRouteData">Edit</a>
     }
